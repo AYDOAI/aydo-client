@@ -1,0 +1,30 @@
+.button {
+  display: flex;
+}
+
+.button.border {
+  border: 1px solid black;
+  border-radius: 8px;
+}
+
+.title-container {
+  display: flex;
+  width: calc(100% - 32px);
+
+  .title {
+    margin: auto 0 auto 16px;
+  }
+}
+
+.arrow-container {
+  display: flex;
+
+  .arrow {
+    margin: auto 0;
+  }
+}
+
+.icon-container {
+  display: flex;
+  margin: auto;
+}

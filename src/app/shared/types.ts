@@ -1,0 +1,1 @@
+export type WelcomeStep = 'main' | 'sign-in' | 'sign-up' | 'demo' | 'forgot';

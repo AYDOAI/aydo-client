@@ -1,0 +1,6 @@
+<ng-container [ngSwitch]="service.step">
+  <app-welcome-main *ngSwitchCase="'main'"></app-welcome-main>
+  <app-welcome-sign-up *ngSwitchCase="'sign-up'"></app-welcome-sign-up>
+  <app-welcome-sign-in *ngSwitchCase="'sign-in'"></app-welcome-sign-in>
+  <app-welcome-forgot *ngSwitchCase="'forgot'"></app-welcome-forgot>
+</ng-container>

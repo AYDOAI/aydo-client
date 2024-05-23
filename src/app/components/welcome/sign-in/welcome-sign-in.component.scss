@@ -1,0 +1,45 @@
+.form {
+  padding: 24px 22px 32px 22px;
+}
+
+.title {
+  font-size: 30px;
+  margin-bottom: 32px;
+}
+
+.input {
+  margin-bottom: 12px;
+}
+
+.button {
+  margin-top: 24px;
+}
+
+.separator-container {
+  display: flex;
+}
+
+.separator-border {
+  height: 8px;
+  width: calc(50% - 55px - 14px);
+  border-bottom: 1px solid #060022;
+}
+
+.separator-text {
+  width: 110px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 17px;
+  margin-left: 14px;
+  margin-right: 14px;
+}
+
+.sign-up-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+
+  app-button {
+    margin: 0 5px;
+  }
+}

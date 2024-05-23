@@ -1,0 +1,39 @@
+.welcome {
+  background-color: #947FFF;
+  width: 100%;
+  height: 100%;
+}
+
+.logo-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  .logo-1 {
+    margin: auto;
+    padding-top: 120px;
+  }
+
+  .logo-2 {
+    margin: auto;
+  }
+}
+
+.buttons {
+  width: calc(100% - 21px - 22px);
+  height: calc(100% - 370px - 78px);
+  display: flex;
+  justify-content: end;
+  flex-direction: column;
+
+  margin-left: 21px;
+  margin-right: 22px;
+  margin-bottom: 78px;
+
+  app-button {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    width: 100%;
+  }
+}

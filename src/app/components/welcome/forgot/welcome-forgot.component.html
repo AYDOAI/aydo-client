@@ -1,0 +1,18 @@
+<div class="form">
+  <div class="title">Forgot password?</div>
+  <div class="input">
+    <app-input title="E-mail"></app-input>
+  </div>
+  <div class="button">
+    <app-button [title]="'Send recovery link'" color="white" backgroundColor="#060022"></app-button>
+  </div>
+</div>
+
+<div class="sign-in-buttons">
+  <div class="button">
+    <app-button [title]="'Sign up'" [border]="false" [arrow]="false" height="22px" (onClick)="select('sign-up')"></app-button>
+  </div>
+  <div class="button">
+    <app-button [title]="'Sign in'" [border]="false" [arrow]="false" height="22px" (onClick)="select('sign-in')"></app-button>
+  </div>
+</div>

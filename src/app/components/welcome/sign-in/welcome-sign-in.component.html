@@ -1,0 +1,16 @@
+<div class="form">
+  <div class="title">Sign in</div>
+  <div class="input">
+    <app-input title="E-mail"></app-input>
+  </div>
+  <div class="input">
+    <app-input title="Password"></app-input>
+  </div>
+  <div class="button">
+    <app-button [title]="'Sign in'" color="white" backgroundColor="#060022"></app-button>
+  </div>
+</div>
+
+<app-welcome-providers title="or sign in with"></app-welcome-providers>
+
+<app-welcome-navigate [signUp]="true" [demo]="true" [forgot]="true"></app-welcome-navigate>
