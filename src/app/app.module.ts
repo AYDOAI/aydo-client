@@ -14,6 +14,9 @@ import {CommonModule} from '@angular/common';
 import {WelcomeNavigateComponent} from './components/welcome/navigate/welcome-navigate.component';
 import {WelcomeService} from './services/welcome.service';
 import {WelcomeProvidersComponent} from './components/welcome/providers/welcome-providers.component';
+import {WelcomeAddHubComponent} from './components/welcome/add-hub/welcome-add-hub.component';
+import {FormComponent} from './elements/form/form.component';
+import {SafeHtmlPipe} from './shared/safe-html.pipe';
 
 @NgModule({
   declarations: [
@@ -24,13 +27,17 @@ import {WelcomeProvidersComponent} from './components/welcome/providers/welcome-
     WelcomeSignInComponent,
     WelcomeForgotComponent,
     WelcomeNavigateComponent,
+    WelcomeAddHubComponent,
+    WelcomeProvidersComponent,
 
     ButtonComponent,
     InputComponent,
-    WelcomeProvidersComponent,
+    FormComponent,
+    SafeHtmlPipe,
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     CommonModule,
   ],
   providers: [

@@ -1,0 +1,15 @@
+<div class="form">
+  <div class="title">{{form.title}}</div>
+  <div *ngIf="form.description" class="description">{{form.description}}</div>
+  <ng-container *ngFor="let input of form.inputs">
+    <ng-container [ngSwitch]="input.type">
+      <div *ngSwitchCase="'input'" class="input">
+        <app-input [title]="input.title"></app-input>
+      </div>
+      <div *ngSwitchCase="'button'" class="button">
+        <app-button [title]="input.title" [color]="input.color" [backgroundColor]="input.backgroundColor"></app-button>
+      </div>
+    </ng-container>
+  </ng-container>
+  <div *ngIf="form.footer" class="footer" [innerHTML]="form.footer | safeHtml"></div>
+</div>

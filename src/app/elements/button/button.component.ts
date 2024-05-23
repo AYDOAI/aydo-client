@@ -9,8 +9,8 @@ export class ButtonComponent {
 
   @Input() width = '100%';
   @Input() height = '54px';
-  @Input() color = 'black';
-  @Input() backgroundColor = '';
+  @Input() color: string | undefined = 'black';
+  @Input() backgroundColor: string | undefined = '';
   @Input() title = '';
   @Input() arrow = true;
   @Input() border = true;
