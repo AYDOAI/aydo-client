@@ -9,12 +9,12 @@ import {AppForm} from '../../../shared/types';
 })
 export class WelcomeForgotComponent extends WelcomeBaseComponent {
 
-  form: AppForm = {
+  override form: AppForm = {
     title: 'Forgot password?',
     // @ts-ignore
     inputs: [
-      {title: 'E-mail', type: 'input'},
-      {title: 'Send recovery link', type: 'button', color: 'white', backgroundColor: '#060022'},
+      {key: '', title: 'E-mail', type: 'input'},
+      {key: '', title: 'Send recovery link', type: 'button', color: 'white', backgroundColor: '#060022'},
     ]
   };
 

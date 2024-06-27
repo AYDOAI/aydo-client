@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
-import {AppForm} from '../../shared/types';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {AppForm, AppFormInputs} from '../../shared/types';
 
 @Component({
   selector: 'app-form',
@@ -8,6 +9,12 @@ import {AppForm} from '../../shared/types';
 })
 export class FormComponent {
 
-  @Input() form: AppForm = {title: '', inputs: []};
+  @Input() form!: AppForm;
+  @Input() formGroup!: FormGroup;
+  @Output() onClickButton: EventEmitter<any> = new EventEmitter<any>();
+
+  button(input: AppFormInputs) {
+    this.onClickButton.emit(input);
+  }
 
 }

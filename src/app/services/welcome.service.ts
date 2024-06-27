@@ -6,7 +6,7 @@ import {WelcomeStep} from '../shared/types';
 })
 export class WelcomeService {
 
-  step: WelcomeStep = 'add-hub';
+  step: WelcomeStep = 'main';
 
   constructor() {
   }

@@ -1,15 +1,17 @@
-<div class="input"
-     [style.width]="width"
-     [style.height]="height"
->
-  <div class="title-container">
-    <div class="title">
-      {{title}}
-    </div>
+<div #parent *ngIf="form" #formContainer class="input-container" [formGroup]="form" [ngClass]="{'input-error': !!error}"
+     (touchend)="touchend($event)">
+  <div class="input-title shaded-color-primary">
+    <div>{{title}}</div>
   </div>
-<!--  <div class="arrow-container">-->
-<!--    <svg class="arrow" width="33" height="24" viewBox="0 0 33 24" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-<!--      <path d="M14.5 8L17.7929 11.2929C18.1834 11.6834 18.1834 12.3166 17.7929 12.7071L14.5 16" stroke="white" stroke-width="2" stroke-linecap="round"/>-->
-<!--    </svg>-->
-<!--  </div>-->
+  <div class="input-input-container">
+    <textarea *ngIf="type === 'textarea'" class="input-input" [rows]="rows" [formControlName]="key"></textarea>
+    <input *ngIf="type !== 'textarea'" #input class="input-input" [formControlName]="key" [type]="type"
+           [placeholder]="placeholder ? placeholder : ''"
+           (keyup)="keyUp($event)">
+<!--    <svg-icon *ngIf="type !== 'textarea' && icon" [name]="type === 'file' ? 'folder' : 'edit'" class="input-edit-icon" (click)="edit()"></svg-icon>-->
+  </div>
+</div>
+
+<div *ngIf="error" class="input-error-text">
+  {{error}}
 </div>
