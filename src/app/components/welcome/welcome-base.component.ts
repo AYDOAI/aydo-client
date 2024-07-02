@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {WelcomeService} from '../../services/welcome.service';
-import {AppForm, WelcomeStep} from '../../shared/types';
+import {AppForm, AppFormInputs, WelcomeStep} from '../../shared/types';
 import {BaseComponent} from '../base.component';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {BackendService} from '../../services/backend.service';

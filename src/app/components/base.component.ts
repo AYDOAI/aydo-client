@@ -25,7 +25,7 @@ export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
     public fb: FormBuilder,
   ) {
     this.onCreate();
-    this.errorSub = this.errors.errorSub().subscribe((message) => {
+    this.errorSub = this.errors.errorSub().subscribe((message: any) => {
       this.onError(message);
     });
   }

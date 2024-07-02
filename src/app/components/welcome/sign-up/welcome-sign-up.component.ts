@@ -27,7 +27,7 @@ export class WelcomeSignUpComponent extends WelcomeBaseComponent {
         const user = {...this.formGroup.value};
         user.email = user.login;
         this.resetFormErrors();
-        this.backend.register(user).then(() => {
+        this.backend.userRegister(user).then(() => {
           this.service.step = 'sign-in';
         }).catch(() => {
         });

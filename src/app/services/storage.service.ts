@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
+import {Observable, Subject} from "rxjs";
 
 
 @Injectable({
@@ -8,76 +9,55 @@ import {Storage} from '@ionic/storage';
 export class StorageService {
 
   token!: string;
-  refresh_token!: string;
+  refreshToken!: string;
+  serverId!: string;
+  private initSubject: Subject<any> = new Subject<any>();
 
   constructor(private storage: Storage) {
     this.init();
   }
 
+  initSub(): Observable<any> {
+    return this.initSubject.asObservable();
+  }
+
   async init() {
     await this.storage.create();
-    this.getString('token').then((data: any) => {
-      this.token = data;
-    });
-    this.getString('refresh_token').then((data: any) => {
-      this.refresh_token = data;
+    this.token = await this.getString('token');
+    this.refreshToken = await this.getString('refresh_token');
+    this.initSubject.next({token: this.token, refreshToken: this.refreshToken});
+  }
+
+  getFromStorage(key: string): Promise<string> {
+    return this.storage.get(`aydo-${key}`).then((data: any) => {
+      return Promise.resolve(data);
+    }).catch((error: any) => {
+      return Promise.reject(error);
     });
   }
 
   getString(key: string, defaultValue: string | null = null): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const value = localStorage.getItem(`aydo-${key}`);
-      if (value) {
-        localStorage.removeItem(`aydo-${key}`);
-        this.storage.set(key, value);
-        resolve(value );
-      } else {
-        this.storage.get(key).then((data: any) => {
-          resolve(data !== undefined && data !== null ? data : defaultValue);
-        }).catch((error: any) => {
-          reject(error);
-        });
-      }
-    });
+    return this.getFromStorage(key).then((data: any) => {
+      return Promise.resolve(data !== undefined && data !== null ? data : defaultValue);
+    }).catch(error => {
+      return Promise.reject(error);
+    })
   }
 
   getBoolean(key: string, defaultValue: boolean = false): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      const value = localStorage.getItem(`aydo-${key}`);
-      if (value) {
-        localStorage.removeItem(`aydo-${key}`);
-        this.storage.set(key, value === 'true');
-        resolve(value === 'true');
-      } else {
-        this.storage.get(key).then((data: any) => {
-          resolve(data);
-        }).catch((error: any) => {
-          reject(error);
-        });
-      }
-    });
+    return this.getFromStorage(key).then((data: any) => {
+      return Promise.resolve(data !== undefined && data !== null ? data : defaultValue);
+    }).catch(error => {
+      return Promise.reject(error);
+    })
   }
 
   getObject(key: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      let value = localStorage.getItem(`aydo-${key}`);
-      if (value) {
-        try {
-          value = JSON.parse(value);
-          localStorage.removeItem(`aydo-${key}`);
-          this.storage.set(key, value);
-          resolve(value);
-        } catch (e) {
-          resolve(null);
-        }
-      } else {
-        this.storage.get(key).then((data: any) => {
-          resolve(data);
-        }).catch((error: any) => {
-          reject(error);
-        });
-      }
-    });
+    return this.getFromStorage(key).then((data: any) => {
+      return Promise.resolve(data);
+    }).catch(error => {
+      return Promise.reject(error);
+    })
   }
 
   set(key: string, value: string) {

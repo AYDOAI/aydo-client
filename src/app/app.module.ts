@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {Storage} from '@ionic/storage';
 
@@ -25,6 +25,7 @@ import {WelcomeNavigateComponent} from './components/welcome/navigate/welcome-na
 import {WelcomeProvidersComponent} from './components/welcome/providers/welcome-providers.component';
 import {WelcomeAddHubComponent} from './components/welcome/add-hub/welcome-add-hub.component';
 import {StorageService} from "./services/storage.service";
+import {HttpHeadersInterceptor} from "./shared/http-headers.interceptor";
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import {StorageService} from "./services/storage.service";
     Storage,
     WelcomeService,
     StorageService,
+    {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
 })

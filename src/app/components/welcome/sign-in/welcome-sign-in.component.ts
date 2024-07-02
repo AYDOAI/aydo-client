@@ -26,9 +26,7 @@ export class WelcomeSignInComponent extends WelcomeBaseComponent {
       case 'sign_in':
         const user = {...this.formGroup.value};
         this.resetFormErrors();
-        this.backend.login(user).then((data: any) => {
-          this.storage.set('token', data.user.token);
-          this.storage.set('refresh_token', data.user.refresh_token);
+        this.backend.userLogin(user).then((data: any) => {
           this.service.step = 'add-hub';
         }).catch(() => {
         });

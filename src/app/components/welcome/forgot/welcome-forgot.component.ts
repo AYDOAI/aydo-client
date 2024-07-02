@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {WelcomeBaseComponent} from '../welcome-base.component';
-import {AppForm} from '../../../shared/types';
+import {AppForm, AppFormInputs} from '../../../shared/types';
 
 @Component({
   selector: 'app-welcome-forgot',
@@ -9,13 +9,25 @@ import {AppForm} from '../../../shared/types';
 })
 export class WelcomeForgotComponent extends WelcomeBaseComponent {
 
-  override form: AppForm = {
-    title: 'Forgot password?',
-    // @ts-ignore
-    inputs: [
-      {key: '', title: 'E-mail', type: 'input'},
-      {key: '', title: 'Send recovery link', type: 'button', color: 'white', backgroundColor: '#060022'},
-    ]
-  };
+  override onInit() {
+    this.form.title = 'Forgot password?';
+    this.form.inputs.push({key: 'login', title: 'E-mail', type: 'input'});
+    this.form.inputs.push({key: 'send_link', title: 'Send recovery link', type: 'button', color: 'white', backgroundColor: '#060022'});
+
+    this.formGroup = this.createForm(this.form.inputs);
+  }
+
+  button(input: AppFormInputs) {
+    switch (input.key) {
+      case 'send_link':
+        const user = {...this.formGroup.value};
+        this.resetFormErrors();
+        this.backend.userForgot(user).then((data: any) => {
+          console.log(data)
+        }).catch(() => {
+        });
+        break;
+    }
+  }
 
 }
