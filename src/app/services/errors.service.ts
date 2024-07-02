@@ -15,6 +15,7 @@ export class ErrorsService {
 
   private exceptionSubject: Subject<any> = new Subject<any>();
   private errorSubject: Subject<any> = new Subject<any>();
+  private showErrorSubject: Subject<any> = new Subject<any>();
 
   constructor() {
     this.datePipe = new DatePipe('en-US');
@@ -28,12 +29,20 @@ export class ErrorsService {
     this.errorSubject.next(message);
   }
 
+  showError(message: any) {
+    this.showErrorSubject.next(message);
+  }
+
   exceptionSub(): Observable<any> {
     return this.exceptionSubject.asObservable();
   }
 
   errorSub(): Observable<any> {
     return this.errorSubject.asObservable();
+  }
+
+  showErrorSub(): Observable<any> {
+    return this.showErrorSubject.asObservable();
   }
 
   log(message?: any, ...optionalParams: any[]) {

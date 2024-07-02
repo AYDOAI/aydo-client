@@ -25,6 +25,7 @@ export class StorageService {
     await this.storage.create();
     this.token = await this.getString('token');
     this.refreshToken = await this.getString('refresh_token');
+    this.serverId = await this.getString('server_id');
     this.initSubject.next({token: this.token, refreshToken: this.refreshToken});
   }
 

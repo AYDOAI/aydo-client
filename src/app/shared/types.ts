@@ -1,4 +1,6 @@
-export type WelcomeStep = 'main' | 'sign-in' | 'sign-up' | 'demo' | 'forgot' | 'add-hub';
+export type WelcomeStep = 'main' | 'sign-in' | 'sign-up' | 'demo' | 'forgot' | 'add-hub' | 'config-hub' | 'dashboard';
+
+export type HubType = 'hub_aydo' | 'hub_pi' | 'hub_other';
 
 export type AppFormType = 'input' | 'button';
 

@@ -26,6 +26,8 @@ import {WelcomeProvidersComponent} from './components/welcome/providers/welcome-
 import {WelcomeAddHubComponent} from './components/welcome/add-hub/welcome-add-hub.component';
 import {StorageService} from "./services/storage.service";
 import {HttpHeadersInterceptor} from "./shared/http-headers.interceptor";
+import {WelcomeConfigHubComponent} from './components/welcome/config-hub/welcome-config-hub.component';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,9 @@ import {HttpHeadersInterceptor} from "./shared/http-headers.interceptor";
     WelcomeNavigateComponent,
     WelcomeAddHubComponent,
     WelcomeProvidersComponent,
+    WelcomeConfigHubComponent,
+
+    DashboardComponent,
 
     ButtonComponent,
     InputComponent,
