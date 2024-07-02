@@ -1,0 +1,24 @@
+$fontColor: #263238;
+$deviceFontColor: #EEEEEE;
+
+.icon-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.svg-main-fill {
+  fill-rule: evenodd;
+  clip-rule: evenodd;
+  fill: $deviceFontColor;
+}
+
+.secondary {
+  fill: $fontColor;
+}
+
+.svg-icon {
+  margin: auto;
+  width: var(--icon-width);
+  height: var(--icon-height);
+}
