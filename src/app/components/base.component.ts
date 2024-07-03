@@ -6,6 +6,7 @@ import {AppFormInputs} from '../shared/types';
 import {BackendService} from '../services/backend.service';
 import {ErrorsService} from "../services/errors.service";
 import {StorageService} from "../services/storage.service";
+import {UIService} from '../services/ui.service';
 
 // @ts-ignore
 export const emailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -19,6 +20,7 @@ export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
   errorSub: Subscription;
 
   constructor(
+    public ui: UIService,
     public backend: BackendService,
     public errors: ErrorsService,
     public storage: StorageService,

@@ -1,28 +1,28 @@
 import {Component} from '@angular/core';
-import {WelcomeBaseComponent} from './welcome-base.component';
 import {Subscription} from 'rxjs';
-import {WelcomeService} from '../../services/welcome.service';
 import {BackendService} from '../../services/backend.service';
 import {ErrorsService} from '../../services/errors.service';
 import {StorageService} from '../../services/storage.service';
 import {FormBuilder} from '@angular/forms';
+import {UIService} from '../../services/ui.service';
+import {BaseComponent} from '../base.component';
 
 @Component({
-  selector: 'app-welcome',
-  templateUrl: './welcome.component.html',
-  styleUrl: './welcome.component.scss'
+  selector: 'app-main',
+  templateUrl: './main.component.html',
+  styleUrl: './main.component.scss'
 })
-export class WelcomeComponent extends WelcomeBaseComponent {
+export class MainComponent extends BaseComponent {
 
   error: any[] = [];
   showErrorSub: Subscription;
 
-  constructor(public override service: WelcomeService,
+  constructor(public override ui: UIService,
               public override backend: BackendService,
               public override errors: ErrorsService,
               public override storage: StorageService,
               public override fb: FormBuilder) {
-    super(service, backend, errors, storage, fb);
+    super(ui, backend, errors, storage, fb);
     this.showErrorSub = this.errors.showErrorSub().subscribe((message: any) => {
       this.error.push(message);
     });

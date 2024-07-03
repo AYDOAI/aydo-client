@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
-import {WelcomeBaseComponent} from '../welcome-base.component';
-import {AppForm, AppFormInputs} from '../../../shared/types';
+import {AppFormInputs} from '../../../shared/types';
+import {FormBaseComponent} from '../../form-base.component';
 
 @Component({
   selector: 'app-welcome-forgot',
   templateUrl: './welcome-forgot.component.html',
   styleUrl: './welcome-forgot.component.scss'
 })
-export class WelcomeForgotComponent extends WelcomeBaseComponent {
+export class WelcomeForgotComponent extends FormBaseComponent {
 
   override onInit() {
     this.form.title = 'Forgot password?';

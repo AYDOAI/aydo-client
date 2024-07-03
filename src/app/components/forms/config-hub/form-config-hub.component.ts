@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
-import {WelcomeBaseComponent} from '../welcome-base.component';
 import {AppFormInputs} from '../../../shared/types';
+import {FormBaseComponent} from '../../form-base.component';
 
 @Component({
-  selector: 'app-welcome-config-hub',
-  templateUrl: './welcome-config-hub.component.html',
-  styleUrl: './welcome-config-hub.component.scss'
+  selector: 'app-form-config-hub',
+  templateUrl: './form-config-hub.component.html',
+  styleUrl: './form-config-hub.component.scss'
 })
-export class WelcomeConfigHubComponent extends WelcomeBaseComponent {
+export class FormConfigHubComponent extends FormBaseComponent {
 
   override onInit() {
     this.form.title = 'Configure hub';

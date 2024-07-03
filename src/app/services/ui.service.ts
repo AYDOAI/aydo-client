@@ -1,5 +1,5 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {HubType, WelcomeStep} from '../shared/types';
+import {HubType, FrameStep} from '../shared/types';
 import {StorageService} from "./storage.service";
 import {Subscription} from "rxjs";
 import {BackendService} from "./backend.service";
@@ -7,9 +7,9 @@ import {BackendService} from "./backend.service";
 @Injectable({
   providedIn: 'root'
 })
-export class WelcomeService implements OnDestroy {
+export class UIService implements OnDestroy {
 
-  step: WelcomeStep = 'main';
+  step!: FrameStep;
   selectedHubType: HubType = 'hub_aydo';
   initSub: Subscription | undefined;
 

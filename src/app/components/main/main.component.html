@@ -18,13 +18,14 @@
     </div>
   </div>
 </div>
-<ng-container [ngSwitch]="service.step">
+<ng-container [ngSwitch]="ui.step">
   <app-welcome-main *ngSwitchCase="'main'"></app-welcome-main>
   <app-welcome-sign-up *ngSwitchCase="'sign-up'"></app-welcome-sign-up>
   <app-welcome-sign-in *ngSwitchCase="'sign-in'"></app-welcome-sign-in>
   <app-welcome-forgot *ngSwitchCase="'forgot'"></app-welcome-forgot>
-  <app-welcome-add-hub *ngSwitchCase="'add-hub'"></app-welcome-add-hub>
-  <app-welcome-config-hub *ngSwitchCase="'config-hub'"></app-welcome-config-hub>
+  <app-form-add-hub *ngSwitchCase="'add-hub'"></app-form-add-hub>
+  <app-form-config-hub *ngSwitchCase="'config-hub'"></app-form-config-hub>
+  <app-form-add-device *ngSwitchCase="'add-device'"></app-form-add-device>
   <app-dashboard *ngSwitchCase="'dashboard'"></app-dashboard>
 </ng-container>
 <svg-definitions [style.display]="'none'"></svg-definitions>

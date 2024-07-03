@@ -30,7 +30,7 @@ export class HttpHeadersInterceptor implements HttpHeadersInterceptor {
     }
 
     if (serverId) {
-      request = request.clone({headers: request.headers.set('ServerID', serverId)});
+      request = request.clone({headers: request.headers.set('Server_ID', serverId)});
     }
 
     if (!request.headers.has('Content-Type') && request.method !== 'GET') {

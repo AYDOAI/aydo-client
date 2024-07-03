@@ -46,4 +46,8 @@ export class BackendService {
     return this.request.post(`${environment.main_url}/backend/v2/gateway/connect`,  {gateway}, {mainGroup: 'backend', method: 'gateway-connect'});
   }
 
+  drivers(): Promise<any> {
+    return this.request.get(`${environment.main_url}/backend/v2/gateway/drivers`,  {mainGroup: 'backend', method: 'gateway-drivers'});
+  }
+
 }

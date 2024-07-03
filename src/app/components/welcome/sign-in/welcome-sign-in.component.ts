@@ -1,13 +1,13 @@
 import {Component, Input} from '@angular/core';
-import {WelcomeBaseComponent} from '../welcome-base.component';
 import {AppFormInputs} from "../../../shared/types";
+import {FormBaseComponent} from '../../form-base.component';
 
 @Component({
   selector: 'app-welcome-sign-in',
   templateUrl: './welcome-sign-in.component.html',
   styleUrl: './welcome-sign-in.component.scss'
 })
-export class WelcomeSignInComponent extends WelcomeBaseComponent {
+export class WelcomeSignInComponent extends FormBaseComponent {
 
   @Input() title = '';
 
@@ -27,7 +27,7 @@ export class WelcomeSignInComponent extends WelcomeBaseComponent {
         const user = {...this.formGroup.value};
         this.resetFormErrors();
         this.backend.userLogin(user).then((data: any) => {
-          this.service.step = 'add-hub';
+          this.ui.step = 'add-hub';
         }).catch(() => {
         });
         break;

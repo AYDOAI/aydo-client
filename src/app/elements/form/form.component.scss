@@ -1,10 +1,29 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 32px;
+
+  .back {
+    width: 32px;
+    display: flex;
+
+    svg {
+      margin: auto;
+    }
+  }
+
+  .space {
+    width: 32px;
+  }
+}
+
 .form {
   padding: 24px 22px 32px 22px;
 }
 
 .title {
   font-size: 30px;
-  margin-bottom: 32px;
 }
 
 .input {

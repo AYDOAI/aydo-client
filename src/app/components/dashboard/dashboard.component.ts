@@ -17,4 +17,12 @@ export class DashboardComponent extends BaseComponent {
   ];
   menuVisible = false;
 
+  showHideMenu() {
+    this.menuVisible = !this.menuVisible;
+  }
+
+  deviceAdd() {
+    this.ui.step = 'add-device';
+  }
+
 }

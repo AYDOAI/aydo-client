@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
-import {WelcomeBaseComponent} from '../welcome-base.component';
 import {AppFormInputs} from '../../../shared/types';
+import {FormBaseComponent} from '../../form-base.component';
 
 @Component({
   selector: 'app-welcome-sign-up',
   templateUrl: './welcome-sign-up.component.html',
   styleUrl: './welcome-sign-up.component.scss'
 })
-export class WelcomeSignUpComponent extends WelcomeBaseComponent {
+export class WelcomeSignUpComponent extends FormBaseComponent {
 
   override onInit() {
     this.form.title = 'Sign up';
@@ -28,7 +28,7 @@ export class WelcomeSignUpComponent extends WelcomeBaseComponent {
         user.email = user.login;
         this.resetFormErrors();
         this.backend.userRegister(user).then(() => {
-          this.service.step = 'sign-in';
+          this.ui.step = 'sign-in';
         }).catch(() => {
         });
         break;

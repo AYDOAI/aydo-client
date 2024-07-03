@@ -1,4 +1,5 @@
 import {Component, ElementRef} from '@angular/core';
+import {UIService} from '../services/ui.service';
 
 @Component({
   selector: 'app-base',
@@ -6,7 +7,8 @@ import {Component, ElementRef} from '@angular/core';
 })
 export class BaseElement {
 
-  constructor(protected readonly element: ElementRef<HTMLElement>) {
+  constructor(protected readonly element: ElementRef<HTMLElement>,
+              readonly ui: UIService) {
 
   }
 

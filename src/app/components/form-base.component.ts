@@ -1,36 +1,36 @@
 import {Component} from '@angular/core';
-import {WelcomeService} from '../../services/welcome.service';
-import {AppForm, AppFormInputs, WelcomeStep} from '../../shared/types';
-import {BaseComponent} from '../base.component';
+import {AppForm, FrameStep} from '../shared/types';
+import {BaseComponent} from './base.component';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {BackendService} from '../../services/backend.service';
-import {ErrorsService} from "../../services/errors.service";
-import {StorageService} from "../../services/storage.service";
+import {BackendService} from '../services/backend.service';
+import {ErrorsService} from "../services/errors.service";
+import {StorageService} from "../services/storage.service";
+import {UIService} from '../services/ui.service';
 
 @Component({
-  selector: 'app-welcome-base',
+  selector: 'app-form-base',
   template: '',
 })
-export class WelcomeBaseComponent extends BaseComponent {
+export class FormBaseComponent extends BaseComponent {
 
   form: AppForm = {title: '', inputs: []};
   formGroup!: FormGroup;
 
-  constructor(public service: WelcomeService,
+  constructor(public override ui: UIService,
               public override backend: BackendService,
               public override errors: ErrorsService,
               public override storage: StorageService,
               public override fb: FormBuilder) {
-    super(backend, errors, storage, fb);
+    super(ui, backend, errors, storage, fb);
   }
 
-  select(event: WelcomeStep) {
+  select(event: FrameStep) {
     switch (event) {
       case 'demo':
         console.log('not implemented yet');
         break;
       default:
-        this.service.step = event;
+        this.ui.step = event;
         break;
     }
   }

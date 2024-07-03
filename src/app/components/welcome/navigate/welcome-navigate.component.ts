@@ -1,12 +1,12 @@
 import {Component, Input} from '@angular/core';
-import {WelcomeBaseComponent} from '../welcome-base.component';
+import {FormBaseComponent} from '../../form-base.component';
 
 @Component({
   selector: 'app-welcome-navigate',
   templateUrl: './welcome-navigate.component.html',
   styleUrl: './welcome-navigate.component.scss'
 })
-export class WelcomeNavigateComponent extends WelcomeBaseComponent {
+export class WelcomeNavigateComponent extends FormBaseComponent {
 
   @Input() signIn = false;
   @Input() signUp = false;
