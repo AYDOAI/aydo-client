@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AppFormInputs} from '../../../shared/types';
 import {FormBaseComponent} from '../../form-base.component';
+import {DriverItem, DriversModel} from '../../../models/gateway.model';
 
 @Component({
   selector: 'app-form-add-device',
@@ -13,7 +14,8 @@ export class FormAddDeviceComponent extends FormBaseComponent {
     this.form.title = 'Add device';
     this.form.description = 'This app supports next device types, choose one of them:';
 
-    this.backend.drivers().then((drivers) => {
+    this.backend.drivers().then((drivers: DriverItem[]) => {
+      this.ui.drivers = new DriversModel(drivers);
       drivers.forEach((driver: any) => {
         this.form.inputs.push({
           key: driver.className,
@@ -29,10 +31,8 @@ export class FormAddDeviceComponent extends FormBaseComponent {
   }
 
   button(input: AppFormInputs) {
-    // switch (input.key) {
-    //   case 'device_zigbee_coordinator':
-    //     break;
-    // }
+    this.ui.selectedDriver = this.ui.drivers.items.find(item => item.className === input.key);
+    this.ui.step = 'edit-device';
   }
 
 }

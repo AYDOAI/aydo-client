@@ -3,7 +3,7 @@ import {environment} from '../../environments/environment';
 import {RequestService} from './request.service';
 import {LoginItem, UserItem} from '../models/users.model';
 import {StorageService} from "./storage.service";
-import {GatewayItem} from '../models/gateway.model';
+import {DeviceItem, GatewayItem} from '../models/gateway.model';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +48,10 @@ export class BackendService {
 
   drivers(): Promise<any> {
     return this.request.get(`${environment.main_url}/backend/v2/gateway/drivers`,  {mainGroup: 'backend', method: 'gateway-drivers'});
+  }
+
+  saveDevice(device: DeviceItem): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/gateway/device`,  {device}, {mainGroup: 'backend', method: 'gateway-save-device'});
   }
 
 }

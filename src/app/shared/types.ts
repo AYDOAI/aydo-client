@@ -1,4 +1,14 @@
-export type FrameStep = 'main' | 'sign-in' | 'sign-up' | 'demo' | 'forgot' | 'add-hub' | 'config-hub' | 'dashboard' | 'add-device';
+export type FrameStep =
+  'main'
+  | 'sign-in'
+  | 'sign-up'
+  | 'demo'
+  | 'forgot'
+  | 'add-hub'
+  | 'config-hub'
+  | 'dashboard'
+  | 'add-device'
+  | 'edit-device';
 
 export type HubType = 'hub_aydo' | 'hub_pi' | 'hub_other';
 

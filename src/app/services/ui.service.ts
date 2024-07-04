@@ -3,6 +3,7 @@ import {HubType, FrameStep} from '../shared/types';
 import {StorageService} from "./storage.service";
 import {Subscription} from "rxjs";
 import {BackendService} from "./backend.service";
+import {DriverItem, DriversModel} from '../models/gateway.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class UIService implements OnDestroy {
   step!: FrameStep;
   selectedHubType: HubType = 'hub_aydo';
   initSub: Subscription | undefined;
+  drivers!: DriversModel;
+  selectedDriver!: DriverItem | undefined;
 
   constructor(public storage: StorageService,
               public backend: BackendService) {

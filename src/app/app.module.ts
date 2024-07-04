@@ -31,6 +31,7 @@ import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {FormAddHubComponent} from './components/forms/add-hub/form-add-hub.component';
 import {FormConfigHubComponent} from './components/forms/config-hub/form-config-hub.component';
 import {FormAddDeviceComponent} from './components/forms/add-device/form-add-device.component';
+import {FormEditDeviceComponent} from './components/forms/edit-device/form-edit-device.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import {FormAddDeviceComponent} from './components/forms/add-device/form-add-dev
     FormAddHubComponent,
     FormConfigHubComponent,
     FormAddDeviceComponent,
+    FormEditDeviceComponent,
 
     DashboardComponent,
 

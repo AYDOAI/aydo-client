@@ -36,13 +36,18 @@ export class FormBaseComponent extends BaseComponent {
   }
 
   override onError(message: any) {
+    let exists = false;
     if (message && message.codes && message.errors) {
       message.codes.forEach((code: string, index: number) => {
         const input = this.form.inputs.find(item => item.key === code);
         if (input) {
           input.error = message.errors[index];
+          exists = true;
         }
       })
+    }
+    if (!exists) {
+      this.errors.showError(message.message);
     }
   }
 

@@ -65,6 +65,7 @@ export class RequestService {
       //     return Promise.reject(response.error);
       //   })
       // } else {
+      console.log(response)
         let message = '';
         if (response && response.error && response.error.message) {
           message = `${response.error.message}`;
@@ -74,6 +75,9 @@ export class RequestService {
           message = `${response.message}`;
         } else {
           message = `${response.status ? `${response.status} ` : ''}${response.statusText}`;
+        }
+        if (!response.error.message) {
+          response.error.message = message;
         }
         this.errors.onError(response.error);
         if (!opts || !opts.ignoreError) {
