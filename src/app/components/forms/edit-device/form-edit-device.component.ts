@@ -52,6 +52,7 @@ export class FormEditDeviceComponent extends FormBaseComponent {
           ident: `${this.ui.selectedDriver?.className}_${new Date().getTime()}`,
           settings: {...this.formGroup.value}
         };
+        // @ts-ignore
         this.backend.saveDevice(device).then((response) => {
           this.ui.step = 'dashboard';
         })

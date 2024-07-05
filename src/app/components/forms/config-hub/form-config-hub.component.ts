@@ -31,7 +31,8 @@ export class FormConfigHubComponent extends FormBaseComponent {
         this.resetFormErrors();
         this.backend.gatewayConnect(gateway).then((data: any) => {
           if (data && data.gateway && data.gateway.identifier) {
-            this.storage.set('server_id', data.gateway.identifier);
+            this.storage.serverId = data.gateway.identifier;
+            this.ui.step = 'dashboard';
           }
         }).catch(() => {
 

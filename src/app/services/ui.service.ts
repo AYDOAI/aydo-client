@@ -3,7 +3,7 @@ import {HubType, FrameStep} from '../shared/types';
 import {StorageService} from "./storage.service";
 import {Subscription} from "rxjs";
 import {BackendService} from "./backend.service";
-import {DriverItem, DriversModel} from '../models/gateway.model';
+import {DevicesModel, DriverItem, DriversModel} from '../models/gateway.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,7 @@ export class UIService implements OnDestroy {
   initSub: Subscription | undefined;
   drivers!: DriversModel;
   selectedDriver!: DriverItem | undefined;
+  devices!: DevicesModel;
 
   constructor(public storage: StorageService,
               public backend: BackendService) {
@@ -22,6 +23,22 @@ export class UIService implements OnDestroy {
       if (this.storage.token) {
         this.backend.userInfo().then(() => {
           if (this.storage.serverId) {
+            this.backend.getDevices().then((devices: any) => {
+              this.devices = new DevicesModel(devices);
+            }).catch(() => {
+
+            })
+            const getDeviceValues = () => {
+              this.backend.getDeviceValues().then((data: any) => {
+                console.log(data);
+              }).catch(() => {
+
+              })
+            }
+            setInterval(() => {
+              getDeviceValues()
+            }, 5000);
+            getDeviceValues();
             this.step = 'dashboard';
           } else {
             this.step = 'add-hub';
@@ -36,6 +53,8 @@ export class UIService implements OnDestroy {
             //   })
           }
         })
+      } else {
+        this.step = 'main';
       }
     })
   }

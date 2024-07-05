@@ -16,8 +16,8 @@ export class BackendService {
 
   userLogin(user: LoginItem): Promise<any> {
     return this.request.post(`${environment.main_url}/backend/v2/user/login`, {user}, {mainGroup: 'backend', method: 'user-login'}).then(data => {
-      this.storage.set('token', data.user.token);
-      this.storage.set('refresh_token', data.user.refresh_token);
+      this.storage.token = data.user.token;
+      this.storage.refreshToken = data.user.refresh_token;
       return Promise.resolve(data);
     });
   }
@@ -52,6 +52,14 @@ export class BackendService {
 
   saveDevice(device: DeviceItem): Promise<any> {
     return this.request.post(`${environment.main_url}/backend/v2/gateway/device`,  {device}, {mainGroup: 'backend', method: 'gateway-save-device'});
+  }
+
+  getDevices(): Promise<any> {
+    return this.request.get(`${environment.main_url}/backend/v2/gateway/device`, {mainGroup: 'backend', method: 'gateway-get-devices'});
+  }
+
+  getDeviceValues(): Promise<any> {
+    return this.request.get(`${environment.main_url}/backend/v2/gateway/device/values`, {mainGroup: 'backend', method: 'gateway-get-device-values'});
   }
 
 }

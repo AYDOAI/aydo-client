@@ -86,6 +86,25 @@ export class SettingItem extends BaseItem {
 
 }
 
-export class DeviceItem {
+export class DevicesModel extends BaseModel {
+  items: DeviceItem[] = [];
+
+  constructor(data?: any) {
+    super(null);
+    this.update(data);
+  }
+
+  update(data: any[]) {
+    this.items = [];
+    if (data) {
+      data.forEach((item) => {
+        this.items.push(new DeviceItem(this, item));
+      });
+    }
+  }
+
+}
+
+export class DeviceItem extends BaseItem {
 
 }

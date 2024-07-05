@@ -8,9 +8,9 @@ import {Observable, Subject} from "rxjs";
 })
 export class StorageService {
 
-  token!: string;
-  refreshToken!: string;
-  serverId!: string;
+  private _token!: string;
+  private _refreshToken!: string;
+  private _serverId!: string;
   private initSubject: Subject<any> = new Subject<any>();
 
   constructor(private storage: Storage) {
@@ -23,10 +23,37 @@ export class StorageService {
 
   async init() {
     await this.storage.create();
-    this.token = await this.getString('token');
-    this.refreshToken = await this.getString('refresh_token');
-    this.serverId = await this.getString('server_id');
-    this.initSubject.next({token: this.token, refreshToken: this.refreshToken});
+    this._token = await this.getString('token');
+    this._refreshToken = await this.getString('refresh_token');
+    this._serverId = await this.getString('server_id');
+    this.initSubject.next({token: this._token, refreshToken: this._refreshToken});
+  }
+
+  get token(): string {
+    return this._token;
+  }
+
+  set token(value: string) {
+    this._token = value;
+    this.set('token', value);
+  }
+
+  get refreshToken(): string {
+    return this._refreshToken;
+  }
+
+  set refreshToken(value: string) {
+    this._refreshToken = value;
+    this.set('refresh_token', value);
+  }
+
+  get serverId(): string {
+    return this._serverId;
+  }
+
+  set serverId(value: string) {
+    this._serverId = value;
+    this.set('server_id', value);
   }
 
   getFromStorage(key: string): Promise<string> {
