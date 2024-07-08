@@ -107,4 +107,8 @@ export class DevicesModel extends BaseModel {
 
 export class DeviceItem extends BaseItem {
 
+  ident!: string;
+  name!: string;
+  capabilities!: any[];
+
 }

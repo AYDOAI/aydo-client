@@ -28,3 +28,39 @@
     </div>
   </div>
 </div>
+
+<div *ngIf="ui.devices && ui.devices.items" class="devices">
+  <div *ngFor="let device of ui.devices.items" class="device">
+    <div class="device-header">
+      <div class="device-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="12" fill="url(#paint0_radial_679_1536)"/>
+          <circle cx="12" cy="12" r="6" fill="#D5F790"/>
+          <defs>
+            <radialGradient id="paint0_radial_679_1536" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+                            gradientTransform="translate(12 12) rotate(90) scale(12)">
+              <stop stop-color="#D5F790"/>
+              <stop offset="1" stop-color="#D5F790" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="device-title-container">
+        <div class="device-title">
+          {{device.name}}
+        </div>
+      </div>
+    </div>
+
+    <div class="device-capabilities">
+      <div *ngFor="let capability of device.capabilities" class="device-capability">
+        <div class="device-capability-title">
+          {{capability.displayName}}
+        </div>
+        <div class="device-capability-value" *ngIf="capability.value">
+          {{capability.value}}{{capability.unit}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

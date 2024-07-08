@@ -1,8 +1,8 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HubType, FrameStep} from '../shared/types';
-import {StorageService} from "./storage.service";
-import {Subscription} from "rxjs";
-import {BackendService} from "./backend.service";
+import {StorageService} from './storage.service';
+import {Subscription} from 'rxjs';
+import {BackendService} from './backend.service';
 import {DevicesModel, DriverItem, DriversModel} from '../models/gateway.model';
 
 @Injectable({
@@ -25,20 +25,26 @@ export class UIService implements OnDestroy {
           if (this.storage.serverId) {
             this.backend.getDevices().then((devices: any) => {
               this.devices = new DevicesModel(devices);
+              console.log(this.devices);
+              const getDeviceValues = () => {
+                this.backend.getDeviceValues().then((data: any) => {
+                  data.forEach((item: any) => {
+                    const device = this.devices.items.find(item1 => item1.ident === item.ident);
+                    if (device) {
+                      device.capabilities.forEach(cap => {
+                        cap.value = item.values[`${cap.ident}_${cap.index}`]
+                      })
+                    }
+                  })
+                }).catch(() => {
+                })
+              }
+              setInterval(() => {
+                getDeviceValues()
+              }, 5000);
+              getDeviceValues();
             }).catch(() => {
-
             })
-            const getDeviceValues = () => {
-              this.backend.getDeviceValues().then((data: any) => {
-                console.log(data);
-              }).catch(() => {
-
-              })
-            }
-            setInterval(() => {
-              getDeviceValues()
-            }, 5000);
-            getDeviceValues();
             this.step = 'dashboard';
           } else {
             this.step = 'add-hub';

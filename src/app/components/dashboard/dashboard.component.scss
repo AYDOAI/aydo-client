@@ -44,3 +44,60 @@
   }
 }
 
+.devices {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 22px;
+  padding-bottom: 12px;
+
+  .device {
+    border-radius: 10px;
+    border: 1px solid #060022;
+
+    .device-header {
+      display: flex;
+      flex-direction: row;
+
+      .device-icon {
+        margin: 12px;
+      }
+
+      .device-title-container {
+        display: flex;
+        margin-top: 12px;
+        margin-bottom: 12px;
+
+        .device-title {
+          margin: auto;
+        }
+      }
+    }
+
+    .device-capabilities {
+      display: flex;
+      flex-flow: row wrap;
+      margin: 0 12px 10px;
+
+      .device-capability {
+        border-radius: 10px;
+        border: 1px solid #060022;
+        margin-left: 2px;
+        margin-bottom: 2px;
+
+        .device-capability-title {
+          color: #999999;
+          margin: 4px 8px 4px 6px;
+        }
+
+        .device-capability-value{
+          margin: 4px 8px 4px 6px;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 19.6px;
+          letter-spacing: 0.05em;
+        }
+      }
+    }
+  }
+}
