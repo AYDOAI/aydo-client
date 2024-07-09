@@ -26,8 +26,8 @@ export class WelcomeSignInComponent extends FormBaseComponent {
       case 'sign_in':
         const user = {...this.formGroup.value};
         this.resetFormErrors();
-        this.backend.userLogin(user).then((data: any) => {
-          this.ui.step = 'add-hub';
+        this.backend.userLogin(user).then(() => {
+          this.ui.afterLogin();
         }).catch(() => {
         });
         break;

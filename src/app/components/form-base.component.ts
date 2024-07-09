@@ -27,7 +27,9 @@ export class FormBaseComponent extends BaseComponent {
   select(event: FrameStep) {
     switch (event) {
       case 'demo':
-        console.log('not implemented yet');
+        this.backend.userLogin({login: 'test@aydo.ai', password: '1qaz@WSX'}).then(() => {
+          this.ui.afterLogin();
+        })
         break;
       default:
         this.ui.step = event;

@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {BaseComponent} from '../base.component';
+import {DeviceItem} from '../../models/gateway.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,6 +24,14 @@ export class DashboardComponent extends BaseComponent {
 
   deviceAdd() {
     this.ui.step = 'add-device';
+  }
+
+  deviceCapabilitiesExists(device: DeviceItem) {
+    return !!device.capabilities.find(item => this.capabilityExists(item))
+  }
+
+  capabilityExists(item: any) {
+    return item.displayName !== 'Linkquality' && item.value && ['power', 'mode', 'motion'].indexOf(item.ident) === -1;
   }
 
 }

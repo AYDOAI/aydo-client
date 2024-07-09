@@ -20,53 +20,66 @@ export class UIService implements OnDestroy {
   constructor(public storage: StorageService,
               public backend: BackendService) {
     this.initSub = this.storage.initSub().subscribe(data => {
-      if (this.storage.token) {
-        this.backend.userInfo().then(() => {
-          if (this.storage.serverId) {
-            this.backend.getDevices().then((devices: any) => {
-              this.devices = new DevicesModel(devices);
-              console.log(this.devices);
-              const getDeviceValues = () => {
-                this.backend.getDeviceValues().then((data: any) => {
-                  data.forEach((item: any) => {
-                    const device = this.devices.items.find(item1 => item1.ident === item.ident);
-                    if (device) {
-                      device.capabilities.forEach(cap => {
-                        cap.value = item.values[`${cap.ident}_${cap.index}`]
-                      })
-                    }
-                  })
-                }).catch(() => {
-                })
-              }
-              setInterval(() => {
-                getDeviceValues()
-              }, 5000);
-              getDeviceValues();
-            }).catch(() => {
-            })
-            this.step = 'dashboard';
-          } else {
-            this.step = 'add-hub';
-          }
-        }).catch(error => {
-          if (error && error.name === 'JsonWebTokenError') {
-            this.step = 'sign-in';
-            //   this.backend.userRefresh().then(data => {
-            //     console.log(data);
-            //   }).catch((error) => {
-            //     console.log(error);
-            //   })
-          }
-        })
-      } else {
-        this.step = 'main';
-      }
+      this.afterLogin();
     })
   }
 
   ngOnDestroy() {
     this.initSub?.unsubscribe();
+  }
+
+  afterLogin() {
+    if (this.storage.token) {
+      this.backend.userInfo().then((data) => {
+        const next = () => {
+          this.backend.getDevices().then((devices: any) => {
+            this.devices = new DevicesModel(devices);
+            const getDeviceValues = () => {
+              this.backend.getDeviceValues().then((data: any) => {
+                data.forEach((item: any) => {
+                  const device = this.devices.items.find(item1 => item1.ident === item.ident);
+                  if (device) {
+                    device.capabilities.forEach(cap => {
+                      cap.value = item.values[`${cap.ident}_${cap.index}`]
+                    })
+                  }
+                })
+              }).catch(() => {
+              })
+            }
+            setInterval(() => {
+              getDeviceValues()
+            }, 5000);
+            getDeviceValues();
+          }).catch(() => {
+          })
+          this.step = 'dashboard';
+        }
+        if (this.storage.serverId) {
+          next();
+        } else {
+          this.backend.getGateway().then((data) => {
+            if (data && data.gateway && data.gateway.identifier) {
+              this.storage.serverId = data.gateway.identifier;
+              next();
+            } else {
+              this.step = 'add-hub';
+            }
+          })
+        }
+      }).catch(error => {
+        this.step = 'sign-in';
+        if (error && error.name === 'JsonWebTokenError') {
+          //   this.backend.userRefresh().then(data => {
+          //     console.log(data);
+          //   }).catch((error) => {
+          //     console.log(error);
+          //   })
+        }
+      })
+    } else {
+      this.step = 'main';
+    }
   }
 
 }
