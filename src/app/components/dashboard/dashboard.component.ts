@@ -31,7 +31,7 @@ export class DashboardComponent extends BaseComponent {
   }
 
   capabilityExists(item: any) {
-    return item.displayName !== 'Linkquality' && item.value && ['power', 'mode', 'motion'].indexOf(item.ident) === -1;
+    return item.displayName !== 'Linkquality' && item.value && ['power', 'mode', 'motion', 'rgb'].indexOf(item.ident) === -1;
   }
 
 }
