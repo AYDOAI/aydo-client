@@ -30,7 +30,11 @@ export class ErrorsService {
   }
 
   showError(message: any) {
-    this.showErrorSubject.next(message);
+    this.showErrorSubject.next({message, error: true});
+  }
+
+  showInfo(message: any) {
+    this.showErrorSubject.next({message, info: true});
   }
 
   exceptionSub(): Observable<any> {

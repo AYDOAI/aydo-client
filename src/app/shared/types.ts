@@ -8,11 +8,12 @@ export type FrameStep =
   | 'config-hub'
   | 'dashboard'
   | 'add-device'
-  | 'edit-device';
+  | 'edit-device'
+  | 'profile';
 
 export type HubType = 'hub_aydo' | 'hub_pi' | 'hub_other';
 
-export type AppFormType = 'input' | 'button';
+export type AppFormType = 'input' | 'button' | 'text';
 
 export interface AppForm {
   title: string;

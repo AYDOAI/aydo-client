@@ -9,14 +9,21 @@
   letter-spacing: 0.02em;
 }
 
-.error {
+.error-content {
   display: flex;
   flex-direction: column;
   margin: auto;
   min-height: 24px;
-  background-color: #ED828F;
   border-radius: 2px;
   width: calc(100% - 41px);
+}
+
+.error-content.error {
+  background-color: #ED828F;
+}
+
+.error-content.info {
+  background-color: #B7D774;
 }
 
 .error-text {

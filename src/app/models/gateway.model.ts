@@ -26,7 +26,9 @@ export class DriversModel extends BaseModel {
 }
 
 export class DriverItem extends BaseItem {
+  driverId: number | undefined;
   className: string | undefined;
+  parentClassName: string | undefined;
   name: string | undefined;
   settings: SettingsModel | undefined;
 
@@ -71,6 +73,7 @@ export class SettingItem extends BaseItem {
   key!: string;
   name!: string;
   defaultValue!: string;
+  description!: string;
   _type!: AppFormType;
 
   get type(): AppFormType {
@@ -109,6 +112,7 @@ export class DeviceItem extends BaseItem {
 
   ident!: string;
   name!: string;
+  driverId!: number;
   capabilities!: any[];
 
 }

@@ -16,6 +16,8 @@ export class UIService implements OnDestroy {
   drivers!: DriversModel;
   selectedDriver!: DriverItem | undefined;
   devices!: DevicesModel;
+  valuesInterval!: any;
+  user!: any;
 
   constructor(public storage: StorageService,
               public backend: BackendService) {
@@ -31,11 +33,14 @@ export class UIService implements OnDestroy {
   afterLogin() {
     if (this.storage.token) {
       this.backend.userInfo().then((data) => {
+        this.user = data.user;
         const next = () => {
           this.backend.getDevices().then((devices: any) => {
             this.devices = new DevicesModel(devices);
+            // console.log(devices);
             const getDeviceValues = () => {
               this.backend.getDeviceValues().then((data: any) => {
+                // console.log(data);
                 data.forEach((item: any) => {
                   const device = this.devices.items.find(item1 => item1.ident === item.ident);
                   if (device) {
@@ -47,8 +52,11 @@ export class UIService implements OnDestroy {
               }).catch(() => {
               })
             }
-            setInterval(() => {
-              getDeviceValues()
+            clearInterval(this.valuesInterval);
+            this.valuesInterval = setInterval(() => {
+              if (this.storage.token) {
+                getDeviceValues()
+              }
             }, 5000);
             getDeviceValues();
           }).catch(() => {

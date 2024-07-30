@@ -7,6 +7,7 @@
     <textarea *ngIf="type === 'textarea'" class="input-input" [rows]="rows" [formControlName]="key"></textarea>
     <input *ngIf="type !== 'textarea'" #input class="input-input" [formControlName]="key" [type]="type"
            [placeholder]="placeholder ? placeholder : ''"
+           [readonly]="readonly"
            (keyup)="keyUp($event)">
 <!--    <svg-icon *ngIf="type !== 'textarea' && icon" [name]="type === 'file' ? 'folder' : 'edit'" class="input-edit-icon" (click)="edit()"></svg-icon>-->
   </div>

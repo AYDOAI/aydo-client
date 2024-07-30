@@ -24,6 +24,7 @@ export class InputComponent extends BaseElement {
   @Input() placeholder!: string;
   @Input() error: any;
   @Input() noPadding = false;
+  @Input() readonly = false;
   @Input() icon = true;
   @Input() rows = 10;
 

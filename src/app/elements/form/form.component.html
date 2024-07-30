@@ -11,6 +11,9 @@
   <div *ngIf="form.description" class="description">{{form.description}}</div>
   <ng-container *ngFor="let input of form.inputs">
     <ng-container [ngSwitch]="input.type">
+      <div *ngSwitchCase="'text'" class="text">
+        <app-input [readonly]="true" [title]="input.title" [form]="formGroup" [key]="input.key" [error]="input.error" [type]="input.inputType"></app-input>
+      </div>
       <div *ngSwitchCase="'input'" class="input">
         <app-input [title]="input.title" [form]="formGroup" [key]="input.key" [error]="input.error" [type]="input.inputType"></app-input>
       </div>

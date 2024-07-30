@@ -23,8 +23,8 @@ export class MainComponent extends BaseComponent {
               public override storage: StorageService,
               public override fb: FormBuilder) {
     super(ui, backend, errors, storage, fb);
-    this.showErrorSub = this.errors.showErrorSub().subscribe((message: any) => {
-      this.error.push(message);
+    this.showErrorSub = this.errors.showErrorSub().subscribe((data: any) => {
+      this.error.push(data);
     });
   }
 

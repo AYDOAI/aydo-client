@@ -32,7 +32,24 @@ export class FormAddDeviceComponent extends FormBaseComponent {
 
   button(input: AppFormInputs) {
     this.ui.selectedDriver = this.ui.drivers.items.find(item => item.className === input.key);
-    this.ui.step = 'edit-device';
+    const setting = this.ui.selectedDriver?.settings?.items?.find(item => item.key === 'pair_mode');
+    if (setting) {
+      const driver = this.ui.selectedDriver?.parentClassName ? this.ui.drivers.items.find(item => item.className === this.ui.selectedDriver?.parentClassName) : this.ui.selectedDriver;
+      if (driver) {
+        const device = this.ui.devices.items.find(item => item.driverId === driver.driverId)
+        if (device) {
+          this.backend.deviceCommand({command: {ident: device.ident, command: 'pair_mode', value: ''}}).then(() => {
+            this.errors.showInfo(setting.description);
+          })
+        } else {
+          this.errors.showError('Device not found!');
+        }
+      } else {
+        this.errors.showError('Driver not found!');
+      }
+    } else {
+      this.ui.step = 'edit-device';
+    }
   }
 
 }

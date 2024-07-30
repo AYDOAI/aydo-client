@@ -66,4 +66,8 @@ export class BackendService {
     return this.request.get(`${environment.main_url}/backend/v2/gateway`, {mainGroup: 'backend', method: 'gateway-get-gateway'});
   }
 
+  deviceCommand(data: any): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/gateway/device/command`,  data, {mainGroup: 'backend', method: 'gateway-device-command'});
+  }
+
 }
