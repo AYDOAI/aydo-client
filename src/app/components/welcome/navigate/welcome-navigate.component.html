@@ -1,14 +1,14 @@
 <div class="sign-in-buttons">
   <div *ngIf="signIn" class="button">
-    <app-button [title]="'Sign in'" [border]="false" [arrow]="false" height="22px" (onClick)="select('sign-in')"></app-button>
+    <app-button [title]="'Sign in'" [border]="false" [arrow]="false" height="22px" [routerLink]="['/sign-in']"></app-button>
   </div>
   <div *ngIf="signUp" class="button">
-    <app-button [title]="'Sign up'" [border]="false" [arrow]="false" height="22px" (onClick)="select('sign-up')"></app-button>
+    <app-button [title]="'Sign up'" [border]="false" [arrow]="false" height="22px" [routerLink]="['/sign-up']"></app-button>
   </div>
   <div *ngIf="demo" class="button">
-    <app-button [title]="'Try DEMO'" [border]="false" [arrow]="false" height="22px" (onClick)="select('demo')"></app-button>
+    <app-button [title]="'Try DEMO'" [border]="false" [arrow]="false" height="22px" [routerLink]="['/demo']"></app-button>
   </div>
   <div *ngIf="forgot" class="button">
-    <app-button [title]="'Forgot password?'" [border]="false" [arrow]="false" height="22px" (onClick)="select('forgot')"></app-button>
+    <app-button [title]="'Forgot password?'" [border]="false" [arrow]="false" height="22px" [routerLink]="['/forgot-password']"></app-button>
   </div>
 </div>

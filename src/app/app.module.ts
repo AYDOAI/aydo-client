@@ -35,6 +35,13 @@ import {FormEditDeviceComponent} from './components/forms/edit-device/form-edit-
 import {FormProfileComponent} from './components/forms/profile/form-profile.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {HeaderComponent} from './elements/header/header.component';
+import {AppRoutingModule} from "./app.routes";
+import {DemoComponent} from "./components/demo/demo.component";
+import {AboutComponent} from "./components/about/about.component";
+import {SettingsComponent} from "./components/settings/settings.component";
+import {ProfileComponent} from "./components/profile/profile.component";
+import {StatusComponent} from "./components/status/status.component";
+import {StreamsComponent} from "./components/streams/streams.component";
 
 @NgModule({
   declarations: [
@@ -59,9 +66,16 @@ import {HeaderComponent} from './elements/header/header.component';
     InputComponent,
     FormComponent,
     HeaderComponent,
+    DemoComponent,
+    AboutComponent,
+    SettingsComponent,
+    ProfileComponent,
+    StatusComponent,
+    StreamsComponent,
     SafeHtmlPipe,
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,

@@ -19,7 +19,7 @@
 
 <div class="menu-container" *ngIf="menuVisible">
   <div class="menu">
-    <div class="menu-item" *ngFor="let item of menu" (click)="clickMenu(item)">
+    <div class="menu-item" *ngFor="let item of menu" [routerLink]="[item.link]">
       <div class="menu-item-icon">
         <svg-icon class="icon" [name]="item.icon"></svg-icon>
       </div>

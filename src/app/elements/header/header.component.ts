@@ -13,13 +13,13 @@ export class HeaderComponent extends BaseElement {
   @Input() add: FrameStep = '';
 
   menu = [
-    {key: 'dashboard', icon: 'menu-unknown', title: 'Dashboard', step: 'dashboard'},
-    {key: 'devices', icon: 'menu-devices', title: 'Devices', step: 'devices'},
-    {key: 'settings', icon: 'menu-hub-settings', title: 'Hub settings'},
-    {key: 'profile', icon: 'menu-profile', title: 'Profile', step: 'profile'},
-    {key: 'status', icon: 'menu-service-status', title: 'Services status'},
-    {key: 'streams', icon: 'menu-unknown', title: 'Data streams'},
-    {key: 'about', icon: 'menu-about', title: 'About'},
+    {link:'/dashboard', icon: 'menu-unknown', title: 'Dashboard', step: 'dashboard'},
+    {link:'/devices', icon: 'menu-devices', title: 'Devices', step: 'devices'},
+    {link: '/settings', icon: 'menu-hub-settings', title: 'Hub settings'},
+    {link: '/profile', icon: 'menu-profile', title: 'Profile', step: 'profile'},
+    {link: '/status', icon: 'menu-service-status', title: 'Services status'},
+    {link: '/streams', icon: 'menu-unknown', title: 'Data streams'},
+    {link: '/about', icon: 'menu-about', title: 'About'},
   ];
   menuVisible = false;
 
