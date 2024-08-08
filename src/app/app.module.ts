@@ -27,7 +27,7 @@ import {WelcomeSignInComponent} from './components/welcome/sign-in/welcome-sign-
 import {WelcomeForgotComponent} from './components/welcome/forgot/welcome-forgot.component';
 import {WelcomeNavigateComponent} from './components/welcome/navigate/welcome-navigate.component';
 import {WelcomeProvidersComponent} from './components/welcome/providers/welcome-providers.component';
-import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {DevicesComponent} from './components/devices/devices.component';
 import {FormAddHubComponent} from './components/forms/add-hub/form-add-hub.component';
 import {FormConfigHubComponent} from './components/forms/config-hub/form-config-hub.component';
 import {FormAddDeviceComponent} from './components/forms/add-device/form-add-device.component';
@@ -49,7 +49,7 @@ import {FormProfileComponent} from './components/forms/profile/form-profile.comp
     FormAddDeviceComponent,
     FormEditDeviceComponent,
     FormProfileComponent,
-    DashboardComponent,
+    DevicesComponent,
     SvgDefinitionsComponent,
     SvgIconComponent,
     ButtonComponent,

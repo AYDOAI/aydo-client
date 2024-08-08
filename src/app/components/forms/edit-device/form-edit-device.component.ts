@@ -54,7 +54,7 @@ export class FormEditDeviceComponent extends FormBaseComponent {
         };
         // @ts-ignore
         this.backend.saveDevice(device).then((response) => {
-          this.ui.step = 'dashboard';
+          this.ui.step = 'devices';
         })
         break;
     }

@@ -6,7 +6,7 @@ export type FrameStep =
   | 'forgot'
   | 'add-hub'
   | 'config-hub'
-  | 'dashboard'
+  | 'devices'
   | 'add-device'
   | 'edit-device'
   | 'profile';

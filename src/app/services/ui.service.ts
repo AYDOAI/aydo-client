@@ -61,7 +61,7 @@ export class UIService implements OnDestroy {
             getDeviceValues();
           }).catch(() => {
           })
-          this.step = 'dashboard';
+          this.step = 'devices';
         }
         if (this.storage.serverId) {
           next();

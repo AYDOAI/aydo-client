@@ -3,11 +3,11 @@ import {BaseComponent} from '../base.component';
 import {DeviceItem} from '../../models/gateway.model';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  selector: 'app-devices',
+  templateUrl: './devices.component.html',
+  styleUrl: './devices.component.scss'
 })
-export class DashboardComponent extends BaseComponent {
+export class DevicesComponent extends BaseComponent {
 
   menu = [
     {key: 'settings', icon: 'menu-hub-settings', title: 'Hub settings'},
