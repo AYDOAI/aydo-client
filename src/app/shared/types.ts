@@ -1,5 +1,6 @@
 export type FrameStep =
-  'main'
+  ''
+  | 'main'
   | 'sign-in'
   | 'sign-up'
   | 'demo'

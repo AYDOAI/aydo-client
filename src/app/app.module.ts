@@ -33,11 +33,14 @@ import {FormConfigHubComponent} from './components/forms/config-hub/form-config-
 import {FormAddDeviceComponent} from './components/forms/add-device/form-add-device.component';
 import {FormEditDeviceComponent} from './components/forms/edit-device/form-edit-device.component';
 import {FormProfileComponent} from './components/forms/profile/form-profile.component';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {HeaderComponent} from './elements/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
+    DashboardComponent,
     WelcomeMainComponent,
     WelcomeSignUpComponent,
     WelcomeSignInComponent,
@@ -55,6 +58,7 @@ import {FormProfileComponent} from './components/forms/profile/form-profile.comp
     ButtonComponent,
     InputComponent,
     FormComponent,
+    HeaderComponent,
     SafeHtmlPipe,
   ],
   imports: [
