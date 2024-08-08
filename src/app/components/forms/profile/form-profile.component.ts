@@ -54,7 +54,7 @@ export class FormProfileComponent extends FormBaseComponent {
         this.storage.token = '';
         this.storage.refreshToken = '';
         this.storage.serverId = '';
-        this.ui.step = 'main';
+        this.ui.goStep('main');
         break;
     }
   }

@@ -10,7 +10,7 @@ import {DeviceItem} from '../../models/gateway.model';
 export class DevicesComponent extends BaseComponent {
 
   deviceAdd() {
-    this.ui.step = 'add-device';
+    this.ui.goStep('add-device');
   }
 
   deviceCapabilitiesExists(device: DeviceItem) {

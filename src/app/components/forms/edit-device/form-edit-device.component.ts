@@ -53,8 +53,8 @@ export class FormEditDeviceComponent extends FormBaseComponent {
           settings: {...this.formGroup.value}
         };
         // @ts-ignore
-        this.backend.saveDevice(device).then((response) => {
-          this.ui.step = 'devices';
+        this.backend.saveDevice(device).then(() => {
+          this.ui.goStep('devices');
         })
         break;
     }

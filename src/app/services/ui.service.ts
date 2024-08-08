@@ -10,7 +10,7 @@ import {DevicesModel, DriverItem, DriversModel} from '../models/gateway.model';
 })
 export class UIService implements OnDestroy {
 
-  step!: FrameStep;
+  private _step!: FrameStep;
   selectedHubType: HubType = 'hub_aydo';
   initSub: Subscription | undefined;
   drivers!: DriversModel;
@@ -60,8 +60,8 @@ export class UIService implements OnDestroy {
             }, 5000);
             getDeviceValues();
           }).catch(() => {
-          })
-          this.step = 'devices';
+          });
+          this.defaultStep();
         }
         if (this.storage.serverId) {
           next();
@@ -71,12 +71,12 @@ export class UIService implements OnDestroy {
               this.storage.serverId = data.gateway.identifier;
               next();
             } else {
-              this.step = 'add-hub';
+              this.goStep('add-hub');
             }
           })
         }
       }).catch(error => {
-        this.step = 'sign-in';
+        this.goStep('sign-in');
         if (error && error.name === 'JsonWebTokenError') {
           //   this.backend.userRefresh().then(data => {
           //     console.log(data);
@@ -86,8 +86,20 @@ export class UIService implements OnDestroy {
         }
       })
     } else {
-      this.step = 'main';
+      this.goStep('main');
     }
+  }
+
+  get step(): FrameStep {
+    return this._step;
+  }
+
+  goStep(step: FrameStep) {
+    this._step = step;
+  }
+
+  defaultStep() {
+    this._step = 'dashboard';
   }
 
 }

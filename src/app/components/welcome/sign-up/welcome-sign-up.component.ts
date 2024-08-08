@@ -28,7 +28,7 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
         user.email = user.login;
         this.resetFormErrors();
         this.backend.userRegister(user).then(() => {
-          this.ui.step = 'sign-in';
+          this.ui.goStep('sign-in');
         }).catch(() => {
         });
         break;

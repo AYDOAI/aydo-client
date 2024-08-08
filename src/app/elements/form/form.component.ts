@@ -20,6 +20,6 @@ export class FormComponent extends BaseElement {
   }
 
   goBack() {
-    this.ui.step = this.back;
+    this.ui.goStep(this.back);
   }
 }

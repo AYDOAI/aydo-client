@@ -32,7 +32,7 @@ export class FormBaseComponent extends BaseComponent {
         })
         break;
       default:
-        this.ui.step = event;
+        this.ui.goStep(event);
         break;
     }
   }

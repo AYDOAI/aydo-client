@@ -32,7 +32,7 @@ export class FormConfigHubComponent extends FormBaseComponent {
         this.backend.gatewayConnect(gateway).then((data: any) => {
           if (data && data.gateway && data.gateway.identifier) {
             this.storage.serverId = data.gateway.identifier;
-            this.ui.step = 'devices';
+            this.ui.goStep('devices');
           }
         }).catch(() => {
 

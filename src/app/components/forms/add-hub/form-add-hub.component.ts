@@ -47,7 +47,7 @@ export class FormAddHubComponent extends FormBaseComponent {
       case 'hub_pi':
       case 'hub_other':
         this.ui.selectedHubType = input.key;
-        this.ui.step = 'config-hub';
+        this.ui.goStep('config-hub');
         break;
     }
   }

@@ -48,7 +48,7 @@ export class FormAddDeviceComponent extends FormBaseComponent {
         this.errors.showError('Driver not found!');
       }
     } else {
-      this.ui.step = 'edit-device';
+      this.ui.goStep('edit-device');
     }
   }
 

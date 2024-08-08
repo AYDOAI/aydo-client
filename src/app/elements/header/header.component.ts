@@ -14,7 +14,7 @@ export class HeaderComponent extends BaseElement {
 
   menu = [
     {key: 'dashboard', icon: 'menu-unknown', title: 'Dashboard', step: 'dashboard'},
-    {key: 'devices', icon: 'menu-devices', title: 'Devices'},
+    {key: 'devices', icon: 'menu-devices', title: 'Devices', step: 'devices'},
     {key: 'settings', icon: 'menu-hub-settings', title: 'Hub settings'},
     {key: 'profile', icon: 'menu-profile', title: 'Profile', step: 'profile'},
     {key: 'status', icon: 'menu-service-status', title: 'Services status'},
@@ -29,12 +29,12 @@ export class HeaderComponent extends BaseElement {
 
   clickMenu(item: any) {
     if (item.step) {
-      this.ui.step = item.step;
+      this.ui.goStep(item.step);
     }
   }
 
   addClick() {
-    this.ui.step = this.add;
+    this.ui.goStep(this.add);
   }
 
 }
