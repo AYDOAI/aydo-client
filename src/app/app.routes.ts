@@ -1,6 +1,6 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from "@angular/core";
-import {DashboardComponent} from "./components/dashboard/dashboard.component";
+import {DashboardComponent} from "./components/dashboard/main/dashboard.component";
 import {WelcomeMainComponent} from "./components/welcome/main/welcome-main.component";
 import {WelcomeSignUpComponent} from "./components/welcome/sign-up/welcome-sign-up.component";
 import {WelcomeSignInComponent} from "./components/welcome/sign-in/welcome-sign-in.component";
@@ -12,6 +12,7 @@ import {AboutComponent} from "./components/about/about.component";
 import {ProfileComponent} from "./components/profile/profile.component";
 import {StreamsComponent} from "./components/streams/streams.component";
 import {StatusComponent} from "./components/status/status.component";
+import {MainComponent} from './components/main/main.component';
 
 const routes: Routes = [
   {
@@ -58,7 +59,7 @@ const routes: Routes = [
     path: 'demo',
     component: DemoComponent,
   },
-  { path: '**', component: WelcomeMainComponent },
+  { path: '**', component: MainComponent },
 ];
 
 @NgModule({

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-streams',
   templateUrl: './streams.component.html',
   styleUrl: './streams.component.scss'
 })

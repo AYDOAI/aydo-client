@@ -33,7 +33,7 @@ import {FormConfigHubComponent} from './components/forms/config-hub/form-config-
 import {FormAddDeviceComponent} from './components/forms/add-device/form-add-device.component';
 import {FormEditDeviceComponent} from './components/forms/edit-device/form-edit-device.component';
 import {FormProfileComponent} from './components/forms/profile/form-profile.component';
-import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {DashboardComponent} from './components/dashboard/main/dashboard.component';
 import {HeaderComponent} from './elements/header/header.component';
 import {AppRoutingModule} from "./app.routes";
 import {DemoComponent} from "./components/demo/demo.component";

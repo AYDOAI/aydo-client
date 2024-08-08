@@ -99,7 +99,7 @@ export class UIService implements OnDestroy {
   }
 
   defaultStep() {
-    this._step = 'dashboard';
+    this.goStep('dashboard');
   }
 
 }

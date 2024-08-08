@@ -1,0 +1,50 @@
+
+.dashboard {
+  display: flex;
+  flex-flow: row wrap;
+  column-gap: 21px;
+  row-gap: 12px;
+  margin: 0 22px;
+}
+
+.dashboard-item {
+  border: 1px solid #060022;
+  border-radius: 12px;
+  width: 100%;
+
+  .dashboard-content {
+    margin: 16px 26px;
+
+    .title {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 140%;
+      letter-spacing: 0.05em;
+      color: #0C1821;
+    }
+
+    .content {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 140%;
+      letter-spacing: 0.05em;
+      color: #0C1821;
+    }
+  }
+}
+
+.dashboard-item.main-quests, .dashboard-item.additional-quests {
+  width: calc(50% - 13px);
+
+  .dashboard-content {
+    .title {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 120%;
+      color: #999999;
+    }
+  }
+}
