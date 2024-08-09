@@ -9,18 +9,29 @@
     <div class="space"  *ngIf="back"></div>
   </div>
   <div *ngIf="form.description" class="description">{{form.description}}</div>
-  <ng-container *ngFor="let input of form.inputs">
-    <ng-container [ngSwitch]="input.type">
-      <div *ngSwitchCase="'text'" class="text">
-        <app-input [readonly]="true" [title]="input.title" [form]="formGroup" [key]="input.key" [error]="input.error" [type]="input.inputType"></app-input>
-      </div>
-      <div *ngSwitchCase="'input'" class="input">
-        <app-input [title]="input.title" [form]="formGroup" [key]="input.key" [error]="input.error" [type]="input.inputType"></app-input>
-      </div>
-      <div *ngSwitchCase="'button'" class="button">
-        <app-button [title]="input.title" [color]="input.color" [backgroundColor]="input.backgroundColor" (onClick)="button(input)"></app-button>
-      </div>
+  <div class="form_content">
+    <ng-container *ngFor="let input of form.inputs">
+      <ng-container [ngSwitch]="input.type">
+        <div *ngSwitchCase="'string'">
+          <p> {{ input.title }} </p>
+        </div>
+        <div *ngSwitchCase="'template'" style="display: flex">
+          <ng-content></ng-content>
+        </div>
+        <div *ngSwitchCase="'text'" class="text">
+          <app-input [readonly]="true" [title]="input.title" [form]="formGroup" [key]="input.key" [error]="input.error" [type]="input.inputType"></app-input>
+        </div>
+        <div *ngSwitchCase="'input'" class="input">
+          <app-input [title]="input.title" [form]="formGroup" [key]="input.key" [error]="input.error" [type]="input.inputType"></app-input>
+        </div>
+        <div *ngSwitchCase="'button'">
+          <button class="btn {{ input.class }}" (click)="button(input)"> {{ input.title }} </button>
+        </div>
+        <div *ngSwitchCase="'checkbox'">
+          <app-checkbox [form]="formGroup" [key]="input.key" [error]="input.error" [title]="input.title"></app-checkbox>
+        </div>
+      </ng-container>
     </ng-container>
-  </ng-container>
+  </div>
   <div *ngIf="form.footer" class="footer" [innerHTML]="form.footer | safeHtml"></div>
 </div>

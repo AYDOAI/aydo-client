@@ -1,0 +1,9 @@
+<ng-container *ngIf="state ==='search'">
+  <app-form-add-hub-search></app-form-add-hub-search>
+</ng-container>
+<ng-container *ngIf="state === 'found'">
+  <app-form-add-hub-found (onNext)="state = 'add'"></app-form-add-hub-found>
+</ng-container>
+<ng-container *ngIf="state === 'add'">
+  <app-form-add-hub-manually [description]="'Aydo hub detected'"></app-form-add-hub-manually>
+</ng-container>

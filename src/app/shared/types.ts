@@ -1,3 +1,5 @@
+import { TemplateRef } from "@angular/core";
+
 export type FrameStep =
   ''
   | 'main'
@@ -15,7 +17,7 @@ export type FrameStep =
 
 export type HubType = 'hub_aydo' | 'hub_pi' | 'hub_other';
 
-export type AppFormType = 'input' | 'button' | 'text';
+export type AppFormType = 'input' | 'button' | 'text' | 'string' | 'checkbox' | 'template';
 
 export interface AppForm {
   title: string;
@@ -48,9 +50,9 @@ export interface AppFormInputs {
 // //   button_title?: string;
 // //   icon?: string;
 // //   items?: SelectItem[];
-// //   class?: string;
+   class?: string;
 // //   placeholder?: string;
-// //   readonly?: string;
+//   readonly?: string;
 // //   multi?: boolean;
 // //   rows?: number;
 // //   autocomplete?: string;
@@ -61,4 +63,5 @@ export interface AppFormInputs {
 // //   visibleField?: string;
 // //   description?: string;
   error?: string;
+  template?: TemplateRef<any>;
 }

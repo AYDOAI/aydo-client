@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {AppFormInputs} from '../../../shared/types';
 import {FormBaseComponent} from '../../form-base.component';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-form-add-hub',
@@ -8,6 +9,8 @@ import {FormBaseComponent} from '../../form-base.component';
   styleUrl: './form-add-hub.component.scss'
 })
 export class FormAddHubComponent extends FormBaseComponent {
+
+  private router = inject(Router);
 
   override onInit() {
     this.form.title = 'Add hub';
@@ -18,38 +21,23 @@ export class FormAddHubComponent extends FormBaseComponent {
       key: 'hub_aydo',
       title: 'AYDO Hub',
       type: 'button',
-      color: 'white',
-      backgroundColor: '#3E3C49'
     });
     this.form.inputs.push({
       key: 'hub_pi',
       title: 'Raspberry Pi',
       type: 'button',
-      color: 'white',
-      backgroundColor: '#060022'
     });
     this.form.inputs.push({
       key: 'hub_other',
       title: 'Other hub',
-      type: 'button',
-      color: 'white',
-      backgroundColor: '#060022'
+      type: 'button'
     });
 
     this.formGroup = this.createForm(this.form.inputs);
   }
 
   button(input: AppFormInputs) {
-    switch (input.key) {
-      case 'hub_aydo':
-        this.errors.showError('This hub will be implemented later');
-        break;
-      case 'hub_pi':
-      case 'hub_other':
-        this.ui.selectedHubType = input.key;
-        this.ui.goStep('config-hub');
-        break;
-    }
+    this.router.navigate([`/add-hub/${input.key}`])
   }
 
 }
