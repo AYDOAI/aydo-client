@@ -1,2 +1,1 @@
-<app-form [form]="form" [formGroup]="formGroup" back="add-hub"></app-form>
-<button class="btn" [disabled]="formGroup.invalid" (click)="next()">Next</button>
+<app-form [form]="form" [formGroup]="formGroup" back="add-hub" (onClickButton)="next()"></app-form>

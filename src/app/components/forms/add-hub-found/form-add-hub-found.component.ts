@@ -1,13 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormBaseComponent } from '../../form-base.component';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-form-add-hub-search',
-  templateUrl: './form-add-hub-search.component.html',
-  styleUrl: './form-add-hub-search.component.scss'
+  selector: 'app-form-add-hub-found',
+  templateUrl: './form-add-hub-found.component.html',
+  styleUrl: './form-add-hub-found.component.scss'
 })
-export class FormAddHubSearchComponent extends FormBaseComponent {
+export class FormAddHubFoundComponent extends FormBaseComponent {
+
+  @Output() onNext: EventEmitter<void> = new EventEmitter<void>()
 
   private router = inject(Router);
 
@@ -20,7 +22,12 @@ export class FormAddHubSearchComponent extends FormBaseComponent {
     });
     this.form.inputs.push({
       key: 'manually',
-      title: 'Add manually',
+      title: 'Next',
+      type: 'button',
+    });
+    this.form.inputs.push({
+      key: 'manually',
+      title: 'Go to HUB',
       type: 'button',
     });
 
@@ -28,7 +35,7 @@ export class FormAddHubSearchComponent extends FormBaseComponent {
   }
 
   public button(): void {
-    this.router.navigate([`${this.router.url.replace('automatically', 'manually')}`]);
+    this.onNext.emit();
   }
 
 }

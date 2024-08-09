@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import {FormBaseComponent} from '../../form-base.component';
-import { Router } from "@angular/router";
+import { FormBaseComponent } from '../../form-base.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-add-hub-agreement',
@@ -30,6 +30,11 @@ export class FormAddHubAgreementComponent extends FormBaseComponent {
       title: 'You agree to the application policy',
       type: 'checkbox',
       required: true
+    });
+    this.form.inputs.push({
+      key: 'btn',
+      title: 'Next',
+      type: 'button',
     });
 
     this.formGroup = this.createForm(this.form.inputs);

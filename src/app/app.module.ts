@@ -43,12 +43,14 @@ import {ProfileComponent} from "./components/profile/profile.component";
 import {StatusComponent} from "./components/status/status.component";
 import {StreamsComponent} from "./components/streams/streams.component";
 import { HubComponent } from "./components/hub/hub.component";
-import { AgreementComponent } from "./components/hub/agreement/agreement.component";
 import { CheckboxComponent } from "./elements/checkbox/checkbox.component";
 import { FormHeaderComponent } from "./elements/form-header/form-header.component";
 import { FormAddHubAgreementComponent } from "./components/forms/add-hub-agreement/form-add-hub-agreement.component";
 import { FormAddHubTypeComponent } from "./components/forms/add-hub-type/form-add-hub-type.component";
 import { FormAddHubSearchComponent } from "./components/forms/add-hub-search/form-add-hub-search.component";
+import { FormAddHubManuallyComponent } from "./components/forms/add-hub-manually/form-add-hub-manually.component";
+import { AutomaticallyComponent } from "./components/hub/automatically/automatically.component";
+import { FormAddHubFoundComponent } from "./components/forms/add-hub-found/form-add-hub-found.component";
 
 
 @NgModule({
@@ -82,11 +84,13 @@ import { FormAddHubSearchComponent } from "./components/forms/add-hub-search/for
     StatusComponent,
     StreamsComponent,
     HubComponent,
-    AgreementComponent,
     FormHeaderComponent,
     FormAddHubAgreementComponent,
     FormAddHubTypeComponent,
     FormAddHubSearchComponent,
+    FormAddHubManuallyComponent,
+    AutomaticallyComponent,
+    FormAddHubFoundComponent,
     SafeHtmlPipe,
   ],
   imports: [
