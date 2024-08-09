@@ -13,6 +13,11 @@ import {ProfileComponent} from "./components/profile/profile.component";
 import {StreamsComponent} from "./components/streams/streams.component";
 import {StatusComponent} from "./components/status/status.component";
 import {MainComponent} from './components/main/main.component';
+import { HubComponent } from "./components/hub/hub.component";
+import { FormAddHubComponent } from "./components/forms/add-hub/form-add-hub.component";
+import { FormAddHubAgreementComponent } from "./components/forms/add-hub-agreement/form-add-hub-agreement.component";
+import { FormAddHubTypeComponent } from "./components/forms/add-hub-type/form-add-hub-type.component";
+import { FormAddHubSearchComponent } from "./components/forms/add-hub-search/form-add-hub-search.component";
 
 const routes: Routes = [
   {
@@ -58,6 +63,32 @@ const routes: Routes = [
   {
     path: 'demo',
     component: DemoComponent,
+  },
+  {
+    path: 'add-hub',
+    component: HubComponent,
+    children: [
+      {
+        path: '',
+        component: FormAddHubComponent
+      },
+      {
+        path: ':hub',
+        component: FormAddHubAgreementComponent,
+      },
+      {
+        path: ':hub/search',
+        component: FormAddHubTypeComponent,
+      },
+      {
+        path: ':hub/search/automatically',
+        component: FormAddHubSearchComponent,
+      },
+      {
+        path: ':hub/search/manually',
+        component: FormAddHubComponent,
+      }
+    ]
   },
   { path: '**', component: MainComponent },
 ];

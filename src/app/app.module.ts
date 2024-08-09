@@ -42,6 +42,14 @@ import {SettingsComponent} from "./components/settings/settings.component";
 import {ProfileComponent} from "./components/profile/profile.component";
 import {StatusComponent} from "./components/status/status.component";
 import {StreamsComponent} from "./components/streams/streams.component";
+import { HubComponent } from "./components/hub/hub.component";
+import { AgreementComponent } from "./components/hub/agreement/agreement.component";
+import { CheckboxComponent } from "./elements/checkbox/checkbox.component";
+import { FormHeaderComponent } from "./elements/form-header/form-header.component";
+import { FormAddHubAgreementComponent } from "./components/forms/add-hub-agreement/form-add-hub-agreement.component";
+import { FormAddHubTypeComponent } from "./components/forms/add-hub-type/form-add-hub-type.component";
+import { FormAddHubSearchComponent } from "./components/forms/add-hub-search/form-add-hub-search.component";
+
 
 @NgModule({
   declarations: [
@@ -64,6 +72,7 @@ import {StreamsComponent} from "./components/streams/streams.component";
     SvgIconComponent,
     ButtonComponent,
     InputComponent,
+    CheckboxComponent,
     FormComponent,
     HeaderComponent,
     DemoComponent,
@@ -72,6 +81,12 @@ import {StreamsComponent} from "./components/streams/streams.component";
     ProfileComponent,
     StatusComponent,
     StreamsComponent,
+    HubComponent,
+    AgreementComponent,
+    FormHeaderComponent,
+    FormAddHubAgreementComponent,
+    FormAddHubTypeComponent,
+    FormAddHubSearchComponent,
     SafeHtmlPipe,
   ],
   imports: [
