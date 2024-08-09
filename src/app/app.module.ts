@@ -9,10 +9,10 @@ import {Storage} from '@ionic/storage';
 import {AppComponent} from './app.component';
 
 import {SafeHtmlPipe} from './shared/safe-html.pipe';
-import {HttpHeadersInterceptor} from "./shared/http-headers.interceptor";
+import {HttpHeadersInterceptor} from './shared/http-headers.interceptor';
 
 import {UIService} from './services/ui.service';
-import {StorageService} from "./services/storage.service";
+import {StorageService} from './services/storage.service';
 
 import {SvgDefinitionsComponent} from './elements/svg-definitions/svg-definitions.component';
 import {SvgIconComponent} from './elements/svg-icon/svg-icon.component';
@@ -35,22 +35,23 @@ import {FormEditDeviceComponent} from './components/forms/edit-device/form-edit-
 import {FormProfileComponent} from './components/forms/profile/form-profile.component';
 import {DashboardComponent} from './components/dashboard/main/dashboard.component';
 import {HeaderComponent} from './elements/header/header.component';
-import {AppRoutingModule} from "./app.routes";
-import {DemoComponent} from "./components/demo/demo.component";
-import {AboutComponent} from "./components/about/about.component";
-import {SettingsComponent} from "./components/settings/settings.component";
-import {ProfileComponent} from "./components/profile/profile.component";
-import {StatusComponent} from "./components/status/status.component";
-import {StreamsComponent} from "./components/streams/streams.component";
-import { HubComponent } from "./components/hub/hub.component";
-import { CheckboxComponent } from "./elements/checkbox/checkbox.component";
-import { FormHeaderComponent } from "./elements/form-header/form-header.component";
-import { FormAddHubAgreementComponent } from "./components/forms/add-hub-agreement/form-add-hub-agreement.component";
-import { FormAddHubTypeComponent } from "./components/forms/add-hub-type/form-add-hub-type.component";
-import { FormAddHubSearchComponent } from "./components/forms/add-hub-search/form-add-hub-search.component";
-import { FormAddHubManuallyComponent } from "./components/forms/add-hub-manually/form-add-hub-manually.component";
-import { AutomaticallyComponent } from "./components/hub/automatically/automatically.component";
-import { FormAddHubFoundComponent } from "./components/forms/add-hub-found/form-add-hub-found.component";
+import {AppRoutingModule} from './app.routes';
+import {DemoComponent} from './components/demo/demo.component';
+import {AboutComponent} from './components/about/about.component';
+import {SettingsComponent} from './components/settings/settings.component';
+import {ProfileComponent} from './components/profile/profile.component';
+import {StatusComponent} from './components/status/status.component';
+import {StreamsComponent} from './components/streams/streams.component';
+import { HubComponent } from './components/hub/hub.component';
+import { CheckboxComponent } from './elements/checkbox/checkbox.component';
+import { FormHeaderComponent } from './elements/form-header/form-header.component';
+import { FormAddHubAgreementComponent } from './components/forms/add-hub-agreement/form-add-hub-agreement.component';
+import { FormAddHubTypeComponent } from './components/forms/add-hub-type/form-add-hub-type.component';
+import { FormAddHubSearchComponent } from './components/forms/add-hub-search/form-add-hub-search.component';
+import { FormAddHubManuallyComponent } from './components/forms/add-hub-manually/form-add-hub-manually.component';
+import { AutomaticallyComponent } from './components/hub/automatically/automatically.component';
+import { FormAddHubFoundComponent } from './components/forms/add-hub-found/form-add-hub-found.component';
+import { FormAddHubConnectedComponent } from './components/forms/add-hub-connected/form-add-hub-connected.component';
 
 
 @NgModule({
@@ -91,6 +92,7 @@ import { FormAddHubFoundComponent } from "./components/forms/add-hub-found/form-
     FormAddHubManuallyComponent,
     AutomaticallyComponent,
     FormAddHubFoundComponent,
+    FormAddHubConnectedComponent,
     SafeHtmlPipe,
   ],
   imports: [

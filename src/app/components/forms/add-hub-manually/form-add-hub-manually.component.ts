@@ -1,6 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { FormBaseComponent } from '../../form-base.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-add-hub-manually',
@@ -12,6 +12,7 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
   @Input() description = '';
 
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
 
   override onInit() {
     this.form.title = 'Add hub';
@@ -44,7 +45,8 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
   }
 
   public button(): void {
-    this.router.navigate([`${this.router.url}/manually`]);
+    const hub = this.activatedRoute.snapshot.paramMap.get('hub');
+    this.router.navigate([`add-hub/${hub}/connected`]);
   }
 
 }

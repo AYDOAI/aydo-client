@@ -19,6 +19,10 @@ export class FormAddHubSearchComponent extends FormBaseComponent {
       type: 'string'
     });
     this.form.inputs.push({
+      key: '', title: '',
+      type: 'template'
+    })
+    this.form.inputs.push({
       key: 'manually',
       title: 'Add manually',
       type: 'button',

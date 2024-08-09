@@ -20,6 +20,7 @@ import { FormAddHubTypeComponent } from "./components/forms/add-hub-type/form-ad
 import { FormAddHubSearchComponent } from "./components/forms/add-hub-search/form-add-hub-search.component";
 import { FormAddHubManuallyComponent } from "./components/forms/add-hub-manually/form-add-hub-manually.component";
 import { AutomaticallyComponent } from "./components/hub/automatically/automatically.component";
+import { FormAddHubConnectedComponent } from "./components/forms/add-hub-connected/form-add-hub-connected.component";
 
 const routes: Routes = [
   {
@@ -89,6 +90,10 @@ const routes: Routes = [
       {
         path: ':hub/search/manually',
         component: FormAddHubManuallyComponent,
+      },
+      {
+        path: ':hub/connected',
+        component: FormAddHubConnectedComponent
       }
     ]
   },

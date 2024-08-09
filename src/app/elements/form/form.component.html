@@ -15,6 +15,9 @@
         <div *ngSwitchCase="'string'">
           <p> {{ input.title }} </p>
         </div>
+        <div *ngSwitchCase="'template'" style="display: flex">
+          <ng-content></ng-content>
+        </div>
         <div *ngSwitchCase="'text'" class="text">
           <app-input [readonly]="true" [title]="input.title" [form]="formGroup" [key]="input.key" [error]="input.error" [type]="input.inputType"></app-input>
         </div>
