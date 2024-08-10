@@ -63,5 +63,6 @@ export interface AppFormInputs {
 // //   visibleField?: string;
 // //   description?: string;
   error?: string;
+  icon?: string;
   template?: TemplateRef<any>;
 }

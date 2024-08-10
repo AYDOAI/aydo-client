@@ -25,7 +25,10 @@
           <app-input [title]="input.title" [form]="formGroup" [key]="input.key" [error]="input.error" [type]="input.inputType"></app-input>
         </div>
         <div *ngSwitchCase="'button'">
-          <button class="btn {{ input.class }}" (click)="button(input)"> {{ input.title }} </button>
+          <button class="btn {{ input.class }}" (click)="button(input)">
+            {{ input.title }}
+            <span *ngIf="!!input.icon" class="icon {{ input.icon }}"></span>
+          </button>
         </div>
         <div *ngSwitchCase="'checkbox'">
           <app-checkbox [form]="formGroup" [key]="input.key" [error]="input.error" [title]="input.title"></app-checkbox>

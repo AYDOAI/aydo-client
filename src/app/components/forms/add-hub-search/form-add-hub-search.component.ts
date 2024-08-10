@@ -26,6 +26,7 @@ export class FormAddHubSearchComponent extends FormBaseComponent {
       key: 'manually',
       title: 'Add manually',
       type: 'button',
+      icon: 'icon-plus'
     });
 
     this.formGroup = this.createForm(this.form.inputs);
