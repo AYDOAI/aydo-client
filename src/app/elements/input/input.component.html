@@ -1,16 +1,19 @@
-<div #parent *ngIf="form" #formContainer class="input-container" [formGroup]="form" [ngClass]="{'input-error': !!error}"
+<div *ngIf="form"
+     [formGroup]="form"
+     class="input-wrapper"
+     [class.has-error]="!!error"
      (touchend)="touchend($event)">
-  <div class="input-title shaded-color-primary">
-    <div>{{title}}</div>
-  </div>
-  <div class="input-input-container">
-    <textarea *ngIf="type === 'textarea'" class="input-input" [rows]="rows" [formControlName]="key"></textarea>
-    <input *ngIf="type !== 'textarea'" #input class="input-input" [formControlName]="key" [type]="type"
-           [placeholder]="placeholder ? placeholder : ''"
-           [readonly]="readonly"
-           (keyup)="keyUp($event)">
-<!--    <svg-icon *ngIf="type !== 'textarea' && icon" [name]="type === 'file' ? 'folder' : 'edit'" class="input-edit-icon" (click)="edit()"></svg-icon>-->
-  </div>
+  <input *ngIf="type !== 'textarea'"
+         [class.has-value]="!!form.get(key)?.value"
+         [class.has-label]="!!title"
+         [id]="key"
+         [formControlName]="key"
+         [disabled]="readonly"
+         type="text">
+  <textarea *ngIf="type === 'textarea'" class="input-input" [rows]="rows" [formControlName]="key" [id]="key"></textarea>
+  <label *ngIf="!!title"
+         class="label-text"
+         [for]="key">{{ title }}</label>
 </div>
 
 <div *ngIf="error" class="input-error-text">
