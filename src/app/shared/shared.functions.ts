@@ -8,3 +8,7 @@ export function jsonStringify(value: any, replacer?: any, space?: string | numbe
     return '';
   }
 }
+
+export function between(min: number, max: number) {
+  return Math.round(Math.random() * (max - min) + min);
+}

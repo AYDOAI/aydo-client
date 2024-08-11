@@ -1,39 +1,52 @@
 <app-header title="Dashboard"></app-header>
 
 <div class="dashboard">
-  <div class="dashboard-item skew notification">
+  <div class="dashboard-item notification">
+    <svg-icon *ngIf="notifications.length" name="close" class="close-icon" (click)="closeNotification()"></svg-icon>
     <div class="dashboard-content">
-      <div class="title">New notification</div>
-      <div class="content">New project available</div>
+      <div class="title">{{notifications.length ? 'New notification' : 'No notifications'}}</div>
+      <div *ngIf="notifications.length" class="content">{{notifications[0].title}}</div>
     </div>
   </div>
 
-    <div class="dashboard-item skew rewards">
-      <div class="dashboard-content">
-        <div class="title">Rewards</div>
-        <div class="content"></div>
+  <div class="dashboard-item rewards">
+    <svg-icon *ngIf="rewards.length" name="arrow" class="arrow-icon"></svg-icon>
+    <div class="dashboard-content">
+      <div class="title">Rewards</div>
+      <div class="content">
+        <div class="reward" *ngFor="let reward of rewards">
+          <div class="reward-content">
+            <div>{{reward.title}}</div>
+            <div class="reward-value" [style.margin-top]="reward.marginTop">
+              <div>{{reward.value}}{{reward.measure}}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="dashboard-item skew main-quests">
-      <div class="dashboard-content">
-        <div class="title">Main quests</div>
-        <div class="content"></div>
-      </div>
+  <div class="dashboard-item main-quests">
+    <svg-icon *ngIf="mainQuests.length" name="arrow" class="arrow-icon"></svg-icon>
+    <div class="dashboard-content">
+      <div class="title">Main quests</div>
+      <div class="content">{{mainQuests.length}} active quests</div>
     </div>
+  </div>
 
-    <div class="dashboard-item skew additional-quests">
-      <div class="dashboard-content">
-        <div class="title">Additional quests</div>
-        <div class="content"></div>
-      </div>
+  <div class="dashboard-item additional-quests">
+    <svg-icon *ngIf="additionalQuests.length" name="arrow" class="arrow-icon"></svg-icon>
+    <div class="dashboard-content">
+      <div class="title">Additional quests</div>
+      <div class="content">{{additionalQuests.length}} active quests</div>
     </div>
+  </div>
 
-    <div class="dashboard-item skew ranking">
-      <div class="dashboard-content">
-        <div class="title">Ranking</div>
-        <div class="content"></div>
-      </div>
+  <div class="dashboard-item ranking" *ngIf="ranking">
+    <div class="dashboard-content">
+      <div class="title">Ranking</div>
+      <div class="content">{{ranking.title}}</div>
     </div>
+  </div>
 
 </div>

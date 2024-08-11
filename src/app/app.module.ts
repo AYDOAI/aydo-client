@@ -32,7 +32,6 @@ import {FormAddHubComponent} from './components/forms/add-hub/form-add-hub.compo
 import {FormConfigHubComponent} from './components/forms/config-hub/form-config-hub.component';
 import {FormAddDeviceComponent} from './components/forms/add-device/form-add-device.component';
 import {FormEditDeviceComponent} from './components/forms/edit-device/form-edit-device.component';
-import {FormProfileComponent} from './components/forms/profile/form-profile.component';
 import {DashboardComponent} from './components/dashboard/main/dashboard.component';
 import {HeaderComponent} from './elements/header/header.component';
 import {AppRoutingModule} from './app.routes';
@@ -42,16 +41,16 @@ import {SettingsComponent} from './components/settings/settings.component';
 import {ProfileComponent} from './components/profile/profile.component';
 import {StatusComponent} from './components/status/status.component';
 import {StreamsComponent} from './components/streams/streams.component';
-import { HubComponent } from './components/hub/hub.component';
-import { CheckboxComponent } from './elements/checkbox/checkbox.component';
-import { FormHeaderComponent } from './elements/form-header/form-header.component';
-import { FormAddHubAgreementComponent } from './components/forms/add-hub-agreement/form-add-hub-agreement.component';
-import { FormAddHubTypeComponent } from './components/forms/add-hub-type/form-add-hub-type.component';
-import { FormAddHubSearchComponent } from './components/forms/add-hub-search/form-add-hub-search.component';
-import { FormAddHubManuallyComponent } from './components/forms/add-hub-manually/form-add-hub-manually.component';
-import { AutomaticallyComponent } from './components/hub/automatically/automatically.component';
-import { FormAddHubFoundComponent } from './components/forms/add-hub-found/form-add-hub-found.component';
-import { FormAddHubConnectedComponent } from './components/forms/add-hub-connected/form-add-hub-connected.component';
+import {HubComponent} from './components/hub/hub.component';
+import {CheckboxComponent} from './elements/checkbox/checkbox.component';
+import {FormHeaderComponent} from './elements/form-header/form-header.component';
+import {FormAddHubAgreementComponent} from './components/forms/add-hub-agreement/form-add-hub-agreement.component';
+import {FormAddHubTypeComponent} from './components/forms/add-hub-type/form-add-hub-type.component';
+import {FormAddHubSearchComponent} from './components/forms/add-hub-search/form-add-hub-search.component';
+import {FormAddHubManuallyComponent} from './components/forms/add-hub-manually/form-add-hub-manually.component';
+import {AutomaticallyComponent} from './components/hub/automatically/automatically.component';
+import {FormAddHubFoundComponent} from './components/forms/add-hub-found/form-add-hub-found.component';
+import {FormAddHubConnectedComponent} from './components/forms/add-hub-connected/form-add-hub-connected.component';
 
 
 @NgModule({
@@ -69,7 +68,6 @@ import { FormAddHubConnectedComponent } from './components/forms/add-hub-connect
     FormConfigHubComponent,
     FormAddDeviceComponent,
     FormEditDeviceComponent,
-    FormProfileComponent,
     DevicesComponent,
     SvgDefinitionsComponent,
     SvgIconComponent,
