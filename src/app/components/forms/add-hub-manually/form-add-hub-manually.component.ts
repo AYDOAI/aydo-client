@@ -33,12 +33,14 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
     this.form.inputs.push({
       key: 'signIn',
       title: 'Sign in',
-      type: 'button'
+      type: 'button',
+      icon: 'icon-right'
     });
     this.form.inputs.push({
       key: 'scan',
       title: 'Scan QR Code',
-      type: 'button'
+      type: 'button',
+      icon: 'icon-right'
     });
 
     this.formGroup = this.createForm(this.form.inputs);

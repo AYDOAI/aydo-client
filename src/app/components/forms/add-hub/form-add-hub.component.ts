@@ -21,16 +21,19 @@ export class FormAddHubComponent extends FormBaseComponent {
       key: 'hub_aydo',
       title: 'AYDO Hub',
       type: 'button',
+      icon: 'icon-plus'
     });
     this.form.inputs.push({
       key: 'hub_pi',
       title: 'Raspberry Pi',
       type: 'button',
+      icon: 'icon-plus'
     });
     this.form.inputs.push({
       key: 'hub_other',
       title: 'Other hub',
-      type: 'button'
+      type: 'button',
+      icon: 'icon-plus'
     });
 
     this.formGroup = this.createForm(this.form.inputs);

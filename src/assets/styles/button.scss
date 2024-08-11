@@ -36,4 +36,8 @@
   &:hover {
     opacity: 0.7;
   }
+
+  &:has(.icon) {
+    justify-content: space-between;
+  }
 }

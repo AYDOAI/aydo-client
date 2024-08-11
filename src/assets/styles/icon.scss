@@ -1,0 +1,31 @@
+.icon {
+  display: inline-block;
+  flex-shrink: 0;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.icon-loading {
+  width: 114px;
+  height: 114px;
+  background-image: url('../icons/icon-loading.svg');
+}
+
+.icon-success {
+  width: 114px;
+  height: 114px;
+  background-image: url('../icons/icon-success.svg');
+}
+
+.icon-right {
+  width: 4px;
+  height: 8px;
+  background-image: url('../icons/icon-right.svg');
+}
+
+.icon-plus {
+  width: 8px;
+  height: 8px;
+  background-image: url('../icons/icon-plus.svg');
+}

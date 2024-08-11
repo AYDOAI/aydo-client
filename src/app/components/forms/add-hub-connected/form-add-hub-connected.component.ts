@@ -18,6 +18,7 @@ export class FormAddHubConnectedComponent extends FormBaseComponent {
       key: 'btn',
       title: 'Go to dashboard',
       type: 'button',
+      icon: 'icon-right'
     });
 
     this.formGroup = this.createForm(this.form.inputs);
