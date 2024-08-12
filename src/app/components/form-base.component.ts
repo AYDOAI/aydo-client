@@ -6,6 +6,7 @@ import {BackendService} from '../services/backend.service';
 import {ErrorsService} from "../services/errors.service";
 import {StorageService} from "../services/storage.service";
 import {UIService} from '../services/ui.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-form-base',
@@ -20,8 +21,9 @@ export class FormBaseComponent extends BaseComponent {
               public override backend: BackendService,
               public override errors: ErrorsService,
               public override storage: StorageService,
+              public override router: Router,
               public override fb: FormBuilder) {
-    super(ui, backend, errors, storage, fb);
+    super(ui, backend, errors, storage, router, fb);
   }
 
   select(event: FrameStep) {

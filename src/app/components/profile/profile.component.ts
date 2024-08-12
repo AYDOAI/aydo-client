@@ -11,31 +11,33 @@ export class ProfileComponent extends FormBaseComponent {
 
   override onInit() {
     this.form.title = 'Profile';
+    if (this.ui.user) {
 
-    this.form.inputs.push({
-      key: 'firstname',
-      title: 'First name',
-      type: 'text',
-      defaultValue: this.ui.user.firstname,
-    });
-    this.form.inputs.push({
-      key: 'lastname',
-      title: 'Last name',
-      type: 'text',
-      defaultValue: this.ui.user.lastname,
-    });
-    this.form.inputs.push({
-      key: 'login',
-      title: 'Login',
-      type: 'text',
-      defaultValue: this.ui.user.login,
-    });
-    this.form.inputs.push({
-      key: 'balance',
-      title: 'Balance',
-      type: 'text',
-      defaultValue: this.ui.user.balance,
-    });
+      this.form.inputs.push({
+        key: 'firstname',
+        title: 'First name',
+        type: 'text',
+        defaultValue: this.ui.user.firstname,
+      });
+      this.form.inputs.push({
+        key: 'lastname',
+        title: 'Last name',
+        type: 'text',
+        defaultValue: this.ui.user.lastname,
+      });
+      this.form.inputs.push({
+        key: 'login',
+        title: 'Login',
+        type: 'text',
+        defaultValue: this.ui.user.login,
+      });
+      this.form.inputs.push({
+        key: 'balance',
+        title: 'Balance',
+        type: 'text',
+        defaultValue: this.ui.user.balance,
+      });
+    }
     this.form.inputs.push({
       key: 'logout',
       title: 'Logout',
@@ -54,7 +56,8 @@ export class ProfileComponent extends FormBaseComponent {
         this.storage.token = '';
         this.storage.refreshToken = '';
         this.storage.serverId = '';
-        this.ui.goStep('main');
+        this.router.navigate(['/login']);
+        // this.ui.goStep('main');
         break;
     }
   }

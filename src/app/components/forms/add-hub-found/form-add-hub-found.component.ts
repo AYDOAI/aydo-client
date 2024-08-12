@@ -1,6 +1,5 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
-import { FormBaseComponent } from '../../form-base.component';
-import { Router } from '@angular/router';
+import {Component, EventEmitter, Output} from '@angular/core';
+import {FormBaseComponent} from '../../form-base.component';
 
 @Component({
   selector: 'app-form-add-hub-found',
@@ -10,8 +9,6 @@ import { Router } from '@angular/router';
 export class FormAddHubFoundComponent extends FormBaseComponent {
 
   @Output() onNext: EventEmitter<void> = new EventEmitter<void>()
-
-  private router = inject(Router);
 
   override onInit() {
     this.form.title = 'Add hub';

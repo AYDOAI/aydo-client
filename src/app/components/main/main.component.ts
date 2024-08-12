@@ -6,6 +6,7 @@ import {StorageService} from '../../services/storage.service';
 import {FormBuilder} from '@angular/forms';
 import {UIService} from '../../services/ui.service';
 import {BaseComponent} from '../base.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -21,8 +22,9 @@ export class MainComponent extends BaseComponent {
               public override backend: BackendService,
               public override errors: ErrorsService,
               public override storage: StorageService,
+              public override router: Router,
               public override fb: FormBuilder) {
-    super(ui, backend, errors, storage, fb);
+    super(ui, backend, errors, storage, router, fb);
     this.showErrorSub = this.errors.showErrorSub().subscribe((data: any) => {
       this.error.push(data);
     });

@@ -1,6 +1,6 @@
-import { Component, inject, Input } from '@angular/core';
-import { FormBaseComponent } from '../../form-base.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component, inject, Input} from '@angular/core';
+import {FormBaseComponent} from '../../form-base.component';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-form-add-hub-manually',
@@ -11,7 +11,6 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
 
   @Input() description = '';
 
-  private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
 
   override onInit() {

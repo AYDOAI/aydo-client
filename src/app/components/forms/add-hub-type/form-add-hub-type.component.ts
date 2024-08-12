@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
+import {Component} from '@angular/core';
 import {AppFormInputs} from '../../../shared/types';
 import {FormBaseComponent} from '../../form-base.component';
-import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-form-add-hub-type',
@@ -9,8 +8,6 @@ import { Router } from "@angular/router";
   styleUrl: './form-add-hub-type.component.scss'
 })
 export class FormAddHubTypeComponent extends FormBaseComponent {
-
-  private router = inject(Router);
 
   override onInit() {
     this.form.title = 'Add hub';
