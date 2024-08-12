@@ -1,5 +1,5 @@
 .caption {
-  margin-left: 20px;
+  margin: 0 20px 30px;
   display: flex;
 
   .card {
@@ -15,5 +15,45 @@
 
   .title {
     margin: auto;
+  }
+}
+
+.balance {
+  margin: 0 20px 12px;
+  display: flex;
+  column-gap: 16px;
+
+  .card {
+    width: calc(50%);
+
+    .card-content {
+      .title {
+        margin: 8px 10px;
+      }
+
+      .balance-title-value {
+        margin: 8px 10px;
+      }
+    }
+  }
+}
+
+.history {
+  margin: 0 20px 12px;
+
+  .title {
+    margin-bottom: 16px;
+  }
+
+  .transfers {
+    display: flex;
+    column-gap: 16px;
+    flex-flow: row wrap;
+
+    .transfer {
+      border: 1px solid #060022;
+      border-radius: 6px;
+      padding: 10px;
+    }
   }
 }

@@ -7,3 +7,38 @@
   </div>
   <div class="title">Your reward multiplier x {{reward.multiplier}}</div>
 </div>
+
+<div class="balance" *ngIf="reward">
+  <div class="points card">
+    <div class="card-content">
+      <div class="title">Balance of reward points</div>
+      <div class="balance-title-value">
+        <div>Your balance</div>
+        <div>{{reward.points}} Points</div>
+      </div>
+    </div>
+  </div>
+  <div class="tokens card">
+    <div class="card-content">
+      <div class="title">Balance of AYDO tokens</div>
+      <div class="balance-title-value">
+        <div>Your tokens</div>
+        <div>{{reward.tokens}}$</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="history">
+  <div class="card">
+    <div class="card-content">
+      <div class="title">History of transfers</div>
+      <div class="transfers">
+        <div *ngFor="let history of reward.history" class="transfer">
+          <div>Transfer</div>
+          <div>{{history.value > 0 ? '+' : ''}}{{history.value}}{{history.type === 'tokens' ? '$' : ' Points'}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
