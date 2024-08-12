@@ -51,7 +51,7 @@ import {FormAddHubManuallyComponent} from './components/forms/add-hub-manually/f
 import {AutomaticallyComponent} from './components/hub/automatically/automatically.component';
 import {FormAddHubFoundComponent} from './components/forms/add-hub-found/form-add-hub-found.component';
 import {FormAddHubConnectedComponent} from './components/forms/add-hub-connected/form-add-hub-connected.component';
-
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   declarations: [
@@ -96,6 +96,7 @@ import {FormAddHubConnectedComponent} from './components/forms/add-hub-connected
   imports: [
     AppRoutingModule,
     BrowserModule,
+    IonicModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
