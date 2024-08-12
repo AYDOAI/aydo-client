@@ -2,18 +2,18 @@ import {Injectable} from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
-  HttpEvent,
+  HttpEvent, HttpErrorResponse,
 } from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import {map} from 'rxjs/operators';
 import {StorageService} from "../services/storage.service";
+import { UIService } from "../services/ui.service";
 
 @Injectable()
 export class HttpHeadersInterceptor implements HttpHeadersInterceptor {
 
-  constructor(public storage: StorageService) {
-
-  }
+  constructor(public storage: StorageService,
+              private ui: UIService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const index = request.url.indexOf('?token=');
@@ -40,6 +40,12 @@ export class HttpHeadersInterceptor implements HttpHeadersInterceptor {
     request = request.clone({headers: request.headers.set('Accept', 'application/json')});
 
     return next.handle(request).pipe(
+      catchError((err: HttpErrorResponse) => {
+        if (err.status === 401) {
+          this.ui.logout();
+        }
+        return throwError(err);
+      }),
       map((event: HttpEvent<any>) => {
         return event;
       }));
