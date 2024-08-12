@@ -1,5 +1,5 @@
 <app-header title="Rewards"></app-header>
-<div class="caption" *ngIf="reward">
+<div *ngIf="reward" class="caption">
   <div class="card very-small" (click)="goBack()">
     <div class="card-content">
       <svg-icon name="arrow-left"></svg-icon>
@@ -9,12 +9,12 @@
 </div>
 
 <div class="rewards">
-  <div class="card-row">
+  <div *ngIf="reward" class="card-row">
     <div class="card small">
       <div class="card-content">
         <div class="card-title">Balance of reward points</div>
         <span class="balance">Your balance</span>
-        <span class="amount">40.000 $</span>
+        <span class="amount">{{reward.points}} $</span>
       </div>
     </div>
 
@@ -22,7 +22,7 @@
       <div class="card-content">
         <div class="card-title">Balance of AYDO tokens</div>
         <span class="balance">Your tokens</span>
-        <span class="amount">12.340</span>
+        <span class="amount">{{reward.tokens}} Points</span>
       </div>
     </div>
   </div>
@@ -35,9 +35,9 @@
       </div>
 
       <div class="chips">
-        <div class="chips_item">
+        <div *ngFor="let history of reward.history" class="chips_item">
           <span class="operation">Transfer</span>
-          <span class="arrival">+40 $</span>
+          <span class="arrival">{{history.value > 0 ? '+' : ''}}{{history.value}}{{history.type === 'tokens' ? '$' : ' Points'}}</span>
         </div>
       </div>
     </div>

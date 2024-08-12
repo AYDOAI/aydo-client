@@ -14,10 +14,16 @@ export interface Notifications {
   items: Notification[];
 }
 
+export interface RewardHistory {
+  value: number;
+  type: 'tokens' | 'points';
+}
+
 export interface Reward {
   multiplier: number;
   points: number;
   tokens: number;
+  history: RewardHistory[];
 }
 
 export interface Quest {
