@@ -40,6 +40,16 @@ export interface Ranking {
   title: string;
 }
 
+export interface DataStream {
+  title: string;
+  description: string;
+  status: 'Active' | 'Pending' | 'Not Active';
+}
+
+export interface DataStreams {
+  items: DataStream[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -116,6 +126,16 @@ export class BackendService {
     {title: 'Expert'},
     {title: 'Junior'},
   ];
+  dataStreams: DataStreams = {
+    items: [
+      {title: 'Project #1', description: 'Project for blockchain elite reward', status: 'Active'},
+      {title: 'Project #2', description: 'Project for blockchain elite reward', status: 'Pending'},
+      {title: 'Project #3', description: 'Project for blockchain elite reward', status: 'Not Active'},
+      {title: 'Project #4', description: 'Project for blockchain elite reward', status: 'Active'},
+      {title: 'Project #5', description: 'Project for blockchain elite reward', status: 'Pending'},
+      {title: 'Project #6', description: 'Project for blockchain elite reward', status: 'Not Active'},
+    ]
+  };
 
   constructor(public request: RequestService,
               public storage: StorageService) {
@@ -241,6 +261,12 @@ export class BackendService {
   getRanking(): Promise<any> {
     return new Promise((resolve, reject) => {
       resolve(this.rankings[this.randomIndex]);
+    });
+  }
+
+  getDataStreams(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      resolve(this.dataStreams);
     });
   }
 

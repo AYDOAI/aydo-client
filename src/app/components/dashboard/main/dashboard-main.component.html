@@ -34,14 +34,14 @@
     </div>
   </div>
 
-  <div class="dashboard-item main-quests card small" (click)="navigate('main-quests')">
+  <div class="dashboard-item main-quests card small" (click)="navigate('main-quests', mainQuests)">
     <div class="dashboard-content card-content">
       <div class="title">Main quests <span *ngIf="mainQuests.length" class="icon icon-right-dark"></span></div>
       <div class="content">{{mainQuests.length}} active quests</div>
     </div>
   </div>
 
-  <div class="dashboard-item additional-quests card small" (click)="navigate('additional-quests')">
+  <div class="dashboard-item additional-quests card small" (click)="navigate('additional-quests', additionalQuests)">
     <div class="dashboard-content card-content">
       <div class="title">Additional quests <span *ngIf="additionalQuests.length" class="icon icon-right-dark"></span></div>
       <div class="content">{{additionalQuests.length}} active quests</div>

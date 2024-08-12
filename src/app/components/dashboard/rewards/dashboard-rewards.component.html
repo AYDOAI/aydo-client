@@ -31,13 +31,14 @@
     <div class="card-content">
       <div class="card-title">
         History of transfers
-        <span class="icon icon-right-dark"></span>
+        <span *ngIf="false" class="icon icon-right-dark"></span>
       </div>
 
       <div class="chips">
         <div *ngFor="let history of reward.history" class="chips_item">
           <span class="operation">Transfer</span>
-          <span class="arrival">{{history.value > 0 ? '+' : ''}}{{history.value}}{{history.type === 'tokens' ? '$' : ' Points'}}</span>
+          <span
+              class="arrival">{{history.value > 0 ? '+' : ''}}{{history.value}}{{history.type === 'tokens' ? '$' : ' Points'}}</span>
         </div>
       </div>
     </div>

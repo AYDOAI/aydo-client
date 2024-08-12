@@ -1,1 +1,26 @@
 <app-header title="Data streams"></app-header>
+
+<div class="streams">
+  <ng-container *ngIf="dataStreams">
+    <div class="card long" *ngFor="let stream of dataStreams">
+      <div class="card-content">
+        <div>
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="19.7" fill="#EEF1E7" stroke="black" stroke-width="0.6"/>
+          </svg>
+        </div>
+        <div class="project-content">
+          <div class="card-title">
+            {{stream.title}}
+          </div>
+          <div class="card-status">
+            {{stream.status}}
+          </div>
+          <div class="card-desc">
+            {{stream.description}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
