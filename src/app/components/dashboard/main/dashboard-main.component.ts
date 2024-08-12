@@ -3,11 +3,11 @@ import {BaseComponent} from '../../base.component';
 import {Notification, Quest, Ranking, Reward} from '../../../services/backend.service';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  selector: 'app-dashboard-main',
+  templateUrl: './dashboard-main.component.html',
+  styleUrl: './dashboard-main.component.scss'
 })
-export class DashboardComponent extends BaseComponent {
+export class DashboardMainComponent extends BaseComponent {
 
   notifications: Notification[] = [];
   rewards: Reward[] = [];
@@ -40,6 +40,10 @@ export class DashboardComponent extends BaseComponent {
 
   closeNotification() {
     this.notifications.splice(0, 1);
+  }
+
+  showRewards() {
+    this.router.navigate(['dashboard', 'rewards'])
   }
 
 }

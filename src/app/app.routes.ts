@@ -1,6 +1,5 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {DashboardComponent} from './components/dashboard/main/dashboard.component';
 import {WelcomeSignUpComponent} from './components/welcome/sign-up/welcome-sign-up.component';
 import {WelcomeSignInComponent} from './components/welcome/sign-in/welcome-sign-in.component';
 import {DevicesComponent} from './components/devices/devices.component';
@@ -19,6 +18,9 @@ import {FormAddHubManuallyComponent} from './components/forms/add-hub-manually/f
 import {AutomaticallyComponent} from './components/hub/automatically/automatically.component';
 import {FormAddHubConnectedComponent} from './components/forms/add-hub-connected/form-add-hub-connected.component';
 import {WelcomeMainComponent} from './components/welcome/main/welcome-main.component';
+import {DashboardRewardsComponent} from './components/dashboard/rewards/dashboard-rewards.component';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {DashboardMainComponent} from './components/dashboard/main/dashboard-main.component';
 
 const routes: Routes = [
   {
@@ -36,6 +38,16 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    children: [
+      {
+        path: '',
+        component: DashboardMainComponent
+      },
+      {
+        path: 'rewards',
+        component: DashboardRewardsComponent
+      }
+    ]
   },
   {
     path: 'devices',

@@ -1,17 +1,17 @@
 <app-header title="Dashboard"></app-header>
 
 <div class="dashboard">
-  <div class="dashboard-item notification">
+  <div class="dashboard-item notification card">
     <svg-icon *ngIf="notifications.length" name="close" class="close-icon" (click)="closeNotification()"></svg-icon>
-    <div class="dashboard-content">
+    <div class="dashboard-content card-content">
       <div class="title">{{notifications.length ? 'New notification' : 'No notifications'}}</div>
       <div *ngIf="notifications.length" class="content">{{notifications[0].title}}</div>
     </div>
   </div>
 
-  <div class="dashboard-item rewards">
+  <div class="dashboard-item rewards card" (click)="showRewards()">
     <svg-icon *ngIf="rewards.length" name="arrow" class="arrow-icon"></svg-icon>
-    <div class="dashboard-content">
+    <div class="dashboard-content card-content">
       <div class="title">Rewards</div>
       <div class="content">
         <div class="reward" *ngFor="let reward of rewards">
@@ -26,24 +26,24 @@
     </div>
   </div>
 
-  <div class="dashboard-item main-quests">
+  <div class="dashboard-item main-quests card">
     <svg-icon *ngIf="mainQuests.length" name="arrow" class="arrow-icon"></svg-icon>
-    <div class="dashboard-content">
+    <div class="dashboard-content card-content">
       <div class="title">Main quests</div>
       <div class="content">{{mainQuests.length}} active quests</div>
     </div>
   </div>
 
-  <div class="dashboard-item additional-quests">
+  <div class="dashboard-item additional-quests card">
     <svg-icon *ngIf="additionalQuests.length" name="arrow" class="arrow-icon"></svg-icon>
-    <div class="dashboard-content">
+    <div class="dashboard-content card-content">
       <div class="title">Additional quests</div>
       <div class="content">{{additionalQuests.length}} active quests</div>
     </div>
   </div>
 
-  <div class="dashboard-item ranking" *ngIf="ranking">
-    <div class="dashboard-content">
+  <div class="dashboard-item ranking card" *ngIf="ranking">
+    <div class="dashboard-content card-content">
       <div class="title">Ranking</div>
       <div class="content">{{ranking.title}}</div>
     </div>

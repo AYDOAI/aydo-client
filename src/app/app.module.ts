@@ -32,7 +32,7 @@ import {FormAddHubComponent} from './components/forms/add-hub/form-add-hub.compo
 import {FormConfigHubComponent} from './components/forms/config-hub/form-config-hub.component';
 import {FormAddDeviceComponent} from './components/forms/add-device/form-add-device.component';
 import {FormEditDeviceComponent} from './components/forms/edit-device/form-edit-device.component';
-import {DashboardComponent} from './components/dashboard/main/dashboard.component';
+import {DashboardMainComponent} from './components/dashboard/main/dashboard-main.component';
 import {HeaderComponent} from './elements/header/header.component';
 import {AppRoutingModule} from './app.routes';
 import {DemoComponent} from './components/demo/demo.component';
@@ -51,6 +51,8 @@ import {FormAddHubManuallyComponent} from './components/forms/add-hub-manually/f
 import {AutomaticallyComponent} from './components/hub/automatically/automatically.component';
 import {FormAddHubFoundComponent} from './components/forms/add-hub-found/form-add-hub-found.component';
 import {FormAddHubConnectedComponent} from './components/forms/add-hub-connected/form-add-hub-connected.component';
+import {DashboardRewardsComponent} from './components/dashboard/rewards/dashboard-rewards.component';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -58,6 +60,8 @@ import {FormAddHubConnectedComponent} from './components/forms/add-hub-connected
     AppComponent,
     MainComponent,
     DashboardComponent,
+    DashboardMainComponent,
+    DashboardRewardsComponent,
     WelcomeMainComponent,
     WelcomeSignUpComponent,
     WelcomeSignInComponent,
