@@ -38,6 +38,7 @@
   }
 
   &:has(.icon) {
+    padding-right: 8px;
     justify-content: space-between;
   }
 }
