@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {AppFormInputs} from '../../shared/types';
 import {FormBaseComponent} from '../form-base.component';
 
@@ -53,11 +53,7 @@ export class ProfileComponent extends FormBaseComponent {
     switch (input.key) {
       case 'logout':
         this.resetFormErrors();
-        this.storage.token = '';
-        this.storage.refreshToken = '';
-        this.storage.serverId = '';
-        this.router.navigate(['/login']);
-        // this.ui.goStep('main');
+        this.ui.logout();
         break;
     }
   }
