@@ -105,4 +105,11 @@ export class UIService implements OnDestroy {
     this.goStep('dashboard');
   }
 
+  public logout(): void {
+    this.storage.token = '';
+    this.storage.refreshToken = '';
+    this.storage.serverId = '';
+    this.router.navigate(['/sign-in']);
+  }
+
 }
