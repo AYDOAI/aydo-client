@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {ErrorsService} from './services/errors.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,18 @@ import {Component} from '@angular/core';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'client';
+  title = 'AYDO';
+  error: any[] = [];
+  showErrorSub: Subscription;
+
+  constructor(public errors: ErrorsService) {
+    this.showErrorSub = this.errors.showErrorSub().subscribe((data: any) => {
+      this.error.push(data);
+    });
+  }
+
+  closeError() {
+    this.error.splice(0, 1);
+  }
+
 }

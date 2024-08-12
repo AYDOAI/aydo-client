@@ -8,8 +8,8 @@
 }
 
 .dashboard-item {
-  border: 1px solid #060022;
-  border-radius: 12px;
+  //border: 1px solid #060022;
+  //border-radius: 12px;
   width: 100%;
   position: relative;
 
@@ -65,7 +65,7 @@
 }
 
 .dashboard-item.main-quests, .dashboard-item.additional-quests {
-  width: calc(50% - 8px);
+  width: calc(50% - 22px);
 
   .dashboard-content {
     .title {
