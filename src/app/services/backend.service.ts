@@ -58,17 +58,20 @@ export class BackendService {
     {
       multiplier: 1.1,
       points: 10.01,
-      tokens: 120.00
+      tokens: 120.00,
+      history: [{value: 40, type: 'tokens'}, {value: 15, type: 'points'}]
     },
     {
       multiplier: 1.3,
       points: 15.54,
-      tokens: 60.00
+      tokens: 60.00,
+      history: [{value: 25, type: 'points'}, {value: 50, type: 'tokens'}]
     },
     {
       multiplier: 1.2,
       points: 9.68,
-      tokens: 200.00
+      tokens: 200.00,
+      history: [{value: 60, type: 'tokens'}, {value: -25, type: 'points'}]
     },
   ];
   mainQuests: Quests[] = [
