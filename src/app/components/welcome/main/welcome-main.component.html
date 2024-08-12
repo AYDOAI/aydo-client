@@ -81,8 +81,17 @@
   </div>
 
   <div class="buttons">
-    <app-button title="Sign up" color="white" backgroundColor="#060022" [routerLink]="['/sign-up']"></app-button>
-    <app-button title="Sign in" [routerLink]="['/sign-in']"></app-button>
-    <app-button title="Try DEMO" [routerLink]="['/demo']"></app-button>
+    <button class="btn" [routerLink]="['/sign-up']">
+      Sign up
+      <span class="icon icon-right"></span>
+    </button>
+    <button class="btn btn-outline" [routerLink]="['/sign-in']">
+      Sign in
+      <span class="icon icon-right-dark"></span>
+    </button>
+    <button class="btn btn-outline" [routerLink]="['/demo']">
+      Try DEMO
+      <span class="icon icon-right-dark"></span>
+    </button>
   </div>
 </div>

@@ -1,6 +1,6 @@
 <app-header title="Rewards"></app-header>
-<div class="caption" *ngIf="reward">
-  <div class="card" (click)="goBack()">
+<div *ngIf="reward" class="caption">
+  <div class="card very-small" (click)="goBack()">
     <div class="card-content">
       <svg-icon name="arrow-left"></svg-icon>
     </div>
@@ -8,35 +8,36 @@
   <div class="title">Your reward multiplier x {{reward.multiplier}}</div>
 </div>
 
-<div class="balance" *ngIf="reward">
-  <div class="points card">
-    <div class="card-content">
-      <div class="title">Balance of reward points</div>
-      <div class="balance-title-value">
-        <div>Your balance</div>
-        <div>{{reward.points}} Points</div>
+<div class="rewards">
+  <div *ngIf="reward" class="card-row">
+    <div class="card small">
+      <div class="card-content">
+        <div class="card-title">Balance of reward points</div>
+        <span class="balance">Your balance</span>
+        <span class="amount">{{reward.points}} $</span>
       </div>
     </div>
-  </div>
-  <div class="tokens card">
-    <div class="card-content">
-      <div class="title">Balance of AYDO tokens</div>
-      <div class="balance-title-value">
-        <div>Your tokens</div>
-        <div>{{reward.tokens}}$</div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class="history">
-  <div class="card">
+    <div class="card small">
+      <div class="card-content">
+        <div class="card-title">Balance of AYDO tokens</div>
+        <span class="balance">Your tokens</span>
+        <span class="amount">{{reward.tokens}} Points</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card long">
     <div class="card-content">
-      <div class="title">History of transfers</div>
-      <div class="transfers">
-        <div *ngFor="let history of reward.history" class="transfer">
-          <div>Transfer</div>
-          <div>{{history.value > 0 ? '+' : ''}}{{history.value}}{{history.type === 'tokens' ? '$' : ' Points'}}</div>
+      <div class="card-title">
+        History of transfers
+        <span class="icon icon-right-dark"></span>
+      </div>
+
+      <div class="chips">
+        <div *ngFor="let history of reward.history" class="chips_item">
+          <span class="operation">Transfer</span>
+          <span class="arrival">{{history.value > 0 ? '+' : ''}}{{history.value}}{{history.type === 'tokens' ? '$' : ' Points'}}</span>
         </div>
       </div>
     </div>
