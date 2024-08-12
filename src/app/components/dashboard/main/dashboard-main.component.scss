@@ -4,7 +4,7 @@
   flex-flow: row wrap;
   column-gap: 12px;
   row-gap: 12px;
-  margin: 0 22px;
+  margin: 32px 22px 0;
 }
 
 .dashboard-item {
@@ -17,6 +17,9 @@
     margin: 16px 15px;
 
     .title {
+      display: flex;
+      align-items: center;
+
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
@@ -24,6 +27,13 @@
       letter-spacing: 0.05em;
       color: #0C1821;
       margin-bottom: 4px;
+
+      .icon {
+        width: 6px;
+        height: 10px;
+
+        margin-left: auto;
+      }
     }
 
     .content {
@@ -89,8 +99,10 @@
   --icon-width: 14px;
   --icon-height: 14px;
   position: absolute;
-  right: 10px;
-  top: 10px
+  right: 16px;
+  top: 16px;
+
+  z-index: 10;
 }
 
 .arrow-icon {

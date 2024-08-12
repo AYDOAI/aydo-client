@@ -42,8 +42,8 @@ export class DashboardMainComponent extends BaseComponent {
     this.notifications.splice(0, 1);
   }
 
-  showRewards() {
-    this.router.navigate(['dashboard', 'rewards'])
+  navigate(page: string) {
+    this.router.navigate(['dashboard', page])
   }
 
 }

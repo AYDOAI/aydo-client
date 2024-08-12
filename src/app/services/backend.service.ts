@@ -27,6 +27,9 @@ export interface Reward {
 }
 
 export interface Quest {
+  title: string;
+  reward: number;
+  type: 'tokens' | 'points';
 }
 
 export interface Quests {
@@ -75,14 +78,38 @@ export class BackendService {
     },
   ];
   mainQuests: Quests[] = [
+    {
+      items: [
+        {title: 'Install the sensor', reward: 40, type: 'tokens'},
+        {title: 'Log in to the app for 30 days', reward: 30, type: 'tokens'},
+        {title: 'Invite your friend', reward: 50, type: 'points'}
+      ]
+    },
     {items: []},
-    {items: [{}, {}, {}]},
-    {items: [{}, {}, {}, {}]},
+    {
+      items: [
+        {title: 'Install the sensor', reward: 40, type: 'tokens'},
+        {title: 'Log in to the app for 30 days', reward: 30, type: 'tokens'},
+        {title: 'Invite your friend', reward: 50, type: 'points'}
+      ]
+    },
   ];
   additionalQuests: Quests[] = [
-    {items: [{}, {}, {}]},
     {items: []},
-    {items: [{}, {}, {}, {}]},
+    {
+      items: [
+        {title: 'Install the sensor', reward: 40, type: 'tokens'},
+        {title: 'Log in to the app for 30 days', reward: 30, type: 'tokens'},
+        {title: 'Invite your friend', reward: 50, type: 'points'}
+      ]
+    },
+    {
+      items: [
+        {title: 'Install the sensor', reward: 40, type: 'tokens'},
+        {title: 'Log in to the app for 30 days', reward: 30, type: 'tokens'},
+        {title: 'Invite your friend', reward: 50, type: 'points'}
+      ]
+    }
   ];
   rankings: Ranking[] = [
     {title: 'Senior'},
