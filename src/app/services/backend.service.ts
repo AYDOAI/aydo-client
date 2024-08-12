@@ -15,14 +15,9 @@ export interface Notifications {
 }
 
 export interface Reward {
-  title?: string;
-  value?: number;
-  measure?: string;
-  marginTop?: string;
-}
-
-export interface Rewards {
-  items: Reward[];
+  multiplier: number;
+  points: number;
+  tokens: number;
 }
 
 export interface Quest {
@@ -53,24 +48,21 @@ export class BackendService {
       items: [{title: 'New project available'}, {title: 'New reward acquired'}]
     },
   ];
-  rewards: Rewards[] = [
+  rewards: Reward[] = [
     {
-      items: [
-        {title: 'Earned:', value: 10.01, measure: ' Points', marginTop: '3px'},
-        {title: 'AYDO', value: 120.00, measure: '$', marginTop: '40px'}
-      ],
+      multiplier: 1.1,
+      points: 10.01,
+      tokens: 120.00
     },
     {
-      items: [
-        {title: 'Earned:', value: 15.54, measure: ' Points', marginTop: '3px'},
-        {title: 'AYDO', value: 60.00, measure: '$', marginTop: '40px'}
-      ],
+      multiplier: 1.3,
+      points: 15.54,
+      tokens: 60.00
     },
     {
-      items: [
-        {title: 'Earned:', value: 9.68, measure: ' Points', marginTop: '3px'},
-        {title: 'AYDO', value: 200.00, measure: '$', marginTop: '40px'}
-      ],
+      multiplier: 1.2,
+      points: 9.68,
+      tokens: 200.00
     },
   ];
   mainQuests: Quests[] = [

@@ -1,1 +1,9 @@
 <app-header title="Rewards"></app-header>
+<div class="caption" *ngIf="reward">
+  <div class="card" (click)="goBack()">
+    <div class="card-content">
+      <svg-icon name="arrow-left"></svg-icon>
+    </div>
+  </div>
+  <div class="title">Your reward multiplier x {{reward.multiplier}}</div>
+</div>

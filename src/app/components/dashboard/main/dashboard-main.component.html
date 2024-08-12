@@ -10,15 +10,24 @@
   </div>
 
   <div class="dashboard-item rewards card" (click)="showRewards()">
-    <svg-icon *ngIf="rewards.length" name="arrow" class="arrow-icon"></svg-icon>
-    <div class="dashboard-content card-content">
+    <svg-icon *ngIf="reward" name="arrow" class="arrow-icon"></svg-icon>
+    <div class="dashboard-content card-content" *ngIf="reward">
       <div class="title">Rewards</div>
       <div class="content">
-        <div class="reward" *ngFor="let reward of rewards">
+        <div class="reward points">
           <div class="reward-content">
-            <div>{{reward.title}}</div>
-            <div class="reward-value" [style.margin-top]="reward.marginTop">
-              <div>{{reward.value}}{{reward.measure}}</div>
+            <div>Earned:</div>
+            <div class="reward-value">
+              <div>{{reward.points}} Points</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reward tokens">
+          <div class="reward-content">
+            <div>AYDO tokens:</div>
+            <div class="reward-value">
+              <div>{{reward.tokens}}$</div>
             </div>
           </div>
         </div>

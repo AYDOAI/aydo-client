@@ -1,0 +1,19 @@
+.caption {
+  margin-left: 20px;
+  display: flex;
+
+  .card {
+    width: 28px;
+    height: 24px;
+
+    .card-content {
+      --icon-width: 9px;
+      --icon-height: 18px;
+      padding-top: 2px;
+    }
+  }
+
+  .title {
+    margin: auto;
+  }
+}

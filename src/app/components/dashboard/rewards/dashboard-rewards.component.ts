@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {BaseComponent} from '../../base.component';
-import {Notification, Quest, Ranking, Reward} from '../../../services/backend.service';
+import {Reward} from '../../../services/backend.service';
 
 @Component({
   selector: 'app-dashboard-rewards',
@@ -9,8 +9,17 @@ import {Notification, Quest, Ranking, Reward} from '../../../services/backend.se
 })
 export class DashboardRewardsComponent extends BaseComponent {
 
+  reward!: Reward;
+
   override onInit() {
-    console.log('fds')
-    super.onInit();
+    this.backend.getRewards().then((response) => {
+      this.reward = response;
+    }).catch(() => {
+    });
   }
+
+  goBack() {
+    this.router.navigate(['/dashboard'])
+  }
+
 }
