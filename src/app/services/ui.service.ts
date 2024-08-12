@@ -4,6 +4,7 @@ import {StorageService} from './storage.service';
 import {Subscription} from 'rxjs';
 import {BackendService} from './backend.service';
 import {DevicesModel, DriverItem, DriversModel} from '../models/gateway.model';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,8 @@ export class UIService implements OnDestroy {
   user!: any;
 
   constructor(public storage: StorageService,
-              public backend: BackendService) {
+              public backend: BackendService,
+              public router: Router) {
     this.initSub = this.storage.initSub().subscribe(data => {
       this.afterLogin();
     })
@@ -90,12 +92,13 @@ export class UIService implements OnDestroy {
     }
   }
 
-  get step(): FrameStep {
-    return this._step;
-  }
+  // get step(): FrameStep {
+  //   return this._step;
+  // }
 
   goStep(step: FrameStep) {
     this._step = step;
+    this.router.navigate([`/${step}`])
   }
 
   defaultStep() {

@@ -1,38 +1,12 @@
-<div *ngIf="error.length" class="error-container">
-  <div class="error-content" [ngClass]="{error: error[0].error, info: error[0].info}">
-    <div class="error-close" (click)="closeError()">
-      <svg width="32" height="24" viewBox="0 0 32 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20.2426 16.728L11.7573 8.24268" stroke="#060022" stroke-width="2" stroke-linecap="round"/>
-        <path d="M20.2426 8.24262L11.7573 16.7279" stroke="#060022" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <div class="error-text">
-      {{error[0].message}}
-    </div>
-    <div *ngIf="error[0].error" class="error-icon" (click)="closeError()">
-      <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="27" cy="27" r="27" fill="#FBFEF4" fill-opacity="0.3"/>
-        <circle cx="27" cy="27" r="20" fill="#FBFEF4" fill-opacity="0.3"/>
-        <path d="M33 21L21 33M21 21L33 33" stroke="#ED828F" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <div *ngIf="error[0].info" class="error-icon" (click)="closeError()">
-      <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="27" cy="27" r="27" fill="#FBFEF4" fill-opacity="0.3"/>
-        <circle cx="27" cy="27" r="20" fill="#FBFEF4" fill-opacity="0.3"/>
-      </svg>
-    </div>
-  </div>
-</div>
-<ng-container [ngSwitch]="ui.step">
-  <app-welcome-main *ngSwitchCase="'main'"></app-welcome-main>
-  <app-welcome-sign-up *ngSwitchCase="'sign-up'"></app-welcome-sign-up>
-  <app-welcome-sign-in *ngSwitchCase="'sign-in'"></app-welcome-sign-in>
-  <app-welcome-forgot *ngSwitchCase="'forgot'"></app-welcome-forgot>
-  <app-form-add-hub *ngSwitchCase="'add-hub'"></app-form-add-hub>
-  <app-form-config-hub *ngSwitchCase="'config-hub'"></app-form-config-hub>
-  <app-form-add-device *ngSwitchCase="'add-device'"></app-form-add-device>
-  <app-form-edit-device *ngSwitchCase="'edit-device'"></app-form-edit-device>
-  <app-devices *ngSwitchCase="'devices'"></app-devices>
-  <app-dashboard *ngSwitchCase="'dashboard'"></app-dashboard>
-</ng-container>
+<!--<ng-container [ngSwitch]="ui.step">-->
+<!--  <app-welcome-main *ngSwitchCase="'main'"></app-welcome-main>-->
+<!--  <app-welcome-sign-up *ngSwitchCase="'sign-up'"></app-welcome-sign-up>-->
+<!--  <app-welcome-sign-in *ngSwitchCase="'sign-in'"></app-welcome-sign-in>-->
+<!--  <app-welcome-forgot *ngSwitchCase="'forgot'"></app-welcome-forgot>-->
+<!--  <app-form-add-hub *ngSwitchCase="'add-hub'"></app-form-add-hub>-->
+<!--  <app-form-config-hub *ngSwitchCase="'config-hub'"></app-form-config-hub>-->
+<!--  <app-form-add-device *ngSwitchCase="'add-device'"></app-form-add-device>-->
+<!--  <app-form-edit-device *ngSwitchCase="'edit-device'"></app-form-edit-device>-->
+<!--  <app-devices *ngSwitchCase="'devices'"></app-devices>-->
+<!--  <app-dashboard *ngSwitchCase="'dashboard'"></app-dashboard>-->
+<!--</ng-container>-->
