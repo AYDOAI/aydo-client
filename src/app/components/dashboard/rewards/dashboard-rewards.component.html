@@ -1,9 +1,45 @@
 <app-header title="Rewards"></app-header>
 <div class="caption" *ngIf="reward">
-  <div class="card" (click)="goBack()">
+  <div class="card very-small" (click)="goBack()">
     <div class="card-content">
       <svg-icon name="arrow-left"></svg-icon>
     </div>
   </div>
   <div class="title">Your reward multiplier x {{reward.multiplier}}</div>
+</div>
+
+<div class="rewards">
+  <div class="card-row">
+    <div class="card small">
+      <div class="card-content">
+        <div class="card-title">Balance of reward points</div>
+        <span class="balance">Your balance</span>
+        <span class="amount">40.000 $</span>
+      </div>
+    </div>
+
+    <div class="card small">
+      <div class="card-content">
+        <div class="card-title">Balance of AYDO tokens</div>
+        <span class="balance">Your tokens</span>
+        <span class="amount">12.340</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card long">
+    <div class="card-content">
+      <div class="card-title">
+        History of transfers
+        <span class="icon icon-right-dark"></span>
+      </div>
+
+      <div class="chips">
+        <div class="chips_item">
+          <span class="operation">Transfer</span>
+          <span class="arrival">+40 $</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

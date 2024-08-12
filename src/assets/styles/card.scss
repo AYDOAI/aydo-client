@@ -16,16 +16,30 @@
   clip-path: polygon(100% 0, 100% 90%, 90% 100%, 0 100%, 0 0);
 
   &.small {
-    clip-path: polygon(100% 0, 100% 75%, 75% 100%, 0 100%, 0 0);
+    clip-path: polygon(100% 0, 100% 70%, 90% 100%, 0 100%, 0 0);
     &:after {
-      clip-path: polygon(100% 0, 100% 90%, 90% 100%, 0 100%, 0 0);
+      clip-path: polygon(100% 0, 100% 70%, 90% 100%, 0 100%, 0 0);
+    }
+  }
+
+  &.very-small {
+    clip-path: polygon(100% 0, 100% 55%, 55% 100%, 0 100%, 0 0);
+    &:after {
+      clip-path: polygon(100% 0, 100% 55%, 55% 100%, 0 100%, 0 0);
     }
   }
 
   &.big {
-    clip-path: polygon(100% 0, 100% 90%, 90% 100%, 0 100%, 0 0);
+    clip-path: polygon(100% 0, 100% 70%, 95% 100%, 0 100%, 0 0);
     &:after {
-      clip-path: polygon(100% 0, 100% 90%, 90% 100%, 0 100%, 0 0);
+      clip-path: polygon(100% 0, 100% 70%, 95% 100%, 0 100%, 0 0);
+    }
+  }
+
+  &.long {
+    clip-path: polygon(100% 0, 100% 70%, 95% 100%, 0 100%, 0 0);
+    &:after {
+      clip-path: polygon(100% 0, 100% 70%, 95% 100%, 0 100%, 0 0);
     }
   }
 }
