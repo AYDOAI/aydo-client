@@ -21,13 +21,13 @@ export class FormAddHubTypeComponent extends FormBaseComponent {
       key: 'automatically',
       title: 'Add automatically',
       type: 'button',
-      icon: 'icon-plus'
+      icon: 'plus'
     });
     this.form.inputs.push({
       key: 'manually',
       title: 'Add manually',
       type: 'button',
-      icon: 'icon-plus'
+      icon: 'plus'
     });
 
     this.formGroup = this.createForm(this.form.inputs);

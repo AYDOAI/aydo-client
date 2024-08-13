@@ -11,7 +11,7 @@
 
   <div class="dashboard-item rewards card big" (click)="navigate('rewards')">
     <div class="dashboard-content card-content" *ngIf="reward">
-      <div class="title">Rewards <span *ngIf="reward" class="icon icon-right-dark"></span></div>
+      <div class="title">Rewards <svg-icon *ngIf="reward" name="arrow" class="icon"></svg-icon></div>
       <div class="content">
         <div class="reward points">
           <div class="reward-content">
@@ -36,14 +36,14 @@
 
   <div class="dashboard-item main-quests card small" (click)="navigate('main-quests', mainQuests)">
     <div class="dashboard-content card-content">
-      <div class="title">Main quests <span *ngIf="mainQuests.length" class="icon icon-right-dark"></span></div>
+      <div class="title">Main quests <svg-icon *ngIf="mainQuests.length" name="arrow" class="icon"></svg-icon></div>
       <div class="content">{{mainQuests.length}} active quests</div>
     </div>
   </div>
 
   <div class="dashboard-item additional-quests card small" (click)="navigate('additional-quests', additionalQuests)">
     <div class="dashboard-content card-content">
-      <div class="title">Additional quests <span *ngIf="additionalQuests.length" class="icon icon-right-dark"></span></div>
+      <div class="title">Additional quests <svg-icon *ngIf="additionalQuests.length" name="arrow" class="icon"></svg-icon></div>
       <div class="content">{{additionalQuests.length}} active quests</div>
     </div>
   </div>
