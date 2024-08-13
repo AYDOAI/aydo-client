@@ -23,8 +23,10 @@
   }
 
   &.very-small {
+    border-radius: 8px;
     clip-path: polygon(100% 0, 100% 55%, 55% 100%, 0 100%, 0 0);
     &:after {
+      border-radius: 8px;
       clip-path: polygon(100% 0, 100% 55%, 55% 100%, 0 100%, 0 0);
     }
   }
