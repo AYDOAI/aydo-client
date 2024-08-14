@@ -40,7 +40,12 @@ input {
   }
 
   &:focus:not(:read-only) {
+    background: var(--milk);
     border: 1px solid var(--very-dark-blue);
+
+    box-shadow: 0 0 6px 1px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0 0 6px 1px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 0 6px 1px rgba(0,0,0,0.2);
   }
 
   &.has-error {

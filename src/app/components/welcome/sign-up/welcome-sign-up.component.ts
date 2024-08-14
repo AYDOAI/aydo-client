@@ -17,6 +17,7 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
     this.form.inputs.push({key: 'password', title: 'Password', type: 'input', inputType: 'password'})
     this.form.inputs.push({key: 'password_confirmation', title: 'Password confirmation', type: 'input', inputType: 'password'})
     this.form.inputs.push({key: 'sign_up', title: 'Sign up', type: 'button', color: 'white', backgroundColor: '#060022'})
+    this.form.inputs.push({key: 'agreement', title: '', type: 'agreement'})
 
     this.formGroup = this.createForm(this.form.inputs);
   }

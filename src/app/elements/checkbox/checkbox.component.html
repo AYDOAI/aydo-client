@@ -1,7 +1,10 @@
 <div *ngIf="form" class="checkbox-container" [formGroup]="form" [class.has-error]="!!error"
      (touchend)="touchend($event)">
   <input [id]="key" type="checkbox" class="checkbox" [disabled]="readonly" [formControlName]="key">
-  <label [for]="key" [attr.disabled]="readonly ? 'disabled' : null">{{ title }}</label>
+  <label [for]="key" [attr.disabled]="readonly ? 'disabled' : null">
+    <ng-container *ngIf="title">{{ title }}</ng-container>
+    <ng-container *ngIf="!title"><ng-content></ng-content></ng-container>
+  </label>
 </div>
 
 <div *ngIf="error" class="error-text">
