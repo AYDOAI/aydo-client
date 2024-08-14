@@ -1,10 +1,9 @@
 <app-header title="Dashboard"></app-header>
 
 <div class="dashboard">
-  <div class="dashboard-item notification card long">
-    <svg-icon *ngIf="notifications.length" name="close" class="close-icon" (click)="closeNotification()"></svg-icon>
+  <div class="dashboard-item notification card long" (click)="navigate('notifications', notifications)">
     <div class="dashboard-content card-content">
-      <div class="title">{{notifications.length ? 'New notification' : 'No notifications'}} <span class="notification_count" *ngIf="notifications.length">{{ notifications.length }}</span></div>
+      <div class="title">{{notifications.length ? 'New notification' : 'No notifications'}} <span class="notification_count" *ngIf="notifications.length">{{ notifications.length }}</span> <svg-icon *ngIf="notifications.length" name="arrow" class="icon"></svg-icon></div>
       <div *ngIf="notifications.length" class="content">{{notifications[0].title}}</div>
     </div>
   </div>

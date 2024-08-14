@@ -25,6 +25,7 @@ import {DashboardMainQuestsComponent} from './components/dashboard/main-quests/d
 import {
   DashboardAdditionalQuestsComponent
 } from './components/dashboard/additional-quests/dashboard-additional-quests.component';
+import { NotificationsComponent } from "./components/dashboard/notification/notifications.component";
 
 const routes: Routes = [
   {
@@ -59,6 +60,10 @@ const routes: Routes = [
         path: 'additional-quests',
         component: DashboardAdditionalQuestsComponent
       },
+      {
+        path: 'notifications',
+        component: NotificationsComponent
+      }
     ]
   },
   {

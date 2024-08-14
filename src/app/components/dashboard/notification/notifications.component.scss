@@ -1,0 +1,34 @@
+:host {
+  .notifications {
+    margin-top: 20px;
+    padding: 0 22px;
+    min-height: calc(100% - 100px);
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card-content {
+    padding: 14px;
+
+    display: flex;
+  }
+
+  .close-icon {
+    margin-left: auto;
+
+    --icon-width: 14px;
+    --icon-height: 14px;
+
+    z-index: 10;
+  }
+
+  .no-content {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+  }
+}
+

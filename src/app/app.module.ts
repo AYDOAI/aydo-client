@@ -58,6 +58,7 @@ import {DashboardQuestsComponent} from './components/dashboard/quests/dashboard-
 import {
   DashboardAdditionalQuestsComponent
 } from './components/dashboard/additional-quests/dashboard-additional-quests.component';
+import { NotificationsComponent } from './components/dashboard/notification/notifications.component';
 import { DialogModule } from './elements/dialog/dialog.module';
 
 @NgModule({
@@ -103,6 +104,7 @@ import { DialogModule } from './elements/dialog/dialog.module';
     AutomaticallyComponent,
     FormAddHubFoundComponent,
     FormAddHubConnectedComponent,
+    NotificationsComponent,
     SafeHtmlPipe,
   ],
   imports: [

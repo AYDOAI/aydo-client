@@ -38,10 +38,6 @@ export class DashboardMainComponent extends BaseComponent {
     });
   }
 
-  closeNotification() {
-    this.notifications.splice(0, 1);
-  }
-
   navigate(page: string, arr: any = null) {
     if (!arr || arr.length) {
       this.router.navigate(['dashboard', page])
