@@ -1,0 +1,60 @@
+:host {
+  .streams {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+    column-gap: 23px;
+    padding: 0 20px;
+    margin-top: 30px;
+  }
+
+  .streams {
+    .card-content {
+      display: flex;
+      padding: 16px 19px 16px 16px;
+      column-gap: 12px;
+
+      .project-content {
+        display: flex;
+        flex-flow: row wrap;
+      }
+    }
+  }
+
+  .card-title {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    line-height: 140%;
+    font-weight: 600;
+  }
+
+  .card-status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 4px;
+    margin-left: 8px;
+
+    color: #999999;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 120%;
+
+    background: #EEF1E7;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .card-desc {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 120%;
+    color: #999999;
+    margin-top: 4px;
+  }
+}
+

@@ -11,9 +11,39 @@
   padding: 8px;
 
   background-color: var(--very-dark-blue);
-  border-radius: 14px;
+  border-radius: 15px;
 
-  clip-path: polygon(100% 0, 100% 60%, 66% 100%, 0 100%, 0 0);
+  clip-path: polygon(100% 0, 100% 90%, 90% 100%, 0 100%, 0 0);
+
+  &.small {
+    clip-path: polygon(100% 0, 100% 70%, 90% 100%, 0 100%, 0 0);
+    &:after {
+      clip-path: polygon(100% 0, 100% 70%, 90% 100%, 0 100%, 0 0);
+    }
+  }
+
+  &.very-small {
+    border-radius: 8px;
+    clip-path: polygon(100% 0, 100% 55%, 55% 100%, 0 100%, 0 0);
+    &:after {
+      border-radius: 8px;
+      clip-path: polygon(100% 0, 100% 55%, 55% 100%, 0 100%, 0 0);
+    }
+  }
+
+  &.big {
+    clip-path: polygon(100% 0, 100% 70%, 95% 100%, 0 100%, 0 0);
+    &:after {
+      clip-path: polygon(100% 0, 100% 70%, 95% 100%, 0 100%, 0 0);
+    }
+  }
+
+  &.long {
+    clip-path: polygon(100% 0, 100% 70%, 95% 100%, 0 100%, 0 0);
+    &:after {
+      clip-path: polygon(100% 0, 100% 70%, 95% 100%, 0 100%, 0 0);
+    }
+  }
 }
 
 .card:after {
@@ -23,9 +53,9 @@
   left: 1px;
   width: calc(100% - 2px); // 100% - border*2
   height: calc(100% - 2px);
-  background-color: var(--light-grayish-green);
-  border-radius: 11px;
-  clip-path: polygon(100% 0, 100% 60%, 66% 100%, 0 100%, 0 0);
+  background-color: var(--milk);
+  border-radius: 14px;
+  clip-path: polygon(100% 0, 100% 90%, 90% 100%, 0 100%, 0 0);
 }
 
 .card-content {

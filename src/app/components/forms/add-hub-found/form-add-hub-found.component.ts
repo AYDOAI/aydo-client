@@ -26,13 +26,13 @@ export class FormAddHubFoundComponent extends FormBaseComponent {
       key: 'manually',
       title: 'Next',
       type: 'button',
-      icon: 'icon-right'
+      icon: 'arrow-right'
     });
     this.form.inputs.push({
       key: 'manually',
       title: 'Go to HUB',
       type: 'button',
-      icon: 'icon-right'
+      icon: 'arrow-right'
     });
 
     this.formGroup = this.createForm(this.form.inputs);

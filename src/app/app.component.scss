@@ -1,3 +1,17 @@
+:host {
+  display: flex;
+  justify-content: center;
+
+  height: 100%;
+}
+
+.main {
+  width: 100%;
+  max-width: 375px;
+
+  background: var(--light-grayish-green);
+}
+
 .error-container {
   position: fixed;
   z-index: 10000;

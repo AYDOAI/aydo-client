@@ -21,6 +21,10 @@ import {WelcomeMainComponent} from './components/welcome/main/welcome-main.compo
 import {DashboardRewardsComponent} from './components/dashboard/rewards/dashboard-rewards.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {DashboardMainComponent} from './components/dashboard/main/dashboard-main.component';
+import {DashboardMainQuestsComponent} from './components/dashboard/main-quests/dashboard-main-quests.component';
+import {
+  DashboardAdditionalQuestsComponent
+} from './components/dashboard/additional-quests/dashboard-additional-quests.component';
 
 const routes: Routes = [
   {
@@ -46,7 +50,15 @@ const routes: Routes = [
       {
         path: 'rewards',
         component: DashboardRewardsComponent
-      }
+      },
+      {
+        path: 'main-quests',
+        component: DashboardMainQuestsComponent
+      },
+      {
+        path: 'additional-quests',
+        component: DashboardAdditionalQuestsComponent
+      },
     ]
   },
   {

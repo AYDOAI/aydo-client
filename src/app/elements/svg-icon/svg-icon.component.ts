@@ -9,6 +9,7 @@ export class SvgIconComponent {
 
   @Input() name!: string;
   @Input() color!: string;
+  @Input() stroke!: string;
   @Input() width!: string;
   @Input() height: string = '16px';
   @Input() marginLeft!: number;

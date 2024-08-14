@@ -1,0 +1,15 @@
+<div class="full-page-modal">
+	<div class="full-page__inner">
+    <div class="header">
+      <div class="title">{{ headerTitle }}</div>
+      <div class="back" (click)="back.emit()">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="24.2365" y1="8.2364" x2="8.23652" y2="24.2364" stroke="#060022" stroke-width="2"/>
+          <line x1="8.23653" y1="7.7636" x2="24.2365" y2="23.7636" stroke="#060022" stroke-width="2"/>
+        </svg>
+      </div>
+    </div>
+
+		<ng-content></ng-content>
+	</div>
+</div>

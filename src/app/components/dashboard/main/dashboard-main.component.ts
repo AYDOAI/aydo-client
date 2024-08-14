@@ -10,7 +10,7 @@ import {Notification, Quest, Ranking, Reward} from '../../../services/backend.se
 export class DashboardMainComponent extends BaseComponent {
 
   notifications: Notification[] = [];
-  rewards: Reward[] = [];
+  reward!: Reward;
   mainQuests: Quest[] = [];
   additionalQuests: Quest[] = [];
   ranking!: Ranking;
@@ -21,7 +21,7 @@ export class DashboardMainComponent extends BaseComponent {
     }).catch(() => {
     });
     this.backend.getRewards().then((response) => {
-      this.rewards = response.items;
+      this.reward = response;
     }).catch(() => {
     });
     this.backend.getMainQuests().then((response) => {
@@ -42,8 +42,10 @@ export class DashboardMainComponent extends BaseComponent {
     this.notifications.splice(0, 1);
   }
 
-  showRewards() {
-    this.router.navigate(['dashboard', 'rewards'])
+  navigate(page: string, arr: any = null) {
+    if (!arr || arr.length) {
+      this.router.navigate(['dashboard', page])
+    }
   }
 
 }

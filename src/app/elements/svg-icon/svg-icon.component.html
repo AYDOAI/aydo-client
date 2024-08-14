@@ -1,7 +1,7 @@
-<div class="icon-container" [style.margin-left.px]="marginLeft" [style.width]="width">
+<div class="icon-container" [style.margin-left.px]="marginLeft" [style.width]="width" [style.height]="height">
   <svg
       class="svg-icon"
       version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <use class="icon" [attr.xlink:href]="'#' + name"></use>
+    <use class="icon" [attr.xlink:href]="'#' + name" [attr.fill]="color" [attr.stroke]="stroke"></use>
   </svg>
 </div>

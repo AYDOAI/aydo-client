@@ -32,7 +32,7 @@ export class FormAddHubAgreementComponent extends FormBaseComponent {
       key: 'btn',
       title: 'Next',
       type: 'button',
-      icon: 'icon-right'
+      icon: 'arrow-right'
     });
 
     this.formGroup = this.createForm(this.form.inputs);

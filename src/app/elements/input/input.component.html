@@ -9,6 +9,7 @@
          [id]="key"
          [formControlName]="key"
          [disabled]="readonly"
+         [type]="type"
          type="text">
   <textarea *ngIf="type === 'textarea'" class="input-input" [rows]="rows" [formControlName]="key" [id]="key"></textarea>
   <label *ngIf="!!title"

@@ -1,0 +1,29 @@
+<app-header [title]="title"></app-header>
+<div class="caption">
+  <div class="card very-small" (click)="goBack()">
+    <div class="card-content">
+      <svg-icon name="arrow-left" width="12px"></svg-icon>
+    </div>
+  </div>
+</div>
+
+<div class="rewards">
+  <ng-container *ngIf="quests">
+    <div class="card long" *ngFor="let quest of quests">
+      <div class="card-content">
+        <div class="card-title">
+          {{quest.title}}
+          <svg-icon *ngIf="false" name="arrow" class="icon"></svg-icon>
+        </div>
+
+        <div class="chips">
+          <div class="chips_item">
+            <span class="operation">Transfer</span>
+            <span
+                class="arrival">{{quest.reward > 0 ? '+' : ''}}{{quest.reward}}{{quest.type === 'tokens' ? '$' : ' Points'}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

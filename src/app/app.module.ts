@@ -53,8 +53,13 @@ import {FormAddHubFoundComponent} from './components/forms/add-hub-found/form-ad
 import {FormAddHubConnectedComponent} from './components/forms/add-hub-connected/form-add-hub-connected.component';
 import {DashboardRewardsComponent} from './components/dashboard/rewards/dashboard-rewards.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
-
 import { IonicModule } from '@ionic/angular';
+import {DashboardMainQuestsComponent} from './components/dashboard/main-quests/dashboard-main-quests.component';
+import {DashboardQuestsComponent} from './components/dashboard/quests/dashboard-quests.component';
+import {
+  DashboardAdditionalQuestsComponent
+} from './components/dashboard/additional-quests/dashboard-additional-quests.component';
+import { DialogModule } from './elements/dialog/dialog.module';
 
 @NgModule({
   declarations: [
@@ -63,6 +68,9 @@ import { IonicModule } from '@ionic/angular';
     DashboardComponent,
     DashboardMainComponent,
     DashboardRewardsComponent,
+    DashboardQuestsComponent,
+    DashboardMainQuestsComponent,
+    DashboardAdditionalQuestsComponent,
     WelcomeMainComponent,
     WelcomeSignUpComponent,
     WelcomeSignInComponent,
@@ -106,6 +114,7 @@ import { IonicModule } from '@ionic/angular';
     ReactiveFormsModule,
     CommonModule,
     HttpClientModule,
+    DialogModule
   ],
   providers: [
     Storage,

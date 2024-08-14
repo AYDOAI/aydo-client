@@ -14,18 +14,22 @@ export interface Notifications {
   items: Notification[];
 }
 
-export interface Reward {
-  title?: string;
-  value?: number;
-  measure?: string;
-  marginTop?: string;
+export interface RewardHistory {
+  value: number;
+  type: 'tokens' | 'points';
 }
 
-export interface Rewards {
-  items: Reward[];
+export interface Reward {
+  multiplier: number;
+  points: number;
+  tokens: number;
+  history: RewardHistory[];
 }
 
 export interface Quest {
+  title: string;
+  reward: number;
+  type: 'tokens' | 'points';
 }
 
 export interface Quests {
@@ -34,6 +38,16 @@ export interface Quests {
 
 export interface Ranking {
   title: string;
+}
+
+export interface DataStream {
+  title: string;
+  description: string;
+  status: 'Active' | 'Pending' | 'Not Active';
+}
+
+export interface DataStreams {
+  items: DataStream[];
 }
 
 @Injectable({
@@ -53,41 +67,75 @@ export class BackendService {
       items: [{title: 'New project available'}, {title: 'New reward acquired'}]
     },
   ];
-  rewards: Rewards[] = [
+  rewards: Reward[] = [
     {
-      items: [
-        {title: 'Earned:', value: 10.01, measure: ' Points', marginTop: '3px'},
-        {title: 'AYDO', value: 120.00, measure: '$', marginTop: '40px'}
-      ],
+      multiplier: 1.1,
+      points: 10.01,
+      tokens: 120.00,
+      history: [{value: 40, type: 'tokens'}, {value: 15, type: 'points'}]
     },
     {
-      items: [
-        {title: 'Earned:', value: 15.54, measure: ' Points', marginTop: '3px'},
-        {title: 'AYDO', value: 60.00, measure: '$', marginTop: '40px'}
-      ],
+      multiplier: 1.3,
+      points: 15.54,
+      tokens: 60.00,
+      history: [{value: 25, type: 'points'}, {value: 50, type: 'tokens'}]
     },
     {
-      items: [
-        {title: 'Earned:', value: 9.68, measure: ' Points', marginTop: '3px'},
-        {title: 'AYDO', value: 200.00, measure: '$', marginTop: '40px'}
-      ],
+      multiplier: 1.2,
+      points: 9.68,
+      tokens: 200.00,
+      history: [{value: 60, type: 'tokens'}, {value: -25, type: 'points'}]
     },
   ];
   mainQuests: Quests[] = [
+    {
+      items: [
+        {title: 'Install the sensor', reward: 40, type: 'tokens'},
+        {title: 'Log in to the app for 30 days', reward: 30, type: 'tokens'},
+        {title: 'Invite your friend', reward: 50, type: 'points'}
+      ]
+    },
     {items: []},
-    {items: [{}, {}, {}]},
-    {items: [{}, {}, {}, {}]},
+    {
+      items: [
+        {title: 'Install the sensor', reward: 40, type: 'tokens'},
+        {title: 'Log in to the app for 30 days', reward: 30, type: 'tokens'},
+        {title: 'Invite your friend', reward: 50, type: 'points'}
+      ]
+    },
   ];
   additionalQuests: Quests[] = [
-    {items: [{}, {}, {}]},
     {items: []},
-    {items: [{}, {}, {}, {}]},
+    {
+      items: [
+        {title: 'Install the sensor', reward: 40, type: 'tokens'},
+        {title: 'Log in to the app for 30 days', reward: 30, type: 'tokens'},
+        {title: 'Invite your friend', reward: 50, type: 'points'}
+      ]
+    },
+    {
+      items: [
+        {title: 'Install the sensor', reward: 40, type: 'tokens'},
+        {title: 'Log in to the app for 30 days', reward: 30, type: 'tokens'},
+        {title: 'Invite your friend', reward: 50, type: 'points'}
+      ]
+    }
   ];
   rankings: Ranking[] = [
     {title: 'Senior'},
     {title: 'Expert'},
     {title: 'Junior'},
   ];
+  dataStreams: DataStreams = {
+    items: [
+      {title: 'Project #1', description: 'Project for blockchain elite reward', status: 'Active'},
+      {title: 'Project #2', description: 'Project for blockchain elite reward', status: 'Pending'},
+      {title: 'Project #3', description: 'Project for blockchain elite reward', status: 'Not Active'},
+      {title: 'Project #4', description: 'Project for blockchain elite reward', status: 'Active'},
+      {title: 'Project #5', description: 'Project for blockchain elite reward', status: 'Pending'},
+      {title: 'Project #6', description: 'Project for blockchain elite reward', status: 'Not Active'},
+    ]
+  };
 
   constructor(public request: RequestService,
               public storage: StorageService) {
@@ -213,6 +261,12 @@ export class BackendService {
   getRanking(): Promise<any> {
     return new Promise((resolve, reject) => {
       resolve(this.rankings[this.randomIndex]);
+    });
+  }
+
+  getDataStreams(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      resolve(this.dataStreams);
     });
   }
 

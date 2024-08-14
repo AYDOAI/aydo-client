@@ -1,24 +1,32 @@
 <app-header title="Dashboard"></app-header>
 
 <div class="dashboard">
-  <div class="dashboard-item notification card">
+  <div class="dashboard-item notification card long">
     <svg-icon *ngIf="notifications.length" name="close" class="close-icon" (click)="closeNotification()"></svg-icon>
     <div class="dashboard-content card-content">
-      <div class="title">{{notifications.length ? 'New notification' : 'No notifications'}}</div>
+      <div class="title">{{notifications.length ? 'New notification' : 'No notifications'}} <span class="notification_count" *ngIf="notifications.length">{{ notifications.length }}</span></div>
       <div *ngIf="notifications.length" class="content">{{notifications[0].title}}</div>
     </div>
   </div>
 
-  <div class="dashboard-item rewards card" (click)="showRewards()">
-    <svg-icon *ngIf="rewards.length" name="arrow" class="arrow-icon"></svg-icon>
-    <div class="dashboard-content card-content">
-      <div class="title">Rewards</div>
+  <div class="dashboard-item rewards card big" (click)="navigate('rewards')">
+    <div class="dashboard-content card-content" *ngIf="reward">
+      <div class="title">Rewards <svg-icon *ngIf="reward" name="arrow" class="icon"></svg-icon></div>
       <div class="content">
-        <div class="reward" *ngFor="let reward of rewards">
+        <div class="reward points">
           <div class="reward-content">
-            <div>{{reward.title}}</div>
-            <div class="reward-value" [style.margin-top]="reward.marginTop">
-              <div>{{reward.value}}{{reward.measure}}</div>
+            <div class="label">Earned:</div>
+            <div class="reward-value">
+              <div>{{reward.points}} Points</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reward tokens">
+          <div class="reward-content">
+            <div class="label mb-44">AYDO tokens:</div>
+            <div class="reward-value">
+              <div>{{reward.tokens}}$</div>
             </div>
           </div>
         </div>
@@ -26,23 +34,22 @@
     </div>
   </div>
 
-  <div class="dashboard-item main-quests card">
-    <svg-icon *ngIf="mainQuests.length" name="arrow" class="arrow-icon"></svg-icon>
-    <div class="dashboard-content card-content">
-      <div class="title">Main quests</div>
-      <div class="content">{{mainQuests.length}} active quests</div>
+  <div class="item-row">
+    <div class="dashboard-item main-quests card small" (click)="navigate('main-quests', mainQuests)">
+      <div class="dashboard-content card-content">
+        <div class="title">Main quests <svg-icon *ngIf="mainQuests.length" name="arrow" class="icon"></svg-icon></div>
+        <div class="content"><span class="quest_count">{{mainQuests.length}}</span> active quests</div>
+      </div>
+    </div>
+
+    <div class="dashboard-item additional-quests card small" (click)="navigate('additional-quests', additionalQuests)">
+      <div class="dashboard-content card-content">
+        <div class="title">Additional quests <svg-icon *ngIf="additionalQuests.length" name="arrow" class="icon"></svg-icon></div>
+        <div class="content"><span class="quest_count">{{additionalQuests.length}}</span> active quests</div>
+      </div>
     </div>
   </div>
-
-  <div class="dashboard-item additional-quests card">
-    <svg-icon *ngIf="additionalQuests.length" name="arrow" class="arrow-icon"></svg-icon>
-    <div class="dashboard-content card-content">
-      <div class="title">Additional quests</div>
-      <div class="content">{{additionalQuests.length}} active quests</div>
-    </div>
-  </div>
-
-  <div class="dashboard-item ranking card" *ngIf="ranking">
+  <div class="dashboard-item ranking card long" *ngIf="ranking">
     <div class="dashboard-content card-content">
       <div class="title">Ranking</div>
       <div class="content">{{ranking.title}}</div>
