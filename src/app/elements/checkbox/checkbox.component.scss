@@ -10,6 +10,7 @@
     align-items: start;
     gap: 16px;
     user-select: none;
+    cursor: pointer;
   }
 
   .checkbox + label::before {
@@ -24,6 +25,7 @@
     border-radius: 4px;
     box-shadow: none;
     box-sizing: border-box;
+    cursor: pointer;
   }
 
   .checkbox:checked + label::before {

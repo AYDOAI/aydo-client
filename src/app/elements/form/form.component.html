@@ -33,6 +33,11 @@
         <div *ngSwitchCase="'checkbox'">
           <app-checkbox [form]="formGroup" [key]="input.key" [error]="input.error" [title]="input.title"></app-checkbox>
         </div>
+        <div *ngSwitchCase="'agreement'" class="user-agreement">
+          <app-checkbox [form]="formGroup" [key]="input.key" [error]="input.error">
+            <span>I Agree to <a style="cursor: pointer" href="#" (click)="openLicense($event)"> Aydo’s terms and conditions </a></span>
+          </app-checkbox>
+        </div>
       </ng-container>
     </ng-container>
   </div>

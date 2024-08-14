@@ -58,6 +58,7 @@ import {DashboardQuestsComponent} from './components/dashboard/quests/dashboard-
 import {
   DashboardAdditionalQuestsComponent
 } from './components/dashboard/additional-quests/dashboard-additional-quests.component';
+import { DialogModule } from './elements/dialog/dialog.module';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import {
     ReactiveFormsModule,
     CommonModule,
     HttpClientModule,
+    DialogModule
   ],
   providers: [
     Storage,
