@@ -2,6 +2,13 @@
   padding: 12px 22px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.back-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .add {
