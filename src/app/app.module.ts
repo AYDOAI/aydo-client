@@ -53,6 +53,7 @@ import {FormAddHubFoundComponent} from './components/forms/add-hub-found/form-ad
 import {FormAddHubConnectedComponent} from './components/forms/add-hub-connected/form-add-hub-connected.component';
 import {DashboardRewardsComponent} from './components/dashboard/rewards/dashboard-rewards.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
+import { IonicModule } from '@ionic/angular';
 import {DashboardMainQuestsComponent} from './components/dashboard/main-quests/dashboard-main-quests.component';
 import {DashboardQuestsComponent} from './components/dashboard/quests/dashboard-quests.component';
 import {
@@ -110,6 +111,7 @@ import { DialogModule } from './elements/dialog/dialog.module';
   imports: [
     AppRoutingModule,
     BrowserModule,
+    IonicModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
