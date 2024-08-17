@@ -61,6 +61,7 @@ import {
 } from './components/dashboard/additional-quests/dashboard-additional-quests.component';
 import { NotificationsComponent } from './components/dashboard/notification/notifications.component';
 import { DialogModule } from './elements/dialog/dialog.module';
+import { BarcodeScannerComponent } from './elements/barcode-scanner/barcode-scanner.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { DialogModule } from './elements/dialog/dialog.module';
     FormAddHubFoundComponent,
     FormAddHubConnectedComponent,
     NotificationsComponent,
+    BarcodeScannerComponent,
     SafeHtmlPipe,
   ],
   imports: [

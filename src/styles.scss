@@ -12,6 +12,16 @@ body * {
   color: var(--very-dark-blue);
 }
 
+body.barcode-scanner-active {
+  visibility: hidden;
+  background: transparent;
+  --ion-background-color: transparent;
+}
+
+.barcode-scanner {
+  visibility: visible;
+}
+
 @font-face {
   font-family: "IBM Plex Mono", monospace;
   font-weight: 100;

@@ -1,6 +1,9 @@
 import {Component, inject, Input} from '@angular/core';
 import {FormBaseComponent} from '../../form-base.component';
 import {ActivatedRoute} from '@angular/router';
+import { AppFormInputs } from "../../../shared/types";
+import { DialogService } from "../../../services/dialog.service";
+import { BarcodeScannerComponent } from "../../../elements/barcode-scanner/barcode-scanner.component";
 
 @Component({
   selector: 'app-form-add-hub-manually',
@@ -12,6 +15,7 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
   @Input() description = '';
 
   private activatedRoute = inject(ActivatedRoute);
+  private dialogService = inject(DialogService);
 
   override onInit() {
     this.form.title = 'Add hub';
@@ -45,7 +49,13 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
     this.formGroup = this.createForm(this.form.inputs);
   }
 
-  public button(): void {
+  public button(button: AppFormInputs): void {
+    if (button.key === 'scan') {
+      this.dialogService.show(BarcodeScannerComponent, {
+
+      });
+      return;
+    }
     const hub = this.activatedRoute.snapshot.paramMap.get('hub');
     this.router.navigate([`add-hub/${hub}/connected`]);
   }

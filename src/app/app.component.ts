@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {ErrorsService} from './services/errors.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,8 @@ export class AppComponent {
   error: any[] = [];
   showErrorSub: Subscription;
 
-  constructor(public errors: ErrorsService) {
+  constructor(public errors: ErrorsService,
+              public platform: Platform) {
     this.showErrorSub = this.errors.showErrorSub().subscribe((data: any) => {
       this.error.push(data);
     });
