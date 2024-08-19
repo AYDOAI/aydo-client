@@ -40,7 +40,7 @@ import {AboutComponent} from './components/about/about.component';
 import {SettingsComponent} from './components/settings/settings.component';
 import {ProfileComponent} from './components/profile/profile.component';
 import {StatusComponent} from './components/status/status.component';
-import {StreamsComponent} from './components/streams/streams.component';
+import {StreamsComponent} from './components/streams/streams/streams.component';
 import {HubComponent} from './components/hub/hub.component';
 import {CheckboxComponent} from './elements/checkbox/checkbox.component';
 import {FormHeaderComponent} from './elements/form-header/form-header.component';
@@ -62,6 +62,8 @@ import {
 import { NotificationsComponent } from './components/dashboard/notification/notifications.component';
 import { DialogModule } from './elements/dialog/dialog.module';
 import { BarcodeScannerComponent } from './elements/barcode-scanner/barcode-scanner.component';
+import { StreamsHomeComponent } from './components/streams/streams-home';
+import { ProjectComponent } from './components/streams/project/project.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +110,8 @@ import { BarcodeScannerComponent } from './elements/barcode-scanner/barcode-scan
     FormAddHubConnectedComponent,
     NotificationsComponent,
     BarcodeScannerComponent,
+    StreamsHomeComponent,
+    ProjectComponent,
     SafeHtmlPipe,
   ],
   imports: [

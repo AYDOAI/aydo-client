@@ -11,6 +11,7 @@ export class HeaderComponent extends BaseElement {
 
   @Input() title = '';
   @Input() add: FrameStep = '';
+  @Input() back: string = '';
 
   menu = [
     {link:'/dashboard', icon: 'menu-unknown', title: 'Dashboard', step: 'dashboard'},
@@ -36,6 +37,10 @@ export class HeaderComponent extends BaseElement {
 
   addClick() {
     this.ui.goStep(this.add);
+  }
+
+  public backClick(): void {
+    this.router.navigate([this.back]);
   }
 
 }

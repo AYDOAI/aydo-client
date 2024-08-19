@@ -25,7 +25,8 @@
   </div>
 </div>
 <div class="main" [class.no-padding]="platform.is('capacitor')">
-  <router-outlet></router-outlet>
+  <router-outlet *ngIf="!(loading.loading$ | async)"></router-outlet>
+  <p *ngIf="loading.loading$ | async">Loading...</p>
 </div>
 <svg-definitions [style.display]="'none'"></svg-definitions>
 <app-dialog-container></app-dialog-container>
