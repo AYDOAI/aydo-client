@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {ErrorsService} from './services/errors.service';
+import { LoadingService } from "./services/loading.service";
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,8 @@ export class AppComponent {
   error: any[] = [];
   showErrorSub: Subscription;
 
-  constructor(public errors: ErrorsService) {
+  constructor(public errors: ErrorsService,
+              public loading: LoadingService) {
     this.showErrorSub = this.errors.showErrorSub().subscribe((data: any) => {
       this.error.push(data);
     });

@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs';
 import {BackendService} from './backend.service';
 import {DevicesModel, DriverItem, DriversModel} from '../models/gateway.model';
 import {Router} from '@angular/router';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,8 @@ export class UIService implements OnDestroy {
 
   constructor(public storage: StorageService,
               public backend: BackendService,
-              public router: Router) {
+              public router: Router,
+              private loading: LoadingService) {
     this.initSub = this.storage.initSub().subscribe(data => {
       this.afterLogin();
     })
@@ -34,6 +36,7 @@ export class UIService implements OnDestroy {
 
   afterLogin() {
     if (this.storage.token) {
+      this.loading.showLoading();
       this.backend.userInfo().then((data) => {
         this.user = data.user;
         const next = () => {
@@ -62,6 +65,8 @@ export class UIService implements OnDestroy {
             }, 5000);
             getDeviceValues();
           }).catch(() => {
+          }).finally(() => {
+            this.loading.dismissLoading();
           });
           this.defaultStep();
         }
