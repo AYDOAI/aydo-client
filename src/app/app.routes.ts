@@ -8,7 +8,7 @@ import {DemoComponent} from './components/demo/demo.component';
 import {SettingsComponent} from './components/settings/settings.component';
 import {AboutComponent} from './components/about/about.component';
 import {ProfileComponent} from './components/profile/profile.component';
-import {StreamsComponent} from './components/streams/streams.component';
+import {StreamsComponent} from './components/streams/streams/streams.component';
 import {StatusComponent} from './components/status/status.component';
 import {HubComponent} from './components/hub/hub.component';
 import {FormAddHubComponent} from './components/forms/add-hub/form-add-hub.component';
@@ -25,7 +25,9 @@ import {DashboardMainQuestsComponent} from './components/dashboard/main-quests/d
 import {
   DashboardAdditionalQuestsComponent
 } from './components/dashboard/additional-quests/dashboard-additional-quests.component';
-import { NotificationsComponent } from "./components/dashboard/notification/notifications.component";
+import { NotificationsComponent } from './components/dashboard/notification/notifications.component';
+import { StreamsHomeComponent } from './components/streams/streams-home';
+import { ProjectComponent } from './components/streams/project/project.component';
 
 const routes: Routes = [
   {
@@ -80,7 +82,17 @@ const routes: Routes = [
   },
   {
     path: 'streams',
-    component: StreamsComponent,
+    component: StreamsHomeComponent,
+    children: [
+      {
+        path: '',
+        component: StreamsComponent
+      },
+      {
+        path: ':project',
+        component: ProjectComponent
+      }
+    ]
   },
   {
     path: 'status',

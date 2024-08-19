@@ -40,7 +40,7 @@ import {AboutComponent} from './components/about/about.component';
 import {SettingsComponent} from './components/settings/settings.component';
 import {ProfileComponent} from './components/profile/profile.component';
 import {StatusComponent} from './components/status/status.component';
-import {StreamsComponent} from './components/streams/streams.component';
+import {StreamsComponent} from './components/streams/streams/streams.component';
 import {HubComponent} from './components/hub/hub.component';
 import {CheckboxComponent} from './elements/checkbox/checkbox.component';
 import {FormHeaderComponent} from './elements/form-header/form-header.component';
@@ -61,6 +61,8 @@ import {
 } from './components/dashboard/additional-quests/dashboard-additional-quests.component';
 import { NotificationsComponent } from './components/dashboard/notification/notifications.component';
 import { DialogModule } from './elements/dialog/dialog.module';
+import { StreamsHomeComponent } from './components/streams/streams-home';
+import { ProjectComponent } from './components/streams/project/project.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +108,8 @@ import { DialogModule } from './elements/dialog/dialog.module';
     FormAddHubFoundComponent,
     FormAddHubConnectedComponent,
     NotificationsComponent,
+    StreamsHomeComponent,
+    ProjectComponent,
     SafeHtmlPipe,
   ],
   imports: [

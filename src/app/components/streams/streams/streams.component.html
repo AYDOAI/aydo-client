@@ -2,7 +2,7 @@
 
 <div class="streams">
   <ng-container *ngIf="dataStreams">
-    <div class="card long" *ngFor="let stream of dataStreams">
+    <div class="card long" *ngFor="let stream of dataStreams; let i = index" (click)="openProject(i)">
       <div class="card-content">
         <div>
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
@@ -10,11 +10,14 @@
           </svg>
         </div>
         <div class="project-content">
-          <div class="card-title">
-            {{stream.title}}
-          </div>
-          <div class="card-status">
-            {{stream.status}}
+          <div class="card-header">
+            <div class="card-title">
+              {{stream.title}}
+            </div>
+            <div class="card-status">
+              {{stream.status}}
+            </div>
+            <svg-icon name="arrow" class="icon"></svg-icon>
           </div>
           <div class="card-desc">
             {{stream.description}}
