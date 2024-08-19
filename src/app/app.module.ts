@@ -61,6 +61,7 @@ import {
 } from './components/dashboard/additional-quests/dashboard-additional-quests.component';
 import { NotificationsComponent } from './components/dashboard/notification/notifications.component';
 import { DialogModule } from './elements/dialog/dialog.module';
+import { BarcodeScannerComponent } from './elements/barcode-scanner/barcode-scanner.component';
 import { StreamsHomeComponent } from './components/streams/streams-home';
 import { ProjectComponent } from './components/streams/project/project.component';
 
@@ -108,6 +109,7 @@ import { ProjectComponent } from './components/streams/project/project.component
     FormAddHubFoundComponent,
     FormAddHubConnectedComponent,
     NotificationsComponent,
+    BarcodeScannerComponent,
     StreamsHomeComponent,
     ProjectComponent,
     SafeHtmlPipe,

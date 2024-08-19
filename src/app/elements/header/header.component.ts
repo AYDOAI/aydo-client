@@ -17,6 +17,7 @@ export class HeaderComponent extends BaseElement {
     {link:'/dashboard', icon: 'menu-unknown', title: 'Dashboard', step: 'dashboard'},
     {link:'/devices', icon: 'menu-devices', title: 'Devices', step: 'devices'},
     {link: '/settings', icon: 'menu-hub-settings', title: 'Hub settings'},
+    {link: '/add-hub', icon: 'menu-hub-settings', title: 'Add hub'},
     {link: '/profile', icon: 'menu-profile', title: 'Profile', step: 'profile'},
     {link: '/status', icon: 'menu-service-status', title: 'Services status'},
     {link: '/streams', icon: 'menu-unknown', title: 'Data streams'},

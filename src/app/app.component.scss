@@ -10,6 +10,16 @@
   max-width: 375px;
 
   background: var(--light-grayish-green);
+
+  &.no-padding {
+    max-width: unset;
+
+    ::ng-deep {
+      .full-page__inner {
+        max-width: unset;
+      }
+    }
+  }
 }
 
 .error-container {
