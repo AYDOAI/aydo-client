@@ -5,6 +5,9 @@ import {LoginItem, UserItem} from '../models/users.model';
 import {StorageService} from './storage.service';
 import {DeviceItem, GatewayItem} from '../models/gateway.model';
 import {between} from '../shared/shared.functions';
+import detectEthereumProvider from '@metamask/detect-provider';
+import {from, tap} from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 export interface Notification {
   title?: string;
@@ -267,6 +270,64 @@ export class BackendService {
   getDataStreams(): Promise<any> {
     return new Promise((resolve, reject) => {
       resolve(this.dataStreams);
+    });
+  }
+
+  public signInWithMetaMask() {
+    let ethereum: any;
+
+    return from(detectEthereumProvider()).pipe(
+      switchMap(async (provider) => {
+        if (!provider) {
+          throw new Error('Please install MetaMask');
+        }
+        ethereum = provider;
+        return await ethereum.request({ method: 'eth_requestAccounts' });
+      }),
+      switchMap(() => this.metamaskGetNonce(ethereum.selectedAddress)),
+      switchMap(
+        async (response) =>
+          await ethereum.request({
+            method: 'personal_sign',
+            params: [
+              `0x${this.toHex(response.nonce)}`,
+              ethereum.selectedAddress,
+            ],
+          })
+      ),
+      switchMap((sig) => this.metamaskVerifySignedMessage(ethereum.selectedAddress, sig)),
+      switchMap(
+        async (response) => {
+          this.storage.token = response.user.token;
+          this.storage.refreshToken = response.user.refresh_token;
+        }
+      )
+    );
+  }
+
+  private toHex(stringToConvert: string) {
+    return stringToConvert
+      .split('')
+      .map((c) => c.charCodeAt(0).toString(16).padStart(2, '0'))
+      .join('');
+  }
+
+  metamaskGetNonce(address: any): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/user/metamask/get-nonce`, {address}, {
+      mainGroup: 'backend',
+      method: 'metamask-get-nonce'
+    }).then(data => {
+      return Promise.resolve(data);
+    });
+  }
+
+  metamaskVerifySignedMessage(address: any, sig: any): Promise<any> {
+    const data = {address:address, sig: sig}
+    return this.request.post(`${environment.main_url}/backend/v2/user/metamask/verify`, {data}, {
+      mainGroup: 'backend',
+      method: 'metamask-verify-signed-message'
+    }).then(data => {
+      return Promise.resolve(data);
     });
   }
 
