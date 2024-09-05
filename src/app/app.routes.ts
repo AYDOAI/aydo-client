@@ -28,6 +28,7 @@ import {
 import { NotificationsComponent } from './components/dashboard/notification/notifications.component';
 import { StreamsHomeComponent } from './components/streams/streams-home';
 import { ProjectComponent } from './components/streams/project/project.component';
+import { FormAddDeviceComponent } from "./components/forms/add-device/form-add-device.component";
 
 const routes: Routes = [
   {
@@ -71,6 +72,10 @@ const routes: Routes = [
   {
     path: 'devices',
     component: DevicesComponent,
+  },
+  {
+    path: 'add-device',
+    component: FormAddDeviceComponent
   },
   {
     path: 'settings',
