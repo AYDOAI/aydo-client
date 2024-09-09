@@ -1,7 +1,7 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HubType, FrameStep} from '../shared/types';
 import {StorageService} from './storage.service';
-import {Subscription} from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
 import {BackendService} from './backend.service';
 import {DevicesModel, DriverItem, DriversModel} from '../models/gateway.model';
 import {Router} from '@angular/router';
@@ -25,7 +25,8 @@ export class UIService implements OnDestroy {
               public backend: BackendService,
               public router: Router,
               private loading: LoadingService) {
-    this.initSub = this.storage.initSub().subscribe(data => {
+    this.loading.showLoading();
+    this.initSub = this.storage.initSub().pipe(finalize(() => this.loading.dismissLoading())).subscribe(data => {
       this.afterLogin();
     })
   }

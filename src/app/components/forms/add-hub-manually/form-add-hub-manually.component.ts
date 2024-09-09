@@ -34,7 +34,7 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
       required: true
     });
     this.form.inputs.push({
-      key: 'signIn',
+      key: 'attach',
       title: 'Sign in',
       type: 'button',
       icon: 'arrow-right'
@@ -50,11 +50,23 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
   }
 
   public button(button: AppFormInputs): void {
-    if (button.key === 'scan') {
-      this.dialogService.show(BarcodeScannerComponent, {
+    switch (button.key) {
+      case 'scan':
+        this.dialogService.show(BarcodeScannerComponent, {
 
-      });
-      return;
+        });
+        return;
+      case 'attach':
+        const gateway = {...this.formGroup.value};
+        this.resetFormErrors();
+        this.backend.gatewayConnect(gateway).then((data: any) => {
+          if (data && data.gateway && data.gateway.identifier) {
+            this.storage.serverId = data.gateway.identifier;
+            this.ui.goStep('devices');
+          }
+        }).catch(() => {
+
+        });
     }
     const hub = this.activatedRoute.snapshot.paramMap.get('hub');
     this.router.navigate([`add-hub/${hub}/connected`]);
