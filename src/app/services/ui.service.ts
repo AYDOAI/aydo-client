@@ -40,6 +40,7 @@ export class UIService implements OnDestroy {
       this.backend.userInfo().then((data) => {
         this.user = data.user;
         const next = () => {
+          this.loading.showLoading();
           this.backend.getDevices().then((devices: any) => {
             this.devices = new DevicesModel(devices);
             // console.log(devices);
@@ -55,6 +56,8 @@ export class UIService implements OnDestroy {
                   }
                 })
               }).catch(() => {
+              }).finally(() => {
+                this.loading.dismissLoading();
               })
             }
             clearInterval(this.valuesInterval);
@@ -73,6 +76,7 @@ export class UIService implements OnDestroy {
         if (this.storage.serverId) {
           next();
         } else {
+          this.loading.showLoading();
           this.backend.getGateway().then((data) => {
             if (data && data.gateway && data.gateway.identifier) {
               this.storage.serverId = data.gateway.identifier;
@@ -80,7 +84,7 @@ export class UIService implements OnDestroy {
             } else {
               this.goStep('add-hub');
             }
-          })
+          }).finally(() => this.loading.dismissLoading())
         }
       }).catch(error => {
         this.goStep('sign-in');
@@ -91,7 +95,7 @@ export class UIService implements OnDestroy {
           //     console.log(error);
           //   })
         }
-      })
+      }).finally(() => this.loading.dismissLoading())
     } else {
       this.loading.dismissLoading();
       this.goStep('main');

@@ -22,7 +22,7 @@ export class FormAddHubConnectedComponent extends FormBaseComponent {
   }
 
   public button(): void {
-    this.router.navigate(['']);
+    this.router.navigate(['/dashboard']);
   }
 
 }
