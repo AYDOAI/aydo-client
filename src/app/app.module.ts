@@ -18,6 +18,7 @@ import {SvgDefinitionsComponent} from './elements/svg-definitions/svg-definition
 import {SvgIconComponent} from './elements/svg-icon/svg-icon.component';
 import {ButtonComponent} from './elements/button/button.component';
 import {InputComponent} from './elements/input/input.component';
+import { SelectComponent } from "./elements/select/select.component";
 import {FormComponent} from './elements/form/form.component';
 
 import {MainComponent} from './components/main/main.component';
@@ -64,6 +65,7 @@ import { DialogModule } from './elements/dialog/dialog.module';
 import { BarcodeScannerComponent } from './elements/barcode-scanner/barcode-scanner.component';
 import { StreamsHomeComponent } from './components/streams/streams-home';
 import { ProjectComponent } from './components/streams/project/project.component';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -90,6 +92,7 @@ import { ProjectComponent } from './components/streams/project/project.component
     SvgIconComponent,
     ButtonComponent,
     InputComponent,
+    SelectComponent,
     CheckboxComponent,
     FormComponent,
     HeaderComponent,
@@ -120,6 +123,7 @@ import { ProjectComponent } from './components/streams/project/project.component
     IonicModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     CommonModule,
     HttpClientModule,
     DialogModule

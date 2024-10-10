@@ -1,0 +1,38 @@
+<div class="select-container" [ngClass]="{collapsed: !expanded, expanded: expanded, 'input-error': error}">
+  <div #container class="main-container" [ngClass]="{expanded: expanded}">
+    <div class="input-wrapper"
+         [class.has-error]="!!error"
+         (click)="expand()">
+        <svg-icon class="primary-icon-colors icon active-icon" *ngIf="selectActiveIcon() && !expanded"
+                  [name]="selectActiveIcon()"></svg-icon>
+        <input #input
+               [class.has-value]="!!form.get(key)?.value"
+               [class.has-label]="!!title"
+               [id]="key"
+               [value]="selectActiveTitle()"
+               (input)="findChange($event)"
+               type="text">
+      <label *ngIf="!!title"
+             class="label-text"
+             [for]="key">{{ title }}</label>
+      <svg-icon *ngIf="selectActiveTitle() && !hide_clear && !expanded" class="select-clear" name="close"
+                (click)="clear($event)"></svg-icon>
+    </div>
+  </div>
+  <div class="select-subitems-container" [ngClass]="[class ? class : '']">
+    <ng-container *ngFor="let item of itemsEx">
+      <div
+        *ngIf="!findValue || (item.title && item.title.toLocaleUpperCase().indexOf(findValue.toLocaleUpperCase()) !== -1)"
+        class="select-subitem-container"
+        [id]="getId(item)" (click)="select(item)" [ngClass]="{active: isActive(item)}">
+        <div class="select-subitem-icon">
+          <svg-icon *ngIf="item.icon" [name]="item.icon"></svg-icon>
+        </div>
+        <div *ngIf="item.title" class="select-subitem-title-container">
+          <div class="select-subitem-title">{{item.title}}</div>
+          <svg-icon *ngIf="isSelected(item)" name="active" class="select-subitem-active"></svg-icon>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

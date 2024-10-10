@@ -17,7 +17,7 @@ export type FrameStep =
 
 export type HubType = 'hub_aydo' | 'hub_pi' | 'hub_other';
 
-export type AppFormType = 'input' | 'button' | 'text' | 'string' | 'checkbox' | 'template' | 'agreement';
+export type AppFormType = 'input' | 'button' | 'text' | 'string' | 'checkbox' | 'template' | 'agreement' | 'select';
 
 export interface AppForm {
   title: string;
@@ -49,11 +49,11 @@ export interface AppFormInputs {
 // //   text?: string;
 // //   button_title?: string;
 // //   icon?: string;
-// //   items?: SelectItem[];
+   items?: SelectItem[];
    class?: string;
 // //   placeholder?: string;
 //   readonly?: string;
-// //   multi?: boolean;
+   multi?: boolean;
 // //   rows?: number;
 // //   autocomplete?: string;
 // //   groupTab?: string;
@@ -65,4 +65,10 @@ export interface AppFormInputs {
   error?: string;
   icon?: string;
   template?: TemplateRef<any>;
+}
+
+export interface SelectItem {
+  id: string | number;
+  title?: string;
+  icon?: string;
 }

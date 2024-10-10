@@ -8,6 +8,7 @@ import {between} from '../shared/shared.functions';
 import detectEthereumProvider from '@metamask/detect-provider';
 import {from, tap} from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { ErrorsService } from "./errors.service";
 
 export interface Notification {
   title?: string;
@@ -141,7 +142,8 @@ export class BackendService {
   };
 
   constructor(public request: RequestService,
-              public storage: StorageService) {
+              public storage: StorageService,
+              public errors: ErrorsService) {
     this.randomIndex = between(0, 2);
   }
 
@@ -279,6 +281,7 @@ export class BackendService {
     return from(detectEthereumProvider()).pipe(
       switchMap(async (provider) => {
         if (!provider) {
+          this.errors.showError('Please install MetaMask');
           throw new Error('Please install MetaMask');
         }
         ethereum = provider;
