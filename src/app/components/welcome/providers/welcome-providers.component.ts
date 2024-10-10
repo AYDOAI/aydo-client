@@ -11,6 +11,7 @@ import { mainnet, sepolia } from "@wagmi/core/chains";
 import { Router } from "@angular/router";
 import {BackendService} from "../../../services/backend.service";
 import detectEthereumProvider from '@metamask/detect-provider';
+import { environment } from "../../../../environments/environment";
 
 export const config = createConfig({
   chains: [mainnet, sepolia],
@@ -35,6 +36,10 @@ export class WelcomeProvidersComponent implements OnInit   {
 
   ngOnInit(): void {
 
+  }
+
+  public googleAuth(): void {
+    window.location.href = `${environment.main_url}/backend/v2/user/google/login`
   }
 
   async handleAuth() {

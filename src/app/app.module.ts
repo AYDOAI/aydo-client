@@ -66,6 +66,7 @@ import { BarcodeScannerComponent } from './elements/barcode-scanner/barcode-scan
 import { StreamsHomeComponent } from './components/streams/streams-home';
 import { ProjectComponent } from './components/streams/project/project.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { GoogleAuthRedirectComponent } from "./components/google-auth-redirect/google-auth-redirect.component";
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     WelcomeSignUpComponent,
     WelcomeSignInComponent,
     WelcomeForgotComponent,
+    GoogleAuthRedirectComponent,
     WelcomeNavigateComponent,
     WelcomeProvidersComponent,
     FormAddHubComponent,
