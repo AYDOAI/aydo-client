@@ -139,6 +139,7 @@ input {
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: height 0.3s ease-in-out;
+  z-index: 9999;
 }
 
 .select-subitem-container {
