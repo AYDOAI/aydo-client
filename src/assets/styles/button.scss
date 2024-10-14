@@ -20,6 +20,7 @@
     color: var(--white-05);
     background: var(--very-dark-grayish-blue);
     border-color: var(--very-dark-grayish-blue);
+    pointer-events: none;
   }
 
   &-outline {
