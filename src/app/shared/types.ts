@@ -40,6 +40,8 @@ export interface AppFormInputs {
   defaultValue?: any;
   email?: boolean;
   required?: boolean;
+  matchingKey?: string;
+  requiredTrue?: boolean;
 // //   hidden?: boolean;
 // //   hidden2?: boolean;
   number?: boolean;

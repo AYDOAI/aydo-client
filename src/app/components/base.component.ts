@@ -8,6 +8,7 @@ import {ErrorsService} from "../services/errors.service";
 import {StorageService} from "../services/storage.service";
 import {UIService} from '../services/ui.service';
 import {Router} from '@angular/router';
+import { fieldMatchValidator } from "../shared/validators/field-match.validator";
 
 // @ts-ignore
 export const emailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -88,6 +89,12 @@ export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
     if (input.required) {
       // @ts-ignore
       opts.push(Validators.required);
+    }
+    if (input.requiredTrue) {
+      opts.push(Validators.requiredTrue);
+    }
+    if (input.matchingKey) {
+      opts.push(fieldMatchValidator(input.key, input.matchingKey));
     }
     const control = new FormControl('', opts);
     if (input.defaultValue) {
