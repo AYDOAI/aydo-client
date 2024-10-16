@@ -45,9 +45,9 @@ export interface Ranking {
 }
 
 export interface DataStream {
-  title: string;
-  description: string;
-  status: 'Active' | 'Pending' | 'Not Active';
+  title?: string;
+  description?: string;
+  status?: 'Active' | 'Pending' | 'Not Active';
 }
 
 export interface DataStreams {

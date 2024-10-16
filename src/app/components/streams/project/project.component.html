@@ -11,14 +11,14 @@
         <div class="project-content">
           <div class="card-header">
             <div class="card-title">
-              {{ dataStream?.title }}
+              {{ dataStream.title ?? '' }}
             </div>
             <div class="card-status">
-              {{ dataStream?.status }}
+              {{ dataStream.status ?? '' }}
             </div>
           </div>
           <div class="card-desc">
-            {{ dataStream?.description }}
+            {{ dataStream.description ?? '' }}
           </div>
         </div>
       </div>
