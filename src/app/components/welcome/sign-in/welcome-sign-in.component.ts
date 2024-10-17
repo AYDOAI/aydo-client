@@ -25,6 +25,7 @@ export class WelcomeSignInComponent extends FormBaseComponent {
     switch (input.key) {
       case 'sign_in':
         const user = {...this.formGroup.value};
+        user.login = user.login.trim();
         this.resetFormErrors();
         this.backend.userLogin(user).then(() => {
           this.ui.afterLogin();
