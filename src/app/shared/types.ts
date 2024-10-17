@@ -41,7 +41,9 @@ export interface AppFormInputs {
   email?: boolean;
   required?: boolean;
   matchingKey?: string;
+  onlyLetters?: boolean;
   requiredTrue?: boolean;
+  displayError?: boolean;
 // //   hidden?: boolean;
 // //   hidden2?: boolean;
   number?: boolean;
