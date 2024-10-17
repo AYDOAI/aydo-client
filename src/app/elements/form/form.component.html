@@ -25,8 +25,8 @@
           <app-input [title]="input.title" [form]="formGroup" [key]="input.key" [type]="input.inputType"></app-input>
         </div>
         <div *ngSwitchCase="'button'">
-          <div *ngIf="input.displayError && getFormError()" class="form-error">
-            {{ getFormError() }}
+          <div *ngIf="input.displayError && formError" class="form-error">
+            {{ formError }}
           </div>
           <button class="btn {{ input.class }}" [disabled]="btnDisabled" (click)="button(input)">
             {{ input.title }}

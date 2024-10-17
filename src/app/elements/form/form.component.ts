@@ -41,7 +41,7 @@ export class FormComponent extends BaseElement implements OnInit {
     this.subscribeToFormChanges();
   }
 
-  public getFormError(): string {
+  public get formError(): string {
     for (const input of this.form?.inputs) {
       if (input.error) {
         return input.error;
@@ -54,7 +54,7 @@ export class FormComponent extends BaseElement implements OnInit {
     this.formGroup.valueChanges.subscribe(() => {
       this.form.inputs.forEach(element => {
         const control = this.formGroup.get(element.key) as FormControl;
-        if (control && control.touched && control.invalid) {
+        if (control && control.invalid) {
           element.error = this.getErrorText(element.key, element.title);
         } else {
           element.error = '';
