@@ -32,7 +32,7 @@ import { FormAddDeviceComponent } from "./components/forms/add-device/form-add-d
 import { FormEditDeviceComponent } from "./components/forms/edit-device/form-edit-device.component";
 import { GoogleAuthRedirectComponent } from "./components/google-auth-redirect/google-auth-redirect.component";
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'sign-in',
     component: WelcomeSignInComponent

@@ -21,6 +21,8 @@ export class UIService implements OnDestroy {
   valuesInterval!: any;
   user!: any;
 
+  private btnLoading: string[] = [];
+
   constructor(public storage: StorageService,
               public backend: BackendService,
               public router: Router,
@@ -34,10 +36,20 @@ export class UIService implements OnDestroy {
     this.initSub?.unsubscribe();
   }
 
+  tryDemo(): void {
+    this.lockBtn('try_demo');
+    this.backend.userLogin({ login: 'test@aydo.ai', password: '1qaz@WSX' }).then(() => {
+      this.afterLogin();
+    }).finally(() => {
+      this.unlockBtn('try_demo');
+      this.router.navigate(['/dashboard']);
+    });
+  }
+
   afterLogin() {
     if (this.storage.token) {
       this.loading.showLoading();
-      this.backend.userInfo().then((data) => {
+      this.backend.userInfo().then((data: any) => {
         this.user = data.user;
         const next = () => {
           this.loading.showLoading();
@@ -122,4 +134,17 @@ export class UIService implements OnDestroy {
     this.router.navigate(['/sign-in']);
   }
 
+  public lockBtn(key: string): void {
+    this.btnLoading.push(key);
+  }
+
+  public unlockBtn(key: string): void {
+    setTimeout(() => {
+      this.btnLoading = this.btnLoading.filter(el => el !== key)
+    }, 200);
+  }
+
+  public isBtnLoading(key: string): boolean {
+    return this.btnLoading.includes(key);
+  }
 }
