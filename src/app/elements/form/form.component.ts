@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import {AppForm, AppFormInputs, FrameStep} from '../../shared/types';
-import {BaseElement} from '../base.component';
+import { AppForm, AppFormInputs, FrameStep } from '../../shared/types';
+import { BaseElement } from '../base.component';
 import { Location } from "@angular/common";
 import { DialogService } from "../../services/dialog.service";
 import { LicenseDialogComponent } from "../dialog/license-dialog/license-dialog.component";
@@ -11,7 +11,7 @@ import { LicenseDialogComponent } from "../dialog/license-dialog/license-dialog.
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'
 })
-export class FormComponent extends BaseElement implements OnInit {
+export class FormComponent extends BaseElement {
 
   @Input() form!: AppForm;
   @Input() formGroup!: FormGroup;
@@ -23,6 +23,8 @@ export class FormComponent extends BaseElement implements OnInit {
   private dialog = inject(DialogService);
 
   button(input: AppFormInputs) {
+    this.formGroup.updateValueAndValidity();
+    this.form.inputs.forEach(element => this.onBlur(element));
     this.onClickButton.emit(input);
   }
 
@@ -37,10 +39,6 @@ export class FormComponent extends BaseElement implements OnInit {
     })
   }
 
-  ngOnInit(): void {
-    this.subscribeToFormChanges();
-  }
-
   public get formError(): string {
     for (const input of this.form?.inputs) {
       if (input.error) {
@@ -50,17 +48,13 @@ export class FormComponent extends BaseElement implements OnInit {
     return '';
   }
 
-  private subscribeToFormChanges(): void {
-    this.formGroup.valueChanges.subscribe(() => {
-      this.form.inputs.forEach(element => {
-        const control = this.formGroup.get(element.key) as FormControl;
-        if (control && control.invalid) {
-          element.error = this.getErrorText(element.key, element.title);
-        } else {
-          element.error = '';
-        }
-      });
-    });
+  public onBlur(element: AppFormInputs): void {
+      const control = this.formGroup.get(element.key) as FormControl;
+      if (control && control.invalid) {
+        element.error = this.getErrorText(element.key, element.title);
+      } else {
+        element.error = '';
+      }
   }
 
   private getErrorText(controlName: string, title: string): string {

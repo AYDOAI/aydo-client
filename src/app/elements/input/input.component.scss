@@ -39,7 +39,7 @@ input {
     padding-top: 26px;
   }
 
-  &.ng-touched.ng-invalid.ng-dirty {
+  &.ng-touched.ng-invalid {
     border-color: #ED828F;
   }
 
@@ -51,7 +51,7 @@ input {
     -webkit-box-shadow: 0 0 6px 1px rgba(0,0,0,0.2);
     -moz-box-shadow: 0 0 6px 1px rgba(0,0,0,0.2);
 
-    &.ng-touched.ng-invalid.ng-dirty {
+    &.ng-touched.ng-invalid {
       border-color: #ED828F;
     }
   }

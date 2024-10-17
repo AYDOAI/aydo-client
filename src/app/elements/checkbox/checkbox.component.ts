@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import {FormGroup, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BaseElement} from '../base.component';
 
@@ -13,6 +13,7 @@ import {BaseElement} from '../base.component';
   }]
 })
 export class CheckboxComponent extends BaseElement {
+  @Output() onBlur: EventEmitter<any> = new EventEmitter<any>();
   @Input() title!: string;
   @Input() form!: FormGroup;
   @Input() key!: string;

@@ -19,10 +19,10 @@
           <ng-content></ng-content>
         </div>
         <div *ngSwitchCase="'text'" class="text">
-          <app-input [readonly]="true" [title]="input.title" [form]="formGroup" [key]="input.key" [type]="input.inputType"></app-input>
+          <app-input [readonly]="true" [title]="input.title" [form]="formGroup" [key]="input.key" [type]="input.inputType" (onBlur)="onBlur(input)"></app-input>
         </div>
         <div *ngSwitchCase="'input'" class="input">
-          <app-input [title]="input.title" [form]="formGroup" [key]="input.key" [type]="input.inputType"></app-input>
+          <app-input [title]="input.title" [form]="formGroup" [key]="input.key" [type]="input.inputType" (onBlur)="onBlur(input)"></app-input>
         </div>
         <div *ngSwitchCase="'button'">
           <div *ngIf="input.displayError && formError" class="form-error">
@@ -34,7 +34,7 @@
           </button>
         </div>
         <div *ngSwitchCase="'checkbox'">
-          <app-checkbox [form]="formGroup" [key]="input.key" [title]="input.title"></app-checkbox>
+          <app-checkbox [form]="formGroup" [key]="input.key" [title]="input.title" (onBlur)="onBlur(input)"></app-checkbox>
         </div>
         <div *ngSwitchCase="'select'">
           <app-select
@@ -43,10 +43,11 @@
             [key]="input.key"
             [title]="input.title!"
             [items]="input.items!"
+            (blur)="onBlur(input)"
           ></app-select>
         </div>
         <div *ngSwitchCase="'agreement'" class="user-agreement">
-          <app-checkbox [form]="formGroup" [key]="input.key">
+          <app-checkbox [form]="formGroup" [key]="input.key" (onBlur)="onBlur(input)">
             <span>I Agree to <a style="cursor: pointer" href="#" (click)="openLicense($event)"> Aydo’s terms and conditions </a></span>
           </app-checkbox>
         </div>
