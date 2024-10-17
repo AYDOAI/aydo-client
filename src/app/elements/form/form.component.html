@@ -19,19 +19,22 @@
           <ng-content></ng-content>
         </div>
         <div *ngSwitchCase="'text'" class="text">
-          <app-input [readonly]="true" [title]="input.title" [form]="formGroup" [key]="input.key" [error]="input.error" [type]="input.inputType"></app-input>
+          <app-input [readonly]="true" [title]="input.title" [form]="formGroup" [key]="input.key" [type]="input.inputType"></app-input>
         </div>
         <div *ngSwitchCase="'input'" class="input">
-          <app-input [title]="input.title" [form]="formGroup" [key]="input.key" [error]="input.error" [type]="input.inputType"></app-input>
+          <app-input [title]="input.title" [form]="formGroup" [key]="input.key" [type]="input.inputType"></app-input>
         </div>
         <div *ngSwitchCase="'button'">
+          <div *ngIf="input.displayError && getFormError()" class="form-error">
+            {{ getFormError() }}
+          </div>
           <button class="btn {{ input.class }}" [disabled]="btnDisabled" (click)="button(input)">
             {{ input.title }}
             <svg-icon *ngIf="!!input.icon" [name]="input.icon" class="icon" width="12px" height="12px"></svg-icon>
           </button>
         </div>
         <div *ngSwitchCase="'checkbox'">
-          <app-checkbox [form]="formGroup" [key]="input.key" [error]="input.error" [title]="input.title"></app-checkbox>
+          <app-checkbox [form]="formGroup" [key]="input.key" [title]="input.title"></app-checkbox>
         </div>
         <div *ngSwitchCase="'select'">
           <app-select
@@ -40,11 +43,10 @@
             [key]="input.key"
             [title]="input.title!"
             [items]="input.items!"
-            [error]="input.error"
           ></app-select>
         </div>
         <div *ngSwitchCase="'agreement'" class="user-agreement">
-          <app-checkbox [form]="formGroup" [key]="input.key" [error]="input.error">
+          <app-checkbox [form]="formGroup" [key]="input.key">
             <span>I Agree to <a style="cursor: pointer" href="#" (click)="openLicense($event)"> Aydo’s terms and conditions </a></span>
           </app-checkbox>
         </div>

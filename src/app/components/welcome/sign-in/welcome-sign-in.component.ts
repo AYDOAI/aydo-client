@@ -13,9 +13,9 @@ export class WelcomeSignInComponent extends FormBaseComponent {
 
   override onInit() {
     this.form.title = 'Sign in';
-    this.form.inputs.push({key: 'login', title: 'E-mail', type: 'input'});
-    this.form.inputs.push({key: 'password', title: 'Password', type: 'input', inputType: 'password'});
-    this.form.inputs.push({key: 'sign_in', title: 'Sign in', type: 'button', color: 'white', backgroundColor: '#060022'});
+    this.form.inputs.push({key: 'login', title: 'E-mail', type: 'input', required: true, email: true });
+    this.form.inputs.push({key: 'password', title: 'Password', type: 'input', inputType: 'password', required: true});
+    this.form.inputs.push({key: 'sign_in', title: 'Sign in', type: 'button', color: 'white', backgroundColor: '#060022', displayError: true});
 
     this.formGroup = this.createForm(this.form.inputs);
   }
