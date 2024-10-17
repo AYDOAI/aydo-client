@@ -27,7 +27,7 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
       case 'sign_up':
         if (this.formGroup.valid) {
           const user = { ...this.formGroup.value };
-          user.email = user.login;
+          user.email = user.login.trim();
           this.resetFormErrors();
           this.backend.userRegister(user).then(() => {
             this.ui.goStep('sign-in');
