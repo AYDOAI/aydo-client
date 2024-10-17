@@ -66,6 +66,12 @@ export class RequestService {
       //   })
       // } else {
       console.log(response)
+
+      if (response.status === 0) {
+        this.errors.showError('There was an error connecting. Please check your internet connection and try again later.');
+        return Promise.reject(response.error);
+      }
+
         let message = '';
         if (response && response.error && response.error.message) {
           message = `${response.error.message}`;
