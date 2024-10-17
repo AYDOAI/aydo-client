@@ -47,6 +47,16 @@
     }
   }
 
+  &.text-btn {
+    padding: 0;
+    height: 22px;
+    margin-left: 16px;
+    margin-top: 16px;
+    color: var(--very-dark-blue);
+    border: none;
+    background: transparent;
+  }
+
   &:hover {
     opacity: 0.7;
   }
