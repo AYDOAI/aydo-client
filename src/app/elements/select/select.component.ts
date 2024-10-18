@@ -24,6 +24,7 @@ export class SelectComponent extends BaseElement {
   @Input() func: any;
   @Input() hide_clear: boolean = false;
   @Output() onSelect: EventEmitter<SelectItem> = new EventEmitter<SelectItem>();
+  @Output() onBlur: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('input') input!: ElementRef;
   expanded = false;
   findValue = '';

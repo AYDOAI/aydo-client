@@ -1,5 +1,5 @@
 <div *ngIf="form" class="checkbox-container" [formGroup]="form" [class.has-error]="!!error"
-     (touchend)="touchend($event)">
+     (touchend)="touchend($event)" (blur)="onBlur.emit()">
   <input [id]="key" type="checkbox" class="checkbox" [disabled]="readonly" [formControlName]="key">
   <label [for]="key" [attr.disabled]="readonly ? 'disabled' : null">
     <ng-container *ngIf="title">{{ title }}</ng-container>

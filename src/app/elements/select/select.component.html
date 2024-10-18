@@ -1,4 +1,4 @@
-<div class="select-container" [ngClass]="{collapsed: !expanded, expanded: expanded, 'input-error': error}">
+<div class="select-container" [ngClass]="{collapsed: !expanded, expanded: expanded, 'input-error': error}" (blur)="onBlur.emit()">
   <div #container class="main-container" [ngClass]="{expanded: expanded}">
     <div class="input-wrapper"
          [class.has-error]="!!error"
