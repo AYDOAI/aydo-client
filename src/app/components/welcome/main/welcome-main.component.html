@@ -93,7 +93,8 @@
         <path d="M14.5 8L17.7929 11.2929C18.1834 11.6834 18.1834 12.3166 17.7929 12.7071L14.5 16" stroke="#060022" stroke-width="2" stroke-linecap="round"/>
       </svg>
     </button>
-    <button class="btn btn-outline" [routerLink]="['/demo']">
+    <button class="btn btn-outline" (click)="ui.tryDemo()">
+      <span *ngIf="ui.isBtnLoading('try_demo')" class="spin-loader"></span>
       Try DEMO
       <svg class="icon arrow" width="33" height="24" viewBox="0 0 33 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M14.5 8L17.7929 11.2929C18.1834 11.6834 18.1834 12.3166 17.7929 12.7071L14.5 16" stroke="#060022" stroke-width="2" stroke-linecap="round"/>

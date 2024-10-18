@@ -28,7 +28,8 @@
           <div *ngIf="input.displayError && formError" class="form-error">
             {{ formError }}
           </div>
-          <button class="btn {{ input.class }}" [disabled]="btnDisabled" (click)="button(input)">
+          <button class="btn {{ input.class }}" [disabled]="btnDisabled || ui.isBtnLoading(input.key)" (click)="button(input)">
+            <span *ngIf="ui.isBtnLoading(input.key)" class="spin-loader"></span>
             {{ input.title }}
             <svg-icon *ngIf="!!input.icon" [name]="input.icon" class="icon" width="12px" height="12px"></svg-icon>
           </button>
