@@ -11,7 +11,7 @@ import { LicenseDialogComponent } from "../dialog/license-dialog/license-dialog.
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'
 })
-export class FormComponent extends BaseElement {
+export class FormComponent extends BaseElement implements OnInit {
 
   @Input() form!: AppForm;
   @Input() formGroup!: FormGroup;
@@ -21,6 +21,10 @@ export class FormComponent extends BaseElement {
 
   private location = inject(Location);
   private dialog = inject(DialogService);
+
+  ngOnInit(): void {
+    this.subscribeToValueChanges();
+  }
 
   button(input: AppFormInputs) {
     this.formGroup.updateValueAndValidity();
@@ -57,6 +61,23 @@ export class FormComponent extends BaseElement {
       }
   }
 
+  private subscribeToValueChanges(): void {
+    this.formGroup.valueChanges.subscribe(() => {
+      this.form.inputs.forEach(element => {
+        if (element.error) {
+          const control = this.formGroup.get(element.key) as FormControl;
+          if (control) {
+            if (control.touched && control.invalid) {
+              element.error = this.getErrorText(element.key, element.title);
+            } else {
+              element.error = '';
+            }
+          }
+        }
+      });
+    });
+  }
+
   private getErrorText(controlName: string, title: string): string {
     const control = this.formGroup.get(controlName) as FormControl;
     if (control.hasError('required')) {
@@ -75,6 +96,8 @@ export class FormComponent extends BaseElement {
       return `${title} does not match`;
     } else if (control.hasError('onlyLetters')) {
       return `${title} must contain only letters`;
+    } else if (control.hasError('emailSpecialCharacters')) {
+      return `${title} must not contain special characters`;
     } else {
       return '';
     }
