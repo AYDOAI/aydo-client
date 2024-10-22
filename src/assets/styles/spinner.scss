@@ -37,6 +37,12 @@
       border-color: #fff;
     }
   }
+
+  &.text-btn {
+    .spin-loader {
+      border-color: #000;
+    }
+  }
 }
 
 @keyframes l20-1{

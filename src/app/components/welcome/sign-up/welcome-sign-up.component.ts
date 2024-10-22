@@ -16,8 +16,8 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
     this.form.inputs.push({key: 'login', title: 'E-mail', type: 'input', required: true, email: true, emailSpecialChars: true})
     this.form.inputs.push({key: 'password', title: 'Password', type: 'input', inputType: 'password', required: true, maxLength: 255})
     this.form.inputs.push({key: 'password_confirmation', title: 'Password confirmation', type: 'input', inputType: 'password', required: true, matchingKey: 'password'})
-    this.form.inputs.push({key: 'sign_up', title: 'Sign up', type: 'button', color: 'white', backgroundColor: '#060022', displayError: true})
     this.form.inputs.push({key: 'agreement', title: '', type: 'agreement', defaultValue: false, requiredTrue: true})
+    this.form.inputs.push({key: 'sign_up', title: 'Sign up', type: 'button', color: 'white', backgroundColor: '#060022', displayError: true})
 
     this.formGroup = this.createForm(this.form.inputs);
   }
