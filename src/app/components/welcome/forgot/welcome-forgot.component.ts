@@ -12,7 +12,7 @@ export class WelcomeForgotComponent extends FormBaseComponent {
   override onInit() {
     this.form.title = 'Forgot password?';
     this.form.inputs.push({key: 'login', title: 'E-mail', type: 'input', required: true, email: true, emailSpecialChars: true});
-    this.form.inputs.push({key: 'send_link', title: 'Send recovery link', type: 'button', color: 'white', backgroundColor: '#060022'});
+    this.form.inputs.push({key: 'send_link', title: 'Send recovery link', type: 'button', color: 'white', backgroundColor: '#060022', displayError: true});
 
     this.formGroup = this.createForm(this.form.inputs);
   }
