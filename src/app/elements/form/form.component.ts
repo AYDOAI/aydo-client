@@ -27,7 +27,6 @@ export class FormComponent extends BaseElement implements OnInit {
   }
 
   button(input: AppFormInputs) {
-    this.formGroup.updateValueAndValidity();
     this.form.inputs.forEach(element => this.onBlur(element));
     this.onClickButton.emit(input);
   }
@@ -54,6 +53,7 @@ export class FormComponent extends BaseElement implements OnInit {
 
   public onBlur(element: AppFormInputs): void {
       const control = this.formGroup.get(element.key) as FormControl;
+      control?.updateValueAndValidity();
       if (control && control.invalid) {
         element.error = this.getErrorText(element.key, element.title);
       } else {
@@ -98,6 +98,8 @@ export class FormComponent extends BaseElement implements OnInit {
       return `${title} must contain only letters`;
     } else if (control.hasError('emailSpecialCharacters')) {
       return `${title} must not contain special characters`;
+    } else if (control.hasError('strongPassword')) {
+      return `${title} is not not strong enough`
     } else {
       return '';
     }

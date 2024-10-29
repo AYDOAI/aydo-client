@@ -11,6 +11,7 @@ import {Router} from '@angular/router';
 import { fieldMatchValidator } from "../shared/validators/field-match.validator";
 import { onlyLettersValidator } from "../shared/validators/only-letters.validator";
 import { emailSpecialCharValidator } from "../shared/validators/email-special-characters.validator";
+import { strongPasswordValidator } from "../shared/validators/strong-password.validator";
 
 // @ts-ignore
 export const emailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -103,6 +104,9 @@ export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (input.emailSpecialChars) {
       opts.push(emailSpecialCharValidator())
+    }
+    if (input.strongPassword) {
+      opts.push(strongPasswordValidator())
     }
     const control = new FormControl('', opts);
     if (input.defaultValue) {
