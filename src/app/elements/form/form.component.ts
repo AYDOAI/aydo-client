@@ -100,6 +100,8 @@ export class FormComponent extends BaseElement implements OnInit {
       return `${title} must not contain special characters`;
     } else if (control.hasError('strongPassword')) {
       return `${title} is not not strong enough`
+    } else if (control.hasError('latinOnly')) {
+      return `${title} contains invalid characters`
     } else {
       return '';
     }

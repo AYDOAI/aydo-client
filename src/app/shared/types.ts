@@ -1,4 +1,5 @@
 import { TemplateRef } from "@angular/core";
+import { latinOnly } from "./validators/latin-only.validator";
 
 export type FrameStep =
   ''
@@ -42,6 +43,7 @@ export interface AppFormInputs {
   required?: boolean;
   matchingKey?: string;
   onlyLetters?: boolean;
+  latinOnly?: boolean;
   strongPassword?: boolean;
   emailSpecialChars?: boolean;
   requiredTrue?: boolean;
