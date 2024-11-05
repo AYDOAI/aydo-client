@@ -31,6 +31,7 @@ import { ProjectComponent } from './components/streams/project/project.component
 import { FormAddDeviceComponent } from "./components/forms/add-device/form-add-device.component";
 import { FormEditDeviceComponent } from "./components/forms/edit-device/form-edit-device.component";
 import { GoogleAuthRedirectComponent } from "./components/google-auth-redirect/google-auth-redirect.component";
+import { EditProfileComponent } from "./components/profile/edit/edit-profile.component";
 
 export const routes: Routes = [
   {
@@ -94,6 +95,10 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+  },
+  {
+    path: 'profile/edit',
+    component: EditProfileComponent
   },
   {
     path: 'streams',
