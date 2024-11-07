@@ -33,11 +33,16 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
       type: 'input',
       required: true
     });
+
+    this.formGroup = this.createForm(this.form.inputs);
+
     this.form.inputs.push({
       key: 'attach',
       title: 'Sign in',
       type: 'button',
-      icon: 'arrow-right'
+      icon: 'arrow-right',
+      isDisabled: () => this.formGroup.invalid,
+      displayError: true
     });
     this.form.inputs.push({
       key: 'scan',
@@ -45,8 +50,6 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
       type: 'button',
       icon: 'arrow-right'
     });
-
-    this.formGroup = this.createForm(this.form.inputs);
   }
 
   public button(button: AppFormInputs): void {
