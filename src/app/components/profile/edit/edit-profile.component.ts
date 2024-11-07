@@ -35,18 +35,7 @@ export class EditProfileComponent extends FormBaseComponent {
         title: 'Wallet',
         type: 'input',
         maxLength: 256,
-        required: true,
-        onlyLetters: true,
         defaultValue: this.ui.user.wallet,
-      });
-      this.form.inputs.push({
-        key: 'email',
-        title: 'Email',
-        type: 'input',
-        required: true,
-        email: true,
-        emailSpecialChars: true,
-        defaultValue: this.ui.user.email,
       });
     }
     this.form.inputs.push({
@@ -65,7 +54,6 @@ export class EditProfileComponent extends FormBaseComponent {
     switch (input.key) {
       case 'submit':
         const user = { ...this.formGroup.value };
-        user.email = user.email.trim();
         this.ui.lockBtn('submit');
         this.backend.updateUser(user)
           .then(res => this.ui.user = res.user)
