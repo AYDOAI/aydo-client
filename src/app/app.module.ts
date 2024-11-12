@@ -67,6 +67,7 @@ import { StreamsHomeComponent } from './components/streams/streams-home';
 import { ProjectComponent } from './components/streams/project/project.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { GoogleAuthRedirectComponent } from "./components/google-auth-redirect/google-auth-redirect.component";
+import { SuccessComponent } from "./components/welcome/success/success.component";
 
 @NgModule({
   declarations: [
@@ -117,6 +118,7 @@ import { GoogleAuthRedirectComponent } from "./components/google-auth-redirect/g
     BarcodeScannerComponent,
     StreamsHomeComponent,
     ProjectComponent,
+    SuccessComponent,
     SafeHtmlPipe,
   ],
   imports: [

@@ -172,6 +172,13 @@ export class BackendService {
     });
   }
 
+  resendCode(): Promise<any> {
+    return this.request.get(`${environment.main_url}/backend/v2/user/resend-code`,  {
+      mainGroup: 'backend',
+      method: 'resend-code'
+    });
+  }
+
   userInfo(): Promise<any> {
     return this.request.get(`${environment.main_url}/backend/v2/user/info`, {
       mainGroup: 'backend',
