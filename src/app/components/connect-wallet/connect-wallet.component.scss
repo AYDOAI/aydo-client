@@ -1,0 +1,51 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+
+  .connect-wallet {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0 20px;
+    margin-top: 30px;
+  }
+
+  .card-content {
+    padding: 16px 19px 16px 16px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card-title {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    line-height: 140%;
+    font-weight: 600;
+  }
+
+  .type-data-info {
+    font-size: 12px;
+    line-height: 120%;
+    color: #999999;
+  }
+
+  .btn-group {
+    margin-top: 12px;
+
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .green-btn {
+    margin-top: 48px;
+  }
+
+  .btn-outline {
+    margin-top: 12px;
+  }
+}
