@@ -94,7 +94,7 @@ export class UIService implements OnDestroy {
               this.storage.serverId = data.gateway.identifier;
               next();
             } else {
-              // this.goStep('add-hub');
+              this.goStep('add-hub');
             }
           }).finally(() => this.loading.dismissLoading())
         }
