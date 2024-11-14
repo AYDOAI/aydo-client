@@ -19,7 +19,7 @@ export class UIService implements OnDestroy {
   selectedDriver!: DriverItem | undefined;
   devices!: DevicesModel;
   valuesInterval!: any;
-  user!: { balance: string; email: string; firstname: string; lastname: string; id: number; is_verified: boolean; login: string; params: any; token: string; refresh_token: string };
+  user!: { balance: string; email: string; wallet: string; firstname: string; lastname: string; id: number; is_verified: boolean; login: string; params: any; token: string; refresh_token: string };
   public userLoading: boolean = false;
 
   private btnLoading: string[] = [];
