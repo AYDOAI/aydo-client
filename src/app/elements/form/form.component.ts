@@ -95,7 +95,7 @@ export class FormComponent extends BaseElement implements OnInit {
     } else if (control.hasError('fieldMatch')) {
       return `${title} does not match`;
     } else if (control.hasError('onlyLetters')) {
-      return `${title} must contain only letters`;
+      return `${title} must contain only letters (a-zA-Z)`;
     } else if (control.hasError('emailSpecialCharacters')) {
       return `${title} must not contain special characters`;
     } else if (control.hasError('strongPassword')) {

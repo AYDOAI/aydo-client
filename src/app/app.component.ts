@@ -3,6 +3,7 @@ import {Subscription} from 'rxjs';
 import {ErrorsService} from './services/errors.service';
 import { LoadingService } from "./services/loading.service";
 import { Platform } from '@ionic/angular';
+import { UIService } from "./services/ui.service";
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ export class AppComponent {
 
   constructor(public errors: ErrorsService,
               public platform: Platform,
-              public loading: LoadingService) {
+              public loading: LoadingService,
+              public ui: UIService) {
     this.showErrorSub = this.errors.showErrorSub().subscribe((data: any) => {
       this.error.push(data);
     });

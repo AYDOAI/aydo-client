@@ -11,7 +11,7 @@ export class ProfileComponent extends FormBaseComponent {
 
   override onInit() {
     this.form.title = 'Profile';
-    if (this.ui.user) {
+    if (this.ui.user && this.ui.user?.login) {
 
       this.form.inputs.push({
         key: 'firstname',
@@ -26,16 +26,31 @@ export class ProfileComponent extends FormBaseComponent {
         defaultValue: this.ui.user.lastname,
       });
       this.form.inputs.push({
-        key: 'login',
-        title: 'Login',
+        key: 'wallet',
+        title: 'Wallet',
         type: 'text',
-        defaultValue: this.ui.user.login,
+        defaultValue: this.ui.user.wallet,
+      });
+      this.form.inputs.push({
+        key: 'email',
+        title: 'Email',
+        type: 'text',
+        defaultValue: this.ui.user.email,
       });
       this.form.inputs.push({
         key: 'balance',
         title: 'Balance',
         type: 'text',
         defaultValue: this.ui.user.balance,
+      });
+    }
+    if (this.ui.user?.email !== 'test@aydo.ai') {
+      this.form.inputs.push({
+        key: 'edit',
+        title: 'Edit',
+        type: 'button',
+        color: 'white',
+        backgroundColor: '#060022'
       });
     }
     this.form.inputs.push({
@@ -54,6 +69,9 @@ export class ProfileComponent extends FormBaseComponent {
       case 'logout':
         this.resetFormErrors();
         this.ui.logout();
+        break;
+      case 'edit':
+        this.router.navigate(['/profile/edit']);
         break;
     }
   }
