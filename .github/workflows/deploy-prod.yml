@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      name: trigger single Job
       uses: mickeygoussetorg/trigger-jenkins-job@v1
       with:
         jenkins-server:  "http://user:f1640b7c1df3496469a855262a451e95@jk.aydo.ai/"
