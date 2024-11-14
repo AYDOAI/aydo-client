@@ -67,6 +67,13 @@ import { StreamsHomeComponent } from './components/streams/streams-home';
 import { ProjectComponent } from './components/streams/project/project.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { GoogleAuthRedirectComponent } from "./components/google-auth-redirect/google-auth-redirect.component";
+import { SuccessComponent } from "./components/welcome/success/success.component";
+import { EditProfileComponent } from "./components/profile/edit/edit-profile.component";
+import { ProjectInfoComponent } from "./components/project-info/project-info.component";
+import { LinkContainerComponent } from "./elements/link-container/link-container.component";
+import { ConnectWalletComponent } from "./components/connect-wallet/connect-wallet.component";
+import { ConnectDevicesComponent } from "./components/connect-devices/connect-devices.component";
+import { DeviceCardComponent } from "./components/connect-devices/card/device-card.component";
 
 @NgModule({
   declarations: [
@@ -117,6 +124,13 @@ import { GoogleAuthRedirectComponent } from "./components/google-auth-redirect/g
     BarcodeScannerComponent,
     StreamsHomeComponent,
     ProjectComponent,
+    ProjectInfoComponent,
+    LinkContainerComponent,
+    ConnectWalletComponent,
+    ConnectDevicesComponent,
+    DeviceCardComponent,
+    EditProfileComponent,
+    SuccessComponent,
     SafeHtmlPipe,
   ],
   imports: [

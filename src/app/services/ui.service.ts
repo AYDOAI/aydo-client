@@ -19,7 +19,8 @@ export class UIService implements OnDestroy {
   selectedDriver!: DriverItem | undefined;
   devices!: DevicesModel;
   valuesInterval!: any;
-  user!: any;
+  user!: { balance: string; email: string; wallet: string; firstname: string; lastname: string; id: number; is_verified: boolean; login: string; params: any; token: string; refresh_token: string };
+  public userLoading: boolean = false;
 
   private btnLoading: string[] = [];
 
@@ -48,9 +49,14 @@ export class UIService implements OnDestroy {
 
   afterLogin() {
     if (this.storage.token) {
+      this.userLoading = true;
       this.loading.showLoading();
       this.backend.userInfo().then((data: any) => {
         this.user = data.user;
+        if (!this.user.is_verified) {
+          this.goStep('success');
+          return
+        }
         const next = () => {
           this.loading.showLoading();
           this.backend.getDevices().then((devices: any) => {
@@ -107,7 +113,10 @@ export class UIService implements OnDestroy {
           //     console.log(error);
           //   })
         }
-      }).finally(() => this.loading.dismissLoading())
+      }).finally(() => {
+        this.userLoading = false;
+        this.loading.dismissLoading();
+      })
     } else {
       this.loading.dismissLoading();
       this.goStep('main');

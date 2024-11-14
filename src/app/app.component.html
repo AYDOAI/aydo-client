@@ -25,7 +25,7 @@
   </div>
 </div>
 <div class="main" [class.no-padding]="platform.is('capacitor')">
-  <router-outlet></router-outlet>
+  <router-outlet *ngIf="!ui.userLoading"></router-outlet>
   <div *ngIf="loading.loading$ | async" class="loader-container">
     <span class="fence-loader"></span>
   </div>

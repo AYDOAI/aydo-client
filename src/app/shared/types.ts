@@ -13,7 +13,8 @@ export type FrameStep =
   | 'add-device'
   | 'edit-device'
   | 'profile'
-  | 'dashboard';
+  | 'dashboard'
+  | 'success';
 
 export type HubType = 'hub_aydo' | 'hub_pi' | 'hub_other';
 
