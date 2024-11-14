@@ -29,8 +29,10 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
           const user = { ...this.formGroup.value };
           user.email = user.login.trim();
           this.resetFormErrors();
-          this.backend.userRegister(user).then(() => {
-            this.ui.goStep('sign-in');
+          this.backend.userRegister(user).then((data) => {
+              this.storage.token = data.user.token;
+              this.storage.refreshToken = data.user.refresh_token;
+              this.ui.afterLogin();
           }).catch(() => {
           });
           break;

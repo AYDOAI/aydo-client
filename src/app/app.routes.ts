@@ -31,6 +31,7 @@ import { ProjectComponent } from './components/streams/project/project.component
 import { FormAddDeviceComponent } from "./components/forms/add-device/form-add-device.component";
 import { FormEditDeviceComponent } from "./components/forms/edit-device/form-edit-device.component";
 import { GoogleAuthRedirectComponent } from "./components/google-auth-redirect/google-auth-redirect.component";
+import { SuccessComponent } from "./components/welcome/success/success.component";
 import { EditProfileComponent } from "./components/profile/edit/edit-profile.component";
 import { ProjectInfoComponent } from "./components/project-info/project-info.component";
 import { ConnectWalletComponent } from "./components/connect-wallet/connect-wallet.component";
@@ -48,6 +49,10 @@ export const routes: Routes = [
   {
     path: 'forgot-password',
     component: WelcomeForgotComponent
+  },
+  {
+    path: 'success',
+    component: SuccessComponent
   },
   {
     path: 'google-auth-redirect',
