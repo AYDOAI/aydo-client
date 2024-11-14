@@ -14,28 +14,31 @@ export class FormAddHubAgreementComponent extends FormBaseComponent {
       key: 'connected',
       title: 'The hub is connected to your local network and online?',
       type: 'checkbox',
+      requiredTrue: true,
       required: true
     });
     this.form.inputs.push({
       key: 'local',
       title: 'You are on the same local network as the server',
       type: 'checkbox',
+      requiredTrue: true,
       required: true
     });
     this.form.inputs.push({
       key: 'policy',
       title: 'You agree to the application policy',
       type: 'checkbox',
+      requiredTrue: true,
       required: true
     });
+    this.formGroup = this.createForm(this.form.inputs);
     this.form.inputs.push({
       key: 'btn',
       title: 'Next',
       type: 'button',
-      icon: 'arrow-right'
+      icon: 'arrow-right',
+      isDisabled: () => this.formGroup?.invalid
     });
-
-    this.formGroup = this.createForm(this.form.inputs);
   }
 
   public next(): void {
