@@ -13,10 +13,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: trigger single Job
-      uses: appleboy/jenkins-action@master
+      uses: mickeygoussetorg/trigger-jenkins-job@v1
       with:
-        url: "http://user:f1640b7c1df3496469a855262a451e95@jk.aydo.ai/"
-        user: "user"
-        token: ${{ secrets.JENKINS_API_TOKEN }}
-        job: "aydo_client"
+        jenkins-server:  "http://user:f1640b7c1df3496469a855262a451e95@jk.aydo.ai/"
+        jenkins-job: "aydo_client" # The name of the jenkins job to run
+        jenkins-username: "user"
+        jenkins-pat: ${{ secrets.JENKINS_API_TOKEN }}
+        verbose: true
+    # - name: trigger single Job
+    #   uses: appleboy/jenkins-action@master
+    #   with:
+    #     url: "http://user:f1640b7c1df3496469a855262a451e95@jk.aydo.ai/"
+    #     user: "user"
+    #     token: ${{ secrets.JENKINS_API_TOKEN }}
+    #     job: "aydo_client"
