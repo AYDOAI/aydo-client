@@ -33,11 +33,16 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
       type: 'input',
       required: true
     });
+
+    this.formGroup = this.createForm(this.form.inputs);
+
     this.form.inputs.push({
       key: 'attach',
       title: 'Sign in',
       type: 'button',
-      icon: 'arrow-right'
+      icon: 'arrow-right',
+      isDisabled: () => this.formGroup.invalid,
+      displayError: true
     });
     this.form.inputs.push({
       key: 'scan',
@@ -45,8 +50,6 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
       type: 'button',
       icon: 'arrow-right'
     });
-
-    this.formGroup = this.createForm(this.form.inputs);
   }
 
   public button(button: AppFormInputs): void {
@@ -62,14 +65,14 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
         this.backend.gatewayConnect(gateway).then((data: any) => {
           if (data && data.gateway && data.gateway.identifier) {
             this.storage.serverId = data.gateway.identifier;
-            this.ui.goStep('devices');
+            const hub = this.activatedRoute.snapshot.paramMap.get('hub');
+            this.router.navigate([`add-hub/${hub}/connected`]);
           }
         }).catch(() => {
 
         });
+        break;
     }
-    const hub = this.activatedRoute.snapshot.paramMap.get('hub');
-    this.router.navigate([`add-hub/${hub}/connected`]);
   }
 
 }

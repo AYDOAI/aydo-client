@@ -32,6 +32,9 @@ import { FormAddDeviceComponent } from "./components/forms/add-device/form-add-d
 import { FormEditDeviceComponent } from "./components/forms/edit-device/form-edit-device.component";
 import { GoogleAuthRedirectComponent } from "./components/google-auth-redirect/google-auth-redirect.component";
 import { EditProfileComponent } from "./components/profile/edit/edit-profile.component";
+import { ProjectInfoComponent } from "./components/project-info/project-info.component";
+import { ConnectWalletComponent } from "./components/connect-wallet/connect-wallet.component";
+import { ConnectDevicesComponent } from "./components/connect-devices/connect-devices.component";
 
 export const routes: Routes = [
   {
@@ -117,6 +120,18 @@ export const routes: Routes = [
   {
     path: 'status',
     component: StatusComponent,
+  },
+  {
+    path: 'project-info',
+    component: ProjectInfoComponent,
+  },
+  {
+    path: 'connect-wallet',
+    component: ConnectWalletComponent,
+  },
+  {
+    path: 'connect-devices',
+    component: ConnectDevicesComponent,
   },
   {
     path: 'about',

@@ -1,0 +1,55 @@
+:host {
+  ::ng-deep {
+    .big {
+      margin-bottom: 24px;
+      clip-path: polygon(100% 0, 100% 77%, 93% 100%, 0 100%, 0 0);
+      &:after {
+        clip-path: polygon(100% 0, 100% 77.3%, 93% 100%, 0 100%, 0 0);
+      }
+    }
+  }
+  .card-content {
+    padding: 16px 19px 16px 16px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card-title {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    line-height: 140%;
+    font-weight: 600;
+  }
+
+  .type-data-info {
+    font-size: 12px;
+    line-height: 120%;
+    color: #999999;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .addition-info {
+    margin-bottom: 0;
+    text-align: center;
+    font-size: 14px;
+    line-height: 140%;
+    color: #0C1821;
+  }
+
+  .tokens {
+    margin: 0;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 140%;
+    color: #060022;
+  }
+}

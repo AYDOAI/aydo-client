@@ -13,7 +13,7 @@ export function strongPasswordValidator() {
     const lowerCaseRegex = new RegExp(`(?=(.*[a-z]){${minLowercase}})`);
     const upperCaseRegex = new RegExp(`(?=(.*[A-Z]){${minUppercase}})`);
     const numberRegex = new RegExp(`(?=(.*\\d){${minNumbers}})`);
-    const symbolRegex = new RegExp(`(?=(.*[!@#$%^&*(),.?":{}|<>]){${minSymbols}})`);
+    const symbolRegex = new RegExp(`(?=(.*[!@#$%^&*(),.?":{}|<>_]){${minSymbols}})`);
 
     const isValid =
       value?.length >= minLength &&
