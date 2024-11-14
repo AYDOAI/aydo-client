@@ -16,10 +16,10 @@ jobs:
     - name: trigger single Job
       uses: mickeygoussetorg/trigger-jenkins-job@v1
       with:
-        jenkins-server:  "http://user:f1640b7c1df3496469a855262a451e95@jk.aydo.ai/"
+        jenkins-server:  "http://jk.aydo.ai/"
         jenkins-job: "aydo_client" # The name of the jenkins job to run
         jenkins-username: "user"
-        jenkins-pat: ${{ secrets.JENKINS_API_TOKEN }}
+        jenkins-pat: "11e4b018c2945afae5b3dd91c16041d73e"
         verbose: true
     # - name: trigger single Job
     #   uses: appleboy/jenkins-action@master
