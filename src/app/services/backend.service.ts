@@ -165,6 +165,13 @@ export class BackendService {
     });
   }
 
+  updateUser(user: any): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/user/edit`, {user}, {
+      mainGroup: 'backend',
+      method: 'user-update'
+    });
+  }
+
   userForgot(user: LoginItem): Promise<any> {
     return this.request.post(`${environment.main_url}/backend/v2/user/forgot`, {user}, {
       mainGroup: 'backend',

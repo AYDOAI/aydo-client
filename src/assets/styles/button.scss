@@ -16,6 +16,10 @@
   transition: 0.3ms;
   cursor: pointer;
 
+  &.text-center {
+    justify-content: center;
+  }
+
   &:disabled {
     color: var(--white-05);
     background: var(--very-dark-grayish-blue);
@@ -43,6 +47,15 @@
       color: var(--red);
       background: transparent;
       border-color: var(--red);
+      opacity: 0.7;
+    }
+  }
+
+  &.green-btn {
+    color: #060022;
+    background: #D5F790;
+    border-color: #060022;
+    &:disabled {
       opacity: 0.7;
     }
   }

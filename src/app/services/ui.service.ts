@@ -20,6 +20,7 @@ export class UIService implements OnDestroy {
   devices!: DevicesModel;
   valuesInterval!: any;
   user!: { balance: string; email: string; firstname: string; lastname: string; id: number; is_verified: boolean; login: string; params: any; token: string; refresh_token: string };
+  public userLoading: boolean = false;
 
   private btnLoading: string[] = [];
 
@@ -48,6 +49,7 @@ export class UIService implements OnDestroy {
 
   afterLogin() {
     if (this.storage.token) {
+      this.userLoading = true;
       this.loading.showLoading();
       this.backend.userInfo().then((data: any) => {
         this.user = data.user;
@@ -111,7 +113,10 @@ export class UIService implements OnDestroy {
           //     console.log(error);
           //   })
         }
-      }).finally(() => this.loading.dismissLoading())
+      }).finally(() => {
+        this.userLoading = false;
+        this.loading.dismissLoading();
+      })
     } else {
       this.loading.dismissLoading();
       this.goStep('main');
