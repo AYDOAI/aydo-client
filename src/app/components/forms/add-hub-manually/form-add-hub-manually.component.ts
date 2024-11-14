@@ -71,6 +71,7 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
         }).catch(() => {
 
         });
+        break;
     }
   }
 
