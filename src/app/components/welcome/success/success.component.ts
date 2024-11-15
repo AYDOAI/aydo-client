@@ -15,7 +15,7 @@ export class SuccessComponent extends FormBaseComponent {
     this.form.title = 'Sign up';
     this.form.inputs.push({key: 'success_message',
       type: 'string', title: 'You have successfully registered. Please check your email to confirm your account.'})
-    this.form.inputs.push({key: 'resend', type: 'button', title: 'Resend confirmation email'})
+    this.form.inputs.push({key: 'resend', type: 'button', title: 'Resend confirmation email', isDisabled: () => this.formGroup?.invalid})
     this.form.inputs.push({key: 'logout', type: 'button', title: 'Logout'})
     this.formGroup = this.createForm(this.form.inputs);
   }

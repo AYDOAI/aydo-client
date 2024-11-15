@@ -22,4 +22,7 @@ export class NotificationsComponent extends BaseComponent {
     this.notifications.splice(ind, 1);
   }
 
+  goBack() {
+    this.router.navigate(['/dashboard'])
+  }
 }
