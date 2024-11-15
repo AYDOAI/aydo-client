@@ -18,38 +18,26 @@ export class FormAddHubComponent extends FormBaseComponent {
       key: 'hub_aydo',
       title: 'AYDO Hub',
       type: 'button',
-      color: 'white',
-      backgroundColor: '#3E3C49'
+      icon: 'plus'
     });
     this.form.inputs.push({
       key: 'hub_pi',
       title: 'Raspberry Pi',
       type: 'button',
-      color: 'white',
-      backgroundColor: '#060022'
+      icon: 'plus'
     });
     this.form.inputs.push({
       key: 'hub_other',
       title: 'Other hub',
       type: 'button',
-      color: 'white',
-      backgroundColor: '#060022'
+      icon: 'plus'
     });
 
     this.formGroup = this.createForm(this.form.inputs);
   }
 
   button(input: AppFormInputs) {
-    switch (input.key) {
-      case 'hub_aydo':
-        this.errors.showError('This hub will be implemented later');
-        break;
-      case 'hub_pi':
-      case 'hub_other':
-        this.ui.selectedHubType = input.key;
-        this.ui.goStep('config-hub');
-        break;
-    }
+    this.router.navigate([`/add-hub/${input.key}`])
   }
 
 }

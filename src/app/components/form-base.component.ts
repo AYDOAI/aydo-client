@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
-import {AppForm, FrameStep} from '../shared/types';
+import { AppForm, AppFormInputs, FrameStep } from '../shared/types';
 import {BaseComponent} from './base.component';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {BackendService} from '../services/backend.service';
 import {ErrorsService} from "../services/errors.service";
 import {StorageService} from "../services/storage.service";
 import {UIService} from '../services/ui.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-form-base',
@@ -20,8 +21,9 @@ export class FormBaseComponent extends BaseComponent {
               public override backend: BackendService,
               public override errors: ErrorsService,
               public override storage: StorageService,
+              public override router: Router,
               public override fb: FormBuilder) {
-    super(ui, backend, errors, storage, fb);
+    super(ui, backend, errors, storage, router, fb);
   }
 
   select(event: FrameStep) {
@@ -58,5 +60,4 @@ export class FormBaseComponent extends BaseComponent {
       input.error = '';
     })
   }
-
 }

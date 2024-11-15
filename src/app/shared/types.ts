@@ -1,3 +1,5 @@
+import { TemplateRef } from "@angular/core";
+
 export type FrameStep =
   ''
   | 'main'
@@ -11,11 +13,12 @@ export type FrameStep =
   | 'add-device'
   | 'edit-device'
   | 'profile'
-  | 'dashboard';
+  | 'dashboard'
+  | 'success';
 
 export type HubType = 'hub_aydo' | 'hub_pi' | 'hub_other';
 
-export type AppFormType = 'input' | 'button' | 'text';
+export type AppFormType = 'input' | 'button' | 'text' | 'string' | 'checkbox' | 'template' | 'agreement' | 'select';
 
 export interface AppForm {
   title: string;
@@ -38,6 +41,14 @@ export interface AppFormInputs {
   defaultValue?: any;
   email?: boolean;
   required?: boolean;
+  matchingKey?: string;
+  onlyLetters?: boolean;
+  latinOnly?: boolean;
+  strongPassword?: boolean;
+  emailSpecialChars?: boolean;
+  requiredTrue?: boolean;
+  displayError?: boolean;
+  isDisabled?: Function;
 // //   hidden?: boolean;
 // //   hidden2?: boolean;
   number?: boolean;
@@ -47,11 +58,11 @@ export interface AppFormInputs {
 // //   text?: string;
 // //   button_title?: string;
 // //   icon?: string;
-// //   items?: SelectItem[];
-// //   class?: string;
+   items?: SelectItem[];
+   class?: string;
 // //   placeholder?: string;
-// //   readonly?: string;
-// //   multi?: boolean;
+//   readonly?: string;
+   multi?: boolean;
 // //   rows?: number;
 // //   autocomplete?: string;
 // //   groupTab?: string;
@@ -61,4 +72,12 @@ export interface AppFormInputs {
 // //   visibleField?: string;
 // //   description?: string;
   error?: string;
+  icon?: string;
+  template?: TemplateRef<any>;
+}
+
+export interface SelectItem {
+  id: string | number;
+  title?: string;
+  icon?: string;
 }

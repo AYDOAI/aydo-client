@@ -17,6 +17,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 export class InputComponent extends BaseElement {
 
   @Output() onEnter: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onBlur: EventEmitter<any> = new EventEmitter<any>();
   @Input() title!: string;
   @Input() type!: string | undefined;
   @Input() form!: FormGroup;

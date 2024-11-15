@@ -9,18 +9,51 @@
     <div class="space"  *ngIf="back"></div>
   </div>
   <div *ngIf="form.description" class="description">{{form.description}}</div>
-  <ng-container *ngFor="let input of form.inputs">
-    <ng-container [ngSwitch]="input.type">
-      <div *ngSwitchCase="'text'" class="text">
-        <app-input [readonly]="true" [title]="input.title" [form]="formGroup" [key]="input.key" [error]="input.error" [type]="input.inputType"></app-input>
-      </div>
-      <div *ngSwitchCase="'input'" class="input">
-        <app-input [title]="input.title" [form]="formGroup" [key]="input.key" [error]="input.error" [type]="input.inputType"></app-input>
-      </div>
-      <div *ngSwitchCase="'button'" class="button">
-        <app-button [title]="input.title" [color]="input.color" [backgroundColor]="input.backgroundColor" (onClick)="button(input)"></app-button>
-      </div>
+  <div class="form_content">
+    <ng-container *ngFor="let input of form.inputs">
+      <ng-container [ngSwitch]="input.type">
+        <div *ngSwitchCase="'string'">
+          <p> {{ input.title }} </p>
+        </div>
+        <div *ngSwitchCase="'template'" style="display: flex">
+          <ng-content></ng-content>
+        </div>
+        <div *ngSwitchCase="'text'" class="text">
+          <app-input [readonly]="true" [title]="input.title" [form]="formGroup" [key]="input.key" [type]="input.inputType" (onBlur)="onBlur(input)"></app-input>
+        </div>
+        <div *ngSwitchCase="'input'" class="input">
+          <app-input [title]="input.title" [form]="formGroup" [key]="input.key" [type]="input.inputType" (onBlur)="onBlur(input)"></app-input>
+        </div>
+        <div *ngSwitchCase="'button'">
+          <div *ngIf="input.displayError && formError" class="form-error">
+            {{ formError }}
+          </div>
+          <button class="btn {{ input.class }}" [disabled]="btnDisabled || ui.isBtnLoading(input.key) || (input.isDisabled && input.isDisabled())" (click)="button(input)">
+            <span *ngIf="ui.isBtnLoading(input.key)" class="spin-loader"></span>
+            {{ input.title }}
+            <svg-icon *ngIf="!!input.icon" [name]="input.icon" class="icon" width="12px" height="12px"></svg-icon>
+          </button>
+        </div>
+        <div *ngSwitchCase="'checkbox'">
+          <app-checkbox [form]="formGroup" [key]="input.key" [title]="input.title" (onBlur)="onBlur(input)"></app-checkbox>
+        </div>
+        <div *ngSwitchCase="'select'">
+          <app-select
+            [form]="formGroup"
+            [class]="input.class ?? ''"
+            [key]="input.key"
+            [title]="input.title!"
+            [items]="input.items!"
+            (blur)="onBlur(input)"
+          ></app-select>
+        </div>
+        <div *ngSwitchCase="'agreement'" class="user-agreement">
+          <app-checkbox [form]="formGroup" [key]="input.key" (onBlur)="onBlur(input)">
+            <span>I Agree to <a style="cursor: pointer" href="#" (click)="openLicense($event)"> Aydo’s terms and conditions </a></span>
+          </app-checkbox>
+        </div>
+      </ng-container>
     </ng-container>
-  </ng-container>
+  </div>
   <div *ngIf="form.footer" class="footer" [innerHTML]="form.footer | safeHtml"></div>
 </div>

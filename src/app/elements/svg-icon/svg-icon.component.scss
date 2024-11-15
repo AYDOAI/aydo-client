@@ -1,6 +1,11 @@
 $fontColor: #263238;
 $deviceFontColor: #EEEEEE;
 
+:host {
+  display: flex;
+  width: fit-content;
+}
+
 .icon-container {
   display: flex;
   width: 100%;

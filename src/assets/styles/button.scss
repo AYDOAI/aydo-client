@@ -1,0 +1,85 @@
+.btn {
+  width: 100%;
+  height: 54px;
+  padding: 16px;
+
+  display: flex;
+  align-items: center;
+
+  font-size: 16px;
+  font-family: "IBM Plex Mono", monospace;
+  color: var(--white);
+  background: var(--very-dark-blue);
+  border: 1px solid var(--very-dark-blue);
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition: 0.3ms;
+  cursor: pointer;
+
+  &.text-center {
+    justify-content: center;
+  }
+
+  &:disabled {
+    color: var(--white-05);
+    background: var(--very-dark-grayish-blue);
+    border-color: var(--very-dark-grayish-blue);
+    pointer-events: none;
+  }
+
+  &-outline {
+    color: var(--very-dark-blue);
+    background: transparent;
+
+    &:disabled {
+      color: var(--very-dark-grayish-blue);
+      background: transparent;
+      border-color: var(--very-dark-grayish-blue);
+    }
+  }
+
+  &.red-btn {
+    color: var(--red);
+    background: transparent;
+    border-color: var(--red);
+
+    &:disabled {
+      color: var(--red);
+      background: transparent;
+      border-color: var(--red);
+      opacity: 0.7;
+    }
+  }
+
+  &.green-btn {
+    color: #060022;
+    background: #D5F790;
+    border-color: #060022;
+    &:disabled {
+      opacity: 0.7;
+    }
+  }
+
+  &.text-btn {
+    padding: 0;
+    height: 22px;
+    margin-left: 16px;
+    margin-top: 16px;
+    color: var(--very-dark-blue);
+    border: none;
+    background: transparent;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:has(.icon), &:has(svg-icon) {
+    padding-right: 12px;
+    justify-content: space-between;
+  }
+
+  .icon, svg-icon {
+    margin-left: auto;
+  }
+}

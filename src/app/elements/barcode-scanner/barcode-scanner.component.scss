@@ -1,0 +1,39 @@
+.barcode-scanner {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+
+  background: transparent;
+  z-index: 9999;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.torch-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.square {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 16px;
+  width: 200px;
+  height: 200px;
+  border: 6px solid white;
+  box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.3);
+}

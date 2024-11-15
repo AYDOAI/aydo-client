@@ -1,0 +1,83 @@
+:host {
+  .caption {
+    margin-left: 20px;
+    margin-top: 20px;
+    display: flex;
+
+    .card {
+      width: 40px;
+      height: 40px;
+      box-sizing: border-box;
+
+      .card-content {
+        --icon-width: 9px;
+        --icon-height: 18px;
+        padding-top: 2px;
+        padding-left: 4px;
+      }
+    }
+  }
+
+  .rewards {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+    column-gap: 23px;
+
+    padding: 0 20px;
+    margin-top: 30px;
+  }
+
+  .rewards {
+    .card-content {
+      display: flex;
+      flex-direction: column;
+
+      padding: 16px 19px 16px 26px;
+    }
+  }
+
+  .card-title {
+    display: flex;
+    align-items: center;
+
+    font-size: 14px;
+    line-height: 140%;
+    font-weight: 600;
+
+    .icon {
+      margin-left: auto;
+    }
+  }
+
+  .chips {
+    margin-top: 24px;
+
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+
+    &_item {
+      padding: 4px 8px;
+
+      display: flex;
+      flex-direction: column;
+
+      border: 1px solid var(--very-dark-blue);
+      border-radius: 8px;
+
+      .operation {
+        font-size: 12px;
+        line-height: 120%;
+        color: #999999;
+      }
+
+      .arrival {
+        font-size: 14px;
+        line-height: 140%;
+        font-weight: 600;
+        color: #0C1821;
+      }
+    }
+  }
+}

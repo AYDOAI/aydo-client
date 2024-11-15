@@ -31,6 +31,18 @@ export class FormEditDeviceComponent extends FormBaseComponent {
           backgroundColor: '#060022'
         });
       }
+
+      if (setting.type === 'select') {
+        this.form.inputs.push({
+          key: setting.key,
+          title: setting.name,
+          type: setting.type,
+          defaultValue: setting.defaultValue,
+          items: setting.items,
+          color: 'white',
+          backgroundColor: '#060022'
+        });
+      }
     });
     this.form.inputs.push({
       key: 'save_device',

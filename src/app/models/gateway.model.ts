@@ -1,5 +1,5 @@
 import {BaseItem, BaseModel} from './base';
-import {AppFormType} from '../shared/types';
+import { AppFormType, SelectItem } from '../shared/types';
 
 export class GatewayItem extends BaseItem {
   identifier: string | undefined;
@@ -74,6 +74,7 @@ export class SettingItem extends BaseItem {
   name!: string;
   defaultValue!: string;
   description!: string;
+  items!: SelectItem[];
   _type!: AppFormType;
 
   get type(): AppFormType {

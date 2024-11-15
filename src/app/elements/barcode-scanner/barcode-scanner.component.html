@@ -1,0 +1,11 @@
+<div class="barcode-scanner">
+  <div class="close-btn" (click)="closeModal()">
+    Close
+  </div>
+  <div #square class="square"></div>
+  <div *ngIf="isTorchAvailable">
+    <div class="torch-btn" (click)="toggleTorch()">
+      Torch
+    </div>
+  </div>
+</div>

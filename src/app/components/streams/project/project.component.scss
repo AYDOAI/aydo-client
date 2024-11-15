@@ -1,0 +1,97 @@
+:host {
+  .project {
+    padding: 0 20px;
+    margin-top: 30px;
+  }
+
+  .project-info {
+    display: flex;
+    column-gap: 12px;
+  }
+
+  .card-content {
+    padding: 16px 19px 16px 16px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .project-content {
+      display: flex;
+      flex-flow: row wrap;
+    }
+  }
+  .card-header {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    --icon-width: 9px;
+    --icon-height: 18px;
+
+    .icon {
+      margin-left: auto;
+    }
+  }
+
+  .card-title {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    line-height: 140%;
+    font-weight: 600;
+  }
+
+  .card-status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 4px;
+    margin-left: 8px;
+
+    color: #999999;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 120%;
+
+    background: #EEF1E7;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .card-desc {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 120%;
+    color: #999999;
+    margin-top: 4px;
+  }
+
+  .type-data-info {
+    font-size: 12px;
+    line-height: 120%;
+    color: #999999;
+  }
+
+  .link-container {
+    padding: 12px 12px 12px 18px;
+
+    display: flex;
+    align-items: center;
+
+    border: 1px solid var(--very-dark-blue);
+    border-radius: 12px;
+
+    svg {
+      margin-left: auto;
+
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+}

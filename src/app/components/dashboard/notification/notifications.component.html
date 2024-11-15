@@ -1,0 +1,13 @@
+<app-header title="Notifications"></app-header>
+
+<div class="notifications">
+  <div class="card long" *ngFor="let notification of notifications; let i = index">
+    <div class="card-content">
+      {{ notification.title }}
+      <svg-icon *ngIf="notifications.length" name="close" class="close-icon" (click)="closeNotification(i)"></svg-icon>
+    </div>
+  </div>
+  <div *ngIf="!notifications.length" class="no-content">
+      No notifications
+  </div>
+</div>

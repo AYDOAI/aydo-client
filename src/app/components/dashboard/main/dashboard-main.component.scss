@@ -1,0 +1,146 @@
+
+.dashboard {
+  display: flex;
+  flex-flow: row wrap;
+  column-gap: 12px;
+  row-gap: 12px;
+  margin: 32px 22px 0;
+}
+
+.item-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+.dashboard-item {
+  //border: 1px solid #060022;
+  //border-radius: 12px;
+  width: 100%;
+  position: relative;
+  padding: 16px 15px;
+
+  .dashboard-content {
+    .title {
+      display: flex;
+      align-items: center;
+
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 140%;
+      letter-spacing: 0.05em;
+      color: #0C1821;
+      margin-bottom: 4px;
+
+      .icon {
+        width: 6px;
+        height: 10px;
+
+        margin-left: auto;
+      }
+
+      .notification_count {
+        width: 24px;
+        height: 24px;
+        margin-left: 6px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #D5F790;
+        border-radius: 50%;
+      }
+    }
+
+    .content {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 140%;
+      letter-spacing: 0.05em;
+      color: #0C1821;
+    }
+  }
+}
+
+.dashboard-item.rewards {
+  .dashboard-content {
+    margin-left: 12px;
+    margin-right: 12px;
+
+    .title {
+      margin-bottom: 50px;
+    }
+
+    .content {
+      display: flex;
+      align-items: flex-end;
+      gap: 9px;
+
+      .reward {
+        border: 1px solid #060022;
+        border-radius: 12px;
+        width: calc(50%);
+
+        .reward-content {
+          margin: 8px 12px;
+
+          .label {
+            color: #999999;
+            font-size: 12px;
+          }
+
+          .mb-44 {
+            margin-bottom: 44px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.dashboard-item.main-quests, .dashboard-item.additional-quests {
+  width: calc(50% - 22px);
+
+  .dashboard-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .title {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 120%;
+      color: #999999;
+      margin-bottom: 20px;
+    }
+    .content {
+      display: flex;
+      flex-direction: column;
+
+      color: #0C1821;
+      font-weight: 600;
+
+      .quest_count {
+        font-size: 18px;
+
+        line-height: 140%;
+      }
+    }
+  }
+}
+
+.arrow-icon {
+  --icon-width: 6px;
+  --icon-height: 11px;
+  position: absolute;
+  right: 7px;
+  top: 18px
+}
+

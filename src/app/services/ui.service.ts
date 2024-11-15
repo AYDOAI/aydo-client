@@ -1,9 +1,11 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HubType, FrameStep} from '../shared/types';
 import {StorageService} from './storage.service';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 import {BackendService} from './backend.service';
 import {DevicesModel, DriverItem, DriversModel} from '../models/gateway.model';
+import {Router} from '@angular/router';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +19,16 @@ export class UIService implements OnDestroy {
   selectedDriver!: DriverItem | undefined;
   devices!: DevicesModel;
   valuesInterval!: any;
-  user!: any;
+  user!: { balance: string; email: string; wallet: string; firstname: string; lastname: string; id: number; is_verified: boolean; login: string; params: any; token: string; refresh_token: string };
+  public userLoading: boolean = false;
+
+  private btnLoading: string[] = [];
 
   constructor(public storage: StorageService,
-              public backend: BackendService) {
-    this.initSub = this.storage.initSub().subscribe(data => {
+              public backend: BackendService,
+              public router: Router,
+              private loading: LoadingService) {
+    this.initSub = this.loading.showLoading$(this.storage.initSub()).subscribe(data => {
       this.afterLogin();
     })
   }
@@ -30,11 +37,28 @@ export class UIService implements OnDestroy {
     this.initSub?.unsubscribe();
   }
 
+  tryDemo(): void {
+    this.lockBtn('try_demo');
+    this.backend.userLogin({ login: 'test@aydo.ai', password: '1qaz@WSX' }).then(() => {
+      this.afterLogin();
+    }).finally(() => {
+      this.unlockBtn('try_demo');
+      this.router.navigate(['/dashboard']);
+    });
+  }
+
   afterLogin() {
     if (this.storage.token) {
-      this.backend.userInfo().then((data) => {
+      this.userLoading = true;
+      this.loading.showLoading();
+      this.backend.userInfo().then((data: any) => {
         this.user = data.user;
+        if (!this.user.is_verified) {
+          this.goStep('success');
+          return
+        }
         const next = () => {
+          this.loading.showLoading();
           this.backend.getDevices().then((devices: any) => {
             this.devices = new DevicesModel(devices);
             // console.log(devices);
@@ -50,6 +74,8 @@ export class UIService implements OnDestroy {
                   }
                 })
               }).catch(() => {
+              }).finally(() => {
+                this.loading.dismissLoading();
               })
             }
             clearInterval(this.valuesInterval);
@@ -60,12 +86,15 @@ export class UIService implements OnDestroy {
             }, 5000);
             getDeviceValues();
           }).catch(() => {
+          }).finally(() => {
+            this.loading.dismissLoading();
           });
           this.defaultStep();
         }
         if (this.storage.serverId) {
           next();
         } else {
+          this.loading.showLoading();
           this.backend.getGateway().then((data) => {
             if (data && data.gateway && data.gateway.identifier) {
               this.storage.serverId = data.gateway.identifier;
@@ -73,7 +102,7 @@ export class UIService implements OnDestroy {
             } else {
               this.goStep('add-hub');
             }
-          })
+          }).finally(() => this.loading.dismissLoading())
         }
       }).catch(error => {
         this.goStep('sign-in');
@@ -84,22 +113,47 @@ export class UIService implements OnDestroy {
           //     console.log(error);
           //   })
         }
+      }).finally(() => {
+        this.userLoading = false;
+        this.loading.dismissLoading();
       })
     } else {
+      this.loading.dismissLoading();
       this.goStep('main');
     }
   }
 
-  get step(): FrameStep {
-    return this._step;
-  }
+  // get step(): FrameStep {
+  //   return this._step;
+  // }
 
   goStep(step: FrameStep) {
     this._step = step;
+    this.router.navigate([`/${step}`])
   }
 
   defaultStep() {
-    this._step = 'dashboard';
+    this.goStep('dashboard');
   }
 
+  public logout(): void {
+    this.storage.token = '';
+    this.storage.refreshToken = '';
+    this.storage.serverId = '';
+    this.router.navigate(['/sign-in']);
+  }
+
+  public lockBtn(key: string): void {
+    this.btnLoading.push(key);
+  }
+
+  public unlockBtn(key: string): void {
+    setTimeout(() => {
+      this.btnLoading = this.btnLoading.filter(el => el !== key)
+    }, 200);
+  }
+
+  public isBtnLoading(key: string): boolean {
+    return this.btnLoading.includes(key);
+  }
 }

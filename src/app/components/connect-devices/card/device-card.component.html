@@ -1,0 +1,17 @@
+<div class="card big">
+  <div class="card-content">
+    <div class="card-header">
+      <div class="card-title">
+        {{ 'Reolink Camera' }}
+      </div>
+    </div>
+    <app-input [readonly]="true" [form]="formGroup" key="Name" [title]="'Name'" [type]="'text'"></app-input>
+    <div class="input-group">
+      <app-input [readonly]="true" [form]="formGroup" key="Location" [title]="'Location'" [type]="'text'"></app-input>
+      <app-input [readonly]="true" [form]="formGroup" key="Status" [title]="'Status'" [type]="'text'"></app-input>
+    </div>
+    <button class="btn text-center">Connect</button>
+    <p class="addition-info">Total Approximate Payout per hour</p>
+    <p class="tokens">12 tokens</p>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+name: AYDO Client Prod Deploy
+
+on:
+  push:
+    branches: [ "AYDO-main" ]
+  pull_request:
+    branches: [ "AYDO-main" ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Trigger Jenkins
+      run: |
+        curl -L --user ${{ secrets.JENKINS_AUTH }} "http://jk.aydo.ai/job/aydo_client/build?token=${{ secrets.JENKINS_API_TOKEN }}"
+        

@@ -7,6 +7,12 @@ import {BackendService} from '../services/backend.service';
 import {ErrorsService} from "../services/errors.service";
 import {StorageService} from "../services/storage.service";
 import {UIService} from '../services/ui.service';
+import {Router} from '@angular/router';
+import { fieldMatchValidator } from "../shared/validators/field-match.validator";
+import { onlyLettersValidator } from "../shared/validators/only-letters.validator";
+import { emailSpecialCharValidator } from "../shared/validators/email-special-characters.validator";
+import { strongPasswordValidator } from "../shared/validators/strong-password.validator";
+import { latinOnly } from "../shared/validators/latin-only.validator";
 
 // @ts-ignore
 export const emailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -24,6 +30,7 @@ export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
     public backend: BackendService,
     public errors: ErrorsService,
     public storage: StorageService,
+    public router: Router,
     public fb: FormBuilder,
   ) {
     this.onCreate();
@@ -86,6 +93,24 @@ export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
     if (input.required) {
       // @ts-ignore
       opts.push(Validators.required);
+    }
+    if (input.requiredTrue) {
+      opts.push(Validators.requiredTrue);
+    }
+    if (input.matchingKey) {
+      opts.push(fieldMatchValidator(input.key, input.matchingKey));
+    }
+    if (input.onlyLetters) {
+      opts.push(onlyLettersValidator())
+    }
+    if (input.latinOnly) {
+      opts.push(latinOnly())
+    }
+    if (input.emailSpecialChars) {
+      opts.push(emailSpecialCharValidator())
+    }
+    if (input.strongPassword) {
+      opts.push(strongPasswordValidator())
     }
     const control = new FormControl('', opts);
     if (input.defaultValue) {
