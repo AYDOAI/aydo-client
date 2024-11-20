@@ -49,7 +49,7 @@ export interface DataStream {
   name: string;
   description: string;
   externalLink: string;
-  status?: 'Active' | 'Pending' | 'Not Active';
+  status?: 0 | 1;
   logo?: string;
 }
 

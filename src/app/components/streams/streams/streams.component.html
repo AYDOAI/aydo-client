@@ -16,7 +16,7 @@
               {{stream.name ?? ''}}
             </div>
             <div class="card-status">
-              {{stream.status ?? ''}}
+              {{stream.status === 1 ? 'Active' : 'Inactive'}}
             </div>
             <svg-icon name="arrow" class="icon"></svg-icon>
           </div>

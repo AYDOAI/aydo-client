@@ -15,7 +15,7 @@
               {{ dataStream?.name ?? '' }}
             </div>
             <div class="card-status">
-              {{ dataStream?.status ?? '' }}
+              {{ dataStream?.status === 1 ? 'ACTIVE' : 'INACTIVE'}}
             </div>
           </div>
           <div class="card-desc">
