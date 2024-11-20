@@ -12,8 +12,8 @@ export class StreamsComponent extends BaseComponent {
   dataStreams!: DataStream[]
 
   override onInit() {
-    this.backend.getDataStreams().then((response) => {
-      this.dataStreams = response;
+    this.backend.getDataStreams().then((data) => {
+      this.dataStreams = data;
     }).catch(() => {
     });
   }

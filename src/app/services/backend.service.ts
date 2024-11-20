@@ -50,9 +50,7 @@ export interface DataStream {
   description: string;
   externalLink: string;
   status?: 'Active' | 'Pending' | 'Not Active';
-  logo?: {
-    stream: any;
-  }
+  logo?: string;
 }
 
 export interface DataStreams {
@@ -282,6 +280,13 @@ export class BackendService {
     return this.request.get(`${environment.main_url}/backend/v2/data-stream`, {
       mainGroup: 'backend',
       method: 'data-streams'
+    });
+  }
+
+  getDataStreamById(id: number): Promise<DataStream> {
+    return this.request.get(`${environment.main_url}/backend/v2/data-stream/${id}`, {
+      mainGroup: 'backend',
+      method: 'data-stream'
     });
   }
 
