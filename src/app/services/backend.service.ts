@@ -45,9 +45,12 @@ export interface Ranking {
 }
 
 export interface DataStream {
-  title?: string;
-  description?: string;
+  id: number;
+  name: string;
+  description: string;
+  externalLink: string;
   status?: 'Active' | 'Pending' | 'Not Active';
+  logo?: string;
 }
 
 export interface DataStreams {
@@ -130,16 +133,6 @@ export class BackendService {
     {title: 'Expert'},
     {title: 'Junior'},
   ];
-  dataStreams: DataStreams = {
-    items: [
-      {title: 'Project #1', description: 'Project for blockchain elite reward', status: 'Active'},
-      {title: 'Project #2', description: 'Project for blockchain elite reward', status: 'Pending'},
-      {title: 'Project #3', description: 'Project for blockchain elite reward', status: 'Not Active'},
-      {title: 'Project #4', description: 'Project for blockchain elite reward', status: 'Active'},
-      {title: 'Project #5', description: 'Project for blockchain elite reward', status: 'Pending'},
-      {title: 'Project #6', description: 'Project for blockchain elite reward', status: 'Not Active'},
-    ]
-  };
 
   constructor(public request: RequestService,
               public storage: StorageService,
@@ -283,9 +276,17 @@ export class BackendService {
     });
   }
 
-  getDataStreams(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      resolve(this.dataStreams);
+  getDataStreams(): Promise<DataStream[]> {
+    return this.request.get(`${environment.main_url}/backend/v2/data-stream`, {
+      mainGroup: 'backend',
+      method: 'data-streams'
+    });
+  }
+
+  getDataStreamById(id: number): Promise<DataStream> {
+    return this.request.get(`${environment.main_url}/backend/v2/data-stream/${id}`, {
+      mainGroup: 'backend',
+      method: 'data-stream'
     });
   }
 

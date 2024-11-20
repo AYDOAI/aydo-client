@@ -117,7 +117,7 @@ export const routes: Routes = [
         component: StreamsComponent
       },
       {
-        path: ':project',
+        path: ':id',
         component: ProjectComponent
       }
     ]

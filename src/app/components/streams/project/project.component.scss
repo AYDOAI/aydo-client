@@ -4,6 +4,11 @@
     margin-top: 30px;
   }
 
+  .logo-image {
+    max-width: 40px;
+    max-height: 40px;
+  }
+
   .project-info {
     display: flex;
     column-gap: 12px;
@@ -19,6 +24,7 @@
     .project-content {
       display: flex;
       flex-flow: row wrap;
+      width: 100%;
     }
   }
   .card-header {

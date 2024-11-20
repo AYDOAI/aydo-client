@@ -8,6 +8,11 @@
     margin-top: 30px;
   }
 
+  .logo-image {
+    max-width: 40px;
+    max-height: 40px;
+  }
+
   .streams {
     .card-content {
       display: flex;
@@ -17,6 +22,7 @@
       .project-content {
         display: flex;
         flex-flow: row wrap;
+        width: 100%;
       }
     }
   }

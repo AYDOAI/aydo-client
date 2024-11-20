@@ -16,9 +16,9 @@ export class ProjectComponent extends BaseComponent {
   private route = inject(ActivatedRoute);
 
   override onInit() {
-    const projectId = Number(this.route.snapshot.params['project']);
-    this.backend.getDataStreams().then((response) => {
-      this.dataStream = response.items[projectId];
+    const id = Number(this.route.snapshot.params['id']);
+    this.backend.getDataStreamById(id).then((data) => {
+      this.dataStream = data;
     }).catch(() => {
     });
   }
