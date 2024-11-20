@@ -18,7 +18,7 @@ export class ProjectComponent extends BaseComponent {
   override onInit() {
     const projectId = Number(this.route.snapshot.params['project']);
     this.backend.getDataStreams().then((response) => {
-      this.dataStream = response.items[projectId];
+      this.dataStream = response.find((x) => x.id === projectId)!;
     }).catch(() => {
     });
   }

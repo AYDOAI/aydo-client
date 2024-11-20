@@ -13,13 +13,17 @@ export class StreamsComponent extends BaseComponent {
 
   override onInit() {
     this.backend.getDataStreams().then((response) => {
-      this.dataStreams = response.items;
+      this.dataStreams = response;
     }).catch(() => {
     });
   }
 
   public openProject(i: number): void {
     this.router.navigate(['streams', i]);
+  }
+
+  public createObjURL(data: any) {
+    return URL.createObjectURL(data)
   }
 
 }
