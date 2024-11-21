@@ -12,6 +12,7 @@ import { Router } from "@angular/router";
 import {BackendService} from "../../../services/backend.service";
 import detectEthereumProvider from '@metamask/detect-provider';
 import { environment } from "../../../../environments/environment";
+import { UIService } from "../../../services/ui.service";
 
 export const config = createConfig({
   chains: [mainnet, sepolia],
@@ -32,6 +33,7 @@ export class WelcomeProvidersComponent implements OnInit   {
   constructor(
     private router: Router,
     private backend: BackendService,
+    private ui: UIService
   ) { }
 
   ngOnInit(): void {
@@ -39,11 +41,12 @@ export class WelcomeProvidersComponent implements OnInit   {
   }
 
   public googleAuth(): void {
-    window.location.href = `${environment.main_url}/backend/v2/user/google/login`
+    const encodedState = btoa(JSON.stringify({ inviteId: this.ui.inviteId }));
+    window.location.href = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`
   }
 
   async handleAuth() {
-    this.backend.signInWithMetaMask().subscribe(
+    this.backend.signInWithMetaMask(this.ui.inviteId).subscribe(
       () => {
         this.router.navigateByUrl('/dashboard');
       },

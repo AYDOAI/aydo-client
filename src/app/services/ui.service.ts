@@ -21,6 +21,7 @@ export class UIService implements OnDestroy {
   valuesInterval!: any;
   user!: { balance: string; email: string; wallet: string; firstname: string; lastname: string; id: number; is_verified: boolean; login: string; params: any; token: string; refresh_token: string };
   public userLoading: boolean = false;
+  public inviteId: string;
 
   private btnLoading: string[] = [];
 
@@ -28,6 +29,8 @@ export class UIService implements OnDestroy {
               public backend: BackendService,
               public router: Router,
               private loading: LoadingService) {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    this.inviteId = urlSearchParams.get('code') ?? '';
     this.initSub = this.loading.showLoading$(this.storage.initSub()).subscribe(data => {
       this.afterLogin();
     })
@@ -119,7 +122,9 @@ export class UIService implements OnDestroy {
       })
     } else {
       this.loading.dismissLoading();
-      this.goStep('main');
+      if (!this.isAuthPage()) {
+        this.goStep('main');
+      }
     }
   }
 
@@ -155,5 +160,10 @@ export class UIService implements OnDestroy {
 
   public isBtnLoading(key: string): boolean {
     return this.btnLoading.includes(key);
+  }
+
+  private isAuthPage(): boolean {
+    const currentUrl = this.router.url;
+    return currentUrl.includes('sign-up') || currentUrl.includes('sign-in') || currentUrl.includes('main')
   }
 }

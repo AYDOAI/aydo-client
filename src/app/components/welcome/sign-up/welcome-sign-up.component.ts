@@ -32,13 +32,15 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
         if (this.formGroup.valid) {
           const user = { ...this.formGroup.value };
           user.email = user.login.trim();
+          user.inviteId = this.ui.inviteId;
           this.resetFormErrors();
+          this.ui.lockBtn('sign_up')
           this.backend.userRegister(user).then((data) => {
               this.storage.token = data.user.token;
               this.storage.refreshToken = data.user.refresh_token;
               this.ui.afterLogin();
           }).catch(() => {
-          });
+          }).finally(() => this.ui.unlockBtn('sign_up'));
           break;
         }
     }

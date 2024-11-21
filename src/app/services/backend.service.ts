@@ -152,6 +152,7 @@ export class BackendService {
   }
 
   userRegister(user: UserItem): Promise<any> {
+    console.log('reg send');
     return this.request.post(`${environment.main_url}/backend/v2/user`, {user}, {
       mainGroup: 'backend',
       method: 'user-register'
@@ -290,7 +291,7 @@ export class BackendService {
     });
   }
 
-  public signInWithMetaMask() {
+  public signInWithMetaMask(inviteId: string) {
     let ethereum: any;
 
     return from(detectEthereumProvider()).pipe(
@@ -302,7 +303,7 @@ export class BackendService {
         ethereum = provider;
         return await ethereum.request({ method: 'eth_requestAccounts' });
       }),
-      switchMap(() => this.metamaskGetNonce(ethereum.selectedAddress)),
+      switchMap(() => this.metamaskGetNonce(ethereum.selectedAddress, inviteId)),
       switchMap(
         async (response) =>
           await ethereum.request({
@@ -330,8 +331,8 @@ export class BackendService {
       .join('');
   }
 
-  metamaskGetNonce(address: any): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/user/metamask/get-nonce`, {address}, {
+  metamaskGetNonce(address: any, inviteId: string): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/user/metamask/get-nonce`, {address, inviteId}, {
       mainGroup: 'backend',
       method: 'metamask-get-nonce'
     }).then(data => {
