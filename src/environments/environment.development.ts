@@ -11,4 +11,8 @@ export const environment = {
             }
         }
     },
+    recaptcha: {
+      enabled: false,
+      sitekey: ''
+    }
 };

@@ -74,6 +74,8 @@ import { LinkContainerComponent } from "./elements/link-container/link-container
 import { ConnectWalletComponent } from "./components/connect-wallet/connect-wallet.component";
 import { ConnectDevicesComponent } from "./components/connect-devices/connect-devices.component";
 import { DeviceCardComponent } from "./components/connect-devices/card/device-card.component";
+import { RecaptchaComponent } from "./elements/recaptcha/recaptcha.component";
+import { NgxCaptchaModule } from "ngx-captcha";
 
 @NgModule({
   declarations: [
@@ -132,6 +134,7 @@ import { DeviceCardComponent } from "./components/connect-devices/card/device-ca
     EditProfileComponent,
     SuccessComponent,
     SafeHtmlPipe,
+    RecaptchaComponent
   ],
   imports: [
     AppRoutingModule,
@@ -142,7 +145,8 @@ import { DeviceCardComponent } from "./components/connect-devices/card/device-ca
     BrowserAnimationsModule,
     CommonModule,
     HttpClientModule,
-    DialogModule
+    DialogModule,
+    NgxCaptchaModule
   ],
   providers: [
     Storage,

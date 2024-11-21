@@ -52,6 +52,9 @@
             <span>I Agree to <a style="cursor: pointer" href="#" (click)="openLicense($event)"> Aydo’s terms and conditions </a></span>
           </app-checkbox>
         </div>
+        <div *ngSwitchCase="'recaptcha'">
+          <app-recaptcha [form]="formGroup" [key]="input.key"></app-recaptcha>
+        </div>
       </ng-container>
     </ng-container>
   </div>
