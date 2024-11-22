@@ -10,7 +10,7 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class ProjectComponent extends BaseComponent {
 
-  public dataStream!: DataStream;
+  public dataStream: DataStream | null = null;
   public streaming: boolean = false;
 
   private route = inject(ActivatedRoute);

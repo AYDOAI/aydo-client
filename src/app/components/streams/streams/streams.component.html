@@ -13,7 +13,7 @@
         <div class="project-content">
           <div class="card-header">
             <div class="card-title">
-              {{stream.name ?? ''}}
+              {{stream.name || ''}}
             </div>
             <div class="card-status">
               {{stream.status === 1 ? 'Active' : 'Inactive'}}
@@ -21,7 +21,7 @@
             <svg-icon name="arrow" class="icon"></svg-icon>
           </div>
           <div class="card-desc">
-            {{stream.description}}
+            {{stream.description || ''}}
           </div>
         </div>
       </div>
