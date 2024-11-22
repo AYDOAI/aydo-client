@@ -19,8 +19,8 @@ export class UIService implements OnDestroy {
   selectedDriver!: DriverItem | undefined;
   devices!: DevicesModel;
   valuesInterval!: any;
-  user!: { balance: string; email: string; wallet: string; firstname: string; lastname: string; id: number; is_verified: boolean; login: string; params: any; token: string; refresh_token: string };
-  public userLoading: boolean = false;
+  user: { balance: string; email: string; wallet: string; firstname: string; lastname: string; id: number; is_verified: boolean; login: string; params: any; token: string; refresh_token: string } | null | undefined = null;
+  public appReady: boolean = false;
   public inviteId: string;
 
   private btnLoading: string[] = [];
@@ -52,11 +52,10 @@ export class UIService implements OnDestroy {
 
   afterLogin() {
     if (this.storage.token) {
-      this.userLoading = true;
       this.loading.showLoading();
       this.backend.userInfo().then((data: any) => {
         this.user = data.user;
-        if (!this.user.is_verified) {
+        if (!this.user?.is_verified) {
           this.goStep('success');
           return
         }
@@ -117,10 +116,14 @@ export class UIService implements OnDestroy {
           //   })
         }
       }).finally(() => {
-        this.userLoading = false;
+        this.appReady = true;
         this.loading.dismissLoading();
+        if (this.isAuthPage()) {
+          this.defaultStep();
+        }
       })
     } else {
+      this.appReady = true;
       this.loading.dismissLoading();
       if (!this.isAuthPage()) {
         this.goStep('main');
@@ -145,6 +148,7 @@ export class UIService implements OnDestroy {
     this.storage.token = '';
     this.storage.refreshToken = '';
     this.storage.serverId = '';
+    this.user = null;
     this.router.navigate(['/sign-in']);
   }
 
