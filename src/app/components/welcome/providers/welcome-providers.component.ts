@@ -49,7 +49,7 @@ export class WelcomeProvidersComponent implements OnInit   {
         this.router.navigateByUrl('/dashboard');
       },
       (err) => {
-        console.log(err);
+        this.errors.showError(err.message);
       }
     );
   }
