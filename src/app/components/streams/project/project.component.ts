@@ -10,8 +10,7 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class ProjectComponent extends BaseComponent {
 
-  public dataStream!: DataStream;
-  public streaming: boolean = false;
+  public dataStream: DataStream | null = null;
 
   private route = inject(ActivatedRoute);
 
@@ -29,5 +28,16 @@ export class ProjectComponent extends BaseComponent {
     }).catch(err => {
       console.error(err);
     });
+  }
+
+  public toggle(): void {
+    if (this.dataStream) {
+      this.ui.lockBtn('streaming');
+      this.backend.toggleDataStream(this.dataStream.id).then((data) => {
+        setTimeout(() => {
+          (this.dataStream as { status: number }).status = data.status;
+        }, 200);
+      }).finally(() => this.ui.unlockBtn('streaming'));
+    }
   }
 }

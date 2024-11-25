@@ -9,7 +9,7 @@ import {DataStream} from '../../../services/backend.service';
 })
 export class StreamsComponent extends BaseComponent {
 
-  dataStreams!: DataStream[]
+  dataStreams: DataStream[] = [];
 
   override onInit() {
     this.backend.getDataStreams().then((data) => {

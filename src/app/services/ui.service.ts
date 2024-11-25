@@ -7,12 +7,13 @@ import {DevicesModel, DriverItem, DriversModel} from '../models/gateway.model';
 import {Router} from '@angular/router';
 import { LoadingService } from './loading.service';
 import {environment} from '../../environments/environment';
+import { Network } from '@capacitor/network';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UIService implements OnDestroy {
-
   private _step!: FrameStep;
   selectedHubType: HubType = 'hub_aydo';
   initSub: Subscription | undefined;
@@ -20,20 +21,10 @@ export class UIService implements OnDestroy {
   selectedDriver!: DriverItem | undefined;
   devices!: DevicesModel;
   valuesInterval!: any;
-  user!: {
-    balance: string;
-    email: string; wallet: string;
-    firstname: string;
-    lastname: string;
-    id: number;
-    is_verified: boolean;
-    login: string;
-    params: any;
-    token: string;
-    refresh_token: string
-  };
-  public userLoading: boolean = false;
+  user: { balance: string; email: string; wallet: string; firstname: string; lastname: string; id: number; is_verified: boolean; login: string; params: any; token: string; refresh_token: string } | null | undefined = null;
+  public appReady: boolean = false;
   public inviteId: string;
+  public isOnline: boolean = true;
 
   private btnLoading: string[] = [];
 
@@ -45,7 +36,8 @@ export class UIService implements OnDestroy {
     this.inviteId = urlSearchParams.get('code') ?? '';
     this.initSub = this.loading.showLoading$(this.storage.initSub()).subscribe(data => {
       this.afterLogin();
-    })
+    });
+    this.subscribeToNetworkStatus();
   }
 
   ngOnDestroy() {
@@ -64,11 +56,10 @@ export class UIService implements OnDestroy {
 
   afterLogin() {
     if (this.storage.token) {
-      this.userLoading = true;
       this.loading.showLoading();
       this.backend.userInfo().then((data: any) => {
         this.user = data.user;
-        if (!this.user.is_verified) {
+        if (!this.user?.is_verified) {
           this.goStep('success');
           return
         }
@@ -129,10 +120,14 @@ export class UIService implements OnDestroy {
           //   })
         }
       }).finally(() => {
-        this.userLoading = false;
+        this.appReady = true;
         this.loading.dismissLoading();
+        if (this.isAuthPage()) {
+          this.defaultStep();
+        }
       })
     } else {
+      this.appReady = true;
       this.loading.dismissLoading();
       if (!this.isAuthPage()) {
         this.goStep('main');
@@ -157,6 +152,7 @@ export class UIService implements OnDestroy {
     this.storage.token = '';
     this.storage.refreshToken = '';
     this.storage.serverId = '';
+    this.user = null;
     this.router.navigate(['/sign-in']);
   }
 
@@ -177,5 +173,14 @@ export class UIService implements OnDestroy {
   private isAuthPage(): boolean {
     const currentUrl = this.router.url;
     return currentUrl.includes('sign-up') || currentUrl.includes('sign-in') || currentUrl.includes('main')
+  }
+
+  private async subscribeToNetworkStatus(): Promise<void> {
+    const status = await Network.getStatus();
+    this.isOnline = status.connected;
+
+    Network.addListener('networkStatusChange', status => {
+      this.isOnline = status.connected;
+    });
   }
 }

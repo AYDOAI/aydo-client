@@ -1,18 +1,11 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {
-  connect,
-  disconnect,
-  getAccount,
-  injected,
-  signMessage,
-} from "@wagmi/core";
+import {Component, OnInit} from '@angular/core';
 import { http, createConfig } from "@wagmi/core";
 import { mainnet, sepolia } from "@wagmi/core/chains";
 import { Router } from "@angular/router";
 import {BackendService} from "../../../services/backend.service";
-import detectEthereumProvider from '@metamask/detect-provider';
 import { environment } from "../../../../environments/environment";
 import { UIService } from "../../../services/ui.service";
+import { ErrorsService } from "../../../services/errors.service";
 
 export const config = createConfig({
   chains: [mainnet, sepolia],
@@ -33,7 +26,8 @@ export class WelcomeProvidersComponent implements OnInit   {
   constructor(
     private router: Router,
     private backend: BackendService,
-    private ui: UIService
+    private ui: UIService,
+    private errors: ErrorsService
   ) { }
 
   ngOnInit(): void {
@@ -41,8 +35,12 @@ export class WelcomeProvidersComponent implements OnInit   {
   }
 
   public googleAuth(): void {
-    const encodedState = btoa(JSON.stringify({ inviteId: this.ui.inviteId }));
-    window.location.href = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`
+    if (this.ui.isOnline) {
+      const encodedState = btoa(JSON.stringify({ inviteId: this.ui.inviteId }));
+      window.location.href = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`
+    } else {
+      this.errors.showError('There was an error connecting. Please check your internet connection and try again later.');
+    }
   }
 
   async handleAuth() {
@@ -51,7 +49,7 @@ export class WelcomeProvidersComponent implements OnInit   {
         this.router.navigateByUrl('/dashboard');
       },
       (err) => {
-        console.log(err);
+        this.errors.showError(err.message);
       }
     );
   }

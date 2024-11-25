@@ -291,6 +291,13 @@ export class BackendService {
     });
   }
 
+  toggleDataStream(id: number): Promise<{ status: number }> {
+    return this.request.post(`${environment.main_url}/backend/v2/data-stream/${id}/toggle`, {},{
+      mainGroup: 'backend',
+      method: 'data-stream-toggle'
+    });
+  }
+
   public signInWithMetaMask(inviteId: string) {
     let ethereum: any;
 

@@ -43,6 +43,12 @@
       border-color: #000;
     }
   }
+
+  &.red-btn {
+    .spin-loader {
+      border-color: var(--red);
+    }
+  }
 }
 
 @keyframes l20-1{
