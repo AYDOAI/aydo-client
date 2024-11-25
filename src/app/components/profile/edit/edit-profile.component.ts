@@ -44,7 +44,8 @@ export class EditProfileComponent extends FormBaseComponent {
       type: 'button',
       color: 'white',
       displayError: true,
-      backgroundColor: '#060022'
+      backgroundColor: '#060022',
+      isDisabled: () => this.formGroup?.invalid
     });
 
     this.formGroup = this.createForm(this.form.inputs);
