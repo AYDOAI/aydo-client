@@ -13,6 +13,7 @@ export class StreamsComponent extends BaseComponent {
 
   override onInit() {
     this.backend.getDataStreams().then((data) => {
+      console.log(data)
       this.dataStreams = data;
     }).catch(() => {
     });

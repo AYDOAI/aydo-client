@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {BaseComponent} from '../../base.component';
 import { Notification } from "../../../services/backend.service";
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-notifications',
@@ -23,6 +24,6 @@ export class NotificationsComponent extends BaseComponent {
   }
 
   goBack() {
-    this.router.navigate(['/dashboard'])
+    this.router.navigate([environment.index_url])
   }
 }

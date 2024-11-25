@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {BaseComponent} from '../../base.component';
 import {Quest} from '../../../services/backend.service';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard-quests',
@@ -13,7 +14,7 @@ export class DashboardQuestsComponent extends BaseComponent {
   @Input() quests!: Quest[];
 
   goBack() {
-    this.router.navigate(['/dashboard'])
+    this.router.navigate([environment.index_url])
   }
 
 }

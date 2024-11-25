@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {FormBaseComponent} from '../../form-base.component';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-form-add-hub-connected',
@@ -22,7 +23,7 @@ export class FormAddHubConnectedComponent extends FormBaseComponent {
   }
 
   public button(): void {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate([environment.index_url]);
   }
 
 }

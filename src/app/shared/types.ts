@@ -14,6 +14,7 @@ export type FrameStep =
   | 'edit-device'
   | 'profile'
   | 'dashboard'
+  | 'streams'
   | 'success';
 
 export type HubType = 'hub_aydo' | 'hub_pi' | 'hub_other';

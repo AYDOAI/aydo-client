@@ -30,13 +30,13 @@ export class EditProfileComponent extends FormBaseComponent {
         onlyLetters: true,
         defaultValue: this.ui.user.lastname,
       });
-      this.form.inputs.push({
-        key: 'wallet',
-        title: 'Wallet',
-        type: 'input',
-        maxLength: 256,
-        defaultValue: this.ui.user.wallet,
-      });
+      // this.form.inputs.push({
+      //   key: 'wallet',
+      //   title: 'Wallet',
+      //   type: 'input',
+      //   maxLength: 256,
+      //   defaultValue: this.ui.user.wallet,
+      // });
     }
     this.form.inputs.push({
       key: 'submit',
@@ -53,7 +53,10 @@ export class EditProfileComponent extends FormBaseComponent {
   button(input: AppFormInputs) {
     switch (input.key) {
       case 'submit':
-        const user = { ...this.formGroup.value };
+        let values = this.formGroup.value;
+        values['wallet'] = '';
+
+        const user = {...values };
         this.ui.lockBtn('submit');
         this.backend.updateUser(user)
           .then(res => this.ui.user = res.user)

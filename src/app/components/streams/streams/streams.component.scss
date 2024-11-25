@@ -19,6 +19,10 @@
       padding: 16px 19px 16px 16px;
       column-gap: 12px;
 
+      .logo-content {
+        width: 40px;
+      }
+
       .project-content {
         display: flex;
         flex-flow: row wrap;
