@@ -1,0 +1,49 @@
+:host {
+    .about {
+        padding: 24px 22px 32px 22px;
+
+        .btn {
+            margin-bottom: 20px;
+        }
+    }
+
+    .txt-align-center {
+        text-align: center
+    }
+
+    .is-body-small {
+        letter-spacing: -.0225rem;
+        font-size: .75rem;
+        line-height: 130%;
+        margin-top: 40px;
+    }
+
+    .social-grid {
+        grid-column-gap: 16px;
+        grid-row-gap: 16px;
+        grid-template-rows: auto;
+        grid-template-columns: 3rem 3rem 3rem 3rem 3rem;
+        grid-auto-columns: 1fr;
+        justify-content: center;
+        place-items: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 40px;
+        display: grid
+    }
+
+    .social-wrap {
+        background-color: var(--white);
+        justify-content: center;
+        align-items: center;
+        width: 3rem;
+        height: 3rem;
+        display: flex
+    }
+
+    .social-logo {
+        color: var(--color--purple);
+        width: 2rem;
+        height: 32px
+    }
+}

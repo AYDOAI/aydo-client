@@ -21,6 +21,7 @@ export class HeaderComponent extends BaseElement {
     {link: '/add-hub', icon: 'menu-hub-settings', title: 'Add hub'},
     {link: '/profile', icon: 'menu-profile', title: 'Profile', step: 'profile'},
     // {link: '/status', icon: 'menu-service-status', title: 'Services status'},
+    {link: '/feedback', icon: 'menu-unknown', title: 'Feedback'},
     {link: '/about', icon: 'menu-about', title: 'About'},
   ];
   menuVisible = false;
