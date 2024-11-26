@@ -76,6 +76,7 @@ import { ConnectDevicesComponent } from "./components/connect-devices/connect-de
 import { DeviceCardComponent } from "./components/connect-devices/card/device-card.component";
 import { RecaptchaComponent } from "./elements/recaptcha/recaptcha.component";
 import { NgxCaptchaModule } from "ngx-captcha";
+import {FeedbackComponent} from './components/feedback/feedback.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import { NgxCaptchaModule } from "ngx-captcha";
     HeaderComponent,
     DemoComponent,
     AboutComponent,
+    FeedbackComponent,
     SettingsComponent,
     ProfileComponent,
     StatusComponent,

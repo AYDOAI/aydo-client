@@ -36,6 +36,7 @@ import { EditProfileComponent } from "./components/profile/edit/edit-profile.com
 import { ProjectInfoComponent } from "./components/project-info/project-info.component";
 import { ConnectWalletComponent } from "./components/connect-wallet/connect-wallet.component";
 import { ConnectDevicesComponent } from "./components/connect-devices/connect-devices.component";
+import {FeedbackComponent} from './components/feedback/feedback.component';
 
 export const routes: Routes = [
   {
@@ -141,6 +142,10 @@ export const routes: Routes = [
   {
     path: 'about',
     component: AboutComponent,
+  },
+  {
+    path: 'feedback',
+    component: FeedbackComponent,
   },
   {
     path: 'demo',
