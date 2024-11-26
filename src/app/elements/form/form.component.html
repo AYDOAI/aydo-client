@@ -24,8 +24,17 @@
         <div *ngSwitchCase="'input'" class="input">
           <app-input [title]="input.title" [form]="formGroup" [key]="input.key" [type]="input.inputType" (onBlur)="onBlur(input)"></app-input>
         </div>
-        <div *ngSwitchCase="'google-map'" class="google-map">
-          <google-map></google-map>
+        <div *ngSwitchCase="'google-map'" class="text">
+          <google-map 
+            width="330" 
+            height="330" 
+            [center]="center"
+            [zoom]="zoom"
+            (mapClick)="addMarker($event)">
+            @for (position of markerPositions; track position) {
+              <map-marker [position]="position" [options]="markerOptions" />
+            }
+          </google-map>
         </div>
         <div *ngSwitchCase="'button'">
           <div *ngIf="input.displayError && formError" class="form-error">

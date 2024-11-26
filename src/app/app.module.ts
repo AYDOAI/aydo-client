@@ -77,7 +77,8 @@ import { DeviceCardComponent } from "./components/connect-devices/card/device-ca
 import { RecaptchaComponent } from "./elements/recaptcha/recaptcha.component";
 import { NgxCaptchaModule } from "ngx-captcha";
 import {FeedbackComponent} from './components/feedback/feedback.component';
-import {GoogleMapsModule} from '@angular/google-maps'
+import {GoogleMap, MapMarker} from '@angular/google-maps';
+
 
 @NgModule({
   declarations: [
@@ -150,7 +151,8 @@ import {GoogleMapsModule} from '@angular/google-maps'
     HttpClientModule,
     DialogModule,
     NgxCaptchaModule,
-    GoogleMapsModule
+    GoogleMap,
+    MapMarker
   ],
   providers: [
     Storage,

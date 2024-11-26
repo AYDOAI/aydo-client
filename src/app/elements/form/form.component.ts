@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular
 import { FormControl, FormGroup } from '@angular/forms';
 import { AppForm, AppFormInputs, FrameStep } from '../../shared/types';
 import { BaseElement } from '../base.component';
-import { Location } from "@angular/common";
+import {Location} from "@angular/common";
 import { DialogService } from "../../services/dialog.service";
 import { LicenseDialogComponent } from "../dialog/license-dialog/license-dialog.component";
 
@@ -22,8 +22,24 @@ export class FormComponent extends BaseElement implements OnInit {
   private location = inject(Location);
   private dialog = inject(DialogService);
 
+  center: any;
+  zoom = 15;
+  markerOptions: google.maps.MarkerOptions = {draggable: false};
+  markerPositions: google.maps.LatLngLiteral[] = [];
+
+  addMarker(event: any) {
+    this.markerPositions = [event.latLng.toJSON()];
+  }
+
   ngOnInit(): void {
     this.subscribeToValueChanges();
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.center = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+    });
   }
 
   button(input: AppFormInputs) {
