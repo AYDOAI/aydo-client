@@ -65,36 +65,7 @@ export class UIService implements OnDestroy {
         }
         const next = () => {
           this.loading.showLoading();
-          this.backend.getDevices().then((devices: any) => {
-            this.devices = new DevicesModel(devices);
-            // console.log(devices);
-            const getDeviceValues = () => {
-              this.backend.getDeviceValues().then((data: any) => {
-                // console.log(data);
-                data.forEach((item: any) => {
-                  const device = this.devices.items.find(item1 => item1.ident === item.ident);
-                  if (device) {
-                    device.capabilities.forEach(cap => {
-                      cap.value = item.values[`${cap.ident}_${cap.index}`]
-                    })
-                  }
-                })
-              }).catch(() => {
-              }).finally(() => {
-                this.loading.dismissLoading();
-              })
-            }
-            clearInterval(this.valuesInterval);
-            this.valuesInterval = setInterval(() => {
-              if (this.storage.token) {
-                getDeviceValues()
-              }
-            }, 5000);
-            getDeviceValues();
-          }).catch(() => {
-          }).finally(() => {
-            this.loading.dismissLoading();
-          });
+          this.getDevices();
           this.defaultStep();
         }
         if (this.storage.serverId) {
@@ -168,6 +139,41 @@ export class UIService implements OnDestroy {
 
   public isBtnLoading(key: string): boolean {
     return this.btnLoading.includes(key);
+  }
+
+  public getDevices(): void {
+    if (this.storage.serverId) {
+      this.backend.getDevices().then((devices: any) => {
+        this.devices = new DevicesModel(devices);
+        // console.log(devices);
+        const getDeviceValues = () => {
+          this.backend.getDeviceValues().then((data: any) => {
+            // console.log(data);
+            data.forEach((item: any) => {
+              const device = this.devices.items.find(item1 => item1.ident === item.ident);
+              if (device) {
+                device.capabilities.forEach(cap => {
+                  cap.value = item.values[`${cap.ident}_${cap.index}`]
+                })
+              }
+            })
+          }).catch(() => {
+          }).finally(() => {
+            this.loading.dismissLoading();
+          })
+        }
+        clearInterval(this.valuesInterval);
+        this.valuesInterval = setInterval(() => {
+          if (this.storage.token) {
+            getDeviceValues()
+          }
+        }, 5000);
+        getDeviceValues();
+      }).catch(() => {
+      }).finally(() => {
+        this.loading.dismissLoading();
+      });
+    }
   }
 
   private isAuthPage(): boolean {

@@ -9,6 +9,11 @@ import {DeviceItem} from '../../models/gateway.model';
 })
 export class DevicesComponent extends BaseComponent {
 
+  override onInit() {
+    super.onInit();
+    this.ui.getDevices();
+  }
+
   deviceAdd() {
     this.ui.goStep('add-device');
   }
