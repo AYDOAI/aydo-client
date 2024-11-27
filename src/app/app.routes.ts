@@ -1,4 +1,4 @@
-import {RouterModule, Routes} from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import {NgModule} from '@angular/core';
 import {WelcomeSignUpComponent} from './components/welcome/sign-up/welcome-sign-up.component';
 import {WelcomeSignInComponent} from './components/welcome/sign-in/welcome-sign-in.component';
@@ -185,7 +185,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
 
   exports: [RouterModule],
 })

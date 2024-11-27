@@ -11,7 +11,11 @@ export class DevicesComponent extends BaseComponent {
 
   override onInit() {
     super.onInit();
-    this.ui.getDevices();
+    this.getDevices();
+  }
+
+  public getDevices(event: any = null) {
+    this.ui.getDevices(event);
   }
 
   deviceAdd() {

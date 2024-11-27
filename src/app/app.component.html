@@ -25,10 +25,12 @@
   </div>
 </div>
 <div class="main" [class.no-padding]="platform.is('capacitor')">
-  <router-outlet *ngIf="ui.appReady"></router-outlet>
-  <div *ngIf="loading.loading$ | async" class="loader-container">
-    <span class="fence-loader"></span>
-  </div>
+  <ion-app>
+    <ion-router-outlet *ngIf="ui.appReady" [animated]="false"></ion-router-outlet>
+    <div *ngIf="loading.loading$ | async" class="loader-container">
+      <span class="fence-loader"></span>
+    </div>
+  </ion-app>
 </div>
 <svg-definitions [style.display]="'none'"></svg-definitions>
 <app-dialog-container></app-dialog-container>

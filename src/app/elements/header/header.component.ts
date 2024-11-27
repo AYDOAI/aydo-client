@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {BaseElement} from '../base.component';
 import {FrameStep} from '../../shared/types';
 
@@ -31,8 +31,9 @@ export class HeaderComponent extends BaseElement {
   }
 
   clickMenu(item: any) {
-    if (item.step) {
-      this.ui.goStep(item.step);
+    if (item.link) {
+      this.menuVisible = false;
+      this.navCtrl.navigateRoot([item.link])
     }
   }
 
@@ -41,7 +42,7 @@ export class HeaderComponent extends BaseElement {
   }
 
   public backClick(): void {
-    this.router.navigate([this.back]);
+    this.navCtrl.navigateRoot([this.back]);
   }
 
 }

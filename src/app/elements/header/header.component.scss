@@ -1,4 +1,5 @@
 .header {
+  position: relative;
   padding: 12px 22px;
   display: flex;
   justify-content: space-between;
@@ -16,11 +17,13 @@
 }
 
 .menu-container {
+  position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #DBDFD170;
+  background-color: rgba(#EEF1E7, 0.7);
   --icon-width: 32px;
   --icon-height: 24px;
+  z-index: 999;
 
   .menu {
     display: flex;
