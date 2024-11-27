@@ -14,7 +14,7 @@ export class FormAddHubConnectedComponent extends FormBaseComponent {
     this.form.description = 'AYDO Hub connected'
     this.form.inputs.push({
       key: 'btn',
-      title: 'Go to dashboard',
+      title: 'Go to data streams',
       type: 'button',
       icon: 'arrow-right'
     });
