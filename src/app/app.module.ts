@@ -77,6 +77,9 @@ import { DeviceCardComponent } from "./components/connect-devices/card/device-ca
 import { RecaptchaComponent } from "./elements/recaptcha/recaptcha.component";
 import { NgxCaptchaModule } from "ngx-captcha";
 import {FeedbackComponent} from './components/feedback/feedback.component';
+import {GoogleMap, MapMarker} from '@angular/google-maps';
+import {GoogleMapComponent} from './elements/google-map/google-map.component';
+
 
 @NgModule({
   declarations: [
@@ -136,7 +139,8 @@ import {FeedbackComponent} from './components/feedback/feedback.component';
     EditProfileComponent,
     SuccessComponent,
     SafeHtmlPipe,
-    RecaptchaComponent
+    RecaptchaComponent,
+    GoogleMapComponent
   ],
   imports: [
     AppRoutingModule,
@@ -148,7 +152,9 @@ import {FeedbackComponent} from './components/feedback/feedback.component';
     CommonModule,
     HttpClientModule,
     DialogModule,
-    NgxCaptchaModule
+    NgxCaptchaModule,
+    GoogleMap,
+    MapMarker
   ],
   providers: [
     Storage,
