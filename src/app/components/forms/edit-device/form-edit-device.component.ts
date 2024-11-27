@@ -8,7 +8,6 @@ import {FormBaseComponent} from '../../form-base.component';
   styleUrl: './form-edit-device.component.scss'
 })
 export class FormEditDeviceComponent extends FormBaseComponent {
-
   override onInit() {
     this.form.title = 'Edit device';
     // this.form.description = 'This app supports next device types, choose one of them:';
@@ -22,6 +21,17 @@ export class FormEditDeviceComponent extends FormBaseComponent {
     });
     this.ui.selectedDriver?.settings?.items.forEach(setting => {
       if (setting.type === 'input') {
+        this.form.inputs.push({
+          key: setting.key,
+          title: setting.name,
+          type: setting.type,
+          defaultValue: setting.defaultValue,
+          color: 'white',
+          backgroundColor: '#060022'
+        });
+      }
+
+      if (setting.type === 'google-map') {
         this.form.inputs.push({
           key: setting.key,
           title: setting.name,

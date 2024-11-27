@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular
 import { FormControl, FormGroup } from '@angular/forms';
 import { AppForm, AppFormInputs, FrameStep } from '../../shared/types';
 import { BaseElement } from '../base.component';
-import { Location } from "@angular/common";
+import {Location} from "@angular/common";
 import { DialogService } from "../../services/dialog.service";
 import { LicenseDialogComponent } from "../dialog/license-dialog/license-dialog.component";
 

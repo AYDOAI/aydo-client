@@ -55,6 +55,13 @@
         <div *ngSwitchCase="'recaptcha'">
           <app-recaptcha [form]="formGroup" [key]="input.key"></app-recaptcha>
         </div>
+        <div *ngSwitchCase="'google-map'">
+          <app-google-map
+            [form]="formGroup" 
+            [key]="input.key" 
+            [title]="input.title!">
+          </app-google-map>
+        </div>
       </ng-container>
     </ng-container>
   </div>
