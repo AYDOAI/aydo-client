@@ -78,6 +78,7 @@ import { RecaptchaComponent } from "./elements/recaptcha/recaptcha.component";
 import { NgxCaptchaModule } from "ngx-captcha";
 import {FeedbackComponent} from './components/feedback/feedback.component';
 import {GoogleMap, MapMarker} from '@angular/google-maps';
+import {GoogleMapComponent} from './elements/google-map/google-map.component';
 
 
 @NgModule({
@@ -138,7 +139,8 @@ import {GoogleMap, MapMarker} from '@angular/google-maps';
     EditProfileComponent,
     SuccessComponent,
     SafeHtmlPipe,
-    RecaptchaComponent
+    RecaptchaComponent,
+    GoogleMapComponent
   ],
   imports: [
     AppRoutingModule,
