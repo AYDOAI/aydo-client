@@ -145,7 +145,9 @@ import {GoogleMapComponent} from './elements/google-map/google-map.component';
   imports: [
     AppRoutingModule,
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      mode: 'md'
+    }),
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
