@@ -21,64 +21,65 @@ import {InputComponent} from './elements/input/input.component';
 import { SelectComponent } from "./elements/select/select.component";
 import {FormComponent} from './elements/form/form.component';
 
-import {MainComponent} from './components/main/main.component';
-import {WelcomeMainComponent} from './components/welcome/main/welcome-main.component';
-import {WelcomeSignUpComponent} from './components/welcome/sign-up/welcome-sign-up.component';
-import {WelcomeSignInComponent} from './components/welcome/sign-in/welcome-sign-in.component';
-import {WelcomeForgotComponent} from './components/welcome/forgot/welcome-forgot.component';
-import {WelcomeNavigateComponent} from './components/welcome/navigate/welcome-navigate.component';
-import {WelcomeProvidersComponent} from './components/welcome/providers/welcome-providers.component';
-import {DevicesComponent} from './components/devices/devices.component';
+import {MainComponent} from './pages/main/main.component';
+import {WelcomeMainComponent} from './pages/welcome/main/welcome-main.component';
+import {WelcomeSignUpComponent} from './pages/welcome/sign-up/welcome-sign-up.component';
+import {WelcomeSignInComponent} from './pages/welcome/sign-in/welcome-sign-in.component';
+import {WelcomeForgotComponent} from './pages/welcome/forgot/welcome-forgot.component';
+import {WelcomeNavigateComponent} from './pages/welcome/navigate/welcome-navigate.component';
+import {WelcomeProvidersComponent} from './pages/welcome/providers/welcome-providers.component';
+import {DevicesComponent} from './pages/devices/devices.component';
 import {FormAddHubComponent} from './components/forms/add-hub/form-add-hub.component';
 import {FormConfigHubComponent} from './components/forms/config-hub/form-config-hub.component';
 import {FormAddDeviceComponent} from './components/forms/add-device/form-add-device.component';
 import {FormEditDeviceComponent} from './components/forms/edit-device/form-edit-device.component';
-import {DashboardMainComponent} from './components/dashboard/main/dashboard-main.component';
+import {DashboardMainComponent} from './pages/dashboard/main/dashboard-main.component';
 import {HeaderComponent} from './elements/header/header.component';
 import {AppRoutingModule} from './app.routes';
-import {DemoComponent} from './components/demo/demo.component';
-import {AboutComponent} from './components/about/about.component';
-import {SettingsComponent} from './components/settings/settings.component';
-import {ProfileComponent} from './components/profile/profile.component';
+import {DemoComponent} from './pages/demo/demo.component';
+import {AboutComponent} from './pages/about/about.component';
+import {SettingsComponent} from './pages/settings/settings.component';
+import {ProfileComponent} from './pages/profile/profile.component';
 import {StatusComponent} from './components/status/status.component';
-import {StreamsComponent} from './components/streams/streams/streams.component';
-import {HubComponent} from './components/hub/hub.component';
+import {StreamsComponent} from './pages/streams/streams/streams.component';
+import {HubComponent} from './pages/hub/hub.component';
 import {CheckboxComponent} from './elements/checkbox/checkbox.component';
 import {FormHeaderComponent} from './elements/form-header/form-header.component';
 import {FormAddHubAgreementComponent} from './components/forms/add-hub-agreement/form-add-hub-agreement.component';
 import {FormAddHubTypeComponent} from './components/forms/add-hub-type/form-add-hub-type.component';
 import {FormAddHubSearchComponent} from './components/forms/add-hub-search/form-add-hub-search.component';
 import {FormAddHubManuallyComponent} from './components/forms/add-hub-manually/form-add-hub-manually.component';
-import {AutomaticallyComponent} from './components/hub/automatically/automatically.component';
+import {AutomaticallyComponent} from './pages/hub/automatically/automatically.component';
 import {FormAddHubFoundComponent} from './components/forms/add-hub-found/form-add-hub-found.component';
 import {FormAddHubConnectedComponent} from './components/forms/add-hub-connected/form-add-hub-connected.component';
-import {DashboardRewardsComponent} from './components/dashboard/rewards/dashboard-rewards.component';
-import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {DashboardRewardsComponent} from './pages/dashboard/rewards/dashboard-rewards.component';
+import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import { IonicModule } from '@ionic/angular';
-import {DashboardMainQuestsComponent} from './components/dashboard/main-quests/dashboard-main-quests.component';
-import {DashboardQuestsComponent} from './components/dashboard/quests/dashboard-quests.component';
+import {DashboardMainQuestsComponent} from './pages/dashboard/main-quests/dashboard-main-quests.component';
+import {DashboardQuestsComponent} from './pages/dashboard/quests/dashboard-quests.component';
 import {
   DashboardAdditionalQuestsComponent
-} from './components/dashboard/additional-quests/dashboard-additional-quests.component';
-import { NotificationsComponent } from './components/dashboard/notification/notifications.component';
+} from './pages/dashboard/additional-quests/dashboard-additional-quests.component';
+import { NotificationsComponent } from './pages/dashboard/notification/notifications.component';
 import { DialogModule } from './elements/dialog/dialog.module';
 import { BarcodeScannerComponent } from './elements/barcode-scanner/barcode-scanner.component';
-import { StreamsHomeComponent } from './components/streams/streams-home';
-import { ProjectComponent } from './components/streams/project/project.component';
+import { StreamsHomeComponent } from './pages/streams/streams-home';
+import { ProjectComponent } from './pages/streams/project/project.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { GoogleAuthRedirectComponent } from "./components/google-auth-redirect/google-auth-redirect.component";
-import { SuccessComponent } from "./components/welcome/success/success.component";
-import { EditProfileComponent } from "./components/profile/edit/edit-profile.component";
-import { ProjectInfoComponent } from "./components/project-info/project-info.component";
+import { GoogleAuthRedirectComponent } from "./pages/google-auth-redirect/google-auth-redirect.component";
+import { SuccessComponent } from "./pages/welcome/success/success.component";
+import { EditProfileComponent } from "./pages/profile/edit/edit-profile.component";
+import { ProjectInfoComponent } from "./pages/project-info/project-info.component";
 import { LinkContainerComponent } from "./elements/link-container/link-container.component";
-import { ConnectWalletComponent } from "./components/connect-wallet/connect-wallet.component";
-import { ConnectDevicesComponent } from "./components/connect-devices/connect-devices.component";
-import { DeviceCardComponent } from "./components/connect-devices/card/device-card.component";
+import { ConnectWalletComponent } from "./pages/connect-wallet/connect-wallet.component";
+import { ConnectDevicesComponent } from "./pages/connect-devices/connect-devices.component";
+import { DeviceCardComponent } from "./pages/connect-devices/card/device-card.component";
 import { RecaptchaComponent } from "./elements/recaptcha/recaptcha.component";
 import { NgxCaptchaModule } from "ngx-captcha";
-import {FeedbackComponent} from './components/feedback/feedback.component';
+import {FeedbackComponent} from './pages/feedback/feedback.component';
 import {GoogleMap, MapMarker} from '@angular/google-maps';
 import {GoogleMapComponent} from './elements/google-map/google-map.component';
+import { ContentModule } from "./components/content/content.module";
 
 
 @NgModule({
@@ -156,7 +157,8 @@ import {GoogleMapComponent} from './elements/google-map/google-map.component';
     DialogModule,
     NgxCaptchaModule,
     GoogleMap,
-    MapMarker
+    MapMarker,
+    ContentModule
   ],
   providers: [
     Storage,

@@ -1,0 +1,32 @@
+<!-- Header -->
+<ion-header>
+        <div #headerContainer>
+            <ng-container [ngTemplateOutlet]="headerTemplateRef" />
+            <ng-content select="[additionalSlot]"></ng-content>
+        </div>
+        <div>
+            <ng-container [ngTemplateOutlet]="headerAdditionalContentTemplateRef" />
+        </div>
+</ion-header>
+
+<!-- Content -->
+<div class="content-wrapper">
+    <app-content
+        [class]="contentClass"
+        [scrollEvents]="true">
+        <div #contentContainer>
+            <ng-container [ngTemplateOutlet]="contentTemplateRef" />
+        </div>
+    </app-content>
+
+    <!-- Footer -->
+    <ng-container
+        *ngIf="footerTemplateRef"
+        [ngTemplateOutlet]="footer" />
+</div>
+
+<ng-template #footer>
+    <div #footerWrapperDiv>
+      <ng-container [ngTemplateOutlet]="footerTemplateRef" />
+    </div>
+</ng-template>
