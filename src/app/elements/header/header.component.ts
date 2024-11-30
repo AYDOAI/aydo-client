@@ -33,7 +33,7 @@ export class HeaderComponent extends BaseElement {
   clickMenu(item: any) {
     if (item.link) {
       this.menuVisible = false;
-      this.navCtrl.navigateRoot([item.link])
+      this.navCtrl.navigateForward([item.link])
     }
   }
 
@@ -42,7 +42,7 @@ export class HeaderComponent extends BaseElement {
   }
 
   public backClick(): void {
-    this.navCtrl.navigateRoot([this.back]);
+    this.navCtrl.navigateForward([this.back]);
   }
 
 }

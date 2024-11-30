@@ -1,5 +1,7 @@
-<app-form [form]="form" [formGroup]="formGroup" (onClickButton)="button($event)">
-  <p *ngIf="linkSent" class="success-message">A password reset link has been sent to your email address</p>
-</app-form>
+<app-content>
+  <app-form [form]="form" [formGroup]="formGroup" (onClickButton)="button($event)">
+    <p *ngIf="linkSent" class="success-message">A password reset link has been sent to your email address</p>
+  </app-form>
 
-<app-welcome-navigate [signUp]="true" [signIn]="true"></app-welcome-navigate>
+  <app-welcome-navigate [signUp]="true" [signIn]="true"></app-welcome-navigate>
+</app-content>

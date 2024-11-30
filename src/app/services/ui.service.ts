@@ -52,7 +52,7 @@ export class UIService implements OnDestroy {
       this.afterLogin();
     }).finally(() => {
       this.unlockBtn('try_demo');
-      this.navCtrl.navigateRoot([environment.index_url]);
+      this.navCtrl.navigateForward([environment.index_url]);
     });
   }
 
@@ -114,7 +114,7 @@ export class UIService implements OnDestroy {
 
   goStep(step: FrameStep) {
     this._step = step;
-    this.navCtrl.navigateRoot([`/${step}`])
+    this.navCtrl.navigateForward([`/${step}`])
   }
 
   defaultStep() {
@@ -126,7 +126,7 @@ export class UIService implements OnDestroy {
     this.storage.refreshToken = '';
     this.storage.serverId = '';
     this.user = null;
-    this.navCtrl.navigateRoot(['/sign-in']);
+    this.navCtrl.navigateForward(['/sign-in']);
   }
 
   public lockBtn(key: string): void {

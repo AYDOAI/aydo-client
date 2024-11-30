@@ -26,7 +26,7 @@
 </div>
 <div class="main" [class.no-padding]="platform.is('capacitor')">
   <ion-app>
-    <ion-router-outlet *ngIf="ui.appReady" [animated]="false"></ion-router-outlet>
+    <ion-router-outlet *ngIf="ui.appReady"></ion-router-outlet>
     <div *ngIf="loading.loading$ | async" class="loader-container">
       <span class="fence-loader"></span>
     </div>

@@ -1,27 +1,37 @@
-<app-header title="Connect wallet" back="project-info"></app-header>
-<div class="connect-wallet">
-  <div class="card big">
-    <div class="card-content">
-      <div class="card-header">
-        <div class="card-title">
-          {{ 'Ethereum' }}
+<app-full-screen-content-wrapper>
+  <ng-template #header>
+    <app-header title="Connect wallet" back="project-info"></app-header>
+  </ng-template>
+  <ng-template #content>
+    <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+  </ng-template>
+</app-full-screen-content-wrapper>
+
+<ng-template #contentTemplate>
+  <div class="connect-wallet">
+    <div class="card big">
+      <div class="card-content">
+        <div class="card-header">
+          <div class="card-title">
+            {{ 'Ethereum' }}
+          </div>
+        </div>
+        <span class="type-data-info">Wallet address</span>
+        <app-link link="#" label="0xb357...567a"></app-link>
+        <div class="btn-group">
+          <button class="btn text-center">{{ 'Change' }}</button>
+          <button class="btn text-center red-btn">{{ 'Remove' }}</button>
         </div>
       </div>
-      <span class="type-data-info">Wallet address</span>
-      <app-link link="#" label="0xb357...567a"></app-link>
-      <div class="btn-group">
-        <button class="btn text-center">{{ 'Change' }}</button>
-        <button class="btn text-center red-btn">{{ 'Remove' }}</button>
-      </div>
     </div>
+    <button class="btn green-btn text-center">
+      Connect Solana
+    </button>
+    <button class="btn btn-outline text-center">
+      Connect peaq
+    </button>
+    <button class="btn btn-outline text-center">
+      Connect IoTex
+    </button>
   </div>
-  <button class="btn green-btn text-center">
-    Connect Solana
-  </button>
-  <button class="btn btn-outline text-center">
-    Connect peaq
-  </button>
-  <button class="btn btn-outline text-center">
-    Connect IoTex
-  </button>
-</div>
+</ng-template>

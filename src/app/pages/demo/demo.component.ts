@@ -21,6 +21,6 @@ export class DemoComponent implements OnInit {
       this.backend.userLogin({login: 'test@aydo.ai', password: '1qaz@WSX'}).then(() => {
         this.ui.afterLogin();
       })
-      this.navCtrl.navigateRoot([environment.index_url]);
+      this.navCtrl.navigateForward([environment.index_url]);
     }
 }

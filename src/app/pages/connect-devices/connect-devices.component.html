@@ -1,7 +1,13 @@
-<app-header title="Connect devices" back="project-info"></app-header>
-<div class="description">List of appropriate
-  devices</div>
-<div class="connect-devices">
-  <app-device-card></app-device-card>
-  <app-device-card></app-device-card>
-</div>
+<app-full-screen-content-wrapper>
+  <ng-template #header>
+    <app-header title="Connect devices" back="project-info"></app-header>
+  </ng-template>
+  <ng-template #content>
+    <div class="description">List of appropriate
+      devices</div>
+    <div class="connect-devices">
+      <app-device-card></app-device-card>
+      <app-device-card></app-device-card>
+    </div>
+  </ng-template>
+</app-full-screen-content-wrapper>
