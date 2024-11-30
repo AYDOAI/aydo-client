@@ -1,8 +1,13 @@
-<app-header title="Devices" add="add-device"></app-header>
-<ion-content class="ion-no-padding" fullscreen>
-  <ion-refresher slot="fixed" (ionRefresh)="getDevices($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+<app-full-screen-content-wrapper>
+  <ng-template #header>
+    <app-header title="Devices" add="add-device"></app-header>
+  </ng-template>
+  <ng-template #content>
+    <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+  </ng-template>
+</app-full-screen-content-wrapper>
+
+<ng-template #contentTemplate>
   <div *ngIf="ui.devices && ui.devices.items" class="devices">
     <ng-container *ngFor="let device of ui.devices.items">
       <div *ngIf="deviceCapabilitiesExists(device)" class="device">
@@ -42,4 +47,4 @@
       </div>
     </ng-container>
   </div>
-</ion-content>
+</ng-template>

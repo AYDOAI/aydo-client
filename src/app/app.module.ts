@@ -80,6 +80,9 @@ import {FeedbackComponent} from './pages/feedback/feedback.component';
 import {GoogleMap, MapMarker} from '@angular/google-maps';
 import {GoogleMapComponent} from './elements/google-map/google-map.component';
 import { ContentModule } from "./components/content/content.module";
+import {
+  FullScreenContentWrapperComponent
+} from "./components/full-screen-content-wrapper/full-screen-content-wrapper.component";
 
 
 @NgModule({
@@ -158,7 +161,8 @@ import { ContentModule } from "./components/content/content.module";
     NgxCaptchaModule,
     GoogleMap,
     MapMarker,
-    ContentModule
+    ContentModule,
+    FullScreenContentWrapperComponent
   ],
   providers: [
     Storage,
