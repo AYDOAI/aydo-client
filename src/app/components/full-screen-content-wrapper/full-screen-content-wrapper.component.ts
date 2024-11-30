@@ -30,8 +30,13 @@ export class FullScreenContentWrapperComponent implements OnInit, OnDestroy {
     @ContentChild('footer') footerTemplateRef!: TemplateRef<HTMLElement>;
 
     @ViewChild('footerWrapperDiv') private _footerWrapperDivElementRef!: ElementRef<HTMLDivElement>;
+    @ViewChild('headerContainer') private headerEl!: ElementRef;
 
     @Output() refresh: EventEmitter<any> = new EventEmitter<any>();
+
+    public get getHeaderHeight(): number {
+      return this.headerEl?.nativeElement.offsetHeight || 0;
+    }
 
     ngOnInit(): void {
     }

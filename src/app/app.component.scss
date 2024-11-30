@@ -20,6 +20,10 @@ ion-app {
   &.no-padding {
     max-width: unset;
 
+    ion-app {
+      max-width: unset;
+    }
+
     ::ng-deep {
       .full-page__inner {
         max-width: unset;
