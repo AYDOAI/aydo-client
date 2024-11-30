@@ -13,7 +13,9 @@
 <div class="content-wrapper">
     <app-content
         [class]="contentClass"
-        [scrollEvents]="true">
+        [isRefreshable]="isRefreshable"
+        [scrollEvents]="true"
+        (refresh)="refresh.emit($event)">
         <div #contentContainer>
             <ng-container [ngTemplateOutlet]="contentTemplateRef" />
         </div>

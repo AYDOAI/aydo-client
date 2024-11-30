@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-content',
@@ -8,7 +8,9 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
       [forceOverscroll]="false"
       [ngClass]="class"
     >
-      <ion-refresher slot="fixed">
+      <ion-refresher *ngIf="isRefreshable"
+                     slot="fixed"
+                     (ionRefresh)="refresh.emit($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
       <ng-content/>
@@ -20,6 +22,8 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   @Input() class = '';
   @Input() scrollEvents = false;
+  @Input() isRefreshable = false;
+  @Output() refresh: EventEmitter<any> = new EventEmitter<any>();
 
   ngOnInit(): void {
   }
