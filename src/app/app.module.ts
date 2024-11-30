@@ -14,7 +14,7 @@ import {HttpHeadersInterceptor} from './shared/http-headers.interceptor';
 import {UIService} from './services/ui.service';
 import {StorageService} from './services/storage.service';
 
-import {SvgDefinitionsComponent} from './elements/svg-definitions/svg-definitions.component';
+import {SvgDefinitionsComponent} from './components/svg-definitions/svg-definitions.component';
 import {SvgIconComponent} from './elements/svg-icon/svg-icon.component';
 import {ButtonComponent} from './elements/button/button.component';
 import {InputComponent} from './elements/input/input.component';
