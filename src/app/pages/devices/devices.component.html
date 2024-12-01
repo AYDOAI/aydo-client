@@ -1,4 +1,6 @@
-<app-full-screen-content-wrapper>
+<app-full-screen-content-wrapper
+  [isRefreshable]="true"
+  (refresh)="getDevices($event)">
   <ng-template #header>
     <app-header title="Devices" add="add-device"></app-header>
   </ng-template>

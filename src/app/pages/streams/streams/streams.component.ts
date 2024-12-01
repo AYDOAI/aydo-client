@@ -12,10 +12,18 @@ export class StreamsComponent extends BaseComponent {
   dataStreams: DataStream[] = [];
 
   override onInit() {
+    this.getDataStreams();
+  }
+
+  public getDataStreams(event?: any): void {
     this.backend.getDataStreams().then((data) => {
       console.log(data)
       this.dataStreams = data;
     }).catch(() => {
+    }).finally(() => {
+      if (event) {
+        event.target.complete()
+      }
     });
   }
 
