@@ -79,10 +79,11 @@ import { NgxCaptchaModule } from "ngx-captcha";
 import {FeedbackComponent} from './pages/feedback/feedback.component';
 import {GoogleMap, MapMarker} from '@angular/google-maps';
 import {GoogleMapComponent} from './elements/google-map/google-map.component';
-import { ContentModule } from "./components/content/content.module";
+import { ContentModule } from './components/content/content.module';
 import {
   FullScreenContentWrapperComponent
-} from "./components/full-screen-content-wrapper/full-screen-content-wrapper.component";
+} from './components/full-screen-content-wrapper/full-screen-content-wrapper.component';
+import { ErrorComponent } from './components/error/error.component';
 
 
 @NgModule({
@@ -144,7 +145,8 @@ import {
     SuccessComponent,
     SafeHtmlPipe,
     RecaptchaComponent,
-    GoogleMapComponent
+    GoogleMapComponent,
+    ErrorComponent
   ],
   imports: [
     AppRoutingModule,
