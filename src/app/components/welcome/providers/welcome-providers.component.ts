@@ -3,7 +3,6 @@ import { http, createConfig } from "@wagmi/core";
 import { mainnet, sepolia } from "@wagmi/core/chains";
 import { Router } from "@angular/router";
 import {BackendService} from "../../../services/backend.service";
-import { environment } from "../../../../environments/environment";
 import { UIService } from "../../../services/ui.service";
 import { ErrorsService } from "../../../services/errors.service";
 
@@ -22,7 +21,6 @@ export const config = createConfig({
 })
 export class WelcomeProvidersComponent implements OnInit   {
 
-  private provider: any;
   constructor(
     private router: Router,
     private backend: BackendService,
@@ -36,8 +34,7 @@ export class WelcomeProvidersComponent implements OnInit   {
 
   public googleAuth(): void {
     if (this.ui.isOnline) {
-      const encodedState = btoa(JSON.stringify({ inviteId: this.ui.inviteId }));
-      window.location.href = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`
+      this.backend.googleLogin(this.ui.inviteId);
     } else {
       this.errors.showError('There was an error connecting. Please check your internet connection and try again later.');
     }

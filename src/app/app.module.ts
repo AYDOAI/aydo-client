@@ -79,6 +79,7 @@ import { NgxCaptchaModule } from "ngx-captcha";
 import {FeedbackComponent} from './components/feedback/feedback.component';
 import {GoogleMap, MapMarker} from '@angular/google-maps';
 import {GoogleMapComponent} from './elements/google-map/google-map.component';
+import {InAppBrowser} from '@awesome-cordova-plugins/in-app-browser/ngx';
 
 
 @NgModule({
@@ -160,6 +161,7 @@ import {GoogleMapComponent} from './elements/google-map/google-map.component';
     Storage,
     UIService,
     StorageService,
+    InAppBrowser,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
