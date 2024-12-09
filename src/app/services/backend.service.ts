@@ -151,8 +151,19 @@ export class BackendService {
     });
   }
 
+  demoLogin(): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/user/login`, { user: { login: 'test@aydo.ai', password: '1qaz@WSX' } }, {
+      mainGroup: 'backend',
+      method: 'demo-login',
+      ignoreError: true
+    }).then(data => {
+      this.storage.token = data.user.token;
+      this.storage.refreshToken = data.user.refresh_token;
+      return Promise.resolve(data);
+    });
+  }
+
   userRegister(user: UserItem): Promise<any> {
-    console.log('reg send');
     return this.request.post(`${environment.main_url}/backend/v2/user`, {user}, {
       mainGroup: 'backend',
       method: 'user-register'
