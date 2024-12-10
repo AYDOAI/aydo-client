@@ -74,12 +74,39 @@ export class FormEditDeviceComponent extends FormBaseComponent {
           ident: `${this.ui.selectedDriver?.className}_${new Date().getTime()}`,
           settings: {...this.formGroup.value}
         };
-        // @ts-ignore
-        this.backend.saveDevice(device).then(() => {
-          this.ui.goStep('devices');
-        })
+
+        const isValid = this.isDeviceValid();
+
+        if (isValid) {
+          // @ts-ignore
+          this.backend.saveDevice(device).then(() => {
+            this.ui.goStep('devices');
+          })
+        } else {
+          this.errors.showError('Device with such settings is already linked to your account')
+        }
         break;
     }
+  }
+
+  private isDeviceValid(): boolean {
+    const currDevicesByDriverId = this.ui.devices?.items?.filter(device => device.driverId === this.ui.selectedDriver?.driverId);
+
+    if (currDevicesByDriverId) {
+      for (const device of currDevicesByDriverId) {
+        if (device.settings && device.settings.length > 0) {
+          const uniqueSettings = device.settings.filter(setting => setting.unique);
+          if (uniqueSettings.length > 0) {
+            const allMatch = uniqueSettings.every(us => us.value === this.formGroup.value[us.key]);
+            if (allMatch) {
+              return false
+            }
+          }
+        }
+      }
+    }
+
+    return true;
   }
 
 }
