@@ -71,6 +71,7 @@ export class FormEditDeviceComponent extends FormBaseComponent {
         const device = {
           name: this.formGroup.get('name')?.value,
           class_name: this.ui.selectedDriver?.className,
+          driverId: this.ui.selectedDriver?.driverId,
           ident: `${this.ui.selectedDriver?.className}_${new Date().getTime()}`,
           settings: {...this.formGroup.value}
         };
