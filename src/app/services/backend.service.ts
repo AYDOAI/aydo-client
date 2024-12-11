@@ -1,4 +1,7 @@
 import {Injectable} from '@angular/core';
+import {InAppBrowser} from "@awesome-cordova-plugins/in-app-browser/ngx";
+import {Platform} from "@ionic/angular";
+import {Router} from "@angular/router";
 import {environment} from '../../environments/environment';
 import {RequestService} from './request.service';
 import {LoginItem, UserItem} from '../models/users.model';
@@ -6,9 +9,9 @@ import {StorageService} from './storage.service';
 import {DeviceItem, GatewayItem} from '../models/gateway.model';
 import {between} from '../shared/shared.functions';
 import detectEthereumProvider from '@metamask/detect-provider';
-import {from, tap} from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { ErrorsService } from "./errors.service";
+import {from} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
+import {ErrorsService} from "./errors.service";
 
 export interface Notification {
   title?: string;
@@ -136,7 +139,10 @@ export class BackendService {
 
   constructor(public request: RequestService,
               public storage: StorageService,
-              public errors: ErrorsService) {
+              public errors: ErrorsService,
+              private iab: InAppBrowser,
+              private platform: Platform,
+              private router: Router) {
     this.randomIndex = between(0, 2);
   }
 
@@ -151,8 +157,19 @@ export class BackendService {
     });
   }
 
+  demoLogin(): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/user/login`, { user: { login: 'test@aydo.ai', password: '1qaz@WSX' } }, {
+      mainGroup: 'backend',
+      method: 'demo-login',
+      ignoreError: true
+    }).then(data => {
+      this.storage.token = data.user.token;
+      this.storage.refreshToken = data.user.refresh_token;
+      return Promise.resolve(data);
+    });
+  }
+
   userRegister(user: UserItem): Promise<any> {
-    console.log('reg send');
     return this.request.post(`${environment.main_url}/backend/v2/user`, {user}, {
       mainGroup: 'backend',
       method: 'user-register'
@@ -296,6 +313,29 @@ export class BackendService {
       mainGroup: 'backend',
       method: 'data-stream-toggle'
     });
+  }
+
+  public googleLogin(inviteId?: string): void {
+    const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
+    const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
+    const browser = this.iab.create(url);
+    if (this.platform.is('capacitor')) {
+      browser.on('loadstart').subscribe((event) => {
+        if (event.url.includes('google-auth-redirect')) {
+          browser.close();
+          const urlObj = new URL(event.url);
+          const token = urlObj.searchParams?.get('token');
+          const refreshToken = urlObj.searchParams?.get('refreshToken');
+          if (token && refreshToken) {
+            this.storage.token = token;
+            this.storage.refreshToken = refreshToken;
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.errors.showError('Not authenticated')
+          }
+        }
+      });
+    }
   }
 
   public signInWithMetaMask(inviteId: string) {
