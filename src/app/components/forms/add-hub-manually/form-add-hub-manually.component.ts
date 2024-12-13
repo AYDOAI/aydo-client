@@ -44,12 +44,12 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
       isDisabled: () => this.formGroup.invalid,
       displayError: true
     });
-    this.form.inputs.push({
-      key: 'scan',
-      title: 'Scan QR Code',
-      type: 'button',
-      icon: 'arrow-right'
-    });
+    // this.form.inputs.push({
+    //   key: 'scan',
+    //   title: 'Scan QR Code',
+    //   type: 'button',
+    //   icon: 'arrow-right'
+    // });
   }
 
   public button(button: AppFormInputs): void {
