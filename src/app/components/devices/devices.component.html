@@ -1,7 +1,7 @@
 <app-header title="Devices" add="add-device"></app-header>
 
 <div *ngIf="ui.devices && ui.devices.items" class="devices">
-  <ng-container *ngFor="let device of ui.devices.items">
+  <ng-container *ngFor="let device of ui.devices.items; trackBy: trackByIdent">
     <div *ngIf="deviceCapabilitiesExists(device)" class="device">
       <div class="device-header">
         <div class="device-icon">

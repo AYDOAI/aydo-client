@@ -6,6 +6,7 @@
   padding-bottom: 12px;
 
   .device {
+    padding: 12px;
     border-radius: 10px;
     border: 1px solid #060022;
 
@@ -13,13 +14,9 @@
       display: flex;
       flex-direction: row;
 
-      .device-icon {
-        margin: 12px;
-      }
 
       .device-title-container {
         display: flex;
-        margin-top: 12px;
         margin-bottom: 12px;
 
         .device-title {
