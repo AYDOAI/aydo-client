@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
-import { DeviceItem } from "../../../models/gateway.model";
+import { Component, inject } from '@angular/core';
 import { FormBaseComponent } from "../../form-base.component";
+import { ConfirmationModalComponent } from "../../../elements/dialog/confirmation-modal/confirmation-modal.component";
+import { DialogService } from "../../../services/dialog.service";
 
 @Component({
   selector: 'app-master-edit',
@@ -8,6 +9,8 @@ import { FormBaseComponent } from "../../form-base.component";
   styleUrl: './master-edit.component.scss'
 })
 export class MasterEditComponent extends FormBaseComponent {
+
+  private dialog = inject(DialogService)
 
   public override ngOnInit() {
     super.ngOnInit();
@@ -64,6 +67,14 @@ export class MasterEditComponent extends FormBaseComponent {
   }
 
   public deleteDevice(): void {
+    this.dialog.show(ConfirmationModalComponent, {
+      title: 'Confirmation',
+      description: 'Are you sure want to delete this device?',
+      confirm: () => this.delete()
+    })
+  }
+
+  private delete(): void {
     const device = this.ui.selectedDevice;
     if (device?.ident) {
       this.backend.deleteDevice(device.ident).then(res => {

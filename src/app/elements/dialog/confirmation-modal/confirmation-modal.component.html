@@ -1,0 +1,10 @@
+<div class="confirmation-modal" [@fadeInOut]>
+  <div class="modal-content">
+    <h2 *ngIf="title">{{ title }}</h2>
+    <p>{{ description }}</p>
+    <div class="btn-group">
+      <button class="btn btn-outline text-center" (click)="ok()">{{ okText }}</button>
+      <button class="btn red-btn text-center" (click)="close()">{{ cancelText }}</button>
+    </div>
+  </div>
+</div>
