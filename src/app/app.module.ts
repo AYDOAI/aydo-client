@@ -80,6 +80,7 @@ import {FeedbackComponent} from './components/feedback/feedback.component';
 import {GoogleMap, MapMarker} from '@angular/google-maps';
 import {GoogleMapComponent} from './elements/google-map/google-map.component';
 import {InAppBrowser} from '@awesome-cordova-plugins/in-app-browser/ngx';
+import {RippleDirective} from './shared/directives/ripple.directive';
 
 
 @NgModule({
@@ -141,7 +142,8 @@ import {InAppBrowser} from '@awesome-cordova-plugins/in-app-browser/ngx';
     SuccessComponent,
     SafeHtmlPipe,
     RecaptchaComponent,
-    GoogleMapComponent
+    GoogleMapComponent,
+    RippleDirective
   ],
   imports: [
     AppRoutingModule,

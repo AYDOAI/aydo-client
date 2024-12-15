@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import {BackendService} from "../../../services/backend.service";
 import { UIService } from "../../../services/ui.service";
 import { ErrorsService } from "../../../services/errors.service";
+import { LoadingService } from '../../../services/loading.service';
 
 export const config = createConfig({
   chains: [mainnet, sepolia],
@@ -25,7 +26,8 @@ export class WelcomeProvidersComponent implements OnInit   {
     private router: Router,
     private backend: BackendService,
     private ui: UIService,
-    private errors: ErrorsService
+    private errors: ErrorsService,
+    private loading: LoadingService
   ) { }
 
   ngOnInit(): void {
@@ -41,7 +43,7 @@ export class WelcomeProvidersComponent implements OnInit   {
   }
 
   async handleAuth() {
-    this.backend.signInWithMetaMask(this.ui.inviteId).subscribe(
+    this.loading.showLoading$(this.backend.signInWithMetaMask(this.ui.inviteId)).subscribe(
       () => {
         this.router.navigateByUrl('/dashboard');
       },
