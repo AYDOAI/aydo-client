@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {FormBaseComponent} from '../../form-base.component';
+import { Component } from '@angular/core';
+import { FormBaseComponent } from '../../form-base.component';
 
 @Component({
   selector: 'app-form-add-hub-agreement',
@@ -42,7 +42,6 @@ export class FormAddHubAgreementComponent extends FormBaseComponent {
   }
 
   public next(): void {
-    this.router.navigate([`${this.router.url}/search`]);
+    this.router.navigate([`${this.router.url}/search/manually`]);
   }
-
 }

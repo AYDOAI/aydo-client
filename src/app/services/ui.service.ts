@@ -9,6 +9,7 @@ import { LoadingService } from './loading.service';
 import {environment} from '../../environments/environment';
 import { Network } from '@capacitor/network';
 import { NavController } from "@ionic/angular";
+import { ErrorsService } from "./errors.service";
 
 
 @Injectable({
@@ -33,7 +34,8 @@ export class UIService implements OnDestroy {
               public backend: BackendService,
               public router: Router,
               public navCtrl: NavController,
-              private loading: LoadingService) {
+              private loading: LoadingService,
+              private errors: ErrorsService) {
     const urlSearchParams = new URLSearchParams(window.location.search);
     this.inviteId = urlSearchParams.get('code') ?? '';
     this.initSub = this.loading.showLoading$(this.storage.initSub()).subscribe(data => {
@@ -48,11 +50,12 @@ export class UIService implements OnDestroy {
 
   tryDemo(): void {
     this.lockBtn('try_demo');
-    this.backend.userLogin({ login: 'test@aydo.ai', password: '1qaz@WSX' }).then(() => {
+    this.backend.demoLogin().then(() => {
       this.afterLogin();
+    }).catch(() => {
+      this.errors.showError(`An error occurred, please try again later`)
     }).finally(() => {
       this.unlockBtn('try_demo');
-      this.navCtrl.navigateForward([environment.index_url]);
     });
   }
 

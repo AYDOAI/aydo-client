@@ -84,6 +84,7 @@ import {
   FullScreenContentWrapperComponent
 } from './components/full-screen-content-wrapper/full-screen-content-wrapper.component';
 import { ErrorComponent } from './components/error/error.component';
+import {InAppBrowser} from '@awesome-cordova-plugins/in-app-browser/ngx';
 
 
 @NgModule({
@@ -170,6 +171,7 @@ import { ErrorComponent } from './components/error/error.component';
     Storage,
     UIService,
     StorageService,
+    InAppBrowser,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
