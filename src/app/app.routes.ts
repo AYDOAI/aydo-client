@@ -37,6 +37,8 @@ import { ProjectInfoComponent } from "./components/project-info/project-info.com
 import { ConnectWalletComponent } from "./components/connect-wallet/connect-wallet.component";
 import { ConnectDevicesComponent } from "./components/connect-devices/connect-devices.component";
 import {FeedbackComponent} from './components/feedback/feedback.component';
+import { MasterComponent } from './components/master/master.component';
+import { MasterEditComponent } from './components/master/edit/master-edit.component';
 
 export const routes: Routes = [
   {
@@ -180,6 +182,14 @@ export const routes: Routes = [
         component: FormAddHubConnectedComponent
       }
     ]
+  },
+  {
+    path: 'master',
+    component: MasterComponent,
+  },
+  {
+    path: 'master/edit',
+    component: MasterEditComponent,
   },
   {path: '**', component: WelcomeMainComponent},
 ];

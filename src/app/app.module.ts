@@ -79,7 +79,10 @@ import { NgxCaptchaModule } from "ngx-captcha";
 import {FeedbackComponent} from './components/feedback/feedback.component';
 import {GoogleMap, MapMarker} from '@angular/google-maps';
 import {GoogleMapComponent} from './elements/google-map/google-map.component';
+import {MasterComponent} from './components/master/master.component';
 import {InAppBrowser} from '@awesome-cordova-plugins/in-app-browser/ngx';
+import {MasterEditComponent} from './components/master/edit/master-edit.component';
+import {RippleDirective} from './shared/directives/ripple.directive';
 
 
 @NgModule({
@@ -141,7 +144,10 @@ import {InAppBrowser} from '@awesome-cordova-plugins/in-app-browser/ngx';
     SuccessComponent,
     SafeHtmlPipe,
     RecaptchaComponent,
-    GoogleMapComponent
+    GoogleMapComponent,
+    MasterComponent,
+    MasterEditComponent,
+    RippleDirective
   ],
   imports: [
     AppRoutingModule,

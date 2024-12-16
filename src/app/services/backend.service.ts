@@ -243,6 +243,13 @@ export class BackendService {
     });
   }
 
+  deleteDevice(device_ident: string): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/gateway/device/delete`, { data: { device_ident } }, {
+      mainGroup: 'backend',
+      method: 'gateway-save-device'
+    });
+  }
+
   getDeviceValues(): Promise<any> {
     return this.request.get(`${environment.main_url}/backend/v2/gateway/device/values`, {
       mainGroup: 'backend',
@@ -344,7 +351,6 @@ export class BackendService {
     return from(detectEthereumProvider()).pipe(
       switchMap(async (provider) => {
         if (!provider) {
-          this.errors.showError('Please install MetaMask');
           throw new Error('Please install MetaMask');
         }
         ethereum = provider;
