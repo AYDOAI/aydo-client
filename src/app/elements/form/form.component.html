@@ -13,7 +13,7 @@
     <ng-container *ngFor="let input of form.inputs">
       <ng-container [ngSwitch]="input.type">
         <div *ngSwitchCase="'string'" class="{{ input.class }}">
-          <p> {{ input.title }} </p>
+          <p class="group-title">{{ input.title }}</p>
         </div>
         <div *ngSwitchCase="'template'" style="display: flex">
           <ng-content></ng-content>
