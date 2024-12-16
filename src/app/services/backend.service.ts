@@ -351,7 +351,6 @@ export class BackendService {
     return from(detectEthereumProvider()).pipe(
       switchMap(async (provider) => {
         if (!provider) {
-          this.errors.showError('Please install MetaMask');
           throw new Error('Please install MetaMask');
         }
         ethereum = provider;

@@ -7,3 +7,16 @@
     max-width: 250px;
   }
 }
+
+.ripple-animation {
+  animation: ripple 0.6s linear;
+  opacity: 1;
+  transform: scale(0);
+}
+
+@keyframes ripple {
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
