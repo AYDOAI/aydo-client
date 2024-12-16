@@ -26,4 +26,8 @@ export class DevicesComponent extends BaseComponent {
     return item.displayName !== 'Linkquality' && item.value && ['power', 'mode', 'motion', 'rgb'].indexOf(item.ident) === -1;
   }
 
+  public trackByIdent(index: number, device: DeviceItem): string {
+    return device.ident;
+  }
+
 }
