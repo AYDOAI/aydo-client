@@ -22,12 +22,14 @@ export class ProjectComponent extends BaseComponent {
     });
   }
 
-  public copy(): void {
+  public copy(text: string): void {
     // TODO component, notification "text copied"?
-    navigator.clipboard.writeText('test').then(() => {
-    }).catch(err => {
-      console.error(err);
-    });
+    if (text) {
+      navigator.clipboard.writeText(text).then(() => {
+      }).catch(err => {
+        console.error(err);
+      });
+    }
   }
 
   public toggle(): void {

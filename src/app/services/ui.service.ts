@@ -3,7 +3,7 @@ import {HubType, FrameStep} from '../shared/types';
 import {StorageService} from './storage.service';
 import { Subscription } from 'rxjs';
 import {BackendService} from './backend.service';
-import {DevicesModel, DriverItem, DriversModel} from '../models/gateway.model';
+import { DeviceItem, DevicesModel, DriverItem, DriversModel } from '../models/gateway.model';
 import {Router} from '@angular/router';
 import { LoadingService } from './loading.service';
 import {environment} from '../../environments/environment';
@@ -21,6 +21,7 @@ export class UIService implements OnDestroy {
   initSub: Subscription | undefined;
   drivers!: DriversModel;
   selectedDriver!: DriverItem | undefined;
+  selectedDevice!: DeviceItem | undefined;
   devices!: DevicesModel;
   valuesInterval!: any;
   user: { balance: string; email: string; wallet: string; firstname: string; lastname: string; id: number; is_verified: boolean; login: string; params: any; token: string; refresh_token: string } | null | undefined = null;

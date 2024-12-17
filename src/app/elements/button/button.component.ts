@@ -6,7 +6,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrl: './button.component.scss'
 })
 export class ButtonComponent {
-
+  @Input() ripple = false;
   @Input() width = '100%';
   @Input() height = '54px';
   @Input() color: string | undefined = 'black';

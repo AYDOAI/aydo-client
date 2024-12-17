@@ -23,7 +23,17 @@
 }
 
 .title {
+  max-width: 50%;
   font-size: 30px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.group-title {
+  font-size: 17px;
+  font-weight: bold;
+  padding-top: 20px;
 }
 
 .form_content {

@@ -37,6 +37,15 @@ import { ProjectInfoComponent } from "./pages/project-info/project-info.componen
 import { ConnectWalletComponent } from "./pages/connect-wallet/connect-wallet.component";
 import { ConnectDevicesComponent } from "./pages/connect-devices/connect-devices.component";
 import {FeedbackComponent} from './pages/feedback/feedback.component';
+import { GoogleAuthRedirectComponent } from "./components/google-auth-redirect/google-auth-redirect.component";
+import { SuccessComponent } from "./components/welcome/success/success.component";
+import { EditProfileComponent } from "./components/profile/edit/edit-profile.component";
+import { ProjectInfoComponent } from "./components/project-info/project-info.component";
+import { ConnectWalletComponent } from "./components/connect-wallet/connect-wallet.component";
+import { ConnectDevicesComponent } from "./components/connect-devices/connect-devices.component";
+import {FeedbackComponent} from './components/feedback/feedback.component';
+import { MasterComponent } from './components/master/master.component';
+import { MasterEditComponent } from './components/master/edit/master-edit.component';
 
 export const routes: Routes = [
   {
@@ -180,6 +189,14 @@ export const routes: Routes = [
         component: FormAddHubConnectedComponent
       }
     ]
+  },
+  {
+    path: 'master',
+    component: MasterComponent,
+  },
+  {
+    path: 'master/edit',
+    component: MasterEditComponent,
   },
   {path: '**', component: WelcomeMainComponent},
 ];

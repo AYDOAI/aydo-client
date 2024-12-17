@@ -12,8 +12,8 @@
   <div class="form_content">
     <ng-container *ngFor="let input of form.inputs">
       <ng-container [ngSwitch]="input.type">
-        <div *ngSwitchCase="'string'">
-          <p> {{ input.title }} </p>
+        <div *ngSwitchCase="'string'" class="{{ input.class }}">
+          <p class="group-title">{{ input.title }}</p>
         </div>
         <div *ngSwitchCase="'template'" style="display: flex">
           <ng-content></ng-content>
@@ -57,8 +57,8 @@
         </div>
         <div *ngSwitchCase="'google-map'">
           <app-google-map
-            [form]="formGroup" 
-            [key]="input.key" 
+            [form]="formGroup"
+            [key]="input.key"
             [title]="input.title!">
           </app-google-map>
         </div>
