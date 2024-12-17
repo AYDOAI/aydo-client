@@ -32,8 +32,9 @@ export class HeaderComponent extends BaseElement {
   }
 
   clickMenu(item: any) {
-    if (item.step) {
-      this.ui.goStep(item.step);
+    if (item.link) {
+      this.router.navigate([item.link]);
+      this.showHideMenu();
     }
   }
 

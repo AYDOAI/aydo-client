@@ -23,7 +23,11 @@
 }
 
 .title {
+  max-width: 50%;
   font-size: 30px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .group-title {
