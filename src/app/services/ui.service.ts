@@ -72,7 +72,9 @@ export class UIService implements OnDestroy {
         const next = () => {
           this.loading.showLoading();
           this.getDevices();
-          this.defaultStep();
+          if (this.isAuthPage()) {
+            this.defaultStep();
+          }
         }
         if (this.storage.serverId) {
           next();
@@ -83,7 +85,9 @@ export class UIService implements OnDestroy {
               this.storage.serverId = data.gateway.identifier;
               next();
             } else {
-              this.goStep('add-hub');
+              if (this.isAuthPage()) {
+                this.goStep('add-hub');
+              }
             }
           }).finally(() => this.loading.dismissLoading())
         }
