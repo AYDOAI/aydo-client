@@ -102,6 +102,7 @@ export class MasterEditComponent extends FormBaseComponent {
 
   private updateDevice(): void {
     const obj: IDeviceSettings = {
+      device_ident: this.ui.selectedDevice?.ident!,
       device_name: this.formGroup.get('device_name')?.value || ''
     };
     this.ui.lockBtn('save_device_settings');
