@@ -191,7 +191,8 @@ export const routes: Routes = [
     path: 'master/edit',
     component: MasterEditComponent,
   },
-  {path: '**', component: WelcomeMainComponent},
+  {path: 'main', component: WelcomeMainComponent},
+  {path: '**', redirectTo: 'main'}
 ];
 
 @NgModule({

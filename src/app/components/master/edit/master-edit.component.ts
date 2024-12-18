@@ -31,11 +31,19 @@ export class MasterEditComponent extends FormBaseComponent {
         this.form.inputs.push({
           key: setting.key,
           title: setting.name,
-          type: 'text',
+          type: setting.type,
           defaultValue: setting.value,
-          value: setting.value
+          value: setting.value,
+          items: setting.items
         })
-      })
+      });
+
+      this.form.inputs.push({
+        key: 'save_device_settings',
+        title: 'Save settings',
+        type: 'button',
+        class: 'btn'
+      });
     }
 
     if (this.ui.selectedDevice?.capabilities?.length) {
