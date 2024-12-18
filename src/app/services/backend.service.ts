@@ -6,7 +6,7 @@ import {environment} from '../../environments/environment';
 import {RequestService} from './request.service';
 import {LoginItem, UserItem} from '../models/users.model';
 import {StorageService} from './storage.service';
-import {DeviceItem, GatewayItem} from '../models/gateway.model';
+import {DeviceItem, GatewayItem, ZoneItem} from '../models/gateway.model';
 import {between} from '../shared/shared.functions';
 import detectEthereumProvider from '@metamask/detect-provider';
 import {from} from 'rxjs';
@@ -261,6 +261,13 @@ export class BackendService {
     return this.request.get(`${environment.main_url}/backend/v2/gateway`, {
       mainGroup: 'backend',
       method: 'gateway-get-gateway'
+    });
+  }
+
+  saveZone(zone: ZoneItem): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/gateway/zone`, { zone }, {
+      mainGroup: 'backend',
+      method: 'gateway-save-zone'
     });
   }
 

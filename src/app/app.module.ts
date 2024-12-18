@@ -83,6 +83,7 @@ import {MasterComponent} from './components/master/master.component';
 import {InAppBrowser} from '@awesome-cordova-plugins/in-app-browser/ngx';
 import {MasterEditComponent} from './components/master/edit/master-edit.component';
 import {RippleDirective} from './shared/directives/ripple.directive';
+import { AddZoneComponent } from './components/zone/add/add.component';
 
 
 @NgModule({
@@ -147,6 +148,7 @@ import {RippleDirective} from './shared/directives/ripple.directive';
     GoogleMapComponent,
     MasterComponent,
     MasterEditComponent,
+    AddZoneComponent,
     RippleDirective
   ],
   imports: [

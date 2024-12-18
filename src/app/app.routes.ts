@@ -39,6 +39,7 @@ import { ConnectDevicesComponent } from "./components/connect-devices/connect-de
 import {FeedbackComponent} from './components/feedback/feedback.component';
 import { MasterComponent } from './components/master/master.component';
 import { MasterEditComponent } from './components/master/edit/master-edit.component';
+import { AddZoneComponent } from './components/zone/add/add.component';
 
 export const routes: Routes = [
   {
@@ -190,6 +191,10 @@ export const routes: Routes = [
   {
     path: 'master/edit',
     component: MasterEditComponent,
+  },
+  {
+    path: 'zone/add',
+    component: AddZoneComponent,
   },
   {path: 'main', component: WelcomeMainComponent},
   {path: '**', redirectTo: 'main'}

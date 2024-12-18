@@ -109,12 +109,18 @@ export class DevicesModel extends BaseModel {
 
 }
 
-export class DeviceItem extends BaseItem {
 
+export class DeviceItem extends BaseItem {
   ident!: string;
   name!: string;
   driverId!: number;
   capabilities!: any[];
   settings?: any[];
+}
 
+
+export class ZoneItem extends BaseItem {
+  name!: string;
+  location!: number;
+  is_indoor!: boolean;
 }
