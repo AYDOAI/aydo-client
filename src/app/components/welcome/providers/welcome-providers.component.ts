@@ -45,7 +45,6 @@ export class WelcomeProvidersComponent implements OnInit   {
   async handleAuth() {
     this.loading.showLoading$(this.backend.signInWithMetaMask(this.ui.inviteId)).subscribe(
       () => {
-        this.router.navigateByUrl('/dashboard');
       },
       (err) => {
         this.errors.showError(err.message);

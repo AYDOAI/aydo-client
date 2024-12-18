@@ -336,7 +336,7 @@ export class BackendService {
           if (token && refreshToken) {
             this.storage.token = token;
             this.storage.refreshToken = refreshToken;
-            this.router.navigate(['/dashboard']);
+            this.storage.next();
           } else {
             this.errors.showError('Not authenticated')
           }
@@ -372,6 +372,7 @@ export class BackendService {
         async (response) => {
           this.storage.token = response.user.token;
           this.storage.refreshToken = response.user.refresh_token;
+          this.storage.next();
         }
       )
     );
@@ -387,7 +388,8 @@ export class BackendService {
   metamaskGetNonce(address: any, inviteId: string): Promise<any> {
     return this.request.post(`${environment.main_url}/backend/v2/user/metamask/get-nonce`, {address, inviteId}, {
       mainGroup: 'backend',
-      method: 'metamask-get-nonce'
+      method: 'metamask-get-nonce',
+      ignoreError: true
     }).then(data => {
       return Promise.resolve(data);
     });

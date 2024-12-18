@@ -56,6 +56,10 @@ export class StorageService {
     this.set('server_id', value);
   }
 
+  public next(): void {
+    this.initSubject.next({token: this._token, refreshToken: this._refreshToken});
+  }
+
   getFromStorage(key: string): Promise<string> {
     return this.storage.get(`aydo-${key}`).then((data: any) => {
       return Promise.resolve(data);
