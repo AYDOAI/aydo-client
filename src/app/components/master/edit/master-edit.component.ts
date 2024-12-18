@@ -26,7 +26,8 @@ export class MasterEditComponent extends FormBaseComponent {
       key: 'device_name',
       title: 'Device name',
       type: 'input',
-      defaultValue: this.ui.selectedDevice?.name || ''
+      defaultValue: this.ui.selectedDevice?.name || '',
+      required: true
     })
 
     if (this.ui.selectedDevice?.settings?.length) {
