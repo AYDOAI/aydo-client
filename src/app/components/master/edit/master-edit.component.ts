@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormBaseComponent } from "../../form-base.component";
 import { ConfirmationModalComponent } from "../../../elements/dialog/confirmation-modal/confirmation-modal.component";
 import { DialogService } from "../../../services/dialog.service";
+import { AppFormInputs } from "../../../shared/types";
+import { IDeviceSettings } from "../../../shared/interfaces/device-settings.interface";
 
 @Component({
   selector: 'app-master-edit',
@@ -20,6 +22,13 @@ export class MasterEditComponent extends FormBaseComponent {
 
     this.form.title = this.ui.selectedDevice?.name || '';
 
+    this.form.inputs.push({
+      key: 'device_name',
+      title: 'Device name',
+      type: 'input',
+      defaultValue: this.ui.selectedDevice?.name || ''
+    })
+
     if (this.ui.selectedDevice?.settings?.length) {
       this.form.inputs.push({
         key: '',
@@ -36,13 +45,6 @@ export class MasterEditComponent extends FormBaseComponent {
           value: setting.value,
           items: setting.items
         })
-      });
-
-      this.form.inputs.push({
-        key: 'save_device_settings',
-        title: 'Save settings',
-        type: 'button',
-        class: 'btn'
       });
     }
 
@@ -64,6 +66,16 @@ export class MasterEditComponent extends FormBaseComponent {
       })
     }
 
+    if (this.ui.selectedDevice?.settings?.length) {
+      this.form.inputs.push({
+        key: 'save_device_settings',
+        title: 'Save settings',
+        type: 'button',
+        class: 'btn',
+        isDisabled: () => this.formGroup.invalid
+      });
+    }
+
     this.form.inputs.push({
       key: 'delete_device',
       title: 'Delete device',
@@ -74,7 +86,30 @@ export class MasterEditComponent extends FormBaseComponent {
     this.formGroup = this.createForm(this.form.inputs);
   }
 
-  public deleteDevice(): void {
+  public button(button: AppFormInputs): void {
+    switch (button.key) {
+      case 'delete_device':
+        this.deleteDevice();
+        return;
+      case 'save_device_settings':
+        this.updateDevice();
+        return;
+      default:
+        return;
+    }
+  }
+
+  private updateDevice(): void {
+    const obj: IDeviceSettings = {
+      device_name: this.formGroup.get('device_name')?.value || ''
+    };
+    this.ui.lockBtn('save_device_settings');
+    this.backend.updateDevice(obj).finally(() => {
+      this.ui.unlockBtn('save_device_settings');
+    })
+  }
+
+  private deleteDevice(): void {
     this.dialog.show(ConfirmationModalComponent, {
       title: 'Confirmation',
       description: 'Are you sure you want to delete this device?',
