@@ -1,4 +1,8 @@
-<ng-container *ngIf="ui.selectedDevice">
-  <app-header title="Master"></app-header>
-  <app-form [form]="form" [formGroup]="formGroup" back="master" (onClickButton)="deleteDevice()"></app-form>
-</ng-container>
+<app-full-screen-content-wrapper *ngIf="ui.selectedDevice">
+  <ng-template #header>
+    <app-header title="Master"></app-header>
+  </ng-template>
+  <ng-template #content>
+    <app-form [form]="form" [formGroup]="formGroup" back="master" (onClickButton)="deleteDevice()"></app-form>
+  </ng-template>
+</app-full-screen-content-wrapper>
