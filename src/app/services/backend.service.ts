@@ -271,6 +271,13 @@ export class BackendService {
     });
   }
 
+  getZones(): Promise<any> {
+    return this.request.get(`${environment.main_url}/backend/v2/gateway/zone`, {
+      mainGroup: 'backend',
+      method: 'gateway-get-zones'
+    });
+  }
+
   deviceCommand(data: any): Promise<any> {
     return this.request.post(`${environment.main_url}/backend/v2/gateway/device/command`, data, {
       mainGroup: 'backend',
@@ -334,7 +341,7 @@ export class BackendService {
     const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
     const browser = this.iab.create(url);
     if (this.platform.is('capacitor')) {
-      browser.on('loadstart').subscribe((event) => {
+      browser.on('loadstart').subscribe((event: any) => {
         if (event.url.includes('google-auth-redirect')) {
           browser.close();
           const urlObj = new URL(event.url);

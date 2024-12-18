@@ -84,6 +84,7 @@ import {InAppBrowser} from '@awesome-cordova-plugins/in-app-browser/ngx';
 import {MasterEditComponent} from './components/master/edit/master-edit.component';
 import {RippleDirective} from './shared/directives/ripple.directive';
 import { AddZoneComponent } from './components/zone/add/add.component';
+import {ZoneComponent} from './elements/zone/zone.component';
 
 
 @NgModule({
@@ -146,6 +147,7 @@ import { AddZoneComponent } from './components/zone/add/add.component';
     SafeHtmlPipe,
     RecaptchaComponent,
     GoogleMapComponent,
+    ZoneComponent,
     MasterComponent,
     MasterEditComponent,
     AddZoneComponent,

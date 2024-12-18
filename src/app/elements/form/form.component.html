@@ -62,6 +62,9 @@
             [title]="input.title!">
           </app-google-map>
         </div>
+        <div *ngSwitchCase="'zone'">
+          <app-zone [title]="input.title" [form]="formGroup" [key]="input.key" [type]="input.inputType"></app-zone>
+        </div>
       </ng-container>
     </ng-container>
   </div>

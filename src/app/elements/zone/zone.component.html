@@ -1,0 +1,7 @@
+<div *ngIf="form" [formGroup]="form" class="input-wrapper" [class.has-error]="!!error">
+    <label *ngIf="!!title" class="label-text" [for]="key">{{ title }}</label>
+</div>
+
+<div *ngIf="error" class="input-error-text">
+    {{error}}
+</div>
