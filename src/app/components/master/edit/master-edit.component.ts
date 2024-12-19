@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBaseComponent } from "../../form-base.component";
 import { ConfirmationModalComponent } from "../../../elements/dialog/confirmation-modal/confirmation-modal.component";
 import { DialogService } from "../../../services/dialog.service";
-import {ZoneModel} from '../../../models/gateway.model';
+import {DeviceItem, ZoneModel} from '../../../models/gateway.model';
 import { AppFormInputs } from "../../../shared/types";
 import { IDeviceSettings } from "../../../shared/interfaces/device-settings.interface";
 
@@ -44,7 +44,7 @@ export class MasterEditComponent extends FormBaseComponent {
           key: setting.key,
           title: setting.name,
           type: setting.type,
-          defaultValue: setting.value,
+          defaultValue: this.getDefaultValue(setting),
           value: setting.value,
           items: setting.items
         })
@@ -105,7 +105,8 @@ export class MasterEditComponent extends FormBaseComponent {
   private updateDevice(): void {
     const obj: IDeviceSettings = {
       device_ident: this.ui.selectedDevice?.ident!,
-      device_name: this.formGroup.get('device_name')?.value || ''
+      device_name: this.formGroup.get('device_name')?.value || '',
+      zone_id: this.formGroup.get('zoneId')?.value || null
     };
     this.ui.lockBtn('save_device_settings');
     this.backend.updateDevice(obj).finally(() => {
@@ -129,5 +130,22 @@ export class MasterEditComponent extends FormBaseComponent {
         this.router.navigate(['/master']);
       })
     }
+  }
+
+  private getDefaultValue(setting: any) {
+    const property: keyof DeviceItem = setting.key;
+
+    if (
+      this.ui.selectedDevice &&
+      this.ui.selectedDevice[property]
+    ) {
+      return this.ui.selectedDevice[property];
+    }
+
+    if (setting.value) {
+      return setting.value;
+    }
+
+    return '';
   }
 }

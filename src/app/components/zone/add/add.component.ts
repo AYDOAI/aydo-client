@@ -51,7 +51,7 @@ export class AddZoneComponent extends FormBaseComponent {
     const zone = {
       name: this.formGroup.get('name')?.value,
       location: this.formGroup.get('location')?.value,
-      is_indoor: this.formGroup.get('is_indoor')?.value,
+      is_indoor: this.formGroup.get('is_indoor')?.value || false,
     };
 
     this.backend.saveZone(zone).then(() => {

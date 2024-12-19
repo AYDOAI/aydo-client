@@ -63,7 +63,14 @@
           </app-google-map>
         </div>
         <div *ngSwitchCase="'zone'">
-          <app-zone [title]="input.title" [form]="formGroup" [key]="input.key" [type]="input.inputType"></app-zone>
+          <app-zone
+            [form]="formGroup"
+            [class]="input.class ?? ''"
+            [key]="input.key"
+            [title]="input.title!"
+            [items]="input.items!"
+            (blur)="onBlur(input)">
+          </app-zone>
         </div>
       </ng-container>
     </ng-container>
