@@ -12,6 +12,7 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import {from} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {ErrorsService} from "./errors.service";
+import {IDeviceSettings} from "../shared/interfaces/device-settings.interface";
 
 export interface Notification {
   title?: string;
@@ -246,7 +247,14 @@ export class BackendService {
   deleteDevice(device_ident: string): Promise<any> {
     return this.request.post(`${environment.main_url}/backend/v2/gateway/device/delete`, { data: { device_ident } }, {
       mainGroup: 'backend',
-      method: 'gateway-save-device'
+      method: 'gateway-delete-device'
+    });
+  }
+
+  updateDevice(device: IDeviceSettings): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/gateway/device/update`, { data: device }, {
+      mainGroup: 'backend',
+      method: 'gateway-update-device'
     });
   }
 
