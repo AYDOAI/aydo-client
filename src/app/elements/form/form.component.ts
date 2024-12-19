@@ -80,7 +80,7 @@ export class FormComponent extends BaseElement implements OnInit {
 
   private getErrorText(controlName: string, title: string): string {
     const control = this.formGroup.get(controlName) as FormControl;
-    if (control.hasError('required')) {
+    if (control.hasError('required') || control.hasError('onlySpaces')) {
       return `${title} is required`;
     } else if (control.hasError('email')) {
       return `${title} is invalid`;
@@ -96,7 +96,7 @@ export class FormComponent extends BaseElement implements OnInit {
       return `${title} does not match`;
     } else if (control.hasError('onlyLetters')) {
       return `${title} must contain only letters (a-zA-Z)`;
-    } else if (control.hasError('emailSpecialCharacters')) {
+    } else if (control.hasError('emailSpecialCharacters') || control.hasError('specialCharacters')) {
       return `${title} must not contain special characters`;
     } else if (control.hasError('strongPassword')) {
       return `${title} is not strong enough`
