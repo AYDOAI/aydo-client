@@ -82,6 +82,8 @@ export class FormComponent extends BaseElement implements OnInit {
     const control = this.formGroup.get(controlName) as FormControl;
     if (control.hasError('required') || control.hasError('onlySpaces')) {
       return `${title} is required`;
+    } else if (control.hasError('latinOnly')) {
+      return `${title} contains invalid characters`
     } else if (control.hasError('email')) {
       return `${title} is invalid`;
     } else if (control.hasError('minlength')) {
@@ -100,8 +102,6 @@ export class FormComponent extends BaseElement implements OnInit {
       return `${title} must not contain special characters`;
     } else if (control.hasError('strongPassword')) {
       return `${title} is not strong enough`
-    } else if (control.hasError('latinOnly')) {
-      return `${title} contains invalid characters`
     } else {
       return '';
     }
