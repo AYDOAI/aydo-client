@@ -46,8 +46,10 @@ export interface AppFormInputs {
   matchingKey?: string;
   onlyLetters?: boolean;
   latinOnly?: boolean;
+  onlySpaces?: boolean;
   strongPassword?: boolean;
   emailSpecialChars?: boolean;
+  specialCharacters?: boolean;
   requiredTrue?: boolean;
   displayError?: boolean;
   isDisabled?: Function;

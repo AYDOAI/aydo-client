@@ -13,6 +13,8 @@ import { onlyLettersValidator } from "../shared/validators/only-letters.validato
 import { emailSpecialCharValidator } from "../shared/validators/email-special-characters.validator";
 import { strongPasswordValidator } from "../shared/validators/strong-password.validator";
 import { latinOnly } from "../shared/validators/latin-only.validator";
+import { onlySpacesValidator } from "../shared/validators/only-spaces.validator";
+import { specialCharactersValidator } from "../shared/validators/special-characters.validator";
 
 // @ts-ignore
 export const emailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -109,8 +111,14 @@ export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
     if (input.emailSpecialChars) {
       opts.push(emailSpecialCharValidator())
     }
+    if (input.specialCharacters) {
+      opts.push(specialCharactersValidator())
+    }
     if (input.strongPassword) {
       opts.push(strongPasswordValidator())
+    }
+    if (input.onlySpaces) {
+      opts.push(onlySpacesValidator())
     }
     const control = new FormControl('', opts);
     if (input.defaultValue) {
