@@ -27,7 +27,12 @@ export class MasterEditComponent extends FormBaseComponent {
       title: 'Device name',
       type: 'input',
       defaultValue: this.ui.selectedDevice?.name || '',
-      required: true
+      required: true,
+      minLength: 1,
+      maxLength: 30,
+      latinOnly: true,
+      onlySpaces: true,
+      specialCharacters: true
     })
 
     if (this.ui.selectedDevice?.settings?.length) {
@@ -67,15 +72,14 @@ export class MasterEditComponent extends FormBaseComponent {
       })
     }
 
-    if (this.ui.selectedDevice?.settings?.length) {
-      this.form.inputs.push({
-        key: 'save_device_settings',
-        title: 'Save settings',
-        type: 'button',
-        class: 'btn',
-        isDisabled: () => this.formGroup.invalid
-      });
-    }
+    this.form.inputs.push({
+      key: 'save_device_settings',
+      title: 'Save settings',
+      type: 'button',
+      class: 'btn',
+      displayError: true,
+      isDisabled: () => this.formGroup.invalid
+    });
 
     this.form.inputs.push({
       key: 'delete_device',
@@ -103,7 +107,7 @@ export class MasterEditComponent extends FormBaseComponent {
   private updateDevice(): void {
     const obj: IDeviceSettings = {
       device_ident: this.ui.selectedDevice?.ident!,
-      device_name: this.formGroup.get('device_name')?.value || ''
+      device_name: (this.formGroup.get('device_name')?.value || '').trim()
     };
     this.ui.lockBtn('save_device_settings');
     this.backend.updateDevice(obj).then(() => {
