@@ -14,7 +14,7 @@ export class FormAddHubConnectedComponent extends FormBaseComponent {
     this.form.description = 'AYDO Hub connected'
     this.form.inputs.push({
       key: 'btn',
-      title: 'Go to data streams',
+      title: 'Go to master',
       type: 'button',
       icon: 'arrow-right'
     });
@@ -23,7 +23,6 @@ export class FormAddHubConnectedComponent extends FormBaseComponent {
   }
 
   public button(): void {
-    this.router.navigate([environment.index_url]);
+    this.router.navigate(['/master']);
   }
-
 }

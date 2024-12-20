@@ -81,7 +81,8 @@ export interface AppFormInputs {
 }
 
 export interface SelectItem {
-  id: string | number;
+  id?: string | number;
   title?: string;
   icon?: string;
+  selectCallback?: any;
 }

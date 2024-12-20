@@ -6,7 +6,7 @@ import {environment} from '../../environments/environment';
 import {RequestService} from './request.service';
 import {LoginItem, UserItem} from '../models/users.model';
 import {StorageService} from './storage.service';
-import {DeviceItem, GatewayItem} from '../models/gateway.model';
+import {DeviceItem, GatewayItem, ZoneItem} from '../models/gateway.model';
 import {between} from '../shared/shared.functions';
 import detectEthereumProvider from '@metamask/detect-provider';
 import {from} from 'rxjs';
@@ -272,6 +272,20 @@ export class BackendService {
     });
   }
 
+  saveZone(zone: ZoneItem): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/gateway/zone`, { zone }, {
+      mainGroup: 'backend',
+      method: 'gateway-save-zone'
+    });
+  }
+
+  getZones(): Promise<any> {
+    return this.request.get(`${environment.main_url}/backend/v2/gateway/zone`, {
+      mainGroup: 'backend',
+      method: 'gateway-get-zones'
+    });
+  }
+
   deviceCommand(data: any): Promise<any> {
     return this.request.post(`${environment.main_url}/backend/v2/gateway/device/command`, data, {
       mainGroup: 'backend',
@@ -335,7 +349,7 @@ export class BackendService {
     const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
     const browser = this.iab.create(url);
     if (this.platform.is('capacitor')) {
-      browser.on('loadstart').subscribe((event) => {
+      browser.on('loadstart').subscribe((event: any) => {
         if (event.url.includes('google-auth-redirect')) {
           browser.close();
           const urlObj = new URL(event.url);
