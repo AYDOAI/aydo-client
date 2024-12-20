@@ -106,7 +106,11 @@ export class MasterEditComponent extends FormBaseComponent {
       device_name: this.formGroup.get('device_name')?.value || ''
     };
     this.ui.lockBtn('save_device_settings');
-    this.backend.updateDevice(obj).finally(() => {
+    this.backend.updateDevice(obj).then(() => {
+      this.ui.devices.items = this.ui.devices.items
+        .map((item) => item.ident === obj.device_ident ? { ...item, name: obj.device_name } : item)
+      this.errors.showInfo('Device settings saved!');
+    }).finally(() => {
       this.ui.unlockBtn('save_device_settings');
     })
   }
