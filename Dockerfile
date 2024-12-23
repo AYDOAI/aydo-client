@@ -1,11 +1,11 @@
-# Base image
-FROM node:18
-
-# Create app directory
+FROM node:18 AS build
 WORKDIR /usr/src/app
-
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
-
-# Install app dependencies
 RUN npm install
+COPY . .
+RUN npm run build
+
+FROM nginx AS production
+COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /usr/src/app/www/ /etc/nginx/html
+EXPOSE 80
