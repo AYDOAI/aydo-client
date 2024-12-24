@@ -79,8 +79,7 @@ export class MasterEditComponent extends FormBaseComponent {
       title: 'Save settings',
       type: 'button',
       class: 'btn',
-      displayError: true,
-      isDisabled: () => this.formGroup.invalid
+      displayError: true
     });
 
     this.form.inputs.push({
