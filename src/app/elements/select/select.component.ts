@@ -36,6 +36,10 @@ export class SelectComponent extends BaseElement {
   }
 
   get itemsEx(): any[] {
+    if (!this.items) {
+      return [];
+    }
+
     if (Array.isArray(this.items)) {
       return this.items;
     } else {
@@ -52,6 +56,11 @@ export class SelectComponent extends BaseElement {
   }
 
   select(item: SelectItem) {
+    if (item.selectCallback) {
+      const callback = item.selectCallback;
+      return callback();
+    }
+
     if (this.form) {
       this.form.get(this.key)?.setValue(item ? item.id : null);
     }
@@ -92,11 +101,19 @@ export class SelectComponent extends BaseElement {
   }
 
   selectActiveTitle() {
+    if (!this.items) {
+      return '';
+    }
+
     const item = this.selectActive();
     return item ? item.title : '';
   }
 
   selectActiveIcon(): string {
+    if (!this.items) {
+      return '';
+    }
+
     const item = this.selectActive();
     return item && item.icon ? item.icon : '';
   }

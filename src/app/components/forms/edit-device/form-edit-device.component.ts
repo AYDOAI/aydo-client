@@ -9,7 +9,7 @@ import {FormBaseComponent} from '../../form-base.component';
 })
 export class FormEditDeviceComponent extends FormBaseComponent {
   override onInit() {
-    this.form.title = 'Edit device';
+    this.form.title = 'Add device';
     // this.form.description = 'This app supports next device types, choose one of them:';
     this.form.inputs.push({
       key: 'name',
@@ -17,7 +17,13 @@ export class FormEditDeviceComponent extends FormBaseComponent {
       type: 'input',
       defaultValue: this.ui.selectedDriver?.name,
       color: 'white',
-      backgroundColor: '#060022'
+      backgroundColor: '#060022',
+      required: true,
+      minLength: 1,
+      maxLength: 30,
+      latinOnly: true,
+      onlySpaces: true,
+      specialCharacters: true
     });
     this.ui.selectedDriver?.settings?.items.forEach(setting => {
       if (setting.type === 'input') {
@@ -59,6 +65,7 @@ export class FormEditDeviceComponent extends FormBaseComponent {
       title: 'Save device',
       type: 'button',
       color: 'white',
+      displayError: true,
       backgroundColor: '#060022'
     });
     this.formGroup = this.createForm(this.form.inputs);

@@ -6,12 +6,13 @@ import {environment} from '../../environments/environment';
 import {RequestService} from './request.service';
 import {LoginItem, UserItem} from '../models/users.model';
 import {StorageService} from './storage.service';
-import {DeviceItem, GatewayItem} from '../models/gateway.model';
+import {DeviceItem, GatewayItem, ZoneItem} from '../models/gateway.model';
 import {between} from '../shared/shared.functions';
 import detectEthereumProvider from '@metamask/detect-provider';
 import {from} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {ErrorsService} from "./errors.service";
+import {IDeviceSettings} from "../shared/interfaces/device-settings.interface";
 
 export interface Notification {
   title?: string;
@@ -246,7 +247,14 @@ export class BackendService {
   deleteDevice(device_ident: string): Promise<any> {
     return this.request.post(`${environment.main_url}/backend/v2/gateway/device/delete`, { data: { device_ident } }, {
       mainGroup: 'backend',
-      method: 'gateway-save-device'
+      method: 'gateway-delete-device'
+    });
+  }
+
+  updateDevice(device: IDeviceSettings): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/gateway/device/update`, { data: device }, {
+      mainGroup: 'backend',
+      method: 'gateway-update-device'
     });
   }
 
@@ -261,6 +269,20 @@ export class BackendService {
     return this.request.get(`${environment.main_url}/backend/v2/gateway`, {
       mainGroup: 'backend',
       method: 'gateway-get-gateway'
+    });
+  }
+
+  saveZone(zone: ZoneItem): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/gateway/zone`, { zone }, {
+      mainGroup: 'backend',
+      method: 'gateway-save-zone'
+    });
+  }
+
+  getZones(): Promise<any> {
+    return this.request.get(`${environment.main_url}/backend/v2/gateway/zone`, {
+      mainGroup: 'backend',
+      method: 'gateway-get-zones'
     });
   }
 
@@ -327,7 +349,7 @@ export class BackendService {
     const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
     const browser = this.iab.create(url);
     if (this.platform.is('capacitor')) {
-      browser.on('loadstart').subscribe((event) => {
+      browser.on('loadstart').subscribe((event: any) => {
         if (event.url.includes('google-auth-redirect')) {
           browser.close();
           const urlObj = new URL(event.url);

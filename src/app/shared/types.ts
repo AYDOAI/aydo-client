@@ -46,8 +46,10 @@ export interface AppFormInputs {
   matchingKey?: string;
   onlyLetters?: boolean;
   latinOnly?: boolean;
+  onlySpaces?: boolean;
   strongPassword?: boolean;
   emailSpecialChars?: boolean;
+  specialCharacters?: boolean;
   requiredTrue?: boolean;
   displayError?: boolean;
   isDisabled?: Function;
@@ -79,7 +81,8 @@ export interface AppFormInputs {
 }
 
 export interface SelectItem {
-  id: string | number;
+  id?: string | number;
   title?: string;
   icon?: string;
+  selectCallback?: any;
 }
