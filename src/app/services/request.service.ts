@@ -85,9 +85,9 @@ export class RequestService {
         if (!response.error.message) {
           response.error.message = message;
         }
-        this.errors.onError(response.error);
         if (!opts || !opts.ignoreError) {
           // message += ` (${url})`;
+          this.errors.onError(response.error);
           console.log(`${response.status} ${response.statusText} (${url})`);
           this.errors.onException({
             type: 'error',

@@ -1,14 +1,18 @@
 import {Injectable} from '@angular/core';
+import {InAppBrowser} from "@awesome-cordova-plugins/in-app-browser/ngx";
+import {Platform} from "@ionic/angular";
+import {Router} from "@angular/router";
 import {environment} from '../../environments/environment';
 import {RequestService} from './request.service';
 import {LoginItem, UserItem} from '../models/users.model';
 import {StorageService} from './storage.service';
-import {DeviceItem, GatewayItem} from '../models/gateway.model';
+import {DeviceItem, GatewayItem, ZoneItem} from '../models/gateway.model';
 import {between} from '../shared/shared.functions';
 import detectEthereumProvider from '@metamask/detect-provider';
-import {from, tap} from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { ErrorsService } from "./errors.service";
+import {from} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
+import {ErrorsService} from "./errors.service";
+import {IDeviceSettings} from "../shared/interfaces/device-settings.interface";
 
 export interface Notification {
   title?: string;
@@ -45,9 +49,12 @@ export interface Ranking {
 }
 
 export interface DataStream {
-  title?: string;
-  description?: string;
-  status?: 'Active' | 'Pending' | 'Not Active';
+  id: number;
+  name: string;
+  description: string;
+  externalLink: string;
+  status?: 0 | 1;
+  logo?: string;
 }
 
 export interface DataStreams {
@@ -130,20 +137,13 @@ export class BackendService {
     {title: 'Expert'},
     {title: 'Junior'},
   ];
-  dataStreams: DataStreams = {
-    items: [
-      {title: 'Project #1', description: 'Project for blockchain elite reward', status: 'Active'},
-      {title: 'Project #2', description: 'Project for blockchain elite reward', status: 'Pending'},
-      {title: 'Project #3', description: 'Project for blockchain elite reward', status: 'Not Active'},
-      {title: 'Project #4', description: 'Project for blockchain elite reward', status: 'Active'},
-      {title: 'Project #5', description: 'Project for blockchain elite reward', status: 'Pending'},
-      {title: 'Project #6', description: 'Project for blockchain elite reward', status: 'Not Active'},
-    ]
-  };
 
   constructor(public request: RequestService,
               public storage: StorageService,
-              public errors: ErrorsService) {
+              public errors: ErrorsService,
+              private iab: InAppBrowser,
+              private platform: Platform,
+              private router: Router) {
     this.randomIndex = between(0, 2);
   }
 
@@ -151,6 +151,18 @@ export class BackendService {
     return this.request.post(`${environment.main_url}/backend/v2/user/login`, {user}, {
       mainGroup: 'backend',
       method: 'user-login'
+    }).then(data => {
+      this.storage.token = data.user.token;
+      this.storage.refreshToken = data.user.refresh_token;
+      return Promise.resolve(data);
+    });
+  }
+
+  demoLogin(): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/user/login`, { user: { login: 'test@aydo.ai', password: '1qaz@WSX' } }, {
+      mainGroup: 'backend',
+      method: 'demo-login',
+      ignoreError: true
     }).then(data => {
       this.storage.token = data.user.token;
       this.storage.refreshToken = data.user.refresh_token;
@@ -232,6 +244,20 @@ export class BackendService {
     });
   }
 
+  deleteDevice(device_ident: string): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/gateway/device/delete`, { data: { device_ident } }, {
+      mainGroup: 'backend',
+      method: 'gateway-delete-device'
+    });
+  }
+
+  updateDevice(device: IDeviceSettings): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/gateway/device/update`, { data: device }, {
+      mainGroup: 'backend',
+      method: 'gateway-update-device'
+    });
+  }
+
   getDeviceValues(): Promise<any> {
     return this.request.get(`${environment.main_url}/backend/v2/gateway/device/values`, {
       mainGroup: 'backend',
@@ -243,6 +269,20 @@ export class BackendService {
     return this.request.get(`${environment.main_url}/backend/v2/gateway`, {
       mainGroup: 'backend',
       method: 'gateway-get-gateway'
+    });
+  }
+
+  saveZone(zone: ZoneItem): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/gateway/zone`, { zone }, {
+      mainGroup: 'backend',
+      method: 'gateway-save-zone'
+    });
+  }
+
+  getZones(): Promise<any> {
+    return this.request.get(`${environment.main_url}/backend/v2/gateway/zone`, {
+      mainGroup: 'backend',
+      method: 'gateway-get-zones'
     });
   }
 
@@ -283,25 +323,62 @@ export class BackendService {
     });
   }
 
-  getDataStreams(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      resolve(this.dataStreams);
+  getDataStreams(): Promise<DataStream[]> {
+    return this.request.get(`${environment.main_url}/backend/v2/data-stream`, {
+      mainGroup: 'backend',
+      method: 'data-streams'
     });
   }
 
-  public signInWithMetaMask() {
+  getDataStreamById(id: number): Promise<DataStream> {
+    return this.request.get(`${environment.main_url}/backend/v2/data-stream/${id}`, {
+      mainGroup: 'backend',
+      method: 'data-stream'
+    });
+  }
+
+  toggleDataStream(id: number): Promise<{ status: number }> {
+    return this.request.post(`${environment.main_url}/backend/v2/data-stream/${id}/toggle`, {},{
+      mainGroup: 'backend',
+      method: 'data-stream-toggle'
+    });
+  }
+
+  public googleLogin(inviteId?: string): void {
+    const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
+    const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
+    const browser = this.iab.create(url);
+    if (this.platform.is('capacitor')) {
+      browser.on('loadstart').subscribe((event: any) => {
+        if (event.url.includes('google-auth-redirect')) {
+          browser.close();
+          const urlObj = new URL(event.url);
+          const token = urlObj.searchParams?.get('token');
+          const refreshToken = urlObj.searchParams?.get('refreshToken');
+          if (token && refreshToken) {
+            this.storage.token = token;
+            this.storage.refreshToken = refreshToken;
+            this.storage.next();
+          } else {
+            this.errors.showError('Not authenticated')
+          }
+        }
+      });
+    }
+  }
+
+  public signInWithMetaMask(inviteId: string) {
     let ethereum: any;
 
     return from(detectEthereumProvider()).pipe(
       switchMap(async (provider) => {
         if (!provider) {
-          this.errors.showError('Please install MetaMask');
           throw new Error('Please install MetaMask');
         }
         ethereum = provider;
         return await ethereum.request({ method: 'eth_requestAccounts' });
       }),
-      switchMap(() => this.metamaskGetNonce(ethereum.selectedAddress)),
+      switchMap(() => this.metamaskGetNonce(ethereum.selectedAddress, inviteId)),
       switchMap(
         async (response) =>
           await ethereum.request({
@@ -317,6 +394,7 @@ export class BackendService {
         async (response) => {
           this.storage.token = response.user.token;
           this.storage.refreshToken = response.user.refresh_token;
+          this.storage.next();
         }
       )
     );
@@ -329,10 +407,11 @@ export class BackendService {
       .join('');
   }
 
-  metamaskGetNonce(address: any): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/user/metamask/get-nonce`, {address}, {
+  metamaskGetNonce(address: any, inviteId: string): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/user/metamask/get-nonce`, {address, inviteId}, {
       mainGroup: 'backend',
-      method: 'metamask-get-nonce'
+      method: 'metamask-get-nonce',
+      ignoreError: true
     }).then(data => {
       return Promise.resolve(data);
     });

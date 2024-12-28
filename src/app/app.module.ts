@@ -74,6 +74,18 @@ import { LinkContainerComponent } from "./elements/link-container/link-container
 import { ConnectWalletComponent } from "./components/connect-wallet/connect-wallet.component";
 import { ConnectDevicesComponent } from "./components/connect-devices/connect-devices.component";
 import { DeviceCardComponent } from "./components/connect-devices/card/device-card.component";
+import { RecaptchaComponent } from "./elements/recaptcha/recaptcha.component";
+import { NgxCaptchaModule } from "ngx-captcha";
+import {FeedbackComponent} from './components/feedback/feedback.component';
+import {GoogleMap, MapMarker} from '@angular/google-maps';
+import {GoogleMapComponent} from './elements/google-map/google-map.component';
+import {MasterComponent} from './components/master/master.component';
+import {InAppBrowser} from '@awesome-cordova-plugins/in-app-browser/ngx';
+import {MasterEditComponent} from './components/master/edit/master-edit.component';
+import {RippleDirective} from './shared/directives/ripple.directive';
+import { AddZoneComponent } from './components/zone/add/add.component';
+import {ZoneComponent} from './elements/zone/zone.component';
+
 
 @NgModule({
   declarations: [
@@ -107,6 +119,7 @@ import { DeviceCardComponent } from "./components/connect-devices/card/device-ca
     HeaderComponent,
     DemoComponent,
     AboutComponent,
+    FeedbackComponent,
     SettingsComponent,
     ProfileComponent,
     StatusComponent,
@@ -132,6 +145,13 @@ import { DeviceCardComponent } from "./components/connect-devices/card/device-ca
     EditProfileComponent,
     SuccessComponent,
     SafeHtmlPipe,
+    RecaptchaComponent,
+    GoogleMapComponent,
+    ZoneComponent,
+    MasterComponent,
+    MasterEditComponent,
+    AddZoneComponent,
+    RippleDirective
   ],
   imports: [
     AppRoutingModule,
@@ -142,12 +162,16 @@ import { DeviceCardComponent } from "./components/connect-devices/card/device-ca
     BrowserAnimationsModule,
     CommonModule,
     HttpClientModule,
-    DialogModule
+    DialogModule,
+    NgxCaptchaModule,
+    GoogleMap,
+    MapMarker
   ],
   providers: [
     Storage,
     UIService,
     StorageService,
+    InAppBrowser,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]

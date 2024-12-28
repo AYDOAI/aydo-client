@@ -23,7 +23,20 @@
 }
 
 .title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  max-width: 60%;
   font-size: 30px;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  overflow: hidden;
+}
+
+.group-title {
+  font-size: 17px;
+  font-weight: bold;
+  padding-top: 20px;
 }
 
 .form_content {

@@ -14,11 +14,13 @@ export type FrameStep =
   | 'edit-device'
   | 'profile'
   | 'dashboard'
-  | 'success';
+  | 'streams'
+  | 'success'
+  | 'master';
 
 export type HubType = 'hub_aydo' | 'hub_pi' | 'hub_other';
 
-export type AppFormType = 'input' | 'button' | 'text' | 'string' | 'checkbox' | 'template' | 'agreement' | 'select';
+export type AppFormType = 'input' | 'button' | 'text' | 'string' | 'checkbox' | 'template' | 'agreement' | 'select' | 'recaptcha' | 'google-map';
 
 export interface AppForm {
   title: string;
@@ -44,8 +46,10 @@ export interface AppFormInputs {
   matchingKey?: string;
   onlyLetters?: boolean;
   latinOnly?: boolean;
+  onlySpaces?: boolean;
   strongPassword?: boolean;
   emailSpecialChars?: boolean;
+  specialCharacters?: boolean;
   requiredTrue?: boolean;
   displayError?: boolean;
   isDisabled?: Function;
@@ -77,7 +81,8 @@ export interface AppFormInputs {
 }
 
 export interface SelectItem {
-  id: string | number;
+  id?: string | number;
   title?: string;
   icon?: string;
+  selectCallback?: any;
 }

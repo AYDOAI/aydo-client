@@ -1,5 +1,11 @@
 <app-header title="Notifications"></app-header>
-
+<div class="page-caption">
+  <div class="card very-small" (click)="goBack()">
+    <div class="card-content">
+      <svg-icon name="arrow-left" width="12px"></svg-icon>
+    </div>
+  </div>
+</div>
 <div class="notifications">
   <div class="card long" *ngFor="let notification of notifications; let i = index">
     <div class="card-content">

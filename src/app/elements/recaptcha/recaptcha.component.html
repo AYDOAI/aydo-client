@@ -1,0 +1,10 @@
+<div *ngIf="form" [formGroup]="form">
+  <ngx-recaptcha2
+    [siteKey]="siteKey"
+    [size]="size"
+    [hl]="lang"
+    [theme]="theme"
+    [type]="type"
+    [formControlName]="key">
+  </ngx-recaptcha2>
+</div>

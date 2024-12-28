@@ -54,7 +54,7 @@ export class DialogService {
     (instance['componentIndex'] as number) = this.activeInstances;
 
     this.renderer.setStyle(document.body, 'overflow', 'hidden');
-
+    this.renderer.setStyle(document.documentElement, 'overflow', 'hidden');
     (instance['destroy'] as () => void) = (): void => {
       if (instance['componentIndex'] === this.activeInstances) {
         this.activeInstances = Math.max(this.activeInstances - 1, 0);
@@ -69,6 +69,7 @@ export class DialogService {
 
         if (this.activeInstances < 1) {
           this.renderer.removeStyle(document.body, 'overflow');
+          this.renderer.removeStyle(document.documentElement, 'overflow');
         }
       }
     };

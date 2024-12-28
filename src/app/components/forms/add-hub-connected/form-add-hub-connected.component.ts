@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {FormBaseComponent} from '../../form-base.component';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-form-add-hub-connected',
@@ -13,7 +14,7 @@ export class FormAddHubConnectedComponent extends FormBaseComponent {
     this.form.description = 'AYDO Hub connected'
     this.form.inputs.push({
       key: 'btn',
-      title: 'Go to dashboard',
+      title: 'Go to master',
       type: 'button',
       icon: 'arrow-right'
     });
@@ -22,7 +23,6 @@ export class FormAddHubConnectedComponent extends FormBaseComponent {
   }
 
   public button(): void {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/master']);
   }
-
 }

@@ -21,9 +21,9 @@ export class LoadingService {
     );
   }
 
-  public showLoading(): void {
+  public showLoading(debounce: number = 500): void {
     if (!this.loaderTimer) {
-      this.loaderTimer = timer(500).subscribe(() => this.loadingSubject.next(true));
+      this.loaderTimer = timer(debounce).subscribe(() => this.loadingSubject.next(true));
     }
   }
 

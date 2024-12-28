@@ -1,4 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
+import {DialogService} from "../../services/dialog.service";
+import {LicenseDialogComponent} from '../../elements/dialog/license-dialog/license-dialog.component';
 
 @Component({
   selector: 'app-about',
@@ -6,8 +8,21 @@ import {Component, OnInit} from '@angular/core';
   styleUrl: './about.component.scss'
 })
 export class AboutComponent implements OnInit {
+  private dialog = inject(DialogService);
 
-    ngOnInit(): void {
+  ngOnInit(): void {
 
-    }
+  }
+  
+  goToLink(url: string) {
+    window.open(url, "_blank");
+  }
+
+  public openLicense(e: MouseEvent): void {
+    e.preventDefault()
+    this.dialog.show(LicenseDialogComponent, {
+      headerTitle: 'License'
+    })
+  }
+
 }

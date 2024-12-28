@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular
 import { FormControl, FormGroup } from '@angular/forms';
 import { AppForm, AppFormInputs, FrameStep } from '../../shared/types';
 import { BaseElement } from '../base.component';
-import { Location } from "@angular/common";
+import {Location} from "@angular/common";
 import { DialogService } from "../../services/dialog.service";
 import { LicenseDialogComponent } from "../dialog/license-dialog/license-dialog.component";
 
@@ -80,8 +80,10 @@ export class FormComponent extends BaseElement implements OnInit {
 
   private getErrorText(controlName: string, title: string): string {
     const control = this.formGroup.get(controlName) as FormControl;
-    if (control.hasError('required')) {
+    if (control.hasError('required') || control.hasError('onlySpaces')) {
       return `${title} is required`;
+    } else if (control.hasError('latinOnly')) {
+      return `${title} contains invalid characters`
     } else if (control.hasError('email')) {
       return `${title} is invalid`;
     } else if (control.hasError('minlength')) {
@@ -96,12 +98,10 @@ export class FormComponent extends BaseElement implements OnInit {
       return `${title} does not match`;
     } else if (control.hasError('onlyLetters')) {
       return `${title} must contain only letters (a-zA-Z)`;
-    } else if (control.hasError('emailSpecialCharacters')) {
+    } else if (control.hasError('emailSpecialCharacters') || control.hasError('specialCharacters')) {
       return `${title} must not contain special characters`;
     } else if (control.hasError('strongPassword')) {
       return `${title} is not strong enough`
-    } else if (control.hasError('latinOnly')) {
-      return `${title} contains invalid characters`
     } else {
       return '';
     }

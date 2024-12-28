@@ -4,6 +4,14 @@
     margin-top: 30px;
   }
 
+  .logo-image {
+    min-width: 40px;
+    max-width: 40px;
+    max-height: 40px;
+    border-radius: 50%;
+    border: 1px solid black
+  }
+
   .project-info {
     display: flex;
     column-gap: 12px;
@@ -19,6 +27,7 @@
     .project-content {
       display: flex;
       flex-flow: row wrap;
+      width: 100%;
     }
   }
   .card-header {
@@ -26,6 +35,7 @@
 
     display: flex;
     align-items: center;
+    align-self: flex-start;
 
     --icon-width: 9px;
     --icon-height: 18px;

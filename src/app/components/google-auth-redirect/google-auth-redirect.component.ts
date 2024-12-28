@@ -21,10 +21,10 @@ export class GoogleAuthRedirectComponent implements OnInit {
       if (token && refreshToken) {
         this.storage.token = token;
         this.storage.refreshToken = refreshToken;
-        this.router.navigate(['/']);
+        this.storage.next();
       } else {
         this.errors.showError('Not authenticated')
-        this.router.navigate(['/sign-up']);
+        this.router.navigate(['/main']);
       }
     });
   }

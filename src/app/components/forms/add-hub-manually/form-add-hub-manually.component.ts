@@ -44,12 +44,12 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
       isDisabled: () => this.formGroup.invalid,
       displayError: true
     });
-    this.form.inputs.push({
-      key: 'scan',
-      title: 'Scan QR Code',
-      type: 'button',
-      icon: 'arrow-right'
-    });
+    // this.form.inputs.push({
+    //   key: 'scan',
+    //   title: 'Scan QR Code',
+    //   type: 'button',
+    //   icon: 'arrow-right'
+    // });
   }
 
   public button(button: AppFormInputs): void {
@@ -62,6 +62,7 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
       case 'attach':
         const gateway = {...this.formGroup.value};
         this.resetFormErrors();
+        this.ui.lockBtn('attach');
         this.backend.gatewayConnect(gateway).then((data: any) => {
           if (data && data.gateway && data.gateway.identifier) {
             this.storage.serverId = data.gateway.identifier;
@@ -70,6 +71,8 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
           }
         }).catch(() => {
 
+        }).finally(() => {
+          this.ui.unlockBtn('attach');
         });
         break;
     }

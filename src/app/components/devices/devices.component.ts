@@ -9,6 +9,11 @@ import {DeviceItem} from '../../models/gateway.model';
 })
 export class DevicesComponent extends BaseComponent {
 
+  override onInit() {
+    super.onInit();
+    this.ui.getDevices();
+  }
+
   deviceAdd() {
     this.ui.goStep('add-device');
   }
@@ -19,6 +24,10 @@ export class DevicesComponent extends BaseComponent {
 
   capabilityExists(item: any) {
     return item.displayName !== 'Linkquality' && item.value && ['power', 'mode', 'motion', 'rgb'].indexOf(item.ident) === -1;
+  }
+
+  public trackByIdent(index: number, device: DeviceItem): string {
+    return device.ident;
   }
 
 }

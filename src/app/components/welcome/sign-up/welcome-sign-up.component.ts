@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AppFormInputs} from '../../../shared/types';
 import {FormBaseComponent} from '../../form-base.component';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-welcome-sign-up',
@@ -17,6 +18,9 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
     this.form.inputs.push({key: 'password', title: 'Password', type: 'input', inputType: 'password', required: true, maxLength: 255, strongPassword: true, latinOnly: true})
     this.form.inputs.push({key: 'password_confirmation', title: 'Password confirmation', type: 'input', inputType: 'password', required: true, matchingKey: 'password'})
     this.form.inputs.push({key: 'agreement', title: '', type: 'agreement', defaultValue: false, requiredTrue: true})
+    if (environment.recaptcha.enabled) {
+      this.form.inputs.push({ key: 'recaptcha', title: '', type: 'recaptcha', required: true })
+    }
     this.form.inputs.push({key: 'sign_up', title: 'Sign up', type: 'button', color: 'white', backgroundColor: '#060022', displayError: true})
 
     this.formGroup = this.createForm(this.form.inputs);
@@ -28,13 +32,15 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
         if (this.formGroup.valid) {
           const user = { ...this.formGroup.value };
           user.email = user.login.trim();
+          user.inviteId = this.ui.inviteId;
           this.resetFormErrors();
+          this.ui.lockBtn('sign_up')
           this.backend.userRegister(user).then((data) => {
               this.storage.token = data.user.token;
               this.storage.refreshToken = data.user.refresh_token;
               this.ui.afterLogin();
           }).catch(() => {
-          });
+          }).finally(() => this.ui.unlockBtn('sign_up'));
           break;
         }
     }

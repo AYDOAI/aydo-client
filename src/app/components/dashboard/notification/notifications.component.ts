@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {BaseComponent} from '../../base.component';
 import { Notification } from "../../../services/backend.service";
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-notifications',
@@ -22,4 +23,7 @@ export class NotificationsComponent extends BaseComponent {
     this.notifications.splice(ind, 1);
   }
 
+  goBack() {
+    this.router.navigate([environment.index_url])
+  }
 }

@@ -1,17 +1,11 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {
-  connect,
-  disconnect,
-  getAccount,
-  injected,
-  signMessage,
-} from "@wagmi/core";
+import {Component, OnInit} from '@angular/core';
 import { http, createConfig } from "@wagmi/core";
 import { mainnet, sepolia } from "@wagmi/core/chains";
 import { Router } from "@angular/router";
 import {BackendService} from "../../../services/backend.service";
-import detectEthereumProvider from '@metamask/detect-provider';
-import { environment } from "../../../../environments/environment";
+import { UIService } from "../../../services/ui.service";
+import { ErrorsService } from "../../../services/errors.service";
+import { LoadingService } from '../../../services/loading.service';
 
 export const config = createConfig({
   chains: [mainnet, sepolia],
@@ -28,10 +22,12 @@ export const config = createConfig({
 })
 export class WelcomeProvidersComponent implements OnInit   {
 
-  private provider: any;
   constructor(
     private router: Router,
     private backend: BackendService,
+    private ui: UIService,
+    private errors: ErrorsService,
+    private loading: LoadingService
   ) { }
 
   ngOnInit(): void {
@@ -39,16 +35,19 @@ export class WelcomeProvidersComponent implements OnInit   {
   }
 
   public googleAuth(): void {
-    window.location.href = `${environment.main_url}/backend/v2/user/google/login`
+    if (this.ui.isOnline) {
+      this.backend.googleLogin(this.ui.inviteId);
+    } else {
+      this.errors.showError('There was an error connecting. Please check your internet connection and try again later.');
+    }
   }
 
   async handleAuth() {
-    this.backend.signInWithMetaMask().subscribe(
+    this.loading.showLoading$(this.backend.signInWithMetaMask(this.ui.inviteId)).subscribe(
       () => {
-        this.router.navigateByUrl('/dashboard');
       },
       (err) => {
-        console.log(err);
+        this.errors.showError(err.message);
       }
     );
   }

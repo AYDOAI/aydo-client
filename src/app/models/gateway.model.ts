@@ -106,14 +106,39 @@ export class DevicesModel extends BaseModel {
       });
     }
   }
-
 }
 
-export class DeviceItem extends BaseItem {
 
+export class DeviceItem extends BaseItem {
   ident!: string;
   name!: string;
   driverId!: number;
+  zoneId!: number;
   capabilities!: any[];
+  settings?: any[];
+}
 
+
+export class ZoneItem extends BaseItem {
+  name!: string;
+  location!: number;
+  is_indoor!: boolean;
+}
+
+export class ZoneModel extends BaseModel {
+  items: ZoneItem[] = [];
+
+  constructor(data?: any) {
+    super(null);
+    this.update(data);
+  }
+
+  update(data: any[]) {
+    this.items = [];
+    if (data) {
+      data.forEach((item) => {
+        this.items.push(new ZoneItem(this, item));
+      });
+    }
+  }
 }

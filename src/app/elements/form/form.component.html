@@ -12,8 +12,8 @@
   <div class="form_content">
     <ng-container *ngFor="let input of form.inputs">
       <ng-container [ngSwitch]="input.type">
-        <div *ngSwitchCase="'string'">
-          <p> {{ input.title }} </p>
+        <div *ngSwitchCase="'string'" class="{{ input.class }}">
+          <p class="group-title">{{ input.title }}</p>
         </div>
         <div *ngSwitchCase="'template'" style="display: flex">
           <ng-content></ng-content>
@@ -51,6 +51,26 @@
           <app-checkbox [form]="formGroup" [key]="input.key" (onBlur)="onBlur(input)">
             <span>I Agree to <a style="cursor: pointer" href="#" (click)="openLicense($event)"> Aydo’s terms and conditions </a></span>
           </app-checkbox>
+        </div>
+        <div *ngSwitchCase="'recaptcha'">
+          <app-recaptcha [form]="formGroup" [key]="input.key"></app-recaptcha>
+        </div>
+        <div *ngSwitchCase="'google-map'">
+          <app-google-map
+            [form]="formGroup"
+            [key]="input.key"
+            [title]="input.title!">
+          </app-google-map>
+        </div>
+        <div *ngSwitchCase="'zone'">
+          <app-zone
+            [form]="formGroup"
+            [class]="input.class ?? ''"
+            [key]="input.key"
+            [title]="input.title!"
+            [items]="input.items!"
+            (blur)="onBlur(input)">
+          </app-zone>
         </div>
       </ng-container>
     </ng-container>

@@ -36,6 +36,10 @@ import { EditProfileComponent } from "./components/profile/edit/edit-profile.com
 import { ProjectInfoComponent } from "./components/project-info/project-info.component";
 import { ConnectWalletComponent } from "./components/connect-wallet/connect-wallet.component";
 import { ConnectDevicesComponent } from "./components/connect-devices/connect-devices.component";
+import {FeedbackComponent} from './components/feedback/feedback.component';
+import { MasterComponent } from './components/master/master.component';
+import { MasterEditComponent } from './components/master/edit/master-edit.component';
+import { AddZoneComponent } from './components/zone/add/add.component';
 
 export const routes: Routes = [
   {
@@ -117,7 +121,7 @@ export const routes: Routes = [
         component: StreamsComponent
       },
       {
-        path: ':project',
+        path: ':id',
         component: ProjectComponent
       }
     ]
@@ -141,6 +145,10 @@ export const routes: Routes = [
   {
     path: 'about',
     component: AboutComponent,
+  },
+  {
+    path: 'feedback',
+    component: FeedbackComponent,
   },
   {
     path: 'demo',
@@ -176,7 +184,20 @@ export const routes: Routes = [
       }
     ]
   },
-  {path: '**', component: WelcomeMainComponent},
+  {
+    path: 'master',
+    component: MasterComponent,
+  },
+  {
+    path: 'master/edit',
+    component: MasterEditComponent,
+  },
+  {
+    path: 'zone/add',
+    component: AddZoneComponent,
+  },
+  {path: 'main', component: WelcomeMainComponent},
+  {path: '**', redirectTo: 'main'}
 ];
 
 @NgModule({

@@ -1,0 +1,9 @@
+:host {
+  ::ng-deep {
+    .group-label {
+      p {
+        margin: 0;
+      }
+    }
+  }
+}
