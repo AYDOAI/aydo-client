@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:testing": "ng build --configuration testing",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:android": "ionic build --platform='android' && npx cap sync android && ionic cap open android",
