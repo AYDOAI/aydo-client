@@ -121,7 +121,7 @@ export class MasterEditComponent extends FormBaseComponent {
     })
   }
 
-  private deleteDevice(): void {
+  public deleteDevice(): void {
     this.dialog.show(ConfirmationModalComponent, {
       title: 'Confirmation',
       description: 'Are you sure you want to delete this device?',

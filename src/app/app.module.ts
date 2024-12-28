@@ -156,7 +156,7 @@ import {ZoneComponent} from './elements/zone/zone.component';
     MasterComponent,
     MasterEditComponent,
     RippleDirective,
-    ErrorComponent
+    ErrorComponent,
     AddZoneComponent
   ],
   imports: [
