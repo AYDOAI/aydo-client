@@ -1,22 +1,20 @@
-FROM node:18-alpine
+FROM node:18 AS build
 
-# Устанавливаем рабочую директорию
 WORKDIR /usr/src/app
 
-# Копируем весь проект
-COPY . /usr/src/app
+COPY package*.json ./
 
-# Устанавливаем Angular CLI глобально
-RUN npm install -g @angular/cli
-
-# Устанавливаем зависимости проекта
 RUN npm install
 
-# Сборка проекта для режима тестирования
+COPY . .
+
 RUN npm run build:testing
 
-# Документируем порт (можно указать другие порты, если нужно)
-EXPOSE 4200
+FROM nginx AS production
 
-# Запускаем приложение
-CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "4200", "--disable-host-check"]
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+COPY --from=build /usr/src/app/www/ /etc/nginx/html
+
+EXPOSE 80
+
