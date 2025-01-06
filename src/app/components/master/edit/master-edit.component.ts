@@ -79,8 +79,7 @@ export class MasterEditComponent extends FormBaseComponent {
       title: 'Save settings',
       type: 'button',
       class: 'btn',
-      displayError: true,
-      isDisabled: () => this.formGroup.invalid
+      displayError: true
     });
 
     this.form.inputs.push({
@@ -122,7 +121,7 @@ export class MasterEditComponent extends FormBaseComponent {
     })
   }
 
-  private deleteDevice(): void {
+  public deleteDevice(): void {
     this.dialog.show(ConfirmationModalComponent, {
       title: 'Confirmation',
       description: 'Are you sure you want to delete this device?',

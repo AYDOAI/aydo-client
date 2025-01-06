@@ -1,0 +1,52 @@
+<app-full-screen-content-wrapper>
+  <ng-template #header>
+    <app-header title="Project info" back="streams"></app-header>
+  </ng-template>
+  <ng-template #content>
+    <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+  </ng-template>
+</app-full-screen-content-wrapper>
+
+<ng-template #contentTemplate>
+  <div class="project">
+    <div class="card big">
+      <div class="card-content">
+        <div class="project-info">
+          <div>
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <circle cx="20" cy="20" r="19.7" fill="#EEF1E7" stroke="black" stroke-width="0.6"/>
+            </svg>
+          </div>
+          <div class="project-content">
+            <div class="card-header">
+              <div class="card-title">
+                {{ 'Project №1' }}
+              </div>
+            </div>
+            <div class="card-desc">
+              {{ 'Project for blockchain elite reward' }}
+            </div>
+          </div>
+        </div>
+        <span class="type-data-info">information about what type of data</span>
+        <app-link link="#" label="link to website"></app-link>
+        <app-link link="#" label="link to privacy policy"></app-link>
+        <button class="btn text-center green-btn" [routerLink]="'/connect-devices'">{{ 'Connect devices' }}</button>
+        <button class="btn text-center" [routerLink]="'/connect-wallet'">{{ 'Connect wallet' }}</button>
+        <div class="wallet-info">
+          <span class="wallet-info__title">Wallet Name</span>
+          <span class="wallet-info__label">Blockchain</span>
+          <span class="wallet-info__value">Solana</span>
+          <span class="wallet-info__label">Wallet address</span>
+          <span class="wallet-info__value">0xb357...567a</span>
+        </div>
+        <p class="addition-info">Total Approximate Payout per hour</p>
+        <p class="tokens">12 tokens</p>
+      </div>
+    </div>
+    <button class="btn" style="height: auto; margin-top: auto; margin-bottom: 48px;">
+      Submit application for streaming
+      <svg-icon [name]="'arrow-right'" class="icon" width="12px" height="12px"></svg-icon>
+    </button>
+  </div>
+</ng-template>

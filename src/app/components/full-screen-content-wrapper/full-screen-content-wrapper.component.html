@@ -1,0 +1,46 @@
+<!-- Header -->
+<div class="ion-page">
+  <ion-header slot="fixed">
+    <div #headerContainer>
+      <ng-container [ngTemplateOutlet]="headerTemplateRef"/>
+      <ng-content select="[additionalSlot]"></ng-content>
+    </div>
+    <div>
+      <ng-container [ngTemplateOutlet]="headerAdditionalContentTemplateRef"/>
+    </div>
+  </ion-header>
+
+  <!--  <ion-content-->
+  <!--    [fullscreen]="false"-->
+  <!--    [forceOverscroll]="false"-->
+  <!--  >-->
+  <!--    <ng-container [ngTemplateOutlet]="contentTemplateRef"/>-->
+  <!--  </ion-content>-->
+
+
+  <!--   Content-->
+  <ion-content
+    [fullscreen]="false"
+    [forceOverscroll]="false"
+    [ngClass]="contentClass"
+  >
+    <ion-refresher *ngIf="isRefreshable"
+                   slot="fixed"
+                   (ionRefresh)="refresh.emit($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <div #contentContainer>
+      <ng-container [ngTemplateOutlet]="contentTemplateRef"/>
+    </div>
+    <!-- Footer -->
+    <ng-container
+      *ngIf="footerTemplateRef"
+      [ngTemplateOutlet]="footer"/>
+  </ion-content>
+
+  <ng-template #footer>
+    <div #footerWrapperDiv>
+      <ng-container [ngTemplateOutlet]="footerTemplateRef"/>
+    </div>
+  </ng-template>
+</div>
