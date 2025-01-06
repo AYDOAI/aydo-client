@@ -51,7 +51,7 @@ export class MasterEditComponent extends FormBaseComponent {
           type: setting.type,
           defaultValue: this.getDefaultValue(setting),
           value: setting.value,
-          items: setting.items
+          items: this.getItems(setting)
         })
       });
     }
@@ -90,6 +90,19 @@ export class MasterEditComponent extends FormBaseComponent {
     });
 
     this.formGroup = this.createForm(this.form.inputs);
+  }
+
+  public getItems(setting: any) {
+    if (setting.items) {
+      return setting.items;
+    }
+
+    const driverSetting = this.ui.selectedDriver?.settings?.items.find(item => item.key == setting.key);
+    if (driverSetting?.items) {
+      return driverSetting?.items;
+    }
+
+    return [];
   }
 
   public button(button: AppFormInputs): void {
