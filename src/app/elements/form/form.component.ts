@@ -24,6 +24,9 @@ export class FormComponent extends BaseElement implements OnInit {
 
   ngOnInit(): void {
     this.subscribeToValueChanges();
+    this.form.inputs.forEach(element => {
+      this.validateFormElement(element);
+    });
   }
 
   button(input: AppFormInputs) {
@@ -52,13 +55,7 @@ export class FormComponent extends BaseElement implements OnInit {
   }
 
   public onBlur(element: AppFormInputs): void {
-      const control = this.formGroup.get(element.key) as FormControl;
-      control?.updateValueAndValidity();
-      if (control && control.invalid) {
-        element.error = this.getErrorText(element.key, element.title);
-      } else {
-        element.error = '';
-      }
+    this.validateFormElement(element);
   }
 
   private subscribeToValueChanges(): void {
@@ -104,6 +101,16 @@ export class FormComponent extends BaseElement implements OnInit {
       return `${title} is not strong enough`
     } else {
       return '';
+    }
+  }
+
+  private validateFormElement(element: any): void {
+    const control = this.formGroup.get(element.key) as FormControl;
+    control?.updateValueAndValidity();
+    if (control && control.invalid) {
+      element.error = this.getErrorText(element.key, element.title);
+    } else {
+      element.error = '';
     }
   }
 }

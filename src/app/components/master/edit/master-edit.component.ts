@@ -46,6 +46,7 @@ export class MasterEditComponent extends FormBaseComponent {
       });
       this.ui.selectedDevice?.settings?.forEach((setting) => {
         this.form.inputs.push({
+          required: setting.required,
           key: setting.key,
           title: setting.name,
           type: setting.type,
