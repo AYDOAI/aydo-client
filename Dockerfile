@@ -34,3 +34,17 @@ COPY --from=testing /usr/src/app/www/ /usr/share/nginx/html/
 
 # Expose port 80 for testing
 EXPOSE 80
+
+# ============================================
+# Build APK for Android
+# ============================================
+FROM mingc/android-build-box:latest AS build-android
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+COPY package*.json ./
+
+# Install app dependencies
+RUN npm install --production=false
