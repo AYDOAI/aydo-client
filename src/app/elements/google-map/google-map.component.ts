@@ -49,5 +49,6 @@ export class GoogleMapComponent extends BaseElement {
   addMarker(event: any) {
     this.markerPositions = [event.latLng.toJSON()];
     this.form.get(this.key)?.setValue(event.latLng.toString());
+    this.form.get(this.key)?.markAsTouched();
   }
 }

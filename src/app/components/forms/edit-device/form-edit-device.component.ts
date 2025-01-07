@@ -44,7 +44,8 @@ export class FormEditDeviceComponent extends FormBaseComponent {
           type: setting.type,
           defaultValue: setting.defaultValue,
           color: 'white',
-          backgroundColor: '#060022'
+          backgroundColor: '#060022',
+          required: setting.required
         });
       }
 
@@ -65,6 +66,7 @@ export class FormEditDeviceComponent extends FormBaseComponent {
       title: 'Save device',
       type: 'button',
       color: 'white',
+      isDisabled: () => this.formGroup.invalid,
       displayError: true,
       backgroundColor: '#060022'
     });
