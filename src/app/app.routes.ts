@@ -37,8 +37,8 @@ import { ProjectInfoComponent } from "./pages/project-info/project-info.componen
 import { ConnectWalletComponent } from "./pages/connect-wallet/connect-wallet.component";
 import { ConnectDevicesComponent } from "./pages/connect-devices/connect-devices.component";
 import {FeedbackComponent} from './pages/feedback/feedback.component';
-import { MasterComponent } from './components/master/master.component';
-import { MasterEditComponent } from './components/master/edit/master-edit.component';
+import { MasterComponent } from './pages/master/master.component';
+import { MasterEditComponent } from './pages/master/edit/master-edit.component';
 import { AddZoneComponent } from './components/zone/add/add.component';
 
 export const routes: Routes = [

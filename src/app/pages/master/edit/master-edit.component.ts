@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBaseComponent } from "../../form-base.component";
+import { FormBaseComponent } from "../../../components/form-base.component";
 import { ConfirmationModalComponent } from "../../../elements/dialog/confirmation-modal/confirmation-modal.component";
 import { DialogService } from "../../../services/dialog.service";
 import {DeviceItem, ZoneModel} from '../../../models/gateway.model';

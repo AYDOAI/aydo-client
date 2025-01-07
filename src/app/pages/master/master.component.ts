@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import { BaseComponent } from "../base.component";
+import { BaseComponent } from "../../components/base.component";
 import { DeviceItem } from "../../models/gateway.model";
 
 @Component({
