@@ -25,15 +25,12 @@ export class FormComponent extends BaseElement implements OnInit {
 
   ngOnInit(): void {
     this.subscribeToValueChanges();
-    this.form.inputs.forEach(element => {
-      this.validateFormElement(element);
-    });
   }
 
   button(input: AppFormInputs) {
     if (input.displayError) {
       validateFormControls(this.formGroup);
-      this.form.inputs.forEach(element => this.onBlur(element));
+      this.form.inputs.forEach(element => this.validateFormElement(element));
       if (this.formGroup.invalid) {
         return;
       }

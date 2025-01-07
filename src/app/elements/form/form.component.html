@@ -44,7 +44,7 @@
             [key]="input.key"
             [title]="input.title!"
             [items]="input.items!"
-            (blur)="onBlur(input)"
+            (onBlur)="onBlur(input)"
           ></app-select>
         </div>
         <div *ngSwitchCase="'agreement'" class="user-agreement">
