@@ -71,6 +71,12 @@ export class SelectComponent extends BaseElement {
     this.onSelect.emit(item);
   }
 
+  blur(): void {
+    if (this.input && this.input.nativeElement && !this.form.get(this.key)?.value) {
+      this.input.nativeElement.value = '';
+    }
+  }
+
   clear(ev: Event) {
     ev.preventDefault();
     ev.stopPropagation();

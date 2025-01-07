@@ -1,0 +1,42 @@
+<app-full-screen-content-wrapper
+  [isRefreshable]="true"
+  (refresh)="getDataStreams($event)">
+  <ng-template #header>
+    <app-header title="Data streams"></app-header>
+  </ng-template>
+  <ng-template #content>
+    <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+  </ng-template>
+</app-full-screen-content-wrapper>
+
+<ng-template #contentTemplate>
+  <div class="streams">
+    <ng-container *ngIf="dataStreams">
+      <div class="card long" *ngFor="let stream of dataStreams; let i = index" (click)="openProject(stream.id)">
+        <div class="card-content">
+          <div class="logo-content">
+            <svg *ngIf="!stream.logo" width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <circle cx="20" cy="20" r="19.7" fill="#EEF1E7" stroke="black" stroke-width="0.6"/>
+            </svg>
+            <img *ngIf="stream.logo" class="logo-image" src="{{stream.logo}}"/>
+          </div>
+          <div class="project-content">
+            <div class="card-header">
+              <div class="card-title">
+                {{stream.name || ''}}
+              </div>
+              <div class="card-status">
+                Active
+                <!-- {{stream.status === 1 ? 'Active' : 'Inactive'}} -->
+              </div>
+              <svg-icon name="arrow" class="icon"></svg-icon>
+            </div>
+            <div class="card-desc">
+              {{stream.description || ''}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>
