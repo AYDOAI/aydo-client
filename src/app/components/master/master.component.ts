@@ -8,7 +8,13 @@ import { DeviceItem } from "../../models/gateway.model";
   styleUrl: './master.component.scss'
 })
 export class MasterComponent extends BaseComponent {
+  override onInit() {
+    super.onInit();
+    this.ui.getDrivers();
+  }
+
   public edit(device: DeviceItem): void {
+    this.ui.selectedDriver = this.ui.drivers.items.find(item => item.driverId == device.driverId);
     this.ui.selectedDevice = device;
     this.router.navigate(['/master/edit'])
   }

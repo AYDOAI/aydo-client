@@ -184,6 +184,15 @@ export class UIService implements OnDestroy {
     }
   }
 
+  public getDrivers(): void {
+    this.backend.drivers().then((drivers: DriverItem[]) => {
+      this.drivers = new DriversModel(drivers);
+    }).catch(() => {
+    }).finally(() => {
+      this.loading.dismissLoading();
+    });
+  }
+
   private isAuthPage(): boolean {
     const currentUrl = this.router.url;
     return currentUrl.includes('sign-up') || currentUrl.includes('sign-in') || currentUrl.includes('main') || currentUrl.includes('google-auth-redirect')
