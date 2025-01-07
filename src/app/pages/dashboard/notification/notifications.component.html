@@ -1,0 +1,30 @@
+<app-full-screen-content-wrapper>
+  <ng-template #header>
+    <app-header title="Notifications"></app-header>
+  </ng-template>
+  <ng-template #content>
+    <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+  </ng-template>
+</app-full-screen-content-wrapper>
+
+<ng-template #contentTemplate>
+  <div class="page-caption">
+    <div class="card very-small" (click)="goBack()">
+      <div class="card-content">
+        <svg-icon name="arrow-left" width="12px"></svg-icon>
+      </div>
+    </div>
+  </div>
+  <div class="notifications">
+    <div class="card long" *ngFor="let notification of notifications; let i = index">
+      <div class="card-content">
+        {{ notification.title }}
+        <svg-icon *ngIf="notifications.length" name="close" class="close-icon"
+                  (click)="closeNotification(i)"></svg-icon>
+      </div>
+    </div>
+    <div *ngIf="!notifications.length" class="no-content">
+      No notifications
+    </div>
+  </div>
+</ng-template>

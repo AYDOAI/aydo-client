@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AppFormInputs} from '../../../shared/types';
 import {FormBaseComponent} from '../../form-base.component';
-import {DriverItem, DriversModel} from '../../../models/gateway.model';
+import {DevicesModel, DriverItem, DriversModel} from '../../../models/gateway.model';
 
 @Component({
   selector: 'app-form-add-device',
@@ -42,7 +42,17 @@ export class FormAddDeviceComponent extends FormBaseComponent {
             this.errors.showInfo(setting.description);
           })
         } else {
-          this.errors.showError('Device not found!');
+          this.backend.getDevices().then((devices: any) => {
+            this.ui.devices = new DevicesModel(devices);
+            const device = this.ui.devices?.items?.find(item => item.driverId === driver.driverId)
+            if (device) {
+              this.backend.deviceCommand({command: {ident: device.ident, command: 'pair_mode', value: ''}}).then(() => {
+                this.errors.showInfo(setting.description);
+              })
+            } else {
+              this.errors.showError('Device not found!');
+            }
+          });
         }
       } else {
         this.errors.showError('Driver not found!');
@@ -51,5 +61,4 @@ export class FormAddDeviceComponent extends FormBaseComponent {
       this.ui.goStep('edit-device');
     }
   }
-
 }

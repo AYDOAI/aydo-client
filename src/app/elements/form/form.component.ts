@@ -5,6 +5,7 @@ import { BaseElement } from '../base.component';
 import {Location} from "@angular/common";
 import { DialogService } from "../../services/dialog.service";
 import { LicenseDialogComponent } from "../dialog/license-dialog/license-dialog.component";
+import { validateFormControls } from "../../shared/utils/form.utils";
 
 @Component({
   selector: 'app-form',
@@ -27,7 +28,13 @@ export class FormComponent extends BaseElement implements OnInit {
   }
 
   button(input: AppFormInputs) {
-    this.form.inputs.forEach(element => this.onBlur(element));
+    if (input.displayError) {
+      validateFormControls(this.formGroup);
+      this.form.inputs.forEach(element => this.onBlur(element));
+      if (this.formGroup.invalid) {
+        return;
+      }
+    }
     this.onClickButton.emit(input);
   }
 

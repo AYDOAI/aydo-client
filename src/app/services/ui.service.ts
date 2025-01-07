@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 import { LoadingService } from './loading.service';
 import {environment} from '../../environments/environment';
 import { Network } from '@capacitor/network';
+import { NavController } from "@ionic/angular";
 import { ErrorsService } from "./errors.service";
 
 
@@ -33,6 +34,7 @@ export class UIService implements OnDestroy {
   constructor(public storage: StorageService,
               public backend: BackendService,
               public router: Router,
+              public navCtrl: NavController,
               private loading: LoadingService,
               private errors: ErrorsService) {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -120,7 +122,7 @@ export class UIService implements OnDestroy {
 
   goStep(step: FrameStep) {
     this._step = step;
-    this.router.navigate([`/${step}`])
+    this.navCtrl.navigateForward([`/${step}`])
   }
 
   defaultStep() {
@@ -132,7 +134,7 @@ export class UIService implements OnDestroy {
     this.storage.refreshToken = '';
     this.storage.serverId = '';
     this.user = null;
-    this.router.navigate(['/sign-in']);
+    this.navCtrl.navigateForward(['/sign-in']);
   }
 
   public lockBtn(key: string): void {
@@ -149,7 +151,12 @@ export class UIService implements OnDestroy {
     return this.btnLoading.includes(key);
   }
 
-  public getDevices(): void {
+  public getDevices(event: any = null): void {
+    const complete = () => {
+      if (event) {
+        event.target.complete();
+      }
+    }
     if (this.storage.serverId) {
       this.backend.getDevices().then((devices: any) => {
         this.devices = new DevicesModel(devices);
@@ -168,6 +175,7 @@ export class UIService implements OnDestroy {
           }).catch(() => {
           }).finally(() => {
             this.loading.dismissLoading();
+            complete();
           })
         }
         clearInterval(this.valuesInterval);
@@ -180,7 +188,10 @@ export class UIService implements OnDestroy {
       }).catch(() => {
       }).finally(() => {
         this.loading.dismissLoading();
+        complete();
       });
+    } else {
+      complete();
     }
   }
 
