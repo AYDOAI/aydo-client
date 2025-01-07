@@ -33,7 +33,8 @@ export class FormEditDeviceComponent extends FormBaseComponent {
           type: setting.type,
           defaultValue: setting.defaultValue,
           color: 'white',
-          backgroundColor: '#060022'
+          backgroundColor: '#060022',
+          required: setting.required
         });
       }
 
@@ -57,7 +58,8 @@ export class FormEditDeviceComponent extends FormBaseComponent {
           defaultValue: setting.defaultValue,
           items: setting.items,
           color: 'white',
-          backgroundColor: '#060022'
+          backgroundColor: '#060022',
+          required: setting.required
         });
       }
     });
