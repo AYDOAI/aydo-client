@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {BaseComponent} from '../../../components/base.component';
-import {Quest} from '../../../services/backend.service';
+import { QuestsModel } from '../../../models/quests.interface';
 
 @Component({
   selector: 'app-dashboard-additional-quests',
@@ -9,7 +9,7 @@ import {Quest} from '../../../services/backend.service';
 })
 export class DashboardAdditionalQuestsComponent extends BaseComponent {
 
-  quests!: Quest[];
+  quests!: QuestsModel[];
 
   override onInit() {
     this.backend.getAdditionalQuests().then((response) => {
