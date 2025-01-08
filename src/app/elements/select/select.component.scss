@@ -62,6 +62,10 @@ input {
     padding-top: 26px;
   }
 
+  &.ng-touched.ng-invalid {
+    border-color: #ED828F;
+  }
+
   &:focus:not(:read-only) {
     background: var(--milk);
     border: 1px solid var(--very-dark-blue);

@@ -1,4 +1,7 @@
-<div class="select-container" [ngClass]="{collapsed: !expanded, expanded: expanded, 'input-error': error}" (blur)="onBlur.emit()">
+<div
+  [formGroup]="form"
+  class="select-container"
+  [ngClass]="{collapsed: !expanded, expanded: expanded, 'input-error': error}">
   <div #container class="main-container" [ngClass]="{expanded: expanded}">
     <div class="input-wrapper"
          [class.has-error]="!!error"
@@ -11,7 +14,8 @@
                [id]="key"
                [value]="selectActiveTitle()"
                (input)="findChange($event)"
-               (blur)="blur()"
+               (blur)="onBlur.emit()"
+               [formControlName]="key"
                type="text">
       <label *ngIf="!!title"
              class="label-text"
