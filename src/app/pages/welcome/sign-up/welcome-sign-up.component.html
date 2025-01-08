@@ -1,0 +1,5 @@
+<app-content>
+  <app-form [form]="form" [formGroup]="formGroup" [btnDisabled]="formGroup.invalid" (onClickButton)="button($event)"></app-form>
+  <app-welcome-providers title="or sign up with"></app-welcome-providers>
+  <app-welcome-navigate [signIn]="true" [demo]="true" [forgot]="true"></app-welcome-navigate>
+</app-content>

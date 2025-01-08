@@ -4,6 +4,7 @@ import {UIService} from '../../services/ui.service';
 import {Router} from '@angular/router';
 import {BackendService} from '../../services/backend.service';
 import {SelectComponent} from '../select/select.component';
+import { NavController } from "@ionic/angular";
 
 
 @Component({
@@ -16,9 +17,10 @@ export class ZoneComponent extends SelectComponent {
         protected override readonly element: ElementRef<HTMLElement>,
         override readonly ui: UIService,
         override readonly router: Router,
+        override readonly navCtrl: NavController,
         public backend: BackendService
     ) {
-        super(element, ui, router);
+        super(element, ui, router, navCtrl);
     }
 
     ngOnInit() {
