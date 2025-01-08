@@ -36,10 +36,10 @@ EXPOSE 80
 # ============================================
 # Build APK for Android
 # ============================================
-#FROM mingc/android-build-box:latest AS build-android
+FROM mingc/android-build-box:latest AS build-android
 # Create app directory
-#WORKDIR /usr/src/app
+WORKDIR /usr/src/app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
-#COPY package*.json ./
+COPY package*.json ./
 # Install app dependencies
-#RUN npm install --production=false
+RUN npm install --production=false
