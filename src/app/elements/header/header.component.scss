@@ -57,3 +57,50 @@
     }
   }
 }
+
+.menu-button {
+  display: inline-block;
+  height: 9px;
+  width: 24px;
+  position: relative;
+}
+
+.menu-icon, .menu-icon:before, .menu-icon:after {
+  cursor: pointer;
+  width: 24px;
+  background: black;
+  position: absolute;
+  display: block;
+  content: '';
+}
+
+.menu-icon:before {
+  height: 2px;
+  top: 0;
+}
+
+.menu-icon:after {
+  height: 2px;
+  top: 7px;
+  max-width: 75%;
+}
+
+.menu-icon, .menu-icon:before, .menu-icon:after {
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.menu-icon.active:before, .menu-icon.active:after {
+  top: 3.5px;
+}
+
+.menu-icon.active:before {
+  transform: rotate(45deg);
+}
+
+.menu-icon.active:after {
+  transform: rotate(-45deg);
+  max-width: 100%;
+}
