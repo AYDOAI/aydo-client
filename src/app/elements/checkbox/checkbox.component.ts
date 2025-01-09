@@ -14,7 +14,7 @@ import {BaseElement} from '../base.component';
 })
 export class CheckboxComponent extends BaseElement {
   @Output() onBlur: EventEmitter<any> = new EventEmitter<any>();
-  @Input() title!: string;
+  @Input() title: string | undefined;
   @Input() form!: FormGroup;
   @Input() key!: string;
   @Input() error: any;

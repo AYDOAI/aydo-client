@@ -91,6 +91,7 @@ import {RippleDirective} from './shared/directives/ripple.directive';
 import { AddZoneComponent } from './components/zone/add/add.component';
 import {ZoneComponent} from './elements/zone/zone.component';
 import {ZoneService} from "./services/zone.service";
+import {AvatarComponent} from "./elements/avatar/avatar.component";
 
 
 @NgModule({
@@ -158,7 +159,8 @@ import {ZoneService} from "./services/zone.service";
     MasterEditComponent,
     RippleDirective,
     ErrorComponent,
-    AddZoneComponent
+    AddZoneComponent,
+    AvatarComponent
   ],
   imports: [
     AppRoutingModule,

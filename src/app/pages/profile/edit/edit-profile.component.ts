@@ -13,6 +13,11 @@ export class EditProfileComponent extends FormBaseComponent {
     this.form.title = 'Edit profile';
     if (this.ui.user) {
       this.form.inputs.push({
+        key: 'avatar',
+        type: 'avatar',
+        required: true,
+      });
+      this.form.inputs.push({
         key: 'firstname',
         title: 'First name',
         type: 'input',
@@ -60,7 +65,10 @@ export class EditProfileComponent extends FormBaseComponent {
         const user = {...values };
         this.ui.lockBtn('submit');
         this.backend.updateUser(user)
-          .then(res => this.ui.user = res.user)
+          .then(res => {
+            this.ui.user = res.user;
+            this.errors.showInfo('Profile changed successfully.')
+          })
           .finally(() => this.ui.unlockBtn('submit'));
         break;
     }

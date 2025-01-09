@@ -79,7 +79,7 @@ export class FormComponent extends BaseElement implements OnInit {
     });
   }
 
-  private getErrorText(controlName: string, title: string): string {
+  private getErrorText(controlName: string, title?: string): string {
     const control = this.formGroup.get(controlName) as FormControl;
     if (control.hasError('required') || control.hasError('onlySpaces')) {
       return `${title} is required`;
