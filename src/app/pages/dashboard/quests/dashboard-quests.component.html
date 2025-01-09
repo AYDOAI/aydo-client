@@ -21,7 +21,7 @@
       <div class="card long" *ngFor="let quest of quests">
         <div class="card-content">
           <div class="card-title">
-            {{quest.title}}
+            {{quest.name}}
             <svg-icon *ngIf="false" name="arrow" class="icon"></svg-icon>
           </div>
 
@@ -29,7 +29,7 @@
             <div class="chips_item">
               <span class="operation">Transfer</span>
               <span
-                class="arrival">{{quest.reward > 0 ? '+' : ''}}{{quest.reward}}{{quest.type === 'tokens' ? '$' : ' Points'}}</span>
+                class="arrival">{{quest.reward_value > 0 ? '+' : ''}} {{quest.reward_value}} {{quest.currency}}</span>
             </div>
           </div>
         </div>
