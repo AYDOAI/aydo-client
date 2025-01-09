@@ -15,5 +15,5 @@ jobs:
     steps:
     - name: Trigger Jenkins
       run: |
-        curl -L --user ${{ secrets.JENKINS_AUTH }} "https://jk.aydo.ai/job/aydo_client/build?token=${{ secrets.JENKINS_API_TOKEN }}"
+        curl -L --user ${{ secrets.JENKINS_AUTH }} "https://jk.aydo.ai/job/aydo-prod-client/build?token=${{ secrets.JENKINS_API_TOKEN }}"
         
