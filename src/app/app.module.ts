@@ -5,7 +5,7 @@ import {CommonModule} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {Storage} from '@ionic/storage';
-
+import {NgClickOutsideDirective} from 'ng-click-outside2';
 import {AppComponent} from './app.component';
 
 import {SafeHtmlPipe} from './shared/safe-html.pipe';
@@ -92,7 +92,6 @@ import { AddZoneComponent } from './components/zone/add/add.component';
 import {ZoneComponent} from './elements/zone/zone.component';
 import {ZoneService} from "./services/zone.service";
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -177,6 +176,7 @@ import {ZoneService} from "./services/zone.service";
     MapMarker,
     ContentModule,
     FullScreenContentWrapperComponent,
+    NgClickOutsideDirective
   ],
   providers: [
     Storage,
