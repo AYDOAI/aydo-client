@@ -12,7 +12,7 @@
 <ng-template #contentTemplate>
   <div *ngIf="ui.devices && ui.devices.items" class="devices">
     <ng-container *ngFor="let device of ui.devices.items; trackBy: trackByIdent">
-      <div *ngIf="deviceCapabilitiesExists(device)" class="card big device">
+      <div  class="card big device">
         <div class="card-content">
           <div class="device-header">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -34,6 +34,14 @@
 
 
           <div class="device-capabilities">
+            <div *ngIf="device.zoneId" class="device-capability">
+              <div class="device-capability-title">
+                Zone
+              </div>
+              <div class="device-capability-value">
+                {{zoneName(device)}}
+              </div>
+            </div>
             <ng-container *ngFor="let capability of device.capabilities">
               <div *ngIf="capabilityExists(capability)" class="device-capability">
                 <div class="device-capability-title">

@@ -30,7 +30,8 @@ export class AddZoneComponent extends FormBaseComponent {
     this.form.inputs.push({
       key: 'location',
       title: 'Location',
-      type: 'google-map'
+      type: 'google-map',
+      required: true
     });
 
     this.form.inputs.push({
@@ -40,7 +41,6 @@ export class AddZoneComponent extends FormBaseComponent {
       color: 'white',
       backgroundColor: '#060022',
       icon: 'arrow-right',
-      isDisabled: () => this.formGroup.invalid,
       displayError: true
     });
 

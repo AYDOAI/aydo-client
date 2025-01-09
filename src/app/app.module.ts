@@ -90,6 +90,7 @@ import {MasterEditComponent} from './pages/master/edit/master-edit.component';
 import {RippleDirective} from './shared/directives/ripple.directive';
 import { AddZoneComponent } from './components/zone/add/add.component';
 import {ZoneComponent} from './elements/zone/zone.component';
+import {ZoneService} from "./services/zone.service";
 
 
 @NgModule({
@@ -175,7 +176,7 @@ import {ZoneComponent} from './elements/zone/zone.component';
     GoogleMap,
     MapMarker,
     ContentModule,
-    FullScreenContentWrapperComponent
+    FullScreenContentWrapperComponent,
   ],
   providers: [
     Storage,
@@ -183,6 +184,7 @@ import {ZoneComponent} from './elements/zone/zone.component';
     StorageService,
     InAppBrowser,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
+    ZoneService
   ],
   bootstrap: [AppComponent]
 })
