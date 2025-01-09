@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -9,17 +8,15 @@ import {
   ViewChild,
   OnDestroy, Output, EventEmitter
 } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
-import { ContentModule } from "../content/content.module";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
     selector: 'app-full-screen-content-wrapper',
     templateUrl: './full-screen-content-wrapper.component.html',
     styleUrls: ['./full-screen-content-wrapper.component.scss'],
-    standalone: true,
-    imports: [CommonModule, IonicModule, ContentModule],
 })
 export class FullScreenContentWrapperComponent implements OnInit, OnDestroy {
+    public currentPage = '';
 
     @Input() contentClass!: string;
     @Input() isRefreshable = false;
@@ -33,6 +30,10 @@ export class FullScreenContentWrapperComponent implements OnInit, OnDestroy {
     @ViewChild('headerContainer') private headerEl!: ElementRef;
 
     @Output() refresh: EventEmitter<any> = new EventEmitter<any>();
+
+    constructor(private route: ActivatedRoute) {
+      this.currentPage = this.route.snapshot.url.join('');
+    }
 
     public get getHeaderHeight(): number {
       return this.headerEl?.nativeElement.offsetHeight || 0;
