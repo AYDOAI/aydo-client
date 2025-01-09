@@ -84,9 +84,8 @@ import {
   FullScreenContentWrapperComponent
 } from './components/full-screen-content-wrapper/full-screen-content-wrapper.component';
 import { ErrorComponent } from './components/error/error.component';
-import {MasterComponent} from './pages/master/master.component';
 import {InAppBrowser} from '@awesome-cordova-plugins/in-app-browser/ngx';
-import {MasterEditComponent} from './pages/master/edit/master-edit.component';
+import {DeviceEditComponent} from './pages/devices/edit/device-edit.component';
 import {RippleDirective} from './shared/directives/ripple.directive';
 import { AddZoneComponent } from './components/zone/add/add.component';
 import {ZoneComponent} from './elements/zone/zone.component';
@@ -154,8 +153,7 @@ import {ZoneService} from "./services/zone.service";
     RecaptchaComponent,
     GoogleMapComponent,
     ZoneComponent,
-    MasterComponent,
-    MasterEditComponent,
+    DeviceEditComponent,
     RippleDirective,
     ErrorComponent,
     AddZoneComponent

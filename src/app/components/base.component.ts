@@ -15,6 +15,7 @@ import { strongPasswordValidator } from "../shared/validators/strong-password.va
 import { latinOnly } from "../shared/validators/latin-only.validator";
 import { onlySpacesValidator } from "../shared/validators/only-spaces.validator";
 import { specialCharactersValidator } from "../shared/validators/special-characters.validator";
+import { NavController } from "@ionic/angular";
 
 // @ts-ignore
 export const emailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -34,6 +35,7 @@ export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
     public storage: StorageService,
     public router: Router,
     public fb: FormBuilder,
+    public navCtrl: NavController
   ) {
     this.onCreate();
     this.errorSub = this.errors.errorSub().subscribe((message: any) => {

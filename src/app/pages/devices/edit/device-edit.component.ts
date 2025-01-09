@@ -8,18 +8,18 @@ import { IDeviceSettings } from "../../../shared/interfaces/device-settings.inte
 
 
 @Component({
-  selector: 'app-master-edit',
-  templateUrl: './master-edit.component.html',
-  styleUrl: './master-edit.component.scss'
+  selector: 'app-device-edit',
+  templateUrl: './device-edit.component.html',
+  styleUrl: './device-edit.component.scss'
 })
-export class MasterEditComponent extends FormBaseComponent {
+export class DeviceEditComponent extends FormBaseComponent {
 
   private dialog = inject(DialogService)
 
   public override ngOnInit() {
     super.ngOnInit();
     if (!this.ui.selectedDevice) {
-      this.router.navigate(['/master']);
+      this.navCtrl.navigateBack(['/devices']);
     }
 
     this.form.title = this.ui.selectedDevice?.name || '';
@@ -148,7 +148,7 @@ export class MasterEditComponent extends FormBaseComponent {
     if (device?.ident) {
       this.backend.deleteDevice(device.ident).then(res => {
         this.ui.devices.items = this.ui.devices.items.filter(d => d.ident !== device.ident);
-        this.router.navigate(['/master']);
+        this.navCtrl.navigateForward(['/devices']);
       })
     }
   }
