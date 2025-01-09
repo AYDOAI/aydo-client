@@ -1,7 +1,7 @@
 <ion-toolbar>
   <div class="header">
     <div *ngIf="!back" class="menu-button" (click)="showHideMenu()">
-      <span class="menu-icon" [class.active]="menuVisible"></span>
+      <span class="menu-icon" [class.active]="menuService.menuActive"></span>
     </div>
     <div *ngIf="back" class="back-button" (click)="backClick()">
       <svg width="29" height="16" viewBox="0 0 29 16" fill="none" xmlns="http://www.w3.org/2000/svg">

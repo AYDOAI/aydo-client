@@ -1,7 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BaseElement } from "../../elements/base.component";
-import { filter } from "rxjs";
-import { ActivatedRoute, NavigationEnd } from "@angular/router";
 
 @Component({
   selector: 'app-menu',
@@ -9,6 +7,8 @@ import { ActivatedRoute, NavigationEnd } from "@angular/router";
   styleUrl: './menu.component.scss'
 })
 export class MenuComponent extends BaseElement {
+
+  @Input() contentId: string = '';
 
   menu = [
     {link: '/streams', icon: 'menu-unknown', title: 'Data streams'},
@@ -24,7 +24,7 @@ export class MenuComponent extends BaseElement {
     {link: '/about', icon: 'menu-about', title: 'About'},
   ];
 
-  clickMenu(item: any) {
+  async clickMenu(item: any) {
     if (item.link) {
       this.navCtrl.navigateForward([item.link]);
     }

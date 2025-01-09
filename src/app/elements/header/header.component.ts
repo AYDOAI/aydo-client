@@ -1,7 +1,7 @@
 import {Component, inject, Input} from '@angular/core';
 import {BaseElement} from '../base.component';
 import {FrameStep} from '../../shared/types';
-import { MenuController } from "@ionic/angular";
+import {MenuService} from '../../services/menu.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +10,7 @@ import { MenuController } from "@ionic/angular";
 })
 export class HeaderComponent extends BaseElement {
 
-  private menuController = inject(MenuController);
+  public menuService = inject(MenuService);
 
   @Input() title = '';
   @Input() add: FrameStep = '';
@@ -19,14 +19,8 @@ export class HeaderComponent extends BaseElement {
 
   menuVisible = false;
 
-  showHideMenu() {
-    this.menuVisible = !this.menuVisible;
-    this.menuController.getMenus().then(data => console.log(data)).catch(err => console.log(err));
-    if (!this.menuVisible) {
-      this.menuController.close('mainMenu');
-    } else {
-      this.menuController.open('mainMenu').then(() => console.log('open'));
-    }
+  async showHideMenu() {
+    await this.menuService.toggleMenu();
   }
 
   addClick() {
