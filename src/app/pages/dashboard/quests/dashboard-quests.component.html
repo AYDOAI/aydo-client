@@ -8,28 +8,26 @@
 </app-full-screen-content-wrapper>
 
 <ng-template #contentTemplate>
-  <div class="page-caption">
-    <div class="card very-small" (click)="goBack()">
-      <div class="card-content">
-        <svg-icon name="arrow-left" width="12px"></svg-icon>
-      </div>
-    </div>
-  </div>
-
   <div class="rewards">
     <ng-container *ngIf="quests">
       <div class="card long" *ngFor="let quest of quests">
         <div class="card-content">
-          <div class="card-title">
-            {{quest.name}}
-            <svg-icon *ngIf="false" name="arrow" class="icon"></svg-icon>
+          <div class="card-header">
+            <div class="card-title">
+              {{quest.name}}
+            </div>
+            <div class="card-status">
+              {{ quest.completed ? 'Completed' : 'Incomplete' }}
+            </div>
           </div>
-
+          <div class="card-description">
+            {{ quest?.description ?? '' }}
+          </div>
           <div class="chips">
             <div class="chips_item">
-              <span class="operation">Transfer</span>
+              <span class="operation">Reward</span>
               <span
-                class="arrival">{{quest.reward_value > 0 ? '+' : ''}} {{quest.reward_value}} {{quest.currency}}</span>
+                class="arrival">{{quest.reward_value}} {{quest.currency}}</span>
             </div>
           </div>
         </div>
