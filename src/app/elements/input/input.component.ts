@@ -18,7 +18,7 @@ export class InputComponent extends BaseElement {
 
   @Output() onEnter: EventEmitter<any> = new EventEmitter<any>();
   @Output() onBlur: EventEmitter<any> = new EventEmitter<any>();
-  @Input() title?: string;
+  @Input() title!: string;
   @Input() type!: string | undefined;
   @Input() form!: FormGroup;
   @Input() key!: string;

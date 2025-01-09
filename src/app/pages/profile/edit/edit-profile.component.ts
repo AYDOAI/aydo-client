@@ -15,7 +15,7 @@ export class EditProfileComponent extends FormBaseComponent {
       this.form.inputs.push({
         key: 'avatar',
         type: 'avatar',
-        required: true,
+        title: 'Avatar'
       });
       this.form.inputs.push({
         key: 'firstname',
@@ -49,8 +49,7 @@ export class EditProfileComponent extends FormBaseComponent {
       type: 'button',
       color: 'white',
       displayError: true,
-      backgroundColor: '#060022',
-      isDisabled: () => this.formGroup?.invalid
+      backgroundColor: '#060022'
     });
 
     this.formGroup = this.createForm(this.form.inputs);

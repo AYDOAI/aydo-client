@@ -41,7 +41,7 @@ export interface AppForm {
 
 export interface AppFormInputs {
   key: string;
-  title?: string;
+  title: string;
   type: AppFormType;
   color?: string | undefined;
   backgroundColor?: string | undefined;
