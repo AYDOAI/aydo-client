@@ -15,7 +15,6 @@ export class MenuComponent extends BaseElement {
     {link: '/quests', icon: 'menu-service-status', title: 'Quests'},
     // {link:'/dashboard', icon: 'menu-unknown', title: 'Dashboard', step: 'dashboard'},
     {link:'/devices', icon: 'menu-devices', title: 'Devices', step: 'devices'},
-    {link:'/master', icon: 'menu-service-status', title: 'Master', step: 'master'},
     // {link: '/settings', icon: 'menu-hub-settings', title: 'Hub settings'},
     {link: '/add-hub', icon: 'menu-hub-settings', title: 'Add hub'},
     {link: '/profile', icon: 'menu-profile', title: 'Profile', step: 'profile'},
