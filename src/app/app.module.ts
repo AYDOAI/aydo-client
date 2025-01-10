@@ -35,6 +35,7 @@ import {FormAddDeviceComponent} from './components/forms/add-device/form-add-dev
 import {FormEditDeviceComponent} from './components/forms/edit-device/form-edit-device.component';
 import {DashboardMainComponent} from './pages/dashboard/main/dashboard-main.component';
 import {HeaderComponent} from './elements/header/header.component';
+import {MenuComponent} from './components/menu/menu.component';
 import {AppRoutingModule} from './app.routes';
 import {DemoComponent} from './pages/demo/demo.component';
 import {AboutComponent} from './pages/about/about.component';
@@ -91,6 +92,7 @@ import {RippleDirective} from './shared/directives/ripple.directive';
 import { AddZoneComponent } from './components/zone/add/add.component';
 import {ZoneComponent} from './elements/zone/zone.component';
 import {ZoneService} from "./services/zone.service";
+
 
 @NgModule({
   declarations: [
@@ -157,7 +159,9 @@ import {ZoneService} from "./services/zone.service";
     MasterEditComponent,
     RippleDirective,
     ErrorComponent,
-    AddZoneComponent
+    AddZoneComponent,
+    FullScreenContentWrapperComponent,
+    MenuComponent
   ],
   imports: [
     AppRoutingModule,
@@ -175,7 +179,6 @@ import {ZoneService} from "./services/zone.service";
     GoogleMap,
     MapMarker,
     ContentModule,
-    FullScreenContentWrapperComponent,
     NgClickOutsideDirective
   ],
   providers: [
