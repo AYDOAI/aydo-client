@@ -22,7 +22,6 @@ export class MenuService {
     const menus = await this.menuCtrl.getMenus();
     if (menus && menus.length > 0) {
       const lastMenu = menus[menus.length - 1];
-      this.menuActive = !this.menuActive;
       await lastMenu.toggle();
     }
   }
