@@ -23,6 +23,7 @@
     [fullscreen]="false"
     [forceOverscroll]="false"
     [ngClass]="contentClass"
+    [class.disabled]="menuService.menuActive"
   >
     <ion-refresher *ngIf="isRefreshable"
                    slot="fixed"
