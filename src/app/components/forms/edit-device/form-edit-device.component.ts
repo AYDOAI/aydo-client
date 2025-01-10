@@ -93,15 +93,10 @@ export class FormEditDeviceComponent extends FormBaseComponent {
           // @ts-ignore
           this.backend.saveDevice(device).then(() => {
             this.errors.showInfo('Device successfully added. Please wait a few seconds while we update the information about the added devices.');
-            setTimeout(() => {
-              this.ui.unlockBtn('save_device');
-              this.ui.getDrivers();
-              this.ui.getDevices();
-              this.ui.goStep('devices');
-            }, 5000)
-          }).catch(() => this.ui.unlockBtn('save_device'))
+            this.ui.goStep('devices');
+          }).finally(() => this.ui.unlockBtn('save_device'))
         } else {
-          this.ui.unlockBtn('save_device');
+          this.ui.unlockBtn('save_device')
           this.errors.showError('Device with such settings is already linked to your account')
         }
         break;

@@ -164,14 +164,25 @@ export class UIService implements OnDestroy {
         const getDeviceValues = () => {
           this.backend.getDeviceValues().then((data: any) => {
             // console.log(data);
-            data.forEach((item: any) => {
-              const device = this.devices.items.find(item1 => item1.ident === item.ident);
-              if (device) {
-                device.capabilities.forEach(cap => {
-                  cap.value = item.values[`${cap.ident}_${cap.index}`]
-                })
-              }
-            })
+            const updateDeviceValues = (values: any) => {
+              values.forEach((item: any) => {
+                const device = this.devices.items.find(item1 => item1.ident === item.ident);
+                if (device) {
+                  device.capabilities.forEach(cap => {
+                    cap.value = item.values[`${cap.ident}_${cap.index}`]
+                  })
+                }
+              })
+            }
+            if (data.length !== this.devices?.items?.length) {
+              this.backend.getDevices().then((devices: any) => {
+                this.devices = new DevicesModel(devices);
+              }).finally(() => {
+                updateDeviceValues(data);
+              })
+            } else {
+              updateDeviceValues(data);
+            }
           }).catch(() => {
           }).finally(() => {
             this.loading.dismissLoading();
