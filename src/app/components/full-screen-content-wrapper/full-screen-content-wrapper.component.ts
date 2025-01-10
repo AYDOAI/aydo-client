@@ -6,9 +6,10 @@ import {
   TemplateRef,
   ViewChild,
   Output,
-  EventEmitter
+  EventEmitter, inject
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuService } from "../../services/menu.service";
 
 @Component({
     selector: 'app-full-screen-content-wrapper',
@@ -18,6 +19,7 @@ import { Router } from '@angular/router';
 export class FullScreenContentWrapperComponent {
 
     public currentPage = '';
+    public menuService = inject(MenuService);
 
     @Input() contentClass!: string;
     @Input() isRefreshable = false;
