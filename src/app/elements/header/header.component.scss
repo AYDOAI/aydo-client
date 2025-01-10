@@ -16,48 +16,6 @@
   width: 16px;
 }
 
-.menu-container {
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(#EEF1E7, 0.7);
-  --icon-width: 32px;
-  --icon-height: 24px;
-  z-index: 999;
-
-  .menu {
-    display: flex;
-    width: 250px;
-    flex-direction: column;
-    background-color: #FBFEF4;
-
-    .menu-item {
-      display: flex;
-      flex-direction: row;
-
-      .menu-item-icon {
-        width: 60px;
-        height: 60px;
-        background-color: #EEF1E7;
-        display: flex;
-
-        .icon {
-          margin: auto;
-        }
-      }
-
-      .menu-item-title {
-        display: flex;
-        padding-left: 12px;
-
-        div {
-          margin: auto;
-        }
-      }
-    }
-  }
-}
-
 .menu-button {
   display: inline-block;
   height: 9px;

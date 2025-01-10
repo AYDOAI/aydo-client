@@ -35,6 +35,7 @@ import {FormAddDeviceComponent} from './components/forms/add-device/form-add-dev
 import {FormEditDeviceComponent} from './components/forms/edit-device/form-edit-device.component';
 import {DashboardMainComponent} from './pages/dashboard/main/dashboard-main.component';
 import {HeaderComponent} from './elements/header/header.component';
+import {MenuComponent} from './components/menu/menu.component';
 import {AppRoutingModule} from './app.routes';
 import {DemoComponent} from './pages/demo/demo.component';
 import {AboutComponent} from './pages/about/about.component';
@@ -158,7 +159,9 @@ import {ZoneService} from "./services/zone.service";
     MasterEditComponent,
     RippleDirective,
     ErrorComponent,
-    AddZoneComponent
+    AddZoneComponent,
+    FullScreenContentWrapperComponent,
+    MenuComponent
   ],
   imports: [
     AppRoutingModule,
@@ -175,15 +178,14 @@ import {ZoneService} from "./services/zone.service";
     NgxCaptchaModule,
     GoogleMap,
     MapMarker,
-    ContentModule,
-    FullScreenContentWrapperComponent,
+    ContentModule
   ],
   providers: [
     Storage,
     UIService,
     StorageService,
     InAppBrowser,
-    {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true },
     ZoneService
   ],
   bootstrap: [AppComponent]
