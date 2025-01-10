@@ -5,7 +5,7 @@ import {CommonModule} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {Storage} from '@ionic/storage';
-
+import {NgClickOutsideDirective} from 'ng-click-outside2';
 import {AppComponent} from './app.component';
 
 import {SafeHtmlPipe} from './shared/safe-html.pipe';
@@ -176,14 +176,15 @@ import {ZoneService} from "./services/zone.service";
     NgxCaptchaModule,
     GoogleMap,
     MapMarker,
-    ContentModule
+    ContentModule,
+    NgClickOutsideDirective
   ],
   providers: [
     Storage,
     UIService,
     StorageService,
     InAppBrowser,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true },
+    {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     ZoneService
   ],
   bootstrap: [AppComponent]
