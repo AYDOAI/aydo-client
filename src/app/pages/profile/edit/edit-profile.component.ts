@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {AppFormInputs} from '../../../shared/types';
 import {FormBaseComponent} from '../../../components/form-base.component';
+import {UploaderService} from "../../../services/uploader.service";
 
 @Component({
   selector: 'app-edit-profile',
@@ -8,6 +9,7 @@ import {FormBaseComponent} from '../../../components/form-base.component';
   styleUrl: './edit-profile.component.scss'
 })
 export class EditProfileComponent extends FormBaseComponent {
+  private readonly uploader = inject(UploaderService);
 
   override onInit() {
     this.form.title = 'Edit profile';
@@ -15,7 +17,8 @@ export class EditProfileComponent extends FormBaseComponent {
       this.form.inputs.push({
         key: 'avatar',
         type: 'avatar',
-        title: 'Avatar'
+        title: 'Avatar',
+        defaultValue: this.ui.user.avatar
       });
       this.form.inputs.push({
         key: 'firstname',
@@ -55,21 +58,28 @@ export class EditProfileComponent extends FormBaseComponent {
     this.formGroup = this.createForm(this.form.inputs);
   }
 
+  async updateProfile() {
+    if(this.formGroup.value.avatar) {
+      this.uploader.upload(this.formGroup.value.avatar)
+    }
+  }
+
   button(input: AppFormInputs) {
     switch (input.key) {
       case 'submit':
-        let values = this.formGroup.value;
-        values['wallet'] = '';
-
-        const user = {...values };
-        this.ui.lockBtn('submit');
-        this.backend.updateUser(user)
-          .then(res => {
-            this.ui.user = res.user;
-            this.errors.showInfo('Profile changed successfully.')
-          })
-          .finally(() => this.ui.unlockBtn('submit'));
-        break;
+        this.updateProfile();
+        // let values = this.formGroup.value;
+        // values['wallet'] = '';
+        //
+        // const user = {...values };
+        // this.ui.lockBtn('submit');
+        // this.backend.updateUser(user)
+        //   .then(res => {
+        //     this.ui.user = res.user;
+        //     this.errors.showInfo('Profile changed successfully.')
+        //   })
+        //   .finally(() => this.ui.unlockBtn('submit'));
+        // break;
     }
   }
 }

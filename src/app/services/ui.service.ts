@@ -24,7 +24,23 @@ export class UIService implements OnDestroy {
   selectedDevice!: DeviceItem | undefined;
   devices!: DevicesModel;
   valuesInterval!: any;
-  user: { balance: string; email: string; wallet: string; firstname: string; lastname: string; id: number; is_verified: boolean; login: string; params: any; token: string; refresh_token: string } | null | undefined = null;
+  user: {
+    balance: string;
+    email: string;
+    wallet: string;
+    firstname: string;
+    lastname: string;
+    id: number;
+    is_verified: boolean;
+    login: string;
+    params: any;
+    token: string;
+    refresh_token: string;
+    avatar?: {
+      fileId: string;
+      url: string;
+    };
+  } | null | undefined = null;
   public appReady: boolean = false;
   public inviteId: string;
   public isOnline: boolean = true;

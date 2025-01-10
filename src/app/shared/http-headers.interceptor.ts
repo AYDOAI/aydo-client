@@ -33,11 +33,11 @@ export class HttpHeadersInterceptor implements HttpHeadersInterceptor {
       request = request.clone({headers: request.headers.set('Server_ID', serverId)});
     }
 
-    if (!request.headers.has('Content-Type') && request.method !== 'GET') {
-      request = request.clone({headers: request.headers.set('Content-Type', 'application/json')});
-    }
-
-    request = request.clone({headers: request.headers.set('Accept', 'application/json')});
+    // if (!request.headers.has('Content-Type') && request.method !== 'GET') {
+    //   request = request.clone({headers: request.headers.set('Content-Type', 'application/json')});
+    // }
+    //
+    // request = request.clone({headers: request.headers.set('Accept', 'application/json')});
 
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
