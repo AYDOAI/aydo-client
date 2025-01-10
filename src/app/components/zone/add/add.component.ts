@@ -55,7 +55,7 @@ export class AddZoneComponent extends FormBaseComponent {
     };
 
     this.backend.saveZone(zone).then(() => {
-      this.ui.goStep('master');
+      this.ui.goStep('devices');
     })
   }
 }

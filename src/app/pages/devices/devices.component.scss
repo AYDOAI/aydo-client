@@ -15,9 +15,18 @@
 
       .device-title-container {
         display: flex;
+        width: 100%;
 
         .device-title {
-          margin: auto;
+          display: flex;
+          align-items: center;
+          width: 100%;
+          --icon-width: 9px;
+          --icon-height: 18px;
+
+          svg-icon {
+            margin-left: auto
+          }
         }
       }
     }
@@ -56,5 +65,17 @@
         }
       }
     }
+  }
+
+  .btn_new-device {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 38px;
+    padding: 48px 55px;
+    margin: 16px 22px 0;
+    font-size: 16px;
+    background-color: #DDE6CB;
+    border-radius: 12px;
   }
 }

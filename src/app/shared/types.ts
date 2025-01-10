@@ -15,12 +15,11 @@ export type FrameStep =
   | 'profile'
   | 'dashboard'
   | 'streams'
-  | 'success'
-  | 'master';
+  | 'success';
 
 export type HubType = 'hub_aydo' | 'hub_pi' | 'hub_other';
 
-export type AppFormType = 'input' | 'button' | 'text' | 'string' | 'checkbox' | 'template' | 'agreement' | 'select' | 'recaptcha' | 'google-map';
+export type AppFormType = 'input' | 'button' | 'text' | 'string' | 'checkbox' | 'template' | 'agreement' | 'select' | 'recaptcha' | 'google-map' | 'zone';
 
 export interface AppForm {
   title: string;

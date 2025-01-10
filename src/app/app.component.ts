@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import { LoadingService } from "./services/loading.service";
-import { Platform } from '@ionic/angular';
-import { UIService } from "./services/ui.service";
+import {LoadingService} from './services/loading.service';
+import {Platform} from '@ionic/angular';
+import {UIService} from './services/ui.service';
 import {NavigationEnd, Router} from '@angular/router';
 
 declare const gtag: Function;

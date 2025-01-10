@@ -5,7 +5,7 @@ import {CommonModule} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {Storage} from '@ionic/storage';
-
+import {NgClickOutsideDirective} from 'ng-click-outside2';
 import {AppComponent} from './app.component';
 
 import {SafeHtmlPipe} from './shared/safe-html.pipe';
@@ -35,6 +35,7 @@ import {FormAddDeviceComponent} from './components/forms/add-device/form-add-dev
 import {FormEditDeviceComponent} from './components/forms/edit-device/form-edit-device.component';
 import {DashboardMainComponent} from './pages/dashboard/main/dashboard-main.component';
 import {HeaderComponent} from './elements/header/header.component';
+import {MenuComponent} from './components/menu/menu.component';
 import {AppRoutingModule} from './app.routes';
 import {DemoComponent} from './pages/demo/demo.component';
 import {AboutComponent} from './pages/about/about.component';
@@ -84,9 +85,8 @@ import {
   FullScreenContentWrapperComponent
 } from './components/full-screen-content-wrapper/full-screen-content-wrapper.component';
 import { ErrorComponent } from './components/error/error.component';
-import {MasterComponent} from './pages/master/master.component';
 import {InAppBrowser} from '@awesome-cordova-plugins/in-app-browser/ngx';
-import {MasterEditComponent} from './pages/master/edit/master-edit.component';
+import {DeviceEditComponent} from './pages/devices/edit/device-edit.component';
 import {RippleDirective} from './shared/directives/ripple.directive';
 import { AddZoneComponent } from './components/zone/add/add.component';
 import {ZoneComponent} from './elements/zone/zone.component';
@@ -154,11 +154,12 @@ import {ZoneService} from "./services/zone.service";
     RecaptchaComponent,
     GoogleMapComponent,
     ZoneComponent,
-    MasterComponent,
-    MasterEditComponent,
+    DeviceEditComponent,
     RippleDirective,
     ErrorComponent,
-    AddZoneComponent
+    AddZoneComponent,
+    FullScreenContentWrapperComponent,
+    MenuComponent
   ],
   imports: [
     AppRoutingModule,
@@ -176,7 +177,7 @@ import {ZoneService} from "./services/zone.service";
     GoogleMap,
     MapMarker,
     ContentModule,
-    FullScreenContentWrapperComponent,
+    NgClickOutsideDirective
   ],
   providers: [
     Storage,
