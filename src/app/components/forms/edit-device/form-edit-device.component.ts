@@ -86,15 +86,22 @@ export class FormEditDeviceComponent extends FormBaseComponent {
           ident: `${this.ui.selectedDriver?.className}_${new Date().getTime()}`,
           settings: {...this.formGroup.value}
         };
-
+        this.ui.lockBtn('save_device');
         const isValid = this.isDeviceValid();
 
         if (isValid) {
           // @ts-ignore
           this.backend.saveDevice(device).then(() => {
-            this.ui.goStep('devices');
-          })
+            this.errors.showInfo('Device successfully added. Please wait a few seconds while we update the information about the added devices.');
+            setTimeout(() => {
+              this.ui.unlockBtn('save_device');
+              this.ui.getDrivers();
+              this.ui.getDevices();
+              this.ui.goStep('devices');
+            }, 5000)
+          }).catch(() => this.ui.unlockBtn('save_device'))
         } else {
+          this.ui.unlockBtn('save_device');
           this.errors.showError('Device with such settings is already linked to your account')
         }
         break;
