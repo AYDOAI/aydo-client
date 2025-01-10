@@ -41,7 +41,7 @@
       }
     }
 
-    .device-capabilities {
+    .device-capabilities, .device-zone {
       display: flex;
       flex-flow: row wrap;
       gap: 4px;
@@ -50,19 +50,19 @@
         padding: 4px 8px;
         border-radius: 10px;
         border: 1px solid #060022;
+      }
 
-        .device-capability-title {
-          color: #999999;
-          font-size: 12px;
-          line-height: 120%;
-        }
+      .device-capability-title, .device-zone-title {
+        color: #999999;
+        font-size: 12px;
+        line-height: 120%;
+      }
 
-        .device-capability-value {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 140%;
-          letter-spacing: 0.05em;
-        }
+      .device-capability-value, .device-zone-value {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 140%;
+        letter-spacing: 0.05em;
       }
     }
   }
