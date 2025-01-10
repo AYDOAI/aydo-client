@@ -37,8 +37,7 @@ import { ProjectInfoComponent } from "./pages/project-info/project-info.componen
 import { ConnectWalletComponent } from "./pages/connect-wallet/connect-wallet.component";
 import { ConnectDevicesComponent } from "./pages/connect-devices/connect-devices.component";
 import {FeedbackComponent} from './pages/feedback/feedback.component';
-import { MasterComponent } from './pages/master/master.component';
-import { MasterEditComponent } from './pages/master/edit/master-edit.component';
+import { DeviceEditComponent } from './pages/devices/edit/device-edit.component';
 import { AddZoneComponent } from './components/zone/add/add.component';
 
 export const routes: Routes = [
@@ -96,6 +95,10 @@ export const routes: Routes = [
   {
     path: 'devices',
     component: DevicesComponent,
+  },
+  {
+    path: 'devices/edit',
+    component: DeviceEditComponent,
   },
   {
     path: 'add-device',
@@ -188,14 +191,6 @@ export const routes: Routes = [
         component: FormAddHubConnectedComponent
       }
     ]
-  },
-  {
-    path: 'master',
-    component: MasterComponent,
-  },
-  {
-    path: 'master/edit',
-    component: MasterEditComponent,
   },
   {
     path: 'zone/add',
