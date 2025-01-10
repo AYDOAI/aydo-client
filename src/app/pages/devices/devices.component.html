@@ -38,16 +38,13 @@
             <div class="device-title-container">
               <div class="device-title">
                 {{device.name}}
-                <svg-icon name="arrow" class="icon"></svg-icon>
+                <div *ngIf="device.zoneId" class="device-zone">
+                  <div class="device-zone-value">
+                    {{zoneName(device)}}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div *ngIf="device.zoneId" class="device-zone">
-            <div class="device-zone-title">
-              Zone
-            </div>
-            <div class="device-zone-value">
-              {{zoneName(device)}}
+              <svg-icon name="arrow" class="icon"></svg-icon>
             </div>
           </div>
           <div *ngIf="deviceCapabilitiesExists(device)" class="device-capabilities">
