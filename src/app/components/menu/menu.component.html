@@ -1,4 +1,4 @@
-<ion-menu slot="fixed" menuId="mainMenu" type="push" [contentId]="contentId">
+<ion-menu slot="fixed" menuId="mainMenu" type="push" [contentId]="contentId" (ionWillClose)="menuService.menuActive = false" (ionWillOpen)="menuService.menuActive = true">
   <div class="menu-container">
     <div class="menu">
       <div class="menu-item" *ngFor="let item of menu" (click)="clickMenu(item)">

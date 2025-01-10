@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { BaseElement } from "../../elements/base.component";
+import { Component, inject, Input } from '@angular/core';
+import { BaseElement } from '../../elements/base.component';
+import { MenuService } from '../../services/menu.service';
 
 @Component({
   selector: 'app-menu',
@@ -7,6 +8,8 @@ import { BaseElement } from "../../elements/base.component";
   styleUrl: './menu.component.scss'
 })
 export class MenuComponent extends BaseElement {
+
+  public menuService = inject(MenuService)
 
   @Input() contentId: string = '';
 
