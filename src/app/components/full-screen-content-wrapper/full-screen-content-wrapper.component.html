@@ -29,7 +29,7 @@
                    (ionRefresh)="refresh.emit($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <div #contentContainer>
+    <div #contentContainer [id]="currentPage">
       <ng-container [ngTemplateOutlet]="contentTemplateRef"/>
     </div>
     <!-- Footer -->
@@ -44,3 +44,5 @@
     </div>
   </ng-template>
 </div>
+
+<app-menu *ngIf="currentPage" [contentId]="currentPage"></app-menu>
