@@ -14,6 +14,7 @@ export class DevicesComponent extends BaseComponent {
   override onInit() {
     super.onInit();
     this.getDevices();
+    this.ui.getDrivers();
     this.zoneService.load();
   }
 
@@ -31,6 +32,12 @@ export class DevicesComponent extends BaseComponent {
 
   capabilityExists(item: any) {
     return item.displayName !== 'Linkquality' && item.value && ['power', 'mode', 'motion', 'rgb'].indexOf(item.ident) === -1;
+  }
+
+  public edit(device: DeviceItem): void {
+    this.ui.selectedDriver = this.ui.drivers.items.find(item => item.driverId == device.driverId);
+    this.ui.selectedDevice = device;
+    this.navCtrl.navigateForward(['/devices/edit'])
   }
 
   public trackByIdent(index: number, device: DeviceItem): string {
