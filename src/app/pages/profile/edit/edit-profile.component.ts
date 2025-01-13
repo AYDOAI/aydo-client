@@ -58,28 +58,43 @@ export class EditProfileComponent extends FormBaseComponent {
     this.formGroup = this.createForm(this.form.inputs);
   }
 
-  async updateProfile() {
-    if(this.formGroup.value.avatar) {
-      this.uploader.upload(this.formGroup.value.avatar)
+  async sendUpdateUser(avatarId: string | null) {
+    this.ui.lockBtn('submit');
+    this.backend.updateUser({
+      avatarId,
+      firstname: this.formGroup.value.firstname,
+      lastname: this.formGroup.value.lastname,
+      wallet: ''
+    }).then(res => {
+      this.ui.user = res.user;
+      this.errors.showInfo('Profile changed successfully.');
+    }).finally(() => this.ui.unlockBtn('submit'));
+  }
+
+   updateProfile() {
+    if (this.formGroup.value.avatar && this.formGroup.value.avatar instanceof File) {
+      this.ui.lockBtn('submit');
+
+      this.uploader.upload(this.formGroup.value.avatar).subscribe({
+        next: (response) => {
+          this.sendUpdateUser(response.id);
+        },
+        error: (err) => {
+          this.errors.showError('Failed to upload avatar. Please try again.');
+          this.ui.unlockBtn('submit');
+        }
+      });
+    } else {
+      this.sendUpdateUser(this.formGroup.value.avatar?.id || null);
     }
+
   }
 
   button(input: AppFormInputs) {
     switch (input.key) {
       case 'submit':
         this.updateProfile();
-        // let values = this.formGroup.value;
-        // values['wallet'] = '';
-        //
-        // const user = {...values };
-        // this.ui.lockBtn('submit');
-        // this.backend.updateUser(user)
-        //   .then(res => {
-        //     this.ui.user = res.user;
-        //     this.errors.showInfo('Profile changed successfully.')
-        //   })
-        //   .finally(() => this.ui.unlockBtn('submit'));
-        // break;
+        break;
     }
   }
 }

@@ -1,6 +1,7 @@
 import {inject, Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +12,10 @@ export class UploaderService {
   upload(file: File) {
     const formData = new FormData();
     formData.append('file', file);
-    return this.httpClient.post(
+    return this.httpClient.post<{url: string; id: string}>(
      `${environment.main_url}/backend/v2/storage/upload`,
       formData,
-    ).subscribe(res => {
-      console.log(res)
-    })
+    )
   }
 
 }
