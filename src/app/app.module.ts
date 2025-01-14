@@ -160,7 +160,8 @@ import {AvatarComponent} from "./elements/avatar/avatar.component";
     ErrorComponent,
     AddZoneComponent,
     MenuComponent,
-    AvatarComponent
+    AvatarComponent,
+    FullScreenContentWrapperComponent
   ],
   imports: [
     AppRoutingModule,
@@ -178,8 +179,7 @@ import {AvatarComponent} from "./elements/avatar/avatar.component";
     GoogleMap,
     MapMarker,
     ContentModule,
-    NgClickOutsideDirective,
-    FullScreenContentWrapperComponent
+    NgClickOutsideDirective
   ],
   providers: [
     Storage,
