@@ -19,7 +19,17 @@ export type FrameStep =
 
 export type HubType = 'hub_aydo' | 'hub_pi' | 'hub_other';
 
-export type AppFormType = 'input' | 'button' | 'text' | 'string' | 'checkbox' | 'template' | 'agreement' | 'select' | 'recaptcha' | 'google-map' | 'zone';
+export type AppFormType = 'input'
+  | 'button'
+  | 'text'
+  | 'string'
+  | 'checkbox'
+  | 'template'
+  | 'agreement'
+  | 'select'
+  | 'recaptcha'
+  | 'google-map'
+  | 'avatar';
 
 export interface AppForm {
   title: string;

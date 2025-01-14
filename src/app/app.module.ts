@@ -91,6 +91,7 @@ import {RippleDirective} from './shared/directives/ripple.directive';
 import { AddZoneComponent } from './components/zone/add/add.component';
 import {ZoneComponent} from './elements/zone/zone.component';
 import {ZoneService} from "./services/zone.service";
+import {AvatarComponent} from "./elements/avatar/avatar.component";
 
 
 @NgModule({
@@ -158,8 +159,8 @@ import {ZoneService} from "./services/zone.service";
     RippleDirective,
     ErrorComponent,
     AddZoneComponent,
-    FullScreenContentWrapperComponent,
-    MenuComponent
+    MenuComponent,
+    AvatarComponent
   ],
   imports: [
     AppRoutingModule,
@@ -177,7 +178,8 @@ import {ZoneService} from "./services/zone.service";
     GoogleMap,
     MapMarker,
     ContentModule,
-    NgClickOutsideDirective
+    NgClickOutsideDirective,
+    FullScreenContentWrapperComponent
   ],
   providers: [
     Storage,
