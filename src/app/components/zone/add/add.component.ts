@@ -30,7 +30,8 @@ export class AddZoneComponent extends FormBaseComponent {
     this.form.inputs.push({
       key: 'location',
       title: 'Location',
-      type: 'google-map'
+      type: 'google-map',
+      required: true
     });
 
     this.form.inputs.push({
@@ -40,7 +41,6 @@ export class AddZoneComponent extends FormBaseComponent {
       color: 'white',
       backgroundColor: '#060022',
       icon: 'arrow-right',
-      isDisabled: () => this.formGroup.invalid,
       displayError: true
     });
 
@@ -55,7 +55,7 @@ export class AddZoneComponent extends FormBaseComponent {
     };
 
     this.backend.saveZone(zone).then(() => {
-      this.ui.goStep('master');
+      this.ui.goStep('devices');
     })
   }
 }

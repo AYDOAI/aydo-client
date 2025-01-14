@@ -1,6 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {BaseElement} from '../base.component';
 import {FrameStep} from '../../shared/types';
+import {MenuService} from '../../services/menu.service';
 
 @Component({
   selector: 'app-header',
@@ -9,33 +10,17 @@ import {FrameStep} from '../../shared/types';
 })
 export class HeaderComponent extends BaseElement {
 
+  public menuService = inject(MenuService);
+
   @Input() title = '';
   @Input() add: FrameStep = '';
   @Input() back: string = '';
 
-  menu = [
-    {link: '/streams', icon: 'menu-unknown', title: 'Data streams'},
-    // {link:'/dashboard', icon: 'menu-unknown', title: 'Dashboard', step: 'dashboard'},
-    {link:'/devices', icon: 'menu-devices', title: 'Devices', step: 'devices'},
-    {link:'/master', icon: 'menu-service-status', title: 'Master', step: 'master'},
-    // {link: '/settings', icon: 'menu-hub-settings', title: 'Hub settings'},
-    {link: '/add-hub', icon: 'menu-hub-settings', title: 'Add hub'},
-    {link: '/profile', icon: 'menu-profile', title: 'Profile', step: 'profile'},
-    // {link: '/status', icon: 'menu-service-status', title: 'Services status'},
-    {link: '/feedback', icon: 'menu-unknown', title: 'Feedback'},
-    {link: '/about', icon: 'menu-about', title: 'About'},
-  ];
+
   menuVisible = false;
 
-  showHideMenu() {
-    this.menuVisible = !this.menuVisible;
-  }
-
-  clickMenu(item: any) {
-    if (item.link) {
-      this.menuVisible = false;
-      this.navCtrl.navigateForward([item.link])
-    }
+  async showHideMenu() {
+    await this.menuService.toggleMenu();
   }
 
   addClick() {

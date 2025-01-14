@@ -35,6 +35,17 @@ body.barcode-scanner-active {
   visibility: visible;
 }
 
+.menu-content.menu-content-push {
+  min-height: calc(100% - 60px);
+  box-shadow: none;
+}
+
+ion-menu {
+  outline: none;
+  margin-top: 60px;
+  z-index: 9;
+}
+
 @font-face {
   font-family: "IBM Plex Mono", monospace;
   font-weight: 100;

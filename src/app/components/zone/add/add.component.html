@@ -1,2 +1,8 @@
-<app-header title="Zone"></app-header>
-<app-form [form]="form" [formGroup]="formGroup" back="streams" (onClickButton)="button($event)"></app-form>
+<app-full-screen-content-wrapper>
+  <ng-template #header>
+    <app-header title="Zone"></app-header>
+  </ng-template>
+  <ng-template #content>
+    <app-form [form]="form" [formGroup]="formGroup" back="streams" (onClickButton)="button($event)"></app-form>
+  </ng-template>
+</app-full-screen-content-wrapper>

@@ -24,7 +24,23 @@ export class UIService implements OnDestroy {
   selectedDevice!: DeviceItem | undefined;
   devices!: DevicesModel;
   valuesInterval!: any;
-  user: { balance: string; email: string; wallet: string; firstname: string; lastname: string; id: number; is_verified: boolean; login: string; params: any; token: string; refresh_token: string } | null | undefined = null;
+  user: {
+    balance: string;
+    email: string;
+    wallet: string;
+    firstname: string;
+    lastname: string;
+    id: number;
+    is_verified: boolean;
+    login: string;
+    params: any;
+    token: string;
+    refresh_token: string;
+    avatar?: {
+      fileId: string;
+      url: string;
+    };
+  } | null | undefined = null;
   public appReady: boolean = false;
   public inviteId: string;
   public isOnline: boolean = true;
@@ -164,14 +180,25 @@ export class UIService implements OnDestroy {
         const getDeviceValues = () => {
           this.backend.getDeviceValues().then((data: any) => {
             // console.log(data);
-            data.forEach((item: any) => {
-              const device = this.devices.items.find(item1 => item1.ident === item.ident);
-              if (device) {
-                device.capabilities.forEach(cap => {
-                  cap.value = item.values[`${cap.ident}_${cap.index}`]
-                })
-              }
-            })
+            const updateDeviceValues = (values: any) => {
+              values.forEach((item: any) => {
+                const device = this.devices.items.find(item1 => item1.ident === item.ident);
+                if (device) {
+                  device.capabilities.forEach(cap => {
+                    cap.value = item.values[`${cap.ident}_${cap.index}`]
+                  })
+                }
+              })
+            }
+            if (data.length !== this.devices?.items?.length) {
+              this.backend.getDevices().then((devices: any) => {
+                this.devices = new DevicesModel(devices);
+              }).finally(() => {
+                updateDeviceValues(data);
+              })
+            } else {
+              updateDeviceValues(data);
+            }
           }).catch(() => {
           }).finally(() => {
             this.loading.dismissLoading();

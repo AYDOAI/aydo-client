@@ -72,6 +72,12 @@
             (blur)="onBlur(input)">
           </app-zone>
         </div>
+        <div *ngSwitchCase="'avatar'">
+          <app-avatar
+            [form]="formGroup"
+            [key]="input.key"
+          />
+        </div>
       </ng-container>
     </ng-container>
   </div>

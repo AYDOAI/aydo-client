@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {BaseComponent} from '../../../components/base.component';
-import {Quest} from '../../../services/backend.service';
+import { QuestsService } from "../../../services/quests.service";
+import { QuestsModel } from "../../../models/quests.interface";
 
 @Component({
   selector: 'app-dashboard-main-quests',
@@ -9,13 +10,12 @@ import {Quest} from '../../../services/backend.service';
 })
 export class DashboardMainQuestsComponent extends BaseComponent {
 
-  quests!: Quest[];
+  quests!: QuestsModel[];
+
+  private questsService = inject(QuestsService);
 
   override onInit() {
-    this.backend.getMainQuests().then((response) => {
-      this.quests = response.items;
-    }).catch(() => {
-    });
+    this.questsService.getItems().subscribe(data => this.quests = data);
   }
 
 }

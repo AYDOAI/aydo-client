@@ -13,11 +13,25 @@
       align-items: center;
       gap: 12px;
 
+      &:has(.device-title .device-zone) {
+        align-items: flex-start;
+      }
+
       .device-title-container {
         display: flex;
+        width: 100%;
+
+        --icon-width: 9px;
+        --icon-height: 18px;
+
+        svg-icon {
+          margin-left: auto
+        }
 
         .device-title {
-          margin: auto;
+          display: flex;
+          flex-direction: column;
+          width: 100%;
         }
       }
     }
@@ -28,7 +42,7 @@
       .card-content {
         display: flex;
         flex-direction: column;
-        gap: 32px;
+        gap: 16px;
       }
     }
 
@@ -41,20 +55,44 @@
         padding: 4px 8px;
         border-radius: 10px;
         border: 1px solid #060022;
+      }
 
-        .device-capability-title {
-          color: #999999;
-          font-size: 12px;
-          line-height: 120%;
-        }
+      .device-capability-title {
+        color: #999999;
+        font-size: 12px;
+        line-height: 120%;
+      }
 
-        .device-capability-value {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 140%;
-          letter-spacing: 0.05em;
-        }
+      .device-capability-value {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 140%;
+        letter-spacing: 0.05em;
       }
     }
+  }
+
+  .device-zone {
+    flex-direction: row !important;
+    align-items: center;
+    width: fit-content;
+
+    .device-zone-value {
+      color: #999999;
+      font-size: 12px;
+      line-height: 120%;
+    }
+  }
+
+  .btn_new-device {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 38px;
+    padding: 48px 55px;
+    margin: 16px 22px 0;
+    font-size: 16px;
+    background-color: #DDE6CB;
+    border-radius: 12px;
   }
 }
