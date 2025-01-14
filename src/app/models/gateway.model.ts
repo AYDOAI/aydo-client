@@ -75,6 +75,7 @@ export class SettingItem extends BaseItem {
   defaultValue!: string;
   description!: string;
   items!: SelectItem[];
+  conditions!: any;
   _type!: AppFormType;
   required!: boolean;
 
