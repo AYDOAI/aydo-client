@@ -29,7 +29,7 @@ FROM nginx AS production
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
 # Copy built files from the testing stage to the Nginx HTML directory
-COPY --from=testing /usr/src/app/www/ /usr/nginx/html/
+COPY --from=testing /usr/src/app/www/ /etc/nginx/html
 
 # Expose port 80 for testing
 EXPOSE 80
