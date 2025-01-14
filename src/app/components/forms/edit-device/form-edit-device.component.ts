@@ -68,7 +68,6 @@ export class FormEditDeviceComponent extends FormBaseComponent {
       title: 'Save device',
       type: 'button',
       color: 'white',
-      isDisabled: () => this.formGroup.invalid,
       displayError: true,
       backgroundColor: '#060022'
     });
