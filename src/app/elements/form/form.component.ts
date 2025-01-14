@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppForm, AppFormInputs, FrameStep } from '../../shared/types';
 import { BaseElement } from '../base.component';
 import {Location} from "@angular/common";
@@ -116,5 +116,31 @@ export class FormComponent extends BaseElement implements OnInit {
     } else {
       element.error = '';
     }
+  }
+
+  isVisible(element: AppFormInputs) {
+    let result = true;
+
+    if (element.conditions) {
+      if (element.conditions.visible) {
+        Object.keys(element.conditions.visible).forEach(key => {
+          if (this.formGroup.get(key) && this.formGroup.get(key)?.value) {
+            if (this.formGroup.get(key)?.value !== element.conditions.visible[key]) {
+              result = false;
+
+              if (element.required) {
+                this.formGroup.get(element.key)?.removeValidators(Validators.required);
+              }
+            } else {
+              if (element.required) {
+                this.formGroup.get(element.key)?.addValidators(Validators.required);
+              }
+            }
+          }
+        });
+      }
+    }
+
+    return result;
   }
 }
