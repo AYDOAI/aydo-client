@@ -19,7 +19,7 @@ export class DevicesComponent extends BaseComponent {
   }
 
   public getDevices(event: any = null) {
-    this.ui.getDevices(event);
+    this.ui.getGateway(() => this.ui.getDevices(event));
   }
 
   deviceAdd() {
