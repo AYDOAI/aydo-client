@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
-import {Observable, Subject} from "rxjs";
+import { Observable, ReplaySubject } from "rxjs";
 
 
 @Injectable({
@@ -11,7 +11,7 @@ export class StorageService {
   private _token!: string;
   private _refreshToken!: string;
   private _serverId!: string;
-  private initSubject: Subject<any> = new Subject<any>();
+  private initSubject: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(private storage: Storage) {
     this.init();

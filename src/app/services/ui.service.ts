@@ -44,7 +44,7 @@ export class UIService implements OnDestroy {
   public appReady: boolean = false;
   public inviteId: string;
   public isOnline: boolean = true;
-
+  public gateway: { identifier: string, userId: string, token: string, is_online: boolean } | null | undefined = null;
   private btnLoading: string[] = [];
 
   constructor(public storage: StorageService,
@@ -92,21 +92,8 @@ export class UIService implements OnDestroy {
             this.defaultStep();
           }
         }
-        if (this.storage.serverId) {
-          next();
-        } else {
           this.loading.showLoading();
-          this.backend.getGateway().then((data) => {
-            if (data && data.gateway && data.gateway.identifier) {
-              this.storage.serverId = data.gateway.identifier;
-              next();
-            } else {
-              if (this.isAuthPage()) {
-                this.goStep('add-hub');
-              }
-            }
-          }).finally(() => this.loading.dismissLoading())
-        }
+          this.getGateway(next)
       }).catch(error => {
         this.goStep('sign-in');
         if (error && error.name === 'JsonWebTokenError') {
@@ -220,6 +207,22 @@ export class UIService implements OnDestroy {
     } else {
       complete();
     }
+  }
+
+  getGateway(next?: () => void): void {
+    this.backend.getGateway().then((data) => {
+      if (data && data.gateway && data.gateway.identifier) {
+        this.storage.serverId = data.gateway.identifier;
+        this.gateway = data.gateway;
+        if (next) {
+          next();
+        }
+      } else {
+        if (this.isAuthPage()) {
+          this.goStep('add-hub');
+        }
+      }
+    }).finally(() => this.loading.dismissLoading())
   }
 
   public getDrivers(): void {

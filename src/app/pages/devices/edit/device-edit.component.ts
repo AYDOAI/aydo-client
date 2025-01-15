@@ -57,24 +57,6 @@ export class DeviceEditComponent extends FormBaseComponent {
       });
     }
 
-    if (this.ui.selectedDevice?.capabilities?.length) {
-      this.form.inputs.push({
-        key: '',
-        title: 'Device capabilities',
-        type: 'string',
-        class: 'group-label'
-      });
-      this.ui.selectedDevice?.capabilities?.forEach((capability) => {
-        this.form.inputs.push({
-          key: capability.ident,
-          title: '',
-          type: 'text',
-          defaultValue: capability.displayName,
-          value: capability.displayName
-        })
-      })
-    }
-
     this.form.inputs.push({
       key: 'save_device_settings',
       title: 'Save settings',
