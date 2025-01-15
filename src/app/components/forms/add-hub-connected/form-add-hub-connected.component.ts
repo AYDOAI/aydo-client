@@ -22,6 +22,7 @@ export class FormAddHubConnectedComponent extends FormBaseComponent {
   }
 
   public button(): void {
+    this.ui.getGateway();
     this.navCtrl.navigateForward(['/devices']);
   }
 }
