@@ -81,7 +81,7 @@
             </div>
             <div *ngIf="deviceCapabilitiesExists(device)" class="device-capabilities">
               <ng-container *ngFor="let capability of device.capabilities">
-                <div class="device-capability" *ngIf="capability.value">
+                <div class="device-capability" *ngIf="capabilityExists(capability)">
                   <div class="device-capability-title">
                     {{capability.displayName}}
                   </div>
