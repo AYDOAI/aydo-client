@@ -39,6 +39,7 @@ import { ConnectDevicesComponent } from "./pages/connect-devices/connect-devices
 import {FeedbackComponent} from './pages/feedback/feedback.component';
 import { DeviceEditComponent } from './pages/devices/edit/device-edit.component';
 import { AddZoneComponent } from './components/zone/add/add.component';
+import { HubGuard } from './shared/guards/hub.guard';
 
 export const routes: Routes = [
   {
@@ -95,6 +96,7 @@ export const routes: Routes = [
   {
     path: 'devices',
     component: DevicesComponent,
+    canActivate: [HubGuard]
   },
   {
     path: 'devices/edit',
@@ -102,7 +104,8 @@ export const routes: Routes = [
   },
   {
     path: 'add-device',
-    component: FormAddDeviceComponent
+    component: FormAddDeviceComponent,
+    canActivate: [HubGuard]
   },
   {
     path: 'edit-device',

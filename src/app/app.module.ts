@@ -74,7 +74,6 @@ import { ProjectInfoComponent } from "./pages/project-info/project-info.componen
 import { LinkContainerComponent } from "./elements/link-container/link-container.component";
 import { ConnectWalletComponent } from "./pages/connect-wallet/connect-wallet.component";
 import { ConnectDevicesComponent } from "./pages/connect-devices/connect-devices.component";
-import { DeviceCardComponent } from "./pages/connect-devices/card/device-card.component";
 import { RecaptchaComponent } from "./elements/recaptcha/recaptcha.component";
 import { NgxCaptchaModule } from "ngx-captcha";
 import {FeedbackComponent} from './pages/feedback/feedback.component';
@@ -92,8 +91,9 @@ import { AddZoneComponent } from './components/zone/add/add.component';
 import {ZoneComponent} from './elements/zone/zone.component';
 import {ZoneService} from "./services/zone.service";
 import {AvatarComponent} from "./elements/avatar/avatar.component";
+import { GatewayCardComponent } from './pages/devices/gateway-card/gateway-card.component';
+import { DeviceCardComponent } from './pages/devices/device-card/device-card.component';
 import { UserService } from './services/user.service';
-
 
 @NgModule({
   declarations: [
@@ -149,7 +149,6 @@ import { UserService } from './services/user.service';
     LinkContainerComponent,
     ConnectWalletComponent,
     ConnectDevicesComponent,
-    DeviceCardComponent,
     EditProfileComponent,
     SuccessComponent,
     SafeHtmlPipe,
@@ -162,7 +161,9 @@ import { UserService } from './services/user.service';
     AddZoneComponent,
     MenuComponent,
     AvatarComponent,
-    FullScreenContentWrapperComponent
+    FullScreenContentWrapperComponent,
+    GatewayCardComponent,
+    DeviceCardComponent
   ],
   imports: [
     AppRoutingModule,
