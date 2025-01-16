@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {AppFormInputs} from '../../shared/types';
 import {FormBaseComponent} from '../../components/form-base.component';
+import {ConfirmationModalComponent} from "../../elements/dialog/confirmation-modal/confirmation-modal.component";
+import {DialogService} from "../../services/dialog.service";
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -8,6 +11,8 @@ import {FormBaseComponent} from '../../components/form-base.component';
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent extends FormBaseComponent {
+  private readonly dialog = inject(DialogService);
+  private readonly userService = inject(UserService);
 
   override onInit() {
     this.form.title = 'Profile';
@@ -61,8 +66,26 @@ export class ProfileComponent extends FormBaseComponent {
       color: 'white',
       backgroundColor: '#060022'
     });
+    this.form.inputs.push({
+      key: 'delete',
+      title: 'Delete profile',
+      type: 'button',
+      class: 'red-btn'
+    });
 
     this.formGroup = this.createForm(this.form.inputs);
+  }
+
+  confirmDeleteProfile() {
+    this.userService.requestDisposal().subscribe();
+  }
+
+  deleteProfile() {
+    this.dialog.show(ConfirmationModalComponent, {
+      title: 'Confirmation',
+      description: 'Are you sure you want to delete your profile?',
+      confirm: () => this.confirmDeleteProfile()
+    });
   }
 
   button(input: AppFormInputs) {
@@ -70,6 +93,9 @@ export class ProfileComponent extends FormBaseComponent {
       case 'logout':
         this.resetFormErrors();
         this.ui.logout();
+        break;
+      case 'delete':
+        this.deleteProfile();
         break;
       case 'edit':
         this.router.navigate(['/profile/edit']);

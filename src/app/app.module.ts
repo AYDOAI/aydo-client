@@ -92,6 +92,7 @@ import { AddZoneComponent } from './components/zone/add/add.component';
 import {ZoneComponent} from './elements/zone/zone.component';
 import {ZoneService} from "./services/zone.service";
 import {AvatarComponent} from "./elements/avatar/avatar.component";
+import { UserService } from './services/user.service';
 
 
 @NgModule({
@@ -187,7 +188,8 @@ import {AvatarComponent} from "./elements/avatar/avatar.component";
     StorageService,
     InAppBrowser,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
-    ZoneService
+    ZoneService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
