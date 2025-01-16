@@ -77,7 +77,11 @@ export class ProfileComponent extends FormBaseComponent {
   }
 
   confirmDeleteProfile() {
-    this.userService.requestDisposal().subscribe();
+    this.userService.requestDisposal().subscribe({
+      next: () => {
+        this.errors.showInfo('To delete your profile, please follow the link sent to your email.');
+      }
+    });
   }
 
   deleteProfile() {
