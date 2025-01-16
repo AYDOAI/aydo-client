@@ -44,6 +44,7 @@ export class DeviceEditComponent extends FormBaseComponent {
         type: 'string',
         class: 'group-label'
       });
+
       this.ui.selectedDevice?.settings?.forEach((setting) => {
         this.form.inputs.push({
           required: setting.required,
@@ -52,7 +53,8 @@ export class DeviceEditComponent extends FormBaseComponent {
           type: setting.type,
           defaultValue: this.getDefaultValue(setting),
           value: setting.value,
-          items: this.getItems(setting)
+          items: this.getItems(setting),
+          conditions: this.getConditions(setting)
         })
       });
     }
@@ -86,6 +88,19 @@ export class DeviceEditComponent extends FormBaseComponent {
     }
 
     return [];
+  }
+
+  public getConditions(setting: any) {
+    if (setting.conditions) {
+      return setting.conditions;
+    }
+
+    const driverSetting = this.ui.selectedDriver?.settings?.items.find(item => item.key == setting.key);
+    if (driverSetting?.conditions) {
+      return driverSetting?.conditions;
+    }
+
+    return null;
   }
 
   public button(button: AppFormInputs): void {

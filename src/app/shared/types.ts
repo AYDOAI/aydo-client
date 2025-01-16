@@ -71,11 +71,12 @@ export interface AppFormInputs {
 // //   text?: string;
 // //   button_title?: string;
 // //   icon?: string;
-   items?: SelectItem[];
-   class?: string;
+  items?: SelectItem[];
+  conditions?: any;
+  class?: string;
 // //   placeholder?: string;
 //   readonly?: string;
-   multi?: boolean;
+  multi?: boolean;
 // //   rows?: number;
 // //   autocomplete?: string;
 // //   groupTab?: string;
