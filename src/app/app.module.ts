@@ -93,7 +93,7 @@ import {ZoneService} from "./services/zone.service";
 import {AvatarComponent} from "./elements/avatar/avatar.component";
 import { GatewayCardComponent } from './pages/devices/gateway-card/gateway-card.component';
 import { DeviceCardComponent } from './pages/devices/device-card/device-card.component';
-
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -189,7 +189,8 @@ import { DeviceCardComponent } from './pages/devices/device-card/device-card.com
     StorageService,
     InAppBrowser,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
-    ZoneService
+    ZoneService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
