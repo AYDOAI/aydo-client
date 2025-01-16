@@ -26,14 +26,6 @@ export class DevicesComponent extends BaseComponent {
     this.ui.goStep('add-device');
   }
 
-  deviceCapabilitiesExists(device: DeviceItem) {
-    return !!device.capabilities.find(item => this.capabilityExists(item))
-  }
-
-  capabilityExists(item: any) {
-    return item.displayName !== 'Linkquality' && item.value && ['power', 'mode', 'motion', 'rgb'].indexOf(item.ident) === -1;
-  }
-
   public edit(device: DeviceItem): void {
     this.ui.selectedDriver = this.ui.drivers.items.find(item => item.driverId == device.driverId);
     this.ui.selectedDevice = device;
@@ -42,9 +34,5 @@ export class DevicesComponent extends BaseComponent {
 
   public trackByIdent(index: number, device: DeviceItem): string {
     return device.ident;
-  }
-
-  public zoneName(device: DeviceItem) {
-    return this.zoneService.zones?.items?.find(item => (item as any).id === device.zoneId)?.name;
   }
 }
