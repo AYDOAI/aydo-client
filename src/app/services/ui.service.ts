@@ -10,6 +10,7 @@ import {environment} from '../../environments/environment';
 import { Network } from '@capacitor/network';
 import { NavController } from "@ionic/angular";
 import { ErrorsService } from "./errors.service";
+import { StatusBar } from "@capacitor/status-bar";
 
 
 @Injectable({
@@ -79,6 +80,7 @@ export class UIService implements OnDestroy {
   afterLogin() {
     if (this.storage.token) {
       this.loading.showLoading();
+      StatusBar.setBackgroundColor({ color: '#EEF1E7' });
       this.backend.userInfo().then((data: any) => {
         this.user = data.user;
         if (!this.user?.is_verified) {

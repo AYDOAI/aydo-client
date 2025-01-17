@@ -26,7 +26,7 @@
           Add other device
           <svg-icon [name]="'plus'" class="icon" width="12px" height="12px"></svg-icon>
         </button>
-        <ng-container *ngFor="let device of ui.devices.items; trackBy: trackByIdent">
+        <ng-container *ngFor="let device of ui.devices.items;">
           <app-device-card [device]="device" (edit)="edit($event)"></app-device-card>
         </ng-container>
       </div>
