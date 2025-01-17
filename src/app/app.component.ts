@@ -3,6 +3,7 @@ import {LoadingService} from './services/loading.service';
 import {Platform} from '@ionic/angular';
 import {UIService} from './services/ui.service';
 import {NavigationEnd, Router} from '@angular/router';
+import {StatusBar} from '@capacitor/status-bar';
 
 declare const gtag: Function;
 
@@ -25,5 +26,11 @@ export class AppComponent {
         gtag('config', 'G-DF0L8MY2G4', {'page_path': event.urlAfterRedirects});
       }
     });
+    this.platform.ready().then(_ => {
+      if (this.platform.is('capacitor')) {
+        StatusBar.setOverlaysWebView({ overlay: false });
+        StatusBar.setBackgroundColor({ color: '#EEF1E7' });
+      }
+    })
   }
  }

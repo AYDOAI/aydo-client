@@ -30,6 +30,7 @@
     "@capacitor/core": "^6.1.2",
     "@capacitor/ios": "^6.1.2",
     "@capacitor/network": "^6.0.3",
+    "@capacitor/status-bar": "^6.0.2",
     "@ionic/angular": "^8.2.6",
     "@ionic/storage": "^4.0.0",
     "@metamask/detect-provider": "^2.0.0",
