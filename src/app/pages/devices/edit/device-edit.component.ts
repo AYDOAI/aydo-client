@@ -125,7 +125,7 @@ export class DeviceEditComponent extends FormBaseComponent {
       if (key === 'device_name') {
         acc.device_name = (value || '').trim();
       } else if (key === 'zoneId') {
-        acc.zone_id = value ? Number(value) : 0;
+        acc.zone_id = value ? Number(value) : null;
       } else if (value !== undefined && value !== null) {
         const initialSetting = this.ui.selectedDevice?.settings?.find(s => s.key === key);
         if (initialSetting && String(value) !== String(initialSetting.value)) {
@@ -136,7 +136,7 @@ export class DeviceEditComponent extends FormBaseComponent {
     }, {
       device_ident: this.ui.selectedDevice?.ident!,
       device_name: '',
-      zone_id: 0,
+      zone_id: null,
       settings: {}
     } as IDeviceSettings);
 
