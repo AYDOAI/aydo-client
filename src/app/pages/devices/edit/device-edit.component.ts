@@ -124,7 +124,7 @@ export class DeviceEditComponent extends FormBaseComponent {
 
       if (key === 'device_name') {
         acc.device_name = (value || '').trim();
-      } else if (key === 'zoneId' && value) {
+      } else if ((key === 'zoneId' || key.includes('zone')) && value) {
         acc.zone_id = Number(value)
       } else if (value !== undefined && value !== null) {
         const initialSetting = this.ui.selectedDevice?.settings?.find(s => s.key === key);
