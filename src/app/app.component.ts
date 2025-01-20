@@ -21,16 +21,38 @@ export class AppComponent {
     public router: Router,
     public ui: UIService
   ) {
+    this.platform.ready().then(
+      _ => {
+        if (this.platform.is('capacitor')) {
+          const url = this.router.url;
+          StatusBar.setOverlaysWebView({ overlay: false });
+          this.updateStatusBarColor(url)
+        }
+        this.subscribeToRouterEvents();
+      }
+    )
+  }
+
+  private subscribeToRouterEvents(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         gtag('config', 'G-DF0L8MY2G4', {'page_path': event.urlAfterRedirects});
+        if (this.platform.is('capacitor')) {
+          this.updateStatusBarColor(event.urlAfterRedirects)
+        }
       }
     });
-    this.platform.ready().then(_ => {
-      if (this.platform.is('capacitor')) {
-        StatusBar.setOverlaysWebView({ overlay: false });
-        StatusBar.setBackgroundColor({ color: '#EEF1E7' });
+  }
+
+  private async updateStatusBarColor(url: string): Promise<void> {
+    try {
+      if (url.includes('main')) {
+        await StatusBar.setBackgroundColor({ color: '#947FFF' });
+      } else {
+        await StatusBar.setBackgroundColor({ color: '#EEF1E7' });
       }
-    })
+    } catch (error) {
+      console.error(error)
+    }
   }
  }

@@ -6,12 +6,9 @@ import {BackendService} from './backend.service';
 import { DeviceItem, DevicesModel, DriverItem, DriversModel } from '../models/gateway.model';
 import {Router} from '@angular/router';
 import { LoadingService } from './loading.service';
-import {environment} from '../../environments/environment';
 import { Network } from '@capacitor/network';
 import { NavController } from "@ionic/angular";
 import { ErrorsService } from "./errors.service";
-import { StatusBar } from "@capacitor/status-bar";
-
 
 @Injectable({
   providedIn: 'root'
@@ -80,7 +77,6 @@ export class UIService implements OnDestroy {
   afterLogin() {
     if (this.storage.token) {
       this.loading.showLoading();
-      StatusBar.setBackgroundColor({ color: '#EEF1E7' });
       this.backend.userInfo().then((data: any) => {
         this.user = data.user;
         if (!this.user?.is_verified) {
@@ -139,6 +135,7 @@ export class UIService implements OnDestroy {
     this.storage.refreshToken = '';
     this.storage.serverId = '';
     this.user = null;
+    clearInterval(this.valuesInterval);
     this.navCtrl.navigateForward(['/sign-in']);
   }
 
@@ -167,32 +164,34 @@ export class UIService implements OnDestroy {
         this.devices = new DevicesModel(devices);
         // console.log(devices);
         const getDeviceValues = () => {
-          this.backend.getDeviceValues().then((data: any) => {
-            // console.log(data);
-            const updateDeviceValues = (values: any) => {
-              values.forEach((item: any) => {
-                const device = this.devices.items.find(item1 => item1.ident === item.ident);
-                if (device) {
-                  device.capabilities.forEach(cap => {
-                    cap.value = item.values[`${cap.ident}_${cap.index}`]
-                  })
-                }
-              })
-            }
-            if (data.length !== this.devices?.items?.length) {
-              this.backend.getDevices().then((devices: any) => {
-                this.devices = new DevicesModel(devices);
-              }).finally(() => {
+          if (this.storage.serverId && this.storage.token) {
+            this.backend.getDeviceValues().then((data: any) => {
+              // console.log(data);
+              const updateDeviceValues = (values: any) => {
+                values.forEach((item: any) => {
+                  const device = this.devices.items.find(item1 => item1.ident === item.ident);
+                  if (device) {
+                    device.capabilities.forEach(cap => {
+                      cap.value = item.values[`${cap.ident}_${cap.index}`]
+                    })
+                  }
+                })
+              }
+              if (data.length !== this.devices?.items?.length) {
+                this.backend.getDevices().then((devices: any) => {
+                  this.devices = new DevicesModel(devices);
+                }).finally(() => {
+                  updateDeviceValues(data);
+                })
+              } else {
                 updateDeviceValues(data);
-              })
-            } else {
-              updateDeviceValues(data);
-            }
-          }).catch(() => {
-          }).finally(() => {
-            this.loading.dismissLoading();
-            complete();
-          })
+              }
+            }).catch(() => {
+            }).finally(() => {
+              this.loading.dismissLoading();
+              complete();
+            })
+          }
         }
         clearInterval(this.valuesInterval);
         this.valuesInterval = setInterval(() => {
