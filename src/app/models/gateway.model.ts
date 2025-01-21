@@ -115,7 +115,7 @@ export class DeviceItem extends BaseItem {
   ident!: string;
   name!: string;
   driverId!: number;
-  zoneId!: number;
+  zoneId!: number | null;
   capabilities!: any[];
   settings?: any[];
 }
