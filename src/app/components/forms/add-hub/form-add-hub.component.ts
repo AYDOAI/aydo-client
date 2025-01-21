@@ -11,7 +11,7 @@ export class FormAddHubComponent extends FormBaseComponent {
 
   override onInit() {
     this.form.title = 'Add hub';
-    this.form.description = 'You don\'t have any connected hubs.';
+    this.form.description = 'You don\'t have a connected hub.';
     // this.form.description = 'This app supports next hubs, choose one of them:';
     this.form.footer = '<p>Zigbee module required for Raspberry Pi and other hubs</p>';
     // <p>Please ensure that the device is connected to your network and is functioning properly.</p>
