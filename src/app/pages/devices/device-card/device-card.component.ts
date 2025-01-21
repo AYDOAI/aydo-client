@@ -23,7 +23,7 @@ export class DeviceCardComponent extends FormBaseComponent {
   }
 
   public zoneName(device: DeviceItem) {
-    return this.zoneService.zones?.items?.find(item => (item as any).id === device.zoneId)?.name;
+    return this.zoneService.zones?.items?.find(item => String((item as any).id) === String(device.zoneId))?.name;
   }
 }
 

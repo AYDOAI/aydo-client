@@ -45,12 +45,14 @@ export class DeviceEditComponent extends FormBaseComponent {
         class: 'group-label'
       });
 
+      this.ui.selectedDriver = this.ui.drivers.items?.find(item => item.driverId === this.ui.selectedDevice!.driverId);
       this.ui.selectedDevice?.settings?.forEach((setting) => {
+        const driverSetting = this.ui.selectedDriver?.settings?.items?.find(s => s.key === setting.key)
         this.form.inputs.push({
           required: setting.required,
           key: setting.key,
           title: setting.name,
-          type: setting.type,
+          type: driverSetting?.type || setting.type,
           defaultValue: this.getDefaultValue(setting),
           value: setting.value,
           items: this.getItems(setting),
@@ -117,11 +119,26 @@ export class DeviceEditComponent extends FormBaseComponent {
   }
 
   private updateDevice(): void {
-    const obj: IDeviceSettings = {
+    const obj: IDeviceSettings = Object.keys(this.formGroup.controls).reduce((acc, key) => {
+      const value = this.formGroup.get(key)?.value;
+
+      if (key === 'device_name') {
+        acc.device_name = (value || '').trim();
+      } else if ((key === 'zoneId' || key.includes('zone')) && value) {
+        acc.zone_id = Number(value)
+      } else if (value !== undefined && value !== null) {
+        const initialSetting = this.ui.selectedDevice?.settings?.find(s => s.key === key);
+        if (initialSetting && String(value) !== String(initialSetting.value)) {
+          acc.settings![key] = String(value);
+        }
+      }
+      return acc;
+    }, {
       device_ident: this.ui.selectedDevice?.ident!,
-      device_name: (this.formGroup.get('device_name')?.value || '').trim(),
-      zone_id: this.formGroup.get('zoneId')?.value || null
-    };
+      device_name: '',
+      settings: {}
+    } as IDeviceSettings);
+
     this.ui.lockBtn('save_device_settings');
     this.backend.updateDevice(obj).then(() => {
       this.ui.devices.items = this.ui.devices.items
@@ -158,6 +175,12 @@ export class DeviceEditComponent extends FormBaseComponent {
       this.ui.selectedDevice[property]
     ) {
       return this.ui.selectedDevice[property];
+    }
+
+    const selectedDeviceSetting = this.ui.selectedDevice?.settings?.find(s => s.key === property);
+
+    if (selectedDeviceSetting) {
+      return selectedDeviceSetting.value;
     }
 
     if (setting.value) {
