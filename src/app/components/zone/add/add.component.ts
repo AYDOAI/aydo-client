@@ -55,7 +55,11 @@ export class AddZoneComponent extends FormBaseComponent {
     };
 
     this.backend.saveZone(zone).then(() => {
-      this.ui.goStep('devices');
+      if (this.ui.selectedDevice) {
+        this.navCtrl.navigateForward(['devices/edit']);
+      } else {
+        this.ui.goStep('devices');
+      }
     })
   }
 }
