@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
-import {LoadingService} from './services/loading.service';
-import {Platform} from '@ionic/angular';
-import {UIService} from './services/ui.service';
 import {NavigationEnd, Router} from '@angular/router';
-import {StatusBar} from '@capacitor/status-bar';
+import {Platform} from '@ionic/angular';
+import {StatusBar, Style} from '@capacitor/status-bar';
+import {LoadingService} from './services/loading.service';
+import {UIService} from './services/ui.service';
+
 
 declare const gtag: Function;
 
@@ -26,6 +27,7 @@ export class AppComponent {
         if (this.platform.is('capacitor')) {
           const url = this.router.url;
           StatusBar.setOverlaysWebView({ overlay: false });
+          StatusBar.setStyle({ style: Style.Light });
           this.updateStatusBarColor(url)
         }
         this.subscribeToRouterEvents();

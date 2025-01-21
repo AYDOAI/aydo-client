@@ -25,6 +25,8 @@ export class FormEditDeviceComponent extends FormBaseComponent {
       onlySpaces: true,
       specialCharacters: true
     });
+
+
     this.ui.selectedDriver?.settings?.items.forEach(setting => {
       if (setting.type === 'input') {
         this.form.inputs.push({

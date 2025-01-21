@@ -41,7 +41,7 @@ export class HttpHeadersInterceptor implements HttpHeadersInterceptor {
 
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
-        if (err.status === 401) {
+        if (err.status === 401 || err.status === 403) {
           this.ui.logout();
         }
         return throwError(err);
