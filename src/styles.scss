@@ -23,6 +23,7 @@ body {
 
 body * {
   color: var(--very-dark-blue);
+  user-select: none;
 }
 
 body.barcode-scanner-active {
