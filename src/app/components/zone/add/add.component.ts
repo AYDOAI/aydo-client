@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {AppFormInputs} from '../../../shared/types';
 import {FormBaseComponent} from '../../form-base.component';
+import {ZoneService} from "../../../services/zone.service";
 
 @Component({
   selector: 'app-add-zone',
@@ -8,6 +9,7 @@ import {FormBaseComponent} from '../../form-base.component';
   styleUrl: './add.component.scss'
 })
 export class AddZoneComponent extends FormBaseComponent {
+  private zoneService = inject(ZoneService);
 
   override onInit() {
     this.form.title = 'Add zone';
@@ -55,6 +57,8 @@ export class AddZoneComponent extends FormBaseComponent {
     };
 
     this.backend.saveZone(zone).then(() => {
+      this.zoneService.forceUpdate$.next(true);
+      this.errors.showInfo('The zone has been saved and will be available in a few seconds.');
       if (this.ui.selectedDevice) {
         this.navCtrl.navigateForward(['devices/edit']);
       } else {
