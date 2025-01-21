@@ -23,6 +23,7 @@ body {
 
 body * {
   color: var(--very-dark-blue);
+  user-select: none;
 }
 
 body.barcode-scanner-active {
@@ -33,6 +34,17 @@ body.barcode-scanner-active {
 
 .barcode-scanner {
   visibility: visible;
+}
+
+.menu-content.menu-content-push {
+  min-height: calc(100% - 60px);
+  box-shadow: none;
+}
+
+ion-menu {
+  outline: none;
+  margin-top: 60px;
+  z-index: 9;
 }
 
 @font-face {

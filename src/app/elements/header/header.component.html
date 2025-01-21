@@ -1,10 +1,7 @@
 <ion-toolbar>
   <div class="header">
     <div *ngIf="!back" class="menu-button" (click)="showHideMenu()">
-      <svg width="24" height="9" viewBox="0 0 24 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="24" height="2" rx="1" fill="#060022"/>
-        <rect y="7" width="16" height="2" rx="1" fill="#060022"/>
-      </svg>
+      <span class="menu-icon" [class.active]="menuService.menuActive"></span>
     </div>
     <div *ngIf="back" class="back-button" (click)="backClick()">
       <svg width="29" height="16" viewBox="0 0 29 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,15 +21,3 @@
     </div>
   </div>
 </ion-toolbar>
-<div class="menu-container" *ngIf="menuVisible">
-  <div class="menu">
-    <div class="menu-item" *ngFor="let item of menu" (click)="clickMenu(item)">
-      <div class="menu-item-icon">
-        <svg-icon class="icon" [name]="item.icon"></svg-icon>
-      </div>
-      <div class="menu-item-title">
-        <div>{{item.title}}</div>
-      </div>
-    </div>
-  </div>
-</div>

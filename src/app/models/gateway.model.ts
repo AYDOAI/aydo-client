@@ -75,6 +75,7 @@ export class SettingItem extends BaseItem {
   defaultValue!: string;
   description!: string;
   items!: SelectItem[];
+  conditions!: any;
   _type!: AppFormType;
   required!: boolean;
 
@@ -114,7 +115,7 @@ export class DeviceItem extends BaseItem {
   ident!: string;
   name!: string;
   driverId!: number;
-  zoneId!: number;
+  zoneId!: number | null;
   capabilities!: any[];
   settings?: any[];
 }

@@ -7,5 +7,4 @@ import {FormBaseComponent} from '../../../components/form-base.component';
   styleUrl: './welcome-main.component.scss'
 })
 export class WelcomeMainComponent extends FormBaseComponent {
-
 }

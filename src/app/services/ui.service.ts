@@ -6,11 +6,9 @@ import {BackendService} from './backend.service';
 import { DeviceItem, DevicesModel, DriverItem, DriversModel } from '../models/gateway.model';
 import {Router} from '@angular/router';
 import { LoadingService } from './loading.service';
-import {environment} from '../../environments/environment';
 import { Network } from '@capacitor/network';
 import { NavController } from "@ionic/angular";
 import { ErrorsService } from "./errors.service";
-
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +22,27 @@ export class UIService implements OnDestroy {
   selectedDevice!: DeviceItem | undefined;
   devices!: DevicesModel;
   valuesInterval!: any;
-  user: { balance: string; email: string; wallet: string; firstname: string; lastname: string; id: number; is_verified: boolean; login: string; params: any; token: string; refresh_token: string } | null | undefined = null;
+  user: {
+    balance: string;
+    email: string;
+    wallet: string;
+    firstname: string;
+    lastname: string;
+    id: number;
+    is_verified: boolean;
+    login: string;
+    params: any;
+    token: string;
+    refresh_token: string;
+    avatar?: {
+      fileId: string;
+      url: string;
+    };
+  } | null | undefined = null;
   public appReady: boolean = false;
   public inviteId: string;
   public isOnline: boolean = true;
-
+  public gateway: { identifier: string, userId: string, token: string, is_online: boolean } | null | undefined = null;
   private btnLoading: string[] = [];
 
   constructor(public storage: StorageService,
@@ -76,21 +90,8 @@ export class UIService implements OnDestroy {
             this.defaultStep();
           }
         }
-        if (this.storage.serverId) {
-          next();
-        } else {
           this.loading.showLoading();
-          this.backend.getGateway().then((data) => {
-            if (data && data.gateway && data.gateway.identifier) {
-              this.storage.serverId = data.gateway.identifier;
-              next();
-            } else {
-              if (this.isAuthPage()) {
-                this.goStep('add-hub');
-              }
-            }
-          }).finally(() => this.loading.dismissLoading())
-        }
+          this.getGateway(next)
       }).catch(error => {
         this.goStep('sign-in');
         if (error && error.name === 'JsonWebTokenError') {
@@ -134,6 +135,7 @@ export class UIService implements OnDestroy {
     this.storage.refreshToken = '';
     this.storage.serverId = '';
     this.user = null;
+    clearInterval(this.valuesInterval);
     this.navCtrl.navigateForward(['/sign-in']);
   }
 
@@ -162,21 +164,34 @@ export class UIService implements OnDestroy {
         this.devices = new DevicesModel(devices);
         // console.log(devices);
         const getDeviceValues = () => {
-          this.backend.getDeviceValues().then((data: any) => {
-            // console.log(data);
-            data.forEach((item: any) => {
-              const device = this.devices.items.find(item1 => item1.ident === item.ident);
-              if (device) {
-                device.capabilities.forEach(cap => {
-                  cap.value = item.values[`${cap.ident}_${cap.index}`]
+          if (this.storage.serverId && this.storage.token) {
+            this.backend.getDeviceValues().then((data: any) => {
+              // console.log(data);
+              const updateDeviceValues = (values: any) => {
+                values.forEach((item: any) => {
+                  const device = this.devices.items.find(item1 => item1.ident === item.ident);
+                  if (device) {
+                    device.capabilities.forEach(cap => {
+                      cap.value = item.values[`${cap.ident}_${cap.index}`]
+                    })
+                  }
                 })
               }
+              if (data.length !== this.devices?.items?.length) {
+                this.backend.getDevices().then((devices: any) => {
+                  this.devices = new DevicesModel(devices);
+                }).finally(() => {
+                  updateDeviceValues(data);
+                })
+              } else {
+                updateDeviceValues(data);
+              }
+            }).catch(() => {
+            }).finally(() => {
+              this.loading.dismissLoading();
+              complete();
             })
-          }).catch(() => {
-          }).finally(() => {
-            this.loading.dismissLoading();
-            complete();
-          })
+          }
         }
         clearInterval(this.valuesInterval);
         this.valuesInterval = setInterval(() => {
@@ -193,6 +208,22 @@ export class UIService implements OnDestroy {
     } else {
       complete();
     }
+  }
+
+  getGateway(next?: () => void): void {
+    this.backend.getGateway().then((data) => {
+      if (data && data.gateway && data.gateway.identifier) {
+        this.storage.serverId = data.gateway.identifier;
+        this.gateway = data.gateway;
+        if (next) {
+          next();
+        }
+      } else {
+        if (this.isAuthPage()) {
+          this.goStep('add-hub');
+        }
+      }
+    }).finally(() => this.loading.dismissLoading())
   }
 
   public getDrivers(): void {

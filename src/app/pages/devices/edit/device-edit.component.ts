@@ -8,18 +8,18 @@ import { IDeviceSettings } from "../../../shared/interfaces/device-settings.inte
 
 
 @Component({
-  selector: 'app-master-edit',
-  templateUrl: './master-edit.component.html',
-  styleUrl: './master-edit.component.scss'
+  selector: 'app-device-edit',
+  templateUrl: './device-edit.component.html',
+  styleUrl: './device-edit.component.scss'
 })
-export class MasterEditComponent extends FormBaseComponent {
+export class DeviceEditComponent extends FormBaseComponent {
 
   private dialog = inject(DialogService)
 
   public override ngOnInit() {
     super.ngOnInit();
     if (!this.ui.selectedDevice) {
-      this.router.navigate(['/master']);
+      this.navCtrl.navigateBack(['/devices']);
     }
 
     this.form.title = this.ui.selectedDevice?.name || '';
@@ -44,35 +44,21 @@ export class MasterEditComponent extends FormBaseComponent {
         type: 'string',
         class: 'group-label'
       });
+
+      this.ui.selectedDriver = this.ui.drivers.items?.find(item => item.driverId === this.ui.selectedDevice!.driverId);
       this.ui.selectedDevice?.settings?.forEach((setting) => {
+        const driverSetting = this.ui.selectedDriver?.settings?.items?.find(s => s.key === setting.key)
         this.form.inputs.push({
           required: setting.required,
           key: setting.key,
           title: setting.name,
-          type: setting.type,
+          type: driverSetting?.type || setting.type,
           defaultValue: this.getDefaultValue(setting),
           value: setting.value,
-          items: this.getItems(setting)
+          items: this.getItems(setting),
+          conditions: this.getConditions(setting)
         })
       });
-    }
-
-    if (this.ui.selectedDevice?.capabilities?.length) {
-      this.form.inputs.push({
-        key: '',
-        title: 'Device capabilities',
-        type: 'string',
-        class: 'group-label'
-      });
-      this.ui.selectedDevice?.capabilities?.forEach((capability) => {
-        this.form.inputs.push({
-          key: capability.ident,
-          title: '',
-          type: 'text',
-          defaultValue: capability.displayName,
-          value: capability.displayName
-        })
-      })
     }
 
     this.form.inputs.push({
@@ -106,6 +92,19 @@ export class MasterEditComponent extends FormBaseComponent {
     return [];
   }
 
+  public getConditions(setting: any) {
+    if (setting.conditions) {
+      return setting.conditions;
+    }
+
+    const driverSetting = this.ui.selectedDriver?.settings?.items.find(item => item.key == setting.key);
+    if (driverSetting?.conditions) {
+      return driverSetting?.conditions;
+    }
+
+    return null;
+  }
+
   public button(button: AppFormInputs): void {
     switch (button.key) {
       case 'delete_device':
@@ -120,11 +119,26 @@ export class MasterEditComponent extends FormBaseComponent {
   }
 
   private updateDevice(): void {
-    const obj: IDeviceSettings = {
+    const obj: IDeviceSettings = Object.keys(this.formGroup.controls).reduce((acc, key) => {
+      const value = this.formGroup.get(key)?.value;
+
+      if (key === 'device_name') {
+        acc.device_name = (value || '').trim();
+      } else if ((key === 'zoneId' || key.includes('zone')) && value) {
+        acc.zone_id = Number(value)
+      } else if (value !== undefined && value !== null) {
+        const initialSetting = this.ui.selectedDevice?.settings?.find(s => s.key === key);
+        if (initialSetting && String(value) !== String(initialSetting.value)) {
+          acc.settings![key] = String(value);
+        }
+      }
+      return acc;
+    }, {
       device_ident: this.ui.selectedDevice?.ident!,
-      device_name: (this.formGroup.get('device_name')?.value || '').trim(),
-      zone_id: this.formGroup.get('zoneId')?.value || null
-    };
+      device_name: '',
+      settings: {}
+    } as IDeviceSettings);
+
     this.ui.lockBtn('save_device_settings');
     this.backend.updateDevice(obj).then(() => {
       this.ui.devices.items = this.ui.devices.items
@@ -148,7 +162,7 @@ export class MasterEditComponent extends FormBaseComponent {
     if (device?.ident) {
       this.backend.deleteDevice(device.ident).then(res => {
         this.ui.devices.items = this.ui.devices.items.filter(d => d.ident !== device.ident);
-        this.router.navigate(['/master']);
+        this.navCtrl.navigateForward(['/devices']);
       })
     }
   }
@@ -161,6 +175,12 @@ export class MasterEditComponent extends FormBaseComponent {
       this.ui.selectedDevice[property]
     ) {
       return this.ui.selectedDevice[property];
+    }
+
+    const selectedDeviceSetting = this.ui.selectedDevice?.settings?.find(s => s.key === property);
+
+    if (selectedDeviceSetting) {
+      return selectedDeviceSetting.value;
     }
 
     if (setting.value) {

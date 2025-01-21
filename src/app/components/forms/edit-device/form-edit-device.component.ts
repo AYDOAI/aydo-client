@@ -25,6 +25,8 @@ export class FormEditDeviceComponent extends FormBaseComponent {
       onlySpaces: true,
       specialCharacters: true
     });
+
+
     this.ui.selectedDriver?.settings?.items.forEach(setting => {
       if (setting.type === 'input') {
         this.form.inputs.push({
@@ -34,6 +36,7 @@ export class FormEditDeviceComponent extends FormBaseComponent {
           defaultValue: setting.defaultValue,
           color: 'white',
           backgroundColor: '#060022',
+          conditions: setting?.conditions || null,
           required: setting.required
         });
       }
@@ -59,6 +62,7 @@ export class FormEditDeviceComponent extends FormBaseComponent {
           items: setting.items,
           color: 'white',
           backgroundColor: '#060022',
+          conditions: setting?.conditions || null,
           required: setting.required
         });
       }
@@ -68,7 +72,6 @@ export class FormEditDeviceComponent extends FormBaseComponent {
       title: 'Save device',
       type: 'button',
       color: 'white',
-      isDisabled: () => this.formGroup.invalid,
       displayError: true,
       backgroundColor: '#060022'
     });
@@ -86,15 +89,17 @@ export class FormEditDeviceComponent extends FormBaseComponent {
           ident: `${this.ui.selectedDriver?.className}_${new Date().getTime()}`,
           settings: {...this.formGroup.value}
         };
-
+        this.ui.lockBtn('save_device');
         const isValid = this.isDeviceValid();
 
         if (isValid) {
           // @ts-ignore
           this.backend.saveDevice(device).then(() => {
+            this.errors.showInfo('Device successfully added. Please wait a few seconds while we update the information about the added devices.');
             this.ui.goStep('devices');
-          })
+          }).finally(() => this.ui.unlockBtn('save_device'))
         } else {
+          this.ui.unlockBtn('save_device')
           this.errors.showError('Device with such settings is already linked to your account')
         }
         break;

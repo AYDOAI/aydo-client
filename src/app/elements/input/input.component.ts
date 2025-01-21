@@ -55,5 +55,4 @@ export class InputComponent extends BaseElement {
   touchend(ev: any) {
     ev.stopPropagation();
   }
-
 }

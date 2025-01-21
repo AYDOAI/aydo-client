@@ -16,44 +16,49 @@
   width: 16px;
 }
 
-.menu-container {
+.menu-button {
+  display: inline-block;
+  height: 9px;
+  width: 24px;
+  position: relative;
+}
+
+.menu-icon, .menu-icon:before, .menu-icon:after {
+  cursor: pointer;
+  width: 24px;
+  background: black;
   position: absolute;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(#EEF1E7, 0.7);
-  --icon-width: 32px;
-  --icon-height: 24px;
-  z-index: 999;
+  display: block;
+  content: '';
+}
 
-  .menu {
-    display: flex;
-    width: 250px;
-    flex-direction: column;
-    background-color: #FBFEF4;
+.menu-icon:before {
+  height: 2px;
+  top: 0;
+}
 
-    .menu-item {
-      display: flex;
-      flex-direction: row;
+.menu-icon:after {
+  height: 2px;
+  top: 7px;
+  max-width: 75%;
+}
 
-      .menu-item-icon {
-        width: 60px;
-        height: 60px;
-        background-color: #EEF1E7;
-        display: flex;
+.menu-icon, .menu-icon:before, .menu-icon:after {
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
 
-        .icon {
-          margin: auto;
-        }
-      }
+.menu-icon.active:before, .menu-icon.active:after {
+  top: 3.5px;
+}
 
-      .menu-item-title {
-        display: flex;
-        padding-left: 12px;
+.menu-icon.active:before {
+  transform: rotate(45deg);
+}
 
-        div {
-          margin: auto;
-        }
-      }
-    }
-  }
+.menu-icon.active:after {
+  transform: rotate(-45deg);
+  max-width: 100%;
 }

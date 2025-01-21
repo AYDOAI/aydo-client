@@ -2,4 +2,9 @@
   ion-header {
     box-shadow: none;
   }
+
+  .disabled {
+    user-select: none;
+    pointer-events: none;
+  }
 }

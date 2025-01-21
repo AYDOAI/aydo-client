@@ -1,0 +1,61 @@
+:host {
+  .card {
+    padding: 12px;
+
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+
+      .title-container {
+        display: flex;
+        width: 100%;
+
+        --icon-width: 9px;
+        --icon-height: 18px;
+
+        svg-icon {
+          margin-left: auto
+        }
+
+        &__title {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
+      }
+    }
+
+    .capabilities {
+      display: flex;
+      flex-flow: row wrap;
+      gap: 4px;
+
+      &__capability {
+        padding: 4px 8px;
+        border-radius: 10px;
+        border: 1px solid #060022;
+
+        &-title {
+          color: #999999;
+          font-size: 12px;
+          line-height: 120%;
+        }
+
+        &-value {
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 140%;
+          letter-spacing: 0.05em;
+        }
+      }
+    }
+  }
+}

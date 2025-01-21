@@ -75,6 +75,7 @@ export class SelectComponent extends BaseElement {
     if (this.input && this.input.nativeElement && !this.form.get(this.key)?.value) {
       this.input.nativeElement.value = '';
     }
+    this.onBlur.emit();
   }
 
   clear(ev: Event) {
@@ -100,7 +101,7 @@ export class SelectComponent extends BaseElement {
 
   selectActive() {
     if (Array.isArray(this.items)) {
-      return this.items.find(item => item.id === this.valueEx);
+      return this.items.find(item => String(item.id) === String(this.valueEx));
     } else {
       return this.items[this.valueEx];
     }

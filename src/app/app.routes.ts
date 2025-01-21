@@ -37,9 +37,9 @@ import { ProjectInfoComponent } from "./pages/project-info/project-info.componen
 import { ConnectWalletComponent } from "./pages/connect-wallet/connect-wallet.component";
 import { ConnectDevicesComponent } from "./pages/connect-devices/connect-devices.component";
 import {FeedbackComponent} from './pages/feedback/feedback.component';
-import { MasterComponent } from './pages/master/master.component';
-import { MasterEditComponent } from './pages/master/edit/master-edit.component';
+import { DeviceEditComponent } from './pages/devices/edit/device-edit.component';
 import { AddZoneComponent } from './components/zone/add/add.component';
+import { HubGuard } from './shared/guards/hub.guard';
 
 export const routes: Routes = [
   {
@@ -62,39 +62,50 @@ export const routes: Routes = [
     path: 'google-auth-redirect',
     component: GoogleAuthRedirectComponent
   },
+  // TODO: temporary disabled
+  // {
+  //   path: 'dashboard',
+  //   component: DashboardComponent,
+  //   children: [
+  //     {
+  //       path: '',
+  //       component: DashboardMainComponent
+  //     },
+  //     {
+  //       path: 'rewards',
+  //       component: DashboardRewardsComponent
+  //     },
+  //     {
+  //       path: 'main-quests',
+  //       component: DashboardMainQuestsComponent
+  //     },
+  //     {
+  //       path: 'additional-quests',
+  //       component: DashboardAdditionalQuestsComponent
+  //     },
+  //     {
+  //       path: 'notifications',
+  //       component: NotificationsComponent
+  //     }
+  //   ]
+  // },
   {
-    path: 'dashboard',
-    component: DashboardComponent,
-    children: [
-      {
-        path: '',
-        component: DashboardMainComponent
-      },
-      {
-        path: 'rewards',
-        component: DashboardRewardsComponent
-      },
-      {
-        path: 'main-quests',
-        component: DashboardMainQuestsComponent
-      },
-      {
-        path: 'additional-quests',
-        component: DashboardAdditionalQuestsComponent
-      },
-      {
-        path: 'notifications',
-        component: NotificationsComponent
-      }
-    ]
+    path: 'quests',
+    component: DashboardMainQuestsComponent
   },
   {
     path: 'devices',
     component: DevicesComponent,
+    canActivate: [HubGuard]
+  },
+  {
+    path: 'devices/edit',
+    component: DeviceEditComponent,
   },
   {
     path: 'add-device',
-    component: FormAddDeviceComponent
+    component: FormAddDeviceComponent,
+    canActivate: [HubGuard]
   },
   {
     path: 'edit-device',
@@ -183,14 +194,6 @@ export const routes: Routes = [
         component: FormAddHubConnectedComponent
       }
     ]
-  },
-  {
-    path: 'master',
-    component: MasterComponent,
-  },
-  {
-    path: 'master/edit',
-    component: MasterEditComponent,
   },
   {
     path: 'zone/add',

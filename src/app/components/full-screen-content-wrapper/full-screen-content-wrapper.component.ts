@@ -1,25 +1,25 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   ContentChild,
   ElementRef,
   Input,
-  OnInit,
   TemplateRef,
   ViewChild,
-  OnDestroy, Output, EventEmitter
+  Output,
+  EventEmitter, inject
 } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
-import { ContentModule } from "../content/content.module";
+import { Router } from '@angular/router';
+import { MenuService } from "../../services/menu.service";
 
 @Component({
     selector: 'app-full-screen-content-wrapper',
     templateUrl: './full-screen-content-wrapper.component.html',
     styleUrls: ['./full-screen-content-wrapper.component.scss'],
-    standalone: true,
-    imports: [CommonModule, IonicModule, ContentModule],
 })
-export class FullScreenContentWrapperComponent implements OnInit, OnDestroy {
+export class FullScreenContentWrapperComponent {
+
+    public currentPage = '';
+    public menuService = inject(MenuService);
 
     @Input() contentClass!: string;
     @Input() isRefreshable = false;
@@ -34,13 +34,11 @@ export class FullScreenContentWrapperComponent implements OnInit, OnDestroy {
 
     @Output() refresh: EventEmitter<any> = new EventEmitter<any>();
 
+    constructor(private router: Router) {
+      this.currentPage = this.router.url.replace(/\//g, '');
+    }
+
     public get getHeaderHeight(): number {
       return this.headerEl?.nativeElement.offsetHeight || 0;
-    }
-
-    ngOnInit(): void {
-    }
-
-    ngOnDestroy(): void {
     }
 }

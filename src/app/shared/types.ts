@@ -15,12 +15,21 @@ export type FrameStep =
   | 'profile'
   | 'dashboard'
   | 'streams'
-  | 'success'
-  | 'master';
+  | 'success';
 
 export type HubType = 'hub_aydo' | 'hub_pi' | 'hub_other';
 
-export type AppFormType = 'input' | 'button' | 'text' | 'string' | 'checkbox' | 'template' | 'agreement' | 'select' | 'recaptcha' | 'google-map';
+export type AppFormType = 'input'
+  | 'button'
+  | 'text'
+  | 'string'
+  | 'checkbox'
+  | 'template'
+  | 'agreement'
+  | 'select'
+  | 'recaptcha'
+  | 'google-map'
+  | 'avatar';
 
 export interface AppForm {
   title: string;
@@ -62,11 +71,12 @@ export interface AppFormInputs {
 // //   text?: string;
 // //   button_title?: string;
 // //   icon?: string;
-   items?: SelectItem[];
-   class?: string;
+  items?: SelectItem[];
+  conditions?: any;
+  class?: string;
 // //   placeholder?: string;
 //   readonly?: string;
-   multi?: boolean;
+  multi?: boolean;
 // //   rows?: number;
 // //   autocomplete?: string;
 // //   groupTab?: string;
