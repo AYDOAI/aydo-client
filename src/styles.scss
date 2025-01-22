@@ -23,7 +23,6 @@ body {
 
 body * {
   color: var(--very-dark-blue);
-  user-select: none;
 }
 
 body.barcode-scanner-active {
@@ -151,6 +150,8 @@ ion-menu {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  -webkit-user-modify: read-only;
+  -webkit-tap-highlight-color: transparent;
 }
 
 textarea, input {
