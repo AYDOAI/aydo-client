@@ -115,6 +115,23 @@
             ],
             "scripts": []
           }
+        },
+        "ionic-cordova-build": {
+          "builder": "@ionic/angular-toolkit:cordova-build",
+          "options": {
+            "browserTarget": "app:build"
+          },
+          "configurations": {
+            "testing": {
+              "browserTarget": "app:build:testing"
+            },
+            "development": {
+              "browserTarget": "app:build:development"
+            },
+            "production": {
+              "browserTarget": "app:build:production"
+            }
+          }
         }
       }
     }

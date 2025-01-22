@@ -26,6 +26,7 @@
     "@awesome-cordova-plugins/in-app-browser": "^6.12.0",
     "@capacitor-mlkit/barcode-scanning": "^6.1.0",
     "@capacitor/android": "^6.1.2",
+    "@capacitor/assets": "2.0.4",
     "@capacitor/cli": "^6.1.2",
     "@capacitor/core": "^6.1.2",
     "@capacitor/ios": "^6.1.2",
@@ -45,7 +46,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.0.0",
-    "@angular/cli": "^18.0.0",
+    "@angular/cli": "18.2.12",
     "@angular/compiler-cli": "^18.0.0",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.1.0",
