@@ -60,7 +60,7 @@ export class AddZoneComponent extends FormBaseComponent {
       this.zoneService.forceUpdate$.next(true);
       this.errors.showInfo('The zone has been saved and will be available in a few seconds.');
       if (this.ui.selectedDevice) {
-        this.navCtrl.navigateForward(['devices/edit']);
+        this.navCtrl.back();
       } else {
         this.ui.goStep('devices');
       }
