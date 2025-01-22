@@ -4,6 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:android": "ionic cap run android -l --external",
+    "start:ios": "ionic cap run ios -l --external",
     "build": "ng build",
     "build:testing": "ng build --configuration testing",
     "watch": "ng build --watch --configuration development",
