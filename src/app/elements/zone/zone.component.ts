@@ -26,6 +26,13 @@ export class ZoneComponent extends SelectComponent {
     }
 
     ngOnInit() {
+      this.loadItems();
+      this.zoneService.forceUpdate$.subscribe(() => {
+        setTimeout(() => this.loadItems(), 5000);
+      });
+    }
+
+    private loadItems(): void {
       this.zoneService.load().then(() => {
         this.items = [];
         this.zoneService.zones?.items?.forEach((zone: any) => {
