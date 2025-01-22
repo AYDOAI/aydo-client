@@ -12,9 +12,7 @@ export class ZoneService {
   constructor(
     public backend: BackendService,
     private loading: LoadingService,
-  ) {
-    this.forceUpdate$.subscribe(() => this.handleForceUpdate());
-  }
+  ) {}
 
   load() {
     this.loading.showLoading();
@@ -22,13 +20,5 @@ export class ZoneService {
       this.zones = new ZoneModel(zones);
       this.loading.dismissLoading();
     });
-  }
-
-  private handleForceUpdate() {
-    setTimeout(() => {
-      this.backend.getZones().then((zones) => {
-        this.zones = new ZoneModel(zones);
-      })
-    }, 5000);
   }
 }
