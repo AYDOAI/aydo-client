@@ -28,7 +28,9 @@ export class AppComponent {
           const url = this.router.url;
           StatusBar.setOverlaysWebView({ overlay: false });
           StatusBar.setStyle({ style: Style.Light });
-          this.updateStatusBarColor(url)
+          if (this.ui.appReady) {
+            this.updateStatusBarColor(url)
+          }
         }
         this.subscribeToRouterEvents();
       }
