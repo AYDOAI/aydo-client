@@ -1,6 +1,9 @@
 import {Component, OnInit, inject} from '@angular/core';
+import { App } from '@capacitor/app';
 import {DialogService} from "../../services/dialog.service";
 import {LicenseDialogComponent} from '../../elements/dialog/license-dialog/license-dialog.component';
+import {environment} from "../../../environments/environment";
+import {Capacitor} from "@capacitor/core";
 
 @Component({
   selector: 'app-about',
@@ -9,11 +12,21 @@ import {LicenseDialogComponent} from '../../elements/dialog/license-dialog/licen
 })
 export class AboutComponent implements OnInit {
   private dialog = inject(DialogService);
+  protected readonly environment = environment;
+  protected version!: string;
 
   ngOnInit(): void {
-
+    const platform = Capacitor.getPlatform();
+    if(platform === 'web') {
+      this.version = 'web';
+    }
+    if(platform !== 'web') {
+      App.getInfo().then((appInfo) => {
+        this.version = appInfo.version;
+      });
+    }
   }
-  
+
   goToLink(url: string) {
     window.open(url, "_blank");
   }
@@ -24,5 +37,4 @@ export class AboutComponent implements OnInit {
       headerTitle: 'License'
     })
   }
-
 }

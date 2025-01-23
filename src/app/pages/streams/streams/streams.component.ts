@@ -1,17 +1,18 @@
 import {Component} from '@angular/core';
 import {BaseComponent} from '../../../components/base.component';
 import {DataStream} from '../../../services/backend.service';
+import { ViewWillEnter } from "@ionic/angular";
 
 @Component({
   selector: 'app-streams',
   templateUrl: './streams.component.html',
   styleUrl: './streams.component.scss'
 })
-export class StreamsComponent extends BaseComponent {
+export class StreamsComponent extends BaseComponent implements ViewWillEnter {
 
   dataStreams: DataStream[] = [];
 
-  override onInit() {
+  ionViewWillEnter() {
     this.getDataStreams();
   }
 
