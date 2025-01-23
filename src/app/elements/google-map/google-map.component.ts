@@ -1,23 +1,15 @@
 import {
   Component,
-  forwardRef,
-  Input
+  Input, signal
 } from '@angular/core';
-import {FormGroup, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {BaseElement} from '../base.component';
-import {environment} from '../../../environments/environment';
-
-export const CUSTOM_CONTROL_VALUE_ACCESSOR: any = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => GoogleMapComponent),
-  multi: true
-};
 
 @Component({
   selector: 'app-google-map',
   templateUrl: './google-map.component.html',
   styleUrls: ['./google-map.component.scss'],
-  providers: [CUSTOM_CONTROL_VALUE_ACCESSOR]
+  providers: []
 })
 export class GoogleMapComponent extends BaseElement {
 
@@ -38,17 +30,57 @@ export class GoogleMapComponent extends BaseElement {
   markerPositions: google.maps.LatLngLiteral[] = [];
 
   ngOnInit() {
-    navigator.geolocation.getCurrentPosition((position) => {
+    const defaultValue = this.form.get(this.key)?.value;
+    if(defaultValue) {
+      const [lat, lng] = defaultValue
+        .replace(/[()]/g, '')
+        .split(',')
+        .map(Number);
+      this.markerPositions = [{
+        lat,
+        lng
+      }];
       this.currentLocation = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
+        lat,
+        lng
       };
-    });
+    }
+    if(!defaultValue) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.currentLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+      });
+    }
   }
 
-  addMarker(event: any) {
-    this.markerPositions = [event.latLng.toJSON()];
-    this.form.get(this.key)?.setValue(event.latLng.toString());
+
+  updateMarkerPosition(point: google.maps.LatLng) {
+    const newPos = point.toJSON();
+    if (this.markerPositions.length > 0) {
+      this.markerPositions[0] = newPos;
+    } else {
+      this.markerPositions = [newPos];
+    }
+
+    this.form.get(this.key)?.setValue(point.toString());
     this.form.get(this.key)?.markAsTouched();
+  }
+
+  onMarkerDragEnd(event: google.maps.MapMouseEvent) {
+    if(event.latLng) {
+      this.updateMarkerPosition(event.latLng);
+    }
+  }
+
+  addMarker(event: google.maps.MapMouseEvent) {
+    if(event.latLng) {
+      this.updateMarkerPosition(event.latLng);
+    }
+  }
+
+  trackByFn(index: number) {
+    return index;
   }
 }
