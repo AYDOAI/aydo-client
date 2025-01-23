@@ -1,10 +1,10 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {HubType, FrameStep} from '../shared/types';
-import {StorageService} from './storage.service';
-import { Subscription } from 'rxjs';
-import {BackendService} from './backend.service';
+import { Injectable, OnDestroy } from '@angular/core';
+import { HubType, FrameStep } from '../shared/types';
+import { StorageService } from './storage.service';
+import { finalize, Subscription } from 'rxjs';
+import { BackendService } from './backend.service';
 import { DeviceItem, DevicesModel, DriverItem, DriversModel } from '../models/gateway.model';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { LoadingService } from './loading.service';
 import { Network } from '@capacitor/network';
 import { NavController } from "@ionic/angular";
@@ -65,49 +65,51 @@ export class UIService implements OnDestroy {
 
   tryDemo(): void {
     this.lockBtn('try_demo');
-    this.backend.demoLogin().then(() => {
-      this.afterLogin();
-    }).catch(() => {
-      this.errors.showError(`An error occurred, please try again later`)
-    }).finally(() => {
+    this.backend.demoLogin().pipe(finalize(() => {
       this.unlockBtn('try_demo');
+    })).subscribe(() => {
+      this.afterLogin();
+    }, () => {
+      this.errors.showError(`An error occurred, please try again later`)
     });
   }
 
   afterLogin() {
     if (this.storage.token) {
       this.loading.showLoading();
-      this.backend.userInfo().then((data: any) => {
-        this.user = data.user;
-        if (!this.user?.is_verified) {
-          this.goStep('success');
-          return
-        }
-        const next = () => {
-          this.loading.showLoading();
-          this.getDevices();
+      this.backend.userInfo()
+        .pipe(finalize(() => {
+          this.appReady = true;
+          this.loading.dismissLoading();
           if (this.isAuthPage()) {
             this.defaultStep();
           }
-        }
+        })).subscribe((data: any) => {
+          this.user = data.user;
+          if (!this.user?.is_verified) {
+            this.goStep('success');
+            return
+          }
+          const next = () => {
+            this.loading.showLoading();
+            this.getDevices();
+            if (this.isAuthPage()) {
+              this.defaultStep();
+            }
+          }
           this.loading.showLoading();
           this.getGateway(next)
-      }).catch(error => {
-        this.goStep('sign-in');
-        if (error && error.name === 'JsonWebTokenError') {
-          //   this.backend.userRefresh().then(data => {
-          //     console.log(data);
-          //   }).catch((error) => {
-          //     console.log(error);
-          //   })
+        }, (error) => {
+          this.goStep('sign-in');
+          if (error && error.name === 'JsonWebTokenError') {
+            //   this.backend.userRefresh().then(data => {
+            //     console.log(data);
+            //   }).catch((error) => {
+            //     console.log(error);
+            //   })
+          }
         }
-      }).finally(() => {
-        this.appReady = true;
-        this.loading.dismissLoading();
-        if (this.isAuthPage()) {
-          this.defaultStep();
-        }
-      })
+      )
     } else {
       this.appReady = true;
       this.loading.dismissLoading();
@@ -160,37 +162,40 @@ export class UIService implements OnDestroy {
       }
     }
     if (this.storage.serverId) {
-      this.backend.getDevices().then((devices: any) => {
+      this.backend.getDevices().pipe(finalize(() => {
+        this.loading.dismissLoading();
+        complete();
+      })).subscribe((devices: any) => {
         this.devices = new DevicesModel(devices);
         // console.log(devices);
         const getDeviceValues = () => {
           if (this.storage.serverId && this.storage.token) {
-            this.backend.getDeviceValues().then((data: any) => {
-              // console.log(data);
-              const updateDeviceValues = (values: any) => {
-                values.forEach((item: any) => {
-                  const device = this.devices.items.find(item1 => item1.ident === item.ident);
-                  if (device) {
-                    device.capabilities.forEach(cap => {
-                      cap.value = item.values[`${cap.ident}_${cap.index}`]
-                    })
-                  }
-                })
-              }
-              if (data.length !== this.devices?.items?.length) {
-                this.backend.getDevices().then((devices: any) => {
-                  this.devices = new DevicesModel(devices);
-                }).finally(() => {
-                  updateDeviceValues(data);
-                })
-              } else {
-                updateDeviceValues(data);
-              }
-            }).catch(() => {
-            }).finally(() => {
+            this.backend.getDeviceValues().pipe(finalize(() => {
               this.loading.dismissLoading();
               complete();
-            })
+            })).subscribe((data: any) => {
+                // console.log(data);
+                const updateDeviceValues = (values: any) => {
+                  values.forEach((item: any) => {
+                    const device = this.devices.items.find(item1 => item1.ident === item.ident);
+                    if (device) {
+                      device.capabilities.forEach(cap => {
+                        cap.value = item.values[`${cap.ident}_${cap.index}`]
+                      })
+                    }
+                  })
+                }
+                if (data.length !== this.devices?.items?.length) {
+                  this.backend.getDevices().pipe(finalize(() => {
+                    updateDeviceValues(data);
+                  })).subscribe((devices: any) => {
+                    this.devices = new DevicesModel(devices);
+                  })
+                } else {
+                  updateDeviceValues(data);
+                }
+              }
+            )
           }
         }
         clearInterval(this.valuesInterval);
@@ -200,39 +205,32 @@ export class UIService implements OnDestroy {
           }
         }, 5000);
         getDeviceValues();
-      }).catch(() => {
-      }).finally(() => {
-        this.loading.dismissLoading();
-        complete();
-      });
+      })
     } else {
       complete();
     }
   }
 
   getGateway(next?: () => void): void {
-    this.backend.getGateway().then((data) => {
-      if (data && data.gateway && data.gateway.identifier) {
-        this.storage.serverId = data.gateway.identifier;
-        this.gateway = data.gateway;
-        if (next) {
-          next();
+    this.loading.showLoading$(this.backend.getGateway()).subscribe((data) => {
+        if (data && data.gateway && data.gateway.identifier) {
+          this.storage.serverId = data.gateway.identifier;
+          this.gateway = data.gateway;
+          if (next) {
+            next();
+          }
+        } else {
+          if (this.isAuthPage()) {
+            this.goStep('add-hub');
+          }
         }
-      } else {
-        if (this.isAuthPage()) {
-          this.goStep('add-hub');
-        }
-      }
-    }).finally(() => this.loading.dismissLoading())
+      })
   }
 
   public getDrivers(): void {
-    this.backend.drivers().then((drivers: DriverItem[]) => {
+    this.loading.showLoading$(this.backend.drivers()).subscribe((drivers: DriverItem[]) => {
       this.drivers = new DriversModel(drivers);
-    }).catch(() => {
-    }).finally(() => {
-      this.loading.dismissLoading();
-    });
+    })
   }
 
   private isAuthPage(): boolean {

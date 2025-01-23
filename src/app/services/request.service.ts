@@ -1,8 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-
-import {ErrorsService} from './errors.service';
-import {environment} from "../../environments/environment";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { ErrorsService } from './errors.service';
+import { environment } from "../../environments/environment";
 
 export interface RequestOptions {
   mainGroup?: string;
@@ -23,23 +24,23 @@ export class RequestService {
 
   }
 
-  get(url: string, opts: RequestOptions | null = null): Promise<any> {
+  get(url: string, opts: RequestOptions | null = null): Observable<any> {
     return this.request('GET', url, null, opts);
   }
 
-  post(url: string, data: object, opts: RequestOptions | null = null): Promise<any> {
-    return this.request('POST', url, {...data}, opts);
+  post(url: string, data: object, opts: RequestOptions | null = null): Observable<any> {
+    return this.request('POST', url, { ...data }, opts);
   }
 
-  put(url: string, data: object, opts: RequestOptions | null = null): Promise<any> {
-    return this.request('PUT', url, {...data}, opts);
+  put(url: string, data: object, opts: RequestOptions | null = null): Observable<any> {
+    return this.request('PUT', url, { ...data }, opts);
   }
 
-  del(url: string, opts: RequestOptions | null = null): Promise<any> {
+  del(url: string, opts: RequestOptions | null = null): Observable<any> {
     return this.request('DELETE', url, null, opts);
   }
 
-  request(requestMethod: string, url: string, body: object | null, opts: RequestOptions | null = null): Promise<any> {
+  private request(requestMethod: string, url: string, body: object | null, opts: RequestOptions | null = null): Observable<any> {
     const time = new Date().getTime();
     const mainGroup = opts ? opts.mainGroup : '';
     const method = opts ? opts.method : '';
@@ -48,29 +49,30 @@ export class RequestService {
       body,
       responseType,
       observe: 'response',
-    }).toPromise().then((response: any) => {
-      if (response.body) {
-        this.errors.logEx(`${requestMethod} ${url}`, mainGroup, 'response', method, response.body, new Date().getTime() - time);
-      } else {
-        this.errors.logEx(`${requestMethod} ${url}`, mainGroup, 'response', method, response, new Date().getTime() - time);
-      }
-      return Promise.resolve(response.body);
-    }).catch(response => {
-      // if (response && response.error && response.error.name === 'TokenExpiredError') {
-      //   return this.request('get', `${environment.main_url}/backend/v2/user/refresh`, null, null).then(data => {
-      //     console.log(data)
-      //     return Promise.resolve(response.body);
-      //   }).catch((error) => {
-      //     console.log(error)
-      //     return Promise.reject(response.error);
-      //   })
-      // } else {
-      console.log(response)
+    }).pipe(
+      tap((response: HttpResponse<any>) => {
+        if (response.body) {
+          this.errors.logEx(`${requestMethod} ${url}`, mainGroup, 'response', method, response.body, new Date().getTime() - time);
+        } else {
+          this.errors.logEx(`${requestMethod} ${url}`, mainGroup, 'response', method, response, new Date().getTime() - time);
+        }
+      }),
+      catchError((response: HttpErrorResponse) => {
+        // if (response && response.error && response.error.name === 'TokenExpiredError') {
+        //   return this.request('get', `${environment.main_url}/backend/v2/user/refresh`, null, null).toPromise().then(data => {
+        //     console.log(data)
+        //     return Promise.resolve(response.body);
+        //   }).catch((error) => {
+        //     console.log(error)
+        //     return Promise.reject(response.error);
+        //   })
+        // } else {
+        console.log(response);
 
-      if (response.status === 0) {
-        this.errors.showError('There was an error connecting. Please check your internet connection and try again later.');
-        return Promise.reject(response.error);
-      }
+        if (response.status === 0) {
+          this.errors.showError('There was an error connecting. Please check your internet connection and try again later.');
+          return throwError(() => response.error);
+        }
 
         let message = '';
         if (response && response.error && response.error.message) {
@@ -97,11 +99,13 @@ export class RequestService {
         if (response.error && !response.error.errors) {
           response.error.errors = {message};
         }
-        this.errors.logEx(`${requestMethod} ${url}`, mainGroup, 'response', method, response.body,
+        this.errors.logEx(`${requestMethod} ${url}`, mainGroup, 'response', method, response.error,
           new Date().getTime() - time, response.error);
-        return Promise.reject(response.error);
-      // }
-    });
+        return throwError(() => response.error);
+        // }
+      }),
+      map((response: HttpResponse<any>) => response.body)
+    );
   }
 
 }

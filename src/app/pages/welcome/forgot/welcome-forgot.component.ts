@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AppFormInputs} from '../../../shared/types';
 import {FormBaseComponent} from '../../../components/form-base.component';
+import { finalize } from "rxjs";
 
 @Component({
   selector: 'app-welcome-forgot',
@@ -33,11 +34,10 @@ export class WelcomeForgotComponent extends FormBaseComponent {
         this.ui.lockBtn('send_link');
         const user = {...this.formGroup.value};
         this.resetFormErrors();
-        this.backend.userForgot(user).then((data: any) => {
+        this.backend.userForgot(user).pipe(finalize(() => this.ui.unlockBtn('send_link'))).subscribe((data: any) => {
           this.linkSent = true;
           console.log(data)
-        }).catch(() => {
-        }).finally(() => this.ui.unlockBtn('send_link'));
+        })
         break;
     }
   }
