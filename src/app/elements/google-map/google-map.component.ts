@@ -30,11 +30,13 @@ export class GoogleMapComponent extends BaseElement implements OnInit, OnDestroy
     draggable: true,
   };
 
+  defaultCenter = {
+    lat: 0,
+    lng: 0
+  };
+
   markerPositions$ = new BehaviorSubject<google.maps.LatLngLiteral[]>([]);
-  currentLocation$ = new BehaviorSubject<google.maps.LatLngLiteral>({
-    lat: 1,
-    lng: 1
-  });
+  currentLocation$ = new BehaviorSubject<google.maps.LatLngLiteral>(this.defaultCenter);
   private positionUpdates$ = new Subject<google.maps.LatLngLiteral>();
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 <div *ngIf="form" [formGroup]="form">
   <google-map width="100%" height="330"
-    [center]="currentLocation$ | async"
+    [center]="(currentLocation$ | async) || defaultCenter"
     [options]="mapOptions"
     (mapClick)="addMarker($event)">
     @for (position of markerPositions$ | async; track trackByFn($index)) {
