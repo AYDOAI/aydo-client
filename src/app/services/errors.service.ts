@@ -12,17 +12,11 @@ export class ErrorsService {
 
   messages: any[] = [];
   datePipe;
-
-  private exceptionSubject: Subject<any> = new Subject<any>();
   private errorSubject: Subject<any> = new Subject<any>();
   private showErrorSubject: Subject<any> = new Subject<any>();
 
   constructor() {
     this.datePipe = new DatePipe('en-US');
-  }
-
-  onException(message: any) {
-    this.exceptionSubject.next(message);
   }
 
   onError(message: any) {
@@ -35,10 +29,6 @@ export class ErrorsService {
 
   showInfo(message: any) {
     this.showErrorSubject.next({message, info: true});
-  }
-
-  exceptionSub(): Observable<any> {
-    return this.exceptionSubject.asObservable();
   }
 
   errorSub(): Observable<any> {
