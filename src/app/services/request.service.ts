@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-
 import {ErrorsService} from './errors.service';
-import {environment} from "../../environments/environment";
 
 export interface RequestOptions {
   mainGroup?: string;
@@ -14,7 +12,7 @@ export interface RequestOptions {
 @Injectable({
   providedIn: 'root'
 })
-export class RequestService {
+  export class RequestService {
 
   error: any;
 
@@ -56,16 +54,6 @@ export class RequestService {
       }
       return Promise.resolve(response.body);
     }).catch(response => {
-      // if (response && response.error && response.error.name === 'TokenExpiredError') {
-      //   return this.request('get', `${environment.main_url}/backend/v2/user/refresh`, null, null).then(data => {
-      //     console.log(data)
-      //     return Promise.resolve(response.body);
-      //   }).catch((error) => {
-      //     console.log(error)
-      //     return Promise.reject(response.error);
-      //   })
-      // } else {
-      console.log(response)
 
       if (response.status === 0) {
         this.errors.showError('There was an error connecting. Please check your internet connection and try again later.');
@@ -86,13 +74,8 @@ export class RequestService {
           response.error.message = message;
         }
         if (!opts || !opts.ignoreError) {
-          // message += ` (${url})`;
           this.errors.onError(response.error);
           console.log(`${response.status} ${response.statusText} (${url})`);
-          this.errors.onException({
-            type: 'error',
-            message
-          });
         }
         if (response.error && !response.error.errors) {
           response.error.errors = {message};
@@ -100,7 +83,6 @@ export class RequestService {
         this.errors.logEx(`${requestMethod} ${url}`, mainGroup, 'response', method, response.body,
           new Date().getTime() - time, response.error);
         return Promise.reject(response.error);
-      // }
     });
   }
 
