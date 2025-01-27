@@ -6,6 +6,17 @@ import {BackendService} from "../../../services/backend.service";
 import { UIService } from "../../../services/ui.service";
 import { ErrorsService } from "../../../services/errors.service";
 import { LoadingService } from '../../../services/loading.service';
+import { SignInWithApple } from '@capacitor-community/apple-sign-in';
+import { Platform } from "@ionic/angular";
+import { window } from "rxjs";
+import { environment } from "../../../../environments/environment";
+import { InAppBrowser } from "@awesome-cordova-plugins/in-app-browser/ngx";
+
+declare global {
+  interface Window {
+    AppleID: any;
+  }
+}
 
 export const config = createConfig({
   chains: [mainnet, sepolia],
@@ -27,7 +38,9 @@ export class WelcomeProvidersComponent implements OnInit   {
     private backend: BackendService,
     private ui: UIService,
     private errors: ErrorsService,
-    private loading: LoadingService
+    private loading: LoadingService,
+    private platform: Platform,
+    private iab: InAppBrowser,
   ) { }
 
   ngOnInit(): void {
@@ -50,6 +63,32 @@ export class WelcomeProvidersComponent implements OnInit   {
         this.errors.showError(err.message);
       }
     );
+  }
+
+  async signInWithApple() {
+    // if (this.platform.is('ios')) {
+    //   const { response } = await SignInWithApple.authorize({
+    //     clientId: 'ai.aydo.app.apple',
+    //     scopes: 'email',
+    //     redirectURI: 'https://app.test.aydo.ai',
+    //   });
+    //   const { identityToken } = response;
+    // } else {
+      const url = `${environment.main_url}/backend/v2/user/apple/login`;
+      const browser = this.iab.create(url);
+    //   // if (typeof window !== 'undefined' && window.AppleID) {
+    //   //   window.AppleID.auth.init({
+    //   //     clientId: '123',
+    //   //     scope: 'email',
+    //   //     redirectURI: '123',
+    //   //   });
+    //   //   window.AppleID.auth.signIn().then((response: any) => {
+    //   //     console.log(response);
+    //   //   }).catch((error: any) => {
+    //   //     console.error('Apple login error:', error);
+    //   //   });
+    //   // }
+    // }
   }
 
 }

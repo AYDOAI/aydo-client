@@ -427,4 +427,11 @@ export class BackendService {
     });
   }
 
+  public appleLogin(idToken: string): Promise<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/user/apple/login`, { idToken }, {
+      mainGroup: 'backend',
+      method: 'apple-login'
+    }).then(data => Promise.resolve(data));
+  }
+
 }
