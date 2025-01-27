@@ -27,7 +27,7 @@ export class WelcomeProvidersComponent implements OnInit   {
     private backend: BackendService,
     private ui: UIService,
     private errors: ErrorsService,
-    private loading: LoadingService
+    private loading: LoadingService,
   ) { }
 
   ngOnInit(): void {
@@ -50,6 +50,14 @@ export class WelcomeProvidersComponent implements OnInit   {
         this.errors.showError(err.message);
       }
     );
+  }
+
+  async signInWithApple() {
+    if (this.ui.isOnline) {
+      this.backend.appleLogin(this.ui.inviteId);
+    } else {
+      this.errors.showError('There was an error connecting. Please check your internet connection and try again later.');
+    }
   }
 
 }

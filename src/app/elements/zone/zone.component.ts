@@ -33,7 +33,7 @@ export class ZoneComponent extends SelectComponent {
     }
 
     private loadItems(): void {
-      this.zoneService.load().then(() => {
+      this.zoneService.load().subscribe(() => {
         this.items = [];
         this.zoneService.zones?.items?.forEach((zone: any) => {
           this.items.push({

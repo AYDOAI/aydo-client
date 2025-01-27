@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import {AppFormInputs} from '../../../shared/types';
 import {FormBaseComponent} from '../../../components/form-base.component';
 import {UploaderService} from "../../../services/uploader.service";
+import { finalize } from "rxjs";
 
 @Component({
   selector: 'app-edit-profile',
@@ -65,10 +66,10 @@ export class EditProfileComponent extends FormBaseComponent {
       firstname: this.formGroup.value.firstname,
       lastname: this.formGroup.value.lastname,
       wallet: ''
-    }).then(res => {
+    }).pipe(finalize(() => this.ui.unlockBtn('submit'))).subscribe(res => {
       this.ui.user = res.user;
       this.errors.showInfo('Profile changed successfully.');
-    }).finally(() => this.ui.unlockBtn('submit'));
+    })
   }
 
    updateProfile() {

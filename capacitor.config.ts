@@ -9,6 +9,9 @@ const config: CapacitorConfig = {
       OverrideUserAgent: "Mozilla/5.0 Google"
     }
   },
+  "server": {
+    "cleartext": true
+  }
   // server: {
   //   url: 'http://localhost:8100',
   //   cleartext: true,
