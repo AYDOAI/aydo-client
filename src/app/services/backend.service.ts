@@ -349,22 +349,55 @@ export class BackendService {
     const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
     const browser = this.iab.create(url);
     if (this.platform.is('capacitor')) {
-      browser.on('loadstart').subscribe((event: any) => {
-        if (event.url.includes('google-auth-redirect')) {
-          browser.close();
-          const urlObj = new URL(event.url);
-          const token = urlObj.searchParams?.get('token');
-          const refreshToken = urlObj.searchParams?.get('refreshToken');
-          if (token && refreshToken) {
-            this.storage.token = token;
-            this.storage.refreshToken = refreshToken;
-            this.storage.next();
-          } else {
-            this.errors.showError('Not authenticated')
-          }
-        }
-      });
+      this.handleLogin(browser);
     }
+  }
+
+  public appleLogin(inviteId?: string): void {
+    // if (this.platform.is('ios')) {
+    //   const { response } = await SignInWithApple.authorize({
+    //     clientId: 'ai.aydo.app.apple',
+    //     scopes: 'email',
+    //     redirectURI: 'https://app.test.aydo.ai',
+    //   });
+    //   const { identityToken } = response;
+    // }
+    const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
+    const url = `${environment.main_url}/backend/v2/user/apple/login?state=${encodedState}`;
+    const browser = this.iab.create(url);
+    if (this.platform.is('capacitor')) {
+      this.handleLogin(browser);
+    }
+  }
+
+  private handleLogin(browser: any): void {
+    browser.on('loadstart').subscribe((event: any) => {
+      if (event.url.includes('auth-redirect')) {
+        browser.close();
+        const urlObj = new URL(event.url);
+        const userData = urlObj.searchParams?.get('userData')
+        if (userData) {
+          try {
+            const decodedData = atob(userData);
+            const userTokens = JSON.parse(decodedData);
+            const token = userTokens.token;
+            const refreshToken = userTokens.refreshToken;
+
+            if (token && refreshToken) {
+              this.storage.token = token;
+              this.storage.refreshToken = refreshToken;
+              this.storage.next();
+            } else {
+              this.errors.showError('Not authenticated');
+            }
+          } catch (error) {
+            this.errors.showError('Not authenticated');
+          }
+        } else {
+          this.errors.showError('Not authenticated');
+        }
+      }
+    });
   }
 
   public signInWithMetaMask(inviteId: string) {
@@ -426,12 +459,4 @@ export class BackendService {
       return Promise.resolve(data);
     });
   }
-
-  public appleLogin(idToken: string): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/user/apple/login`, { idToken }, {
-      mainGroup: 'backend',
-      method: 'apple-login'
-    }).then(data => Promise.resolve(data));
-  }
-
 }

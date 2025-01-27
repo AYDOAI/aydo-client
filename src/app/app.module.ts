@@ -67,7 +67,7 @@ import { BarcodeScannerComponent } from './elements/barcode-scanner/barcode-scan
 import { StreamsHomeComponent } from './pages/streams/streams-home';
 import { ProjectComponent } from './pages/streams/project/project.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { GoogleAuthRedirectComponent } from "./pages/google-auth-redirect/google-auth-redirect.component";
+import { AuthRedirectComponent } from "./pages/auth-redirect/auth-redirect.component";
 import { SuccessComponent } from "./pages/welcome/success/success.component";
 import { EditProfileComponent } from "./pages/profile/edit/edit-profile.component";
 import { ProjectInfoComponent } from "./pages/project-info/project-info.component";
@@ -109,7 +109,7 @@ import { UserService } from './services/user.service';
     WelcomeSignUpComponent,
     WelcomeSignInComponent,
     WelcomeForgotComponent,
-    GoogleAuthRedirectComponent,
+    AuthRedirectComponent,
     WelcomeNavigateComponent,
     WelcomeProvidersComponent,
     FormAddHubComponent,
