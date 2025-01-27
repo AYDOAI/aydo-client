@@ -5,6 +5,7 @@ import { DialogService } from "../../../services/dialog.service";
 import {DeviceItem, ZoneModel} from '../../../models/gateway.model';
 import { AppFormInputs } from "../../../shared/types";
 import { IDeviceSettings } from "../../../shared/interfaces/device-settings.interface";
+import { finalize } from "rxjs";
 
 
 @Component({
@@ -140,13 +141,13 @@ export class DeviceEditComponent extends FormBaseComponent {
     } as IDeviceSettings);
 
     this.ui.lockBtn('save_device_settings');
-    this.backend.updateDevice(obj).then(() => {
-      this.ui.devices.items = this.ui.devices.items
-        .map((item) => item.ident === obj.device_ident ? { ...item, name: obj.device_name, zoneId: obj.zone_id } : item)
-      this.errors.showInfo('Device settings saved!');
-    }).finally(() => {
-      this.ui.unlockBtn('save_device_settings');
-    })
+    this.backend.updateDevice(obj)
+      .pipe(finalize(() => this.ui.unlockBtn('save_device_settings')))
+      .subscribe(() => {
+        this.ui.devices.items = this.ui.devices.items
+          .map((item) => item.ident === obj.device_ident ? { ...item, name: obj.device_name, zoneId: obj.zone_id } : item)
+        this.errors.showInfo('Device settings saved!');
+      });
   }
 
   public deleteDevice(): void {
@@ -160,7 +161,7 @@ export class DeviceEditComponent extends FormBaseComponent {
   private delete(): void {
     const device = this.ui.selectedDevice;
     if (device?.ident) {
-      this.backend.deleteDevice(device.ident).then(res => {
+      this.backend.deleteDevice(device.ident).subscribe(res => {
         this.ui.devices.items = this.ui.devices.items.filter(d => d.ident !== device.ident);
         this.navCtrl.navigateForward(['/devices']);
       })

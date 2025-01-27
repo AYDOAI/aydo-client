@@ -3,6 +3,7 @@ import {BackendService} from "./backend.service";
 import {LoadingService} from "./loading.service";
 import {ZoneModel} from "../models/gateway.model";
 import {Subject} from 'rxjs';
+import { tap } from "rxjs/operators";
 
 @Injectable()
 export class ZoneService {
@@ -16,9 +17,9 @@ export class ZoneService {
 
   load() {
     this.loading.showLoading();
-    return this.backend.getZones().then((zones) => {
+    return this.backend.getZones().pipe(tap((zones) => {
       this.zones = new ZoneModel(zones);
       this.loading.dismissLoading();
-    });
+    }));
   }
 }
