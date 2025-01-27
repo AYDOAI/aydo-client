@@ -9,8 +9,8 @@ import {StorageService} from './storage.service';
 import {DeviceItem, GatewayItem, ZoneItem} from '../models/gateway.model';
 import {between} from '../shared/shared.functions';
 import detectEthereumProvider from '@metamask/detect-provider';
-import {from} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {from, Observable} from 'rxjs';
+import {switchMap, tap} from 'rxjs/operators';
 import {ErrorsService} from "./errors.service";
 import {IDeviceSettings} from "../shared/interfaces/device-settings.interface";
 
@@ -147,146 +147,148 @@ export class BackendService {
     this.randomIndex = between(0, 2);
   }
 
-  userLogin(user: LoginItem): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/user/login`, {user}, {
+  userLogin(user: LoginItem): Observable<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/user/login`, { user }, {
       mainGroup: 'backend',
       method: 'user-login'
-    }).then(data => {
-      this.storage.token = data.user.token;
-      this.storage.refreshToken = data.user.refresh_token;
-      return Promise.resolve(data);
-    });
+    }).pipe(
+      tap((data) => {
+        this.storage.token = data.user.token;
+        this.storage.refreshToken = data.user.refresh_token;
+      })
+    );
   }
 
-  demoLogin(): Promise<any> {
+  demoLogin(): Observable<any> {
     return this.request.post(`${environment.main_url}/backend/v2/user/login`, { user: { login: 'test@aydo.ai', password: '1qaz@WSX' } }, {
       mainGroup: 'backend',
       method: 'demo-login',
       ignoreError: true
-    }).then(data => {
-      this.storage.token = data.user.token;
-      this.storage.refreshToken = data.user.refresh_token;
-      return Promise.resolve(data);
-    });
+    }).pipe(
+      tap((data) => {
+        this.storage.token = data.user.token;
+        this.storage.refreshToken = data.user.refresh_token;
+      })
+    );
   }
 
-  userRegister(user: UserItem): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/user`, {user}, {
+  userRegister(user: UserItem): Observable<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/user`, { user }, {
       mainGroup: 'backend',
       method: 'user-register'
     });
   }
 
-  updateUser(user: any): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/user/edit`, {user}, {
+  updateUser(user: any): Observable<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/user/edit`, { user }, {
       mainGroup: 'backend',
       method: 'user-update'
     });
   }
 
-  userForgot(user: LoginItem): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/user/forgot`, {user}, {
+  userForgot(user: LoginItem): Observable<any> {
+    return this.request.post(`${environment.main_url}/backend/v2/user/forgot`, { user }, {
       mainGroup: 'backend',
       method: 'user-forgot'
     });
   }
 
-  resendCode(): Promise<any> {
-    return this.request.get(`${environment.main_url}/backend/v2/user/resend-code`,  {
+  resendCode(): Observable<any> {
+    return this.request.get(`${environment.main_url}/backend/v2/user/resend-code`, {
       mainGroup: 'backend',
       method: 'resend-code'
     });
   }
 
-  userInfo(): Promise<any> {
+  userInfo(): Observable<any> {
     return this.request.get(`${environment.main_url}/backend/v2/user/info`, {
       mainGroup: 'backend',
       method: 'user-info'
     });
   }
 
-  userRefresh(): Promise<any> {
+  userRefresh(): Observable<any> {
     return this.request.get(`${environment.main_url}/backend/v2/user/refresh`, {
       mainGroup: 'backend',
       method: 'user-refresh'
-    }).then(data => {
+    }).pipe(tap((data) => {
       this.storage.set('token', data.user.token);
       this.storage.set('refresh_token', data.user.refresh_token);
       return Promise.resolve(data);
-    });
+    }));
   }
 
-  gatewayConnect(gateway: GatewayItem): Promise<any> {
+  gatewayConnect(gateway: GatewayItem): Observable<any> {
     return this.request.post(`${environment.main_url}/backend/v2/gateway/connect`, {gateway}, {
       mainGroup: 'backend',
       method: 'gateway-connect'
     });
   }
 
-  drivers(): Promise<any> {
+  drivers(): Observable<any> {
     return this.request.get(`${environment.main_url}/backend/v2/gateway/drivers`, {
       mainGroup: 'backend',
       method: 'gateway-drivers'
     });
   }
 
-  saveDevice(device: DeviceItem): Promise<any> {
+  saveDevice(device: DeviceItem): Observable<any> {
     return this.request.post(`${environment.main_url}/backend/v2/gateway/device`, {device}, {
       mainGroup: 'backend',
       method: 'gateway-save-device'
     });
   }
 
-  getDevices(): Promise<any> {
+  getDevices(): Observable<any> {
     return this.request.get(`${environment.main_url}/backend/v2/gateway/device`, {
       mainGroup: 'backend',
       method: 'gateway-get-devices'
     });
   }
 
-  deleteDevice(device_ident: string): Promise<any> {
+  deleteDevice(device_ident: string): Observable<any> {
     return this.request.post(`${environment.main_url}/backend/v2/gateway/device/delete`, { data: { device_ident } }, {
       mainGroup: 'backend',
       method: 'gateway-delete-device'
     });
   }
 
-  updateDevice(device: IDeviceSettings): Promise<any> {
+  updateDevice(device: IDeviceSettings): Observable<any> {
     return this.request.post(`${environment.main_url}/backend/v2/gateway/device/update`, { data: device }, {
       mainGroup: 'backend',
       method: 'gateway-update-device'
     });
   }
 
-  getDeviceValues(): Promise<any> {
+  getDeviceValues(): Observable<any> {
     return this.request.get(`${environment.main_url}/backend/v2/gateway/device/values`, {
       mainGroup: 'backend',
       method: 'gateway-get-device-values'
     });
   }
 
-  getGateway(): Promise<any> {
+  getGateway(): Observable<any> {
     return this.request.get(`${environment.main_url}/backend/v2/gateway`, {
       mainGroup: 'backend',
       method: 'gateway-get-gateway'
     });
   }
 
-  saveZone(zone: ZoneItem): Promise<any> {
+  saveZone(zone: ZoneItem): Observable<any> {
     return this.request.post(`${environment.main_url}/backend/v2/gateway/zone`, { zone }, {
       mainGroup: 'backend',
       method: 'gateway-save-zone'
     });
   }
 
-  getZones(): Promise<any> {
+  getZones(): Observable<any> {
     return this.request.get(`${environment.main_url}/backend/v2/gateway/zone`, {
       mainGroup: 'backend',
       method: 'gateway-get-zones'
     });
   }
 
-  deviceCommand(data: any): Promise<any> {
+  deviceCommand(data: any): Observable<any> {
     return this.request.post(`${environment.main_url}/backend/v2/gateway/device/command`, data, {
       mainGroup: 'backend',
       method: 'gateway-device-command'
@@ -323,21 +325,21 @@ export class BackendService {
     });
   }
 
-  getDataStreams(): Promise<DataStream[]> {
+  getDataStreams(): Observable<DataStream[]> {
     return this.request.get(`${environment.main_url}/backend/v2/data-stream`, {
       mainGroup: 'backend',
       method: 'data-streams'
     });
   }
 
-  getDataStreamById(id: number): Promise<DataStream> {
+  getDataStreamById(id: number): Observable<DataStream> {
     return this.request.get(`${environment.main_url}/backend/v2/data-stream/${id}`, {
       mainGroup: 'backend',
       method: 'data-stream'
     });
   }
 
-  toggleDataStream(id: number): Promise<{ status: number }> {
+  toggleDataStream(id: number): Observable<{ status: number }> {
     return this.request.post(`${environment.main_url}/backend/v2/data-stream/${id}/toggle`, {},{
       mainGroup: 'backend',
       method: 'data-stream-toggle'
@@ -407,23 +409,19 @@ export class BackendService {
       .join('');
   }
 
-  metamaskGetNonce(address: any, inviteId: string): Promise<any> {
+  metamaskGetNonce(address: any, inviteId: string): Observable<any> {
     return this.request.post(`${environment.main_url}/backend/v2/user/metamask/get-nonce`, {address, inviteId}, {
       mainGroup: 'backend',
       method: 'metamask-get-nonce',
       ignoreError: true
-    }).then(data => {
-      return Promise.resolve(data);
     });
   }
 
-  metamaskVerifySignedMessage(address: any, sig: any): Promise<any> {
+  metamaskVerifySignedMessage(address: any, sig: any): Observable<any> {
     const data = {address:address, sig: sig}
     return this.request.post(`${environment.main_url}/backend/v2/user/metamask/verify`, {data}, {
       mainGroup: 'backend',
       method: 'metamask-verify-signed-message'
-    }).then(data => {
-      return Promise.resolve(data);
     });
   }
 

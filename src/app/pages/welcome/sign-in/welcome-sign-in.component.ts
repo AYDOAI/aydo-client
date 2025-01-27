@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {AppFormInputs} from "../../../shared/types";
 import {FormBaseComponent} from '../../../components/form-base.component';
+import { finalize } from "rxjs";
 
 @Component({
   selector: 'app-welcome-sign-in',
@@ -28,10 +29,9 @@ export class WelcomeSignInComponent extends FormBaseComponent {
         user.login = user.login.trim();
         this.resetFormErrors();
         this.ui.lockBtn(input.key);
-        this.backend.userLogin(user).then(() => {
+        this.backend.userLogin(user).pipe(finalize(() => this.ui.unlockBtn(input.key))).subscribe(() => {
           this.ui.afterLogin();
-        }).catch(() => {
-        }).finally(() => this.ui.unlockBtn(input.key));
+        })
         break;
     }
   }

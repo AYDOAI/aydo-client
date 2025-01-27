@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import {BaseComponent} from '../../../components/base.component';
 import {DataStream} from '../../../services/backend.service';
 import { ActivatedRoute } from "@angular/router";
+import { finalize } from "rxjs";
 
 @Component({
   selector: 'app-project',
@@ -16,10 +17,9 @@ export class ProjectComponent extends BaseComponent {
 
   override onInit() {
     const id = Number(this.route.snapshot.params['id']);
-    this.backend.getDataStreamById(id).then((data) => {
+    this.backend.getDataStreamById(id).subscribe((data) => {
       this.dataStream = data;
-    }).catch(() => {
-    });
+    })
   }
 
   public copy(text: string): void {
@@ -35,11 +35,11 @@ export class ProjectComponent extends BaseComponent {
   public toggle(): void {
     if (this.dataStream) {
       this.ui.lockBtn('streaming');
-      this.backend.toggleDataStream(this.dataStream.id).then((data) => {
+      this.backend.toggleDataStream(this.dataStream.id).pipe(finalize(() => this.ui.unlockBtn('streaming'))).subscribe((data) => {
         setTimeout(() => {
           (this.dataStream as { status: number }).status = data.status;
         }, 200);
-      }).finally(() => this.ui.unlockBtn('streaming'));
+      })
     }
   }
 }

@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import { AppFormInputs } from "../../../shared/types";
 import { DialogService } from "../../../services/dialog.service";
 import { BarcodeScannerComponent } from "../../../elements/barcode-scanner/barcode-scanner.component";
+import { finalize } from "rxjs";
 
 @Component({
   selector: 'app-form-add-hub-manually',
@@ -63,17 +64,13 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
         const gateway = {...this.formGroup.value};
         this.resetFormErrors();
         this.ui.lockBtn('attach');
-        this.backend.gatewayConnect(gateway).then((data: any) => {
+        this.backend.gatewayConnect(gateway).pipe(finalize(() => this.ui.unlockBtn('attach'))).subscribe((data: any) => {
           if (data && data.gateway && data.gateway.identifier) {
             this.storage.serverId = data.gateway.identifier;
             const hub = this.activatedRoute.snapshot.paramMap.get('hub');
             this.router.navigate([`add-hub/${hub}/connected`]);
           }
-        }).catch(() => {
-
-        }).finally(() => {
-          this.ui.unlockBtn('attach');
-        });
+        })
         break;
     }
   }

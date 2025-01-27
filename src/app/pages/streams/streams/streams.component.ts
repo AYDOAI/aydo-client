@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {BaseComponent} from '../../../components/base.component';
 import {DataStream} from '../../../services/backend.service';
 import { ViewWillEnter } from "@ionic/angular";
+import { finalize } from "rxjs";
 
 @Component({
   selector: 'app-streams',
@@ -17,14 +18,13 @@ export class StreamsComponent extends BaseComponent implements ViewWillEnter {
   }
 
   public getDataStreams(event?: any): void {
-    this.backend.getDataStreams().then((data) => {
-      console.log(data)
-      this.dataStreams = data;
-    }).catch(() => {
-    }).finally(() => {
+    this.backend.getDataStreams().pipe(finalize(() => {
       if (event) {
         event.target.complete()
       }
+    })).subscribe((data) => {
+      console.log(data)
+      this.dataStreams = data;
     });
   }
 
