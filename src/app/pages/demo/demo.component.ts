@@ -18,7 +18,7 @@ export class DemoComponent implements OnInit {
     private backend: BackendService) {}
 
     ngOnInit(): void {
-      this.backend.userLogin({login: 'test@aydo.ai', password: '1qaz@WSX'}).then(() => {
+      this.backend.userLogin({login: 'test@aydo.ai', password: '1qaz@WSX'}).subscribe(() => {
         this.ui.afterLogin();
       })
       this.navCtrl.navigateForward([environment.index_url]);

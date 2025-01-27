@@ -29,13 +29,11 @@ export class FormConfigHubComponent extends FormBaseComponent {
       case 'attach':
         const gateway = {...this.formGroup.value};
         this.resetFormErrors();
-        this.backend.gatewayConnect(gateway).then((data: any) => {
+        this.backend.gatewayConnect(gateway).subscribe((data: any) => {
           if (data && data.gateway && data.gateway.identifier) {
             this.storage.serverId = data.gateway.identifier;
             this.ui.goStep('devices');
           }
-        }).catch(() => {
-
         });
     }
   }

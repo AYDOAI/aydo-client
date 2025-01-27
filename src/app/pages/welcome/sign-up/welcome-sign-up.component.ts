@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AppFormInputs} from '../../../shared/types';
 import {FormBaseComponent} from '../../../components/form-base.component';
 import {environment} from '../../../../environments/environment';
+import { finalize } from "rxjs";
 
 @Component({
   selector: 'app-welcome-sign-up',
@@ -35,12 +36,11 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
           user.inviteId = this.ui.inviteId;
           this.resetFormErrors();
           this.ui.lockBtn('sign_up')
-          this.backend.userRegister(user).then((data) => {
+          this.backend.userRegister(user).pipe(finalize(() => this.ui.unlockBtn('sign_up'))).subscribe((data) => {
               this.storage.token = data.user.token;
               this.storage.refreshToken = data.user.refresh_token;
               this.ui.afterLogin();
-          }).catch(() => {
-          }).finally(() => this.ui.unlockBtn('sign_up'));
+          })
           break;
         }
     }

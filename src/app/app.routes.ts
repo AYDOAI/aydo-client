@@ -30,7 +30,7 @@ import { StreamsHomeComponent } from './pages/streams/streams-home';
 import { ProjectComponent } from './pages/streams/project/project.component';
 import { FormAddDeviceComponent } from "./components/forms/add-device/form-add-device.component";
 import { FormEditDeviceComponent } from "./components/forms/edit-device/form-edit-device.component";
-import { GoogleAuthRedirectComponent } from "./pages/google-auth-redirect/google-auth-redirect.component";
+import { AuthRedirectComponent } from "./pages/auth-redirect/auth-redirect.component";
 import { SuccessComponent } from "./pages/welcome/success/success.component";
 import { EditProfileComponent } from "./pages/profile/edit/edit-profile.component";
 import { ProjectInfoComponent } from "./pages/project-info/project-info.component";
@@ -59,8 +59,8 @@ export const routes: Routes = [
     component: SuccessComponent
   },
   {
-    path: 'google-auth-redirect',
-    component: GoogleAuthRedirectComponent
+    path: 'auth-redirect',
+    component: AuthRedirectComponent
   },
   // TODO: temporary disabled
   // {

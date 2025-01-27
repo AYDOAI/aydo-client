@@ -14,7 +14,7 @@ export class FormAddDeviceComponent extends FormBaseComponent {
     this.form.title = 'Add device';
     this.form.description = 'This app supports next device types, choose one of them:';
 
-    this.backend.drivers().then((drivers: DriverItem[]) => {
+    this.backend.drivers().subscribe((drivers: DriverItem[]) => {
       this.ui.drivers = new DriversModel(drivers);
       drivers.forEach((driver: any) => {
         this.form.inputs.push({
@@ -38,15 +38,15 @@ export class FormAddDeviceComponent extends FormBaseComponent {
       if (driver) {
         const device = this.ui.devices?.items?.find(item => item.driverId === driver.driverId)
         if (device) {
-          this.backend.deviceCommand({command: {ident: device.ident, command: 'pair_mode', value: ''}}).then(() => {
+          this.backend.deviceCommand({command: {ident: device.ident, command: 'pair_mode', value: ''}}).subscribe(() => {
             this.errors.showInfo(setting.description);
           })
         } else {
-          this.backend.getDevices().then((devices: any) => {
+          this.backend.getDevices().subscribe((devices: any) => {
             this.ui.devices = new DevicesModel(devices);
             const device = this.ui.devices?.items?.find(item => item.driverId === driver.driverId)
             if (device) {
-              this.backend.deviceCommand({command: {ident: device.ident, command: 'pair_mode', value: ''}}).then(() => {
+              this.backend.deviceCommand({command: {ident: device.ident, command: 'pair_mode', value: ''}}).subscribe(() => {
                 this.errors.showInfo(setting.description);
               })
             } else {

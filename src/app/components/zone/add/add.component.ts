@@ -56,7 +56,7 @@ export class AddZoneComponent extends FormBaseComponent {
       is_indoor: this.formGroup.get('is_indoor')?.value || false,
     };
 
-    this.backend.saveZone(zone).then(() => {
+    this.backend.saveZone(zone).subscribe(() => {
       this.zoneService.forceUpdate$.next(true);
       this.errors.showInfo('The zone has been saved and will be available in a few seconds.');
       if (this.ui.selectedDevice) {

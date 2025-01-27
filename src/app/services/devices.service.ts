@@ -24,25 +24,24 @@ export class DevicesService implements BaseService<any> {
 
   // TODO: refactor request service, return observables
   getItems(): Observable<any[]> {
-    return from(
-      this.request.get(this.baseUrl, {
+    return this.request.get(this.baseUrl, {
         mainGroup: 'backend',
         method: 'gateway-get-devices'
-      })
+      }
     );
   }
 
   deleteItem(device_ident: string): Observable<any> {
-    return from(this.request.post(`${this.baseUrl}/delete`, { data: { device_ident } }, {
+    return this.request.post(`${this.baseUrl}/delete`, { data: { device_ident } }, {
       mainGroup: 'backend',
       method: 'gateway-delete-device'
-    }))
+    })
   }
 
   updateItem(device: IDeviceSettings): Observable<any> {
-    return from(this.request.post(`${this.baseUrl}/update`, { data: device }, {
+    return this.request.post(`${this.baseUrl}/update`, { data: device }, {
       mainGroup: 'backend',
       method: 'gateway-update-device'
-    }))
+    })
   }
 }
