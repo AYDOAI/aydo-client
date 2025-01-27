@@ -235,7 +235,7 @@ export class UIService implements OnDestroy {
 
   private isAuthPage(): boolean {
     const currentUrl = this.router.url;
-    return currentUrl.includes('sign-up') || currentUrl.includes('sign-in') || currentUrl.includes('main') || currentUrl.includes('google-auth-redirect')
+    return currentUrl.includes('sign-up') || currentUrl.includes('sign-in') || currentUrl.includes('main') || currentUrl.includes('auth-redirect')
   }
 
   private async subscribeToNetworkStatus(): Promise<void> {
