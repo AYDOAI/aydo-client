@@ -1,16 +1,22 @@
-import { Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
+import {inject, Injectable} from '@angular/core';
+import {from, Observable, shareReplay} from 'rxjs';
 import { RequestService } from './request.service';
 import { BaseService } from '../models/base-service.interface';
 import { IDeviceSettings } from '../shared/interfaces/device-settings.interface';
 import { environment } from '../../environments/environment';
+import {HttpClient} from "@angular/common/http";
+import {DeviceItem} from "../models/gateway.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DevicesService implements BaseService<any> {
-
+  private readonly httpClient = inject(HttpClient);
   constructor(private request: RequestService) {}
+
+  devices$ = this.httpClient.get<DeviceItem[]>(this.baseUrl).pipe(
+    shareReplay(1)
+  );
 
   get baseUrl(): string {
     return `${environment.main_url}/backend/v2/gateway/device`;

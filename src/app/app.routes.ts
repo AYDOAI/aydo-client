@@ -133,8 +133,12 @@ export const routes: Routes = [
       },
       {
         path: ':id',
-        component: ProjectComponent
-      }
+        component: ProjectComponent,
+      },
+      {
+        path: ':id/devices',
+        component: ConnectDevicesComponent,
+      },
     ]
   },
   {
@@ -148,10 +152,6 @@ export const routes: Routes = [
   {
     path: 'connect-wallet',
     component: ConnectWalletComponent,
-  },
-  {
-    path: 'connect-devices',
-    component: ConnectDevicesComponent,
   },
   {
     path: 'about',

@@ -94,6 +94,7 @@ import {AvatarComponent} from "./elements/avatar/avatar.component";
 import { GatewayCardComponent } from './pages/devices/gateway-card/gateway-card.component';
 import { DeviceCardComponent } from './pages/devices/device-card/device-card.component';
 import { UserService } from './services/user.service';
+import {ConnectDeviceCardComponent} from "./pages/connect-devices/card/device-card.component";
 
 @NgModule({
   declarations: [
@@ -181,7 +182,8 @@ import { UserService } from './services/user.service';
     GoogleMap,
     MapMarker,
     ContentModule,
-    NgClickOutsideDirective
+    NgClickOutsideDirective,
+    ConnectDeviceCardComponent,
   ],
   providers: [
     Storage,
