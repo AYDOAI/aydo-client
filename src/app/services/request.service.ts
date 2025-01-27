@@ -3,7 +3,6 @@ import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/htt
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { ErrorsService } from './errors.service';
-import { environment } from "../../environments/environment";
 
 export interface RequestOptions {
   mainGroup?: string;
@@ -88,13 +87,8 @@ export class RequestService {
           response.error.message = message;
         }
         if (!opts || !opts.ignoreError) {
-          // message += ` (${url})`;
           this.errors.onError(response.error);
           console.log(`${response.status} ${response.statusText} (${url})`);
-          this.errors.onException({
-            type: 'error',
-            message
-          });
         }
         if (response.error && !response.error.errors) {
           response.error.errors = {message};
