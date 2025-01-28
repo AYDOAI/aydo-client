@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { FormBaseComponent } from "../../../components/form-base.component";
+import {InputComponent} from "../../../elements/input/input.component";
+import {DeviceItem} from "../../../models/gateway.model";
 
 @Component({
-  selector: 'app-device-card',
+  selector: 'connect-device-card',
   templateUrl: './device-card.component.html',
+  standalone: true,
+  imports: [],
   styleUrl: './device-card.component.scss'
 })
-export class DeviceCardComponent extends FormBaseComponent {
-  override onInit() {
-    this.form.inputs.push({key: 'Name', title: 'Name', type: 'input', defaultValue: 'Street Camera' });
-    this.form.inputs.push({key: 'Location', title: 'Location', type: 'input', defaultValue: 'Moscow'});
-    this.form.inputs.push({key: 'Status', title: 'Status', type: 'input', defaultValue: 'Live'});
+export class ConnectDeviceCardComponent {
+  @Input() device!: DeviceItem;
 
-    this.formGroup = this.createForm(this.form.inputs);
-  }
+  @Output()
+  toggleConnect: EventEmitter<void> = new EventEmitter();
 }

@@ -112,12 +112,14 @@ export class DevicesModel extends BaseModel {
 
 
 export class DeviceItem extends BaseItem {
+  id!: number;
   ident!: string;
   name!: string;
   driverId!: number;
   zoneId!: number | null;
   capabilities!: any[];
   settings?: any[];
+  connected?: boolean;
 }
 
 

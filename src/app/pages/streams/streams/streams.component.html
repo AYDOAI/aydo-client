@@ -11,8 +11,8 @@
 
 <ng-template #contentTemplate>
   <div class="streams">
-    <ng-container *ngIf="dataStreams">
-      <div class="card long" *ngFor="let stream of dataStreams; let i = index" (click)="openProject(stream.id)">
+    <ng-container *ngIf="streams$ | async as streams">
+      <div class="card long" *ngFor="let stream of streams; let i = index" (click)="openProject(stream.id)">
         <div class="card-content">
           <div class="logo-content">
             <svg *ngIf="!stream.logo" width="40" height="40" viewBox="0 0 40 40" fill="none">
