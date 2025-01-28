@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AppFormInputs } from '../../../shared/types';
 import { FormBaseComponent } from '../../../components/form-base.component';
 import { UploaderService } from '../../../services/uploader.service';
@@ -17,42 +17,40 @@ export class EditProfileComponent extends FormBaseComponent {
   user$ = this.userService.user$;
 
   override onInit() {
+    this.form.inputs = [
+      {
+        key: 'avatar',
+        type: 'avatar',
+        title: 'Avatar',
+      },
+      {
+        key: 'firstname',
+        title: 'First name',
+        type: 'input',
+        maxLength: 256,
+        required: true,
+        onlyLetters: true,
+      },
+      {
+        key: 'lastname',
+        title: 'Last name',
+        type: 'input',
+        maxLength: 256,
+        required: true,
+        onlyLetters: true,
+      },
+      {
+        key: 'submit',
+        title: 'Save',
+        type: 'button',
+        color: 'white',
+        displayError: true,
+        backgroundColor: '#060022',
+      },
+    ];
+    this.formGroup = this.createForm(this.form.inputs);
     this.user$.subscribe(user => {
-      this.form.inputs = [
-        {
-          key: 'avatar',
-          type: 'avatar',
-          title: 'Avatar',
-          defaultValue: user.avatar,
-        },
-        {
-          key: 'firstname',
-          title: 'First name',
-          type: 'input',
-          maxLength: 256,
-          required: true,
-          onlyLetters: true,
-          defaultValue: user.firstname,
-        },
-        {
-          key: 'lastname',
-          title: 'Last name',
-          type: 'input',
-          maxLength: 256,
-          required: true,
-          onlyLetters: true,
-          defaultValue: user.lastname,
-        },
-        {
-          key: 'submit',
-          title: 'Save',
-          type: 'button',
-          color: 'white',
-          displayError: true,
-          backgroundColor: '#060022',
-        },
-      ];
-      this.formGroup = this.createForm(this.form.inputs);
+      this.formGroup.patchValue(user);
     });
   }
 
