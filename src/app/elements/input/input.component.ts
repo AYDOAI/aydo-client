@@ -1,21 +1,28 @@
-import {Component, ElementRef, EventEmitter, forwardRef, Input, Output, ViewChild} from '@angular/core';
-import {FormGroup, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {BaseElement} from '../base.component';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { BaseElement } from '../base.component';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => InputComponent),
-  multi: true
+  multi: true,
 };
 
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss'],
-  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
+  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
 })
 export class InputComponent extends BaseElement {
-
   @Output() onEnter: EventEmitter<any> = new EventEmitter<any>();
   @Output() onBlur: EventEmitter<any> = new EventEmitter<any>();
   @Input() title!: string;
@@ -46,7 +53,8 @@ export class InputComponent extends BaseElement {
 
   edit(): void {
     // @ts-ignore
-    const inputElement: HTMLInputElement = this.element.nativeElement.querySelector('input');
+    const inputElement: HTMLInputElement =
+      this.element.nativeElement.querySelector('input');
     if (inputElement) {
       inputElement.focus();
     }

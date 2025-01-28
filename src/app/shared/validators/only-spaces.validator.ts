@@ -6,7 +6,7 @@ export function onlySpacesValidator() {
 
     if (isOnlyWhitespace) {
       return {
-        onlySpaces: true
+        onlySpaces: true,
       };
     }
 

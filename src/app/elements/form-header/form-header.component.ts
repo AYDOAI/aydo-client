@@ -6,16 +6,15 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-form-header',
   templateUrl: './form-header.component.html',
-  styleUrl: './form-header.component.scss'
+  styleUrl: './form-header.component.scss',
 })
 export class FormHeaderComponent extends BaseElement {
-
   @Input() form!: AppForm;
   @Input() back!: FrameStep;
 
   private location = inject(Location);
 
   goBack() {
-    this.location.back()
+    this.location.back();
   }
 }

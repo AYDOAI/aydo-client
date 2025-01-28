@@ -1,21 +1,31 @@
-import {Component} from '@angular/core';
-import {AppFormInputs} from '../../../shared/types';
-import {FormBaseComponent} from '../../../components/form-base.component';
-import { finalize } from "rxjs";
+import { Component } from '@angular/core';
+import { AppFormInputs } from '../../../shared/types';
+import { FormBaseComponent } from '../../../components/form-base.component';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-welcome-forgot',
   templateUrl: './welcome-forgot.component.html',
-  styleUrl: './welcome-forgot.component.scss'
+  styleUrl: './welcome-forgot.component.scss',
 })
 export class WelcomeForgotComponent extends FormBaseComponent {
-
   public linkSent: boolean = false;
 
   override onInit() {
     this.form.title = 'Forgot password?';
-    this.form.inputs.push({key: 'login', title: 'E-mail', type: 'input', required: true, email: true, emailSpecialChars: true});
-    this.form.inputs.push({key: 'success_message', title: '', type: 'template'})
+    this.form.inputs.push({
+      key: 'login',
+      title: 'E-mail',
+      type: 'input',
+      required: true,
+      email: true,
+      emailSpecialChars: true,
+    });
+    this.form.inputs.push({
+      key: 'success_message',
+      title: '',
+      type: 'template',
+    });
     this.form.inputs.push({
       key: 'send_link',
       title: 'Send recovery link',
@@ -23,23 +33,26 @@ export class WelcomeForgotComponent extends FormBaseComponent {
       color: 'white',
       backgroundColor: '#060022',
       isDisabled: () => this.formGroup.invalid || this.linkSent,
-      displayError: true
+      displayError: true,
     });
     this.formGroup = this.createForm(this.form.inputs);
   }
 
   button(input: AppFormInputs) {
     switch (input.key) {
-      case 'send_link':
+      case 'send_link': {
         this.ui.lockBtn('send_link');
-        const user = {...this.formGroup.value};
+        const user = { ...this.formGroup.value };
         this.resetFormErrors();
-        this.backend.userForgot(user).pipe(finalize(() => this.ui.unlockBtn('send_link'))).subscribe((data: any) => {
-          this.linkSent = true;
-          console.log(data)
-        })
+        this.backend
+          .userForgot(user)
+          .pipe(finalize(() => this.ui.unlockBtn('send_link')))
+          .subscribe((data: any) => {
+            this.linkSent = true;
+            console.log(data);
+          });
         break;
+      }
     }
   }
-
 }

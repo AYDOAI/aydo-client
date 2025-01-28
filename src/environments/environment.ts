@@ -5,15 +5,15 @@ export const environment = {
   log: {
     backend: {
       request: {
-        register: true
+        register: true,
       },
       response: {
-        register: true
-      }
-    }
+        register: true,
+      },
+    },
   },
   recaptcha: {
     enabled: false,
-    sitekey: '6LdtzYYqAAAAANtcIGe3hHHksnciNfFxHVKX7Y0r'
-  }
+    sitekey: '6LdtzYYqAAAAANtcIGe3hHHksnciNfFxHVKX7Y0r',
+  },
 };

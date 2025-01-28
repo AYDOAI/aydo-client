@@ -7,7 +7,7 @@ export function latinOnly() {
 
     if (value && !regex.test(value)) {
       return {
-        latinOnly: true
+        latinOnly: true,
       };
     }
 

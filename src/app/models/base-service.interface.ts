@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 export interface BaseService<T> {
   baseUrl: string;

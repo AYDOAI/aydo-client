@@ -1,12 +1,15 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BaseElement } from '../base.component';
-import {BehaviorSubject, Observable, Subject, EMPTY, of, merge, filter} from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subject,
+  EMPTY,
+  of,
+  merge,
+  filter,
+} from 'rxjs';
 import { takeUntil, catchError, tap, map } from 'rxjs/operators';
 
 @Component({
@@ -14,7 +17,10 @@ import { takeUntil, catchError, tap, map } from 'rxjs/operators';
   templateUrl: './google-map.component.html',
   styleUrls: ['./google-map.component.scss'],
 })
-export class GoogleMapComponent extends BaseElement implements OnInit, OnDestroy {
+export class GoogleMapComponent
+  extends BaseElement
+  implements OnInit, OnDestroy
+{
   @Input() form!: FormGroup;
   @Input() key!: string;
   @Input() title!: string;
@@ -32,33 +38,37 @@ export class GoogleMapComponent extends BaseElement implements OnInit, OnDestroy
 
   defaultCenter = {
     lat: 0,
-    lng: 0
+    lng: 0,
   };
 
   markerPositions$ = new BehaviorSubject<google.maps.LatLngLiteral[]>([]);
-  currentLocation$ = new BehaviorSubject<google.maps.LatLngLiteral>(this.defaultCenter);
+  currentLocation$ = new BehaviorSubject<google.maps.LatLngLiteral>(
+    this.defaultCenter
+  );
   private positionUpdates$ = new Subject<google.maps.LatLngLiteral>();
 
   ngOnInit() {
     const initialPosition$ = this.getInitialPosition();
 
-    merge(
-      initialPosition$,
-      this.positionUpdates$
-    ).pipe(
-      takeUntil(this.destroy$),
-      tap(position => this.updateForm(new google.maps.LatLng(position)))
-    ).subscribe(position => {
-      this.markerPositions$.next([position]);
-    });
+    merge(initialPosition$, this.positionUpdates$)
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(position => this.updateForm(new google.maps.LatLng(position)))
+      )
+      .subscribe(position => {
+        this.markerPositions$.next([position]);
+      });
 
-    this.form.get(this.key)?.valueChanges.pipe(
-      takeUntil(this.destroy$),
-      filter(value => !!value),
-      map(value => this.parsePosition(value))
-    ).subscribe(position => {
-      this.markerPositions$.next([position]);
-    });
+    this.form
+      .get(this.key)
+      ?.valueChanges.pipe(
+        takeUntil(this.destroy$),
+        filter(value => !!value),
+        map(value => this.parsePosition(value))
+      )
+      .subscribe(position => {
+        this.markerPositions$.next([position]);
+      });
   }
 
   private updateForm(position: google.maps.LatLng) {
@@ -74,14 +84,10 @@ export class GoogleMapComponent extends BaseElement implements OnInit, OnDestroy
   }
 
   private parsePosition(value: string): google.maps.LatLngLiteral {
-    const [lat, lng] = value
-      .replace(/[()]/g, '')
-      .split(',')
-      .map(Number);
+    const [lat, lng] = value.replace(/[()]/g, '').split(',').map(Number);
 
     return { lat, lng };
   }
-
 
   private getInitialPosition() {
     const defaultValue = this.form.get(this.key)?.value;
@@ -101,14 +107,13 @@ export class GoogleMapComponent extends BaseElement implements OnInit, OnDestroy
     );
   }
 
-
   private getCurrentPosition() {
     return new Observable<google.maps.LatLngLiteral>(observer => {
       navigator.geolocation.getCurrentPosition(
         position => {
           const loc = {
             lat: position.coords.latitude,
-            lng: position.coords.longitude
+            lng: position.coords.longitude,
           };
           this.currentLocation$.next(loc);
           observer.next(loc);
@@ -122,7 +127,6 @@ export class GoogleMapComponent extends BaseElement implements OnInit, OnDestroy
       })
     );
   }
-
 
   updateMarkerPosition(point: google.maps.LatLng) {
     this.positionUpdates$.next(point.toJSON());

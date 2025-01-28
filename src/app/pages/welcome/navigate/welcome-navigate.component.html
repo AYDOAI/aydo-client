@@ -1,15 +1,34 @@
 <div class="sign-in-buttons">
   <div *ngIf="signIn" class="button">
-    <app-button [title]="'Sign in'" [border]="false" [arrow]="false" height="22px" [routerLink]="['/sign-in']"></app-button>
+    <app-button
+      [title]="'Sign in'"
+      [border]="false"
+      [arrow]="false"
+      height="22px"
+      [routerLink]="['/sign-in']"></app-button>
   </div>
   <div *ngIf="signUp" class="button">
-    <app-button [title]="'Sign up'" [border]="false" [arrow]="false" height="22px" [routerLink]="['/sign-up']"></app-button>
+    <app-button
+      [title]="'Sign up'"
+      [border]="false"
+      [arrow]="false"
+      height="22px"
+      [routerLink]="['/sign-up']"></app-button>
   </div>
-  <button *ngIf="demo" class="btn text-btn" (click)="ui.tryDemo()" [disabled]="ui.isBtnLoading('try_demo')">
+  <button
+    *ngIf="demo"
+    class="btn text-btn"
+    (click)="ui.tryDemo()"
+    [disabled]="ui.isBtnLoading('try_demo')">
     <span *ngIf="ui.isBtnLoading('try_demo')" class="spin-loader"></span>
     Try DEMO
   </button>
   <div *ngIf="forgot" class="button">
-    <app-button [title]="'Forgot password?'" [border]="false" [arrow]="false" height="22px" [routerLink]="['/forgot-password']"></app-button>
+    <app-button
+      [title]="'Forgot password?'"
+      [border]="false"
+      [arrow]="false"
+      height="22px"
+      [routerLink]="['/forgot-password']"></app-button>
   </div>
 </div>

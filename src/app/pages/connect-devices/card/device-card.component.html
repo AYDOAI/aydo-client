@@ -5,10 +5,10 @@
         {{ device.name }}
       </div>
     </div>
-    <button class="btn text-center"
-            [class.red-btn]="device.connected"
-            (click)="toggleConnect.emit()"
-    >
+    <button
+      class="btn text-center"
+      [class.red-btn]="device.connected"
+      (click)="toggleConnect.emit()">
       {{ device.connected ? 'Disconnect' : 'Connect' }}
     </button>
     <p class="addition-info">Total Approximate Payout per hour</p>

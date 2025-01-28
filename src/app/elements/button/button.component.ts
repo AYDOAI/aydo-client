@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
-  styleUrl: './button.component.scss'
+  styleUrl: './button.component.scss',
 })
 export class ButtonComponent {
   @Input() ripple = false;
@@ -20,5 +20,4 @@ export class ButtonComponent {
   click() {
     this.onClick.emit();
   }
-
 }

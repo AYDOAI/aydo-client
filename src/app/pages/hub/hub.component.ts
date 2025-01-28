@@ -4,5 +4,4 @@ import { Component } from '@angular/core';
   selector: 'app-hub',
   templateUrl: './hub.component.html',
 })
-export class HubComponent {
-}
+export class HubComponent {}

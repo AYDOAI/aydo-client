@@ -1,5 +1,8 @@
-
-export function jsonStringify(value: any, replacer?: any, space?: string | number) {
+export function jsonStringify(
+  value: any,
+  replacer?: any,
+  space?: string | number
+) {
   try {
     return JSON.stringify(value, replacer, space);
   } catch (e) {

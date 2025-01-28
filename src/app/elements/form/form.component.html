@@ -1,17 +1,24 @@
 <div *ngIf="form && formGroup" class="form">
   <div class="header">
     <div class="back" *ngIf="back" (click)="goBack()">
-      <svg width="29" height="16" viewBox="0 0 29 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0.292892 7.29289C-0.0976315 7.68342 -0.0976315 8.31658 0.292892 8.70711L6.65685 15.0711C7.04738 15.4616 7.68054 15.4616 8.07107 15.0711C8.46159 14.6805 8.46159 14.0474 8.07107 13.6569L2.41421 8L8.07107 2.34315C8.46159 1.95262 8.46159 1.31946 8.07107 0.928932C7.68054 0.538408 7.04738 0.538408 6.65685 0.928932L0.292892 7.29289ZM29 7L1 7V9L29 9V7Z" fill="#060022"/>
+      <svg
+        width="29"
+        height="16"
+        viewBox="0 0 29 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M0.292892 7.29289C-0.0976315 7.68342 -0.0976315 8.31658 0.292892 8.70711L6.65685 15.0711C7.04738 15.4616 7.68054 15.4616 8.07107 15.0711C8.46159 14.6805 8.46159 14.0474 8.07107 13.6569L2.41421 8L8.07107 2.34315C8.46159 1.95262 8.46159 1.31946 8.07107 0.928932C7.68054 0.538408 7.04738 0.538408 6.65685 0.928932L0.292892 7.29289ZM29 7L1 7V9L29 9V7Z"
+          fill="#060022" />
       </svg>
     </div>
-    <div class="title">{{form.title}}</div>
-    <div class="space"  *ngIf="back"></div>
+    <div class="title">{{ form.title }}</div>
+    <div class="space" *ngIf="back"></div>
   </div>
-  <div *ngIf="form.description" class="description">{{form.description}}</div>
+  <div *ngIf="form.description" class="description">{{ form.description }}</div>
   <div class="form_content">
     <ng-container *ngFor="let input of form.inputs">
-      <ng-container *ngIf="isVisible(input) == true">
+      <ng-container *ngIf="isVisible(input)">
         <ng-container [ngSwitch]="input.type">
           <div *ngSwitchCase="'string'" class="{{ input.class }}">
             <p class="group-title">{{ input.title }}</p>
@@ -20,12 +27,21 @@
             <ng-content></ng-content>
           </div>
           <div *ngSwitchCase="'text'" class="text">
-            <app-input [readonly]="true" [title]="input.title" [form]="formGroup" [key]="input.key" [type]="input.inputType"
+            <app-input
+              [readonly]="true"
+              [title]="input.title"
+              [form]="formGroup"
+              [key]="input.key"
+              [type]="input.inputType"
               (onBlur)="onBlur(input)">
             </app-input>
           </div>
           <div *ngSwitchCase="'input'" class="input">
-            <app-input [title]="input.title" [form]="formGroup" [key]="input.key" [type]="input.inputType"
+            <app-input
+              [title]="input.title"
+              [form]="formGroup"
+              [key]="input.key"
+              [type]="input.inputType"
               (onBlur)="onBlur(input)">
             </app-input>
           </div>
@@ -33,37 +49,76 @@
             <div *ngIf="input.displayError && formError" class="form-error">
               {{ formError }}
             </div>
-            <button class="btn {{ input.class }}"
-              [disabled]="btnDisabled || ui.isBtnLoading(input.key) || (input.isDisabled && input.isDisabled())"
+            <button
+              class="btn {{ input.class }}"
+              [disabled]="
+                btnDisabled ||
+                ui.isBtnLoading(input.key) ||
+                (input.isDisabled && input.isDisabled())
+              "
               (click)="button(input)">
-              <span *ngIf="ui.isBtnLoading(input.key)" class="spin-loader"></span>
+              <span
+                *ngIf="ui.isBtnLoading(input.key)"
+                class="spin-loader"></span>
               {{ input.title }}
-              <svg-icon *ngIf="!!input.icon" [name]="input.icon" class="icon" width="12px" height="12px"></svg-icon>
+              <svg-icon
+                *ngIf="!!input.icon"
+                [name]="input.icon"
+                class="icon"
+                width="12px"
+                height="12px"></svg-icon>
             </button>
           </div>
           <div *ngSwitchCase="'checkbox'">
-            <app-checkbox [form]="formGroup" [key]="input.key" [title]="input.title" (onBlur)="onBlur(input)"></app-checkbox>
+            <app-checkbox
+              [form]="formGroup"
+              [key]="input.key"
+              [title]="input.title"
+              (onBlur)="onBlur(input)"></app-checkbox>
           </div>
           <div *ngSwitchCase="'select'">
-            <app-select [form]="formGroup" [class]="input.class ?? ''" [key]="input.key" [title]="input.title!"
-              [items]="input.items!" (onBlur)="onBlur(input)"></app-select>
+            <app-select
+              [form]="formGroup"
+              [class]="input.class ?? ''"
+              [key]="input.key"
+              [title]="input.title!"
+              [items]="input.items!"
+              (onBlur)="onBlur(input)"></app-select>
           </div>
           <div *ngSwitchCase="'agreement'" class="user-agreement">
-            <app-checkbox [form]="formGroup" [key]="input.key" (onBlur)="onBlur(input)">
-              <span>I Agree to <a style="cursor: pointer" href="#" (click)="openLicense($event)"> Aydo’s terms and conditions
-                </a></span>
+            <app-checkbox
+              [form]="formGroup"
+              [key]="input.key"
+              (onBlur)="onBlur(input)">
+              <span
+                >I Agree to
+                <a
+                  style="cursor: pointer"
+                  href="#"
+                  (click)="openLicense($event)">
+                  Aydo’s terms and conditions
+                </a></span
+              >
             </app-checkbox>
           </div>
           <div *ngSwitchCase="'recaptcha'">
             <app-recaptcha [form]="formGroup" [key]="input.key"></app-recaptcha>
           </div>
           <div *ngSwitchCase="'google-map'">
-            <app-google-map [form]="formGroup" [key]="input.key" [title]="input.title!">
+            <app-google-map
+              [form]="formGroup"
+              [key]="input.key"
+              [title]="input.title!">
             </app-google-map>
           </div>
           <div *ngSwitchCase="'zone'">
-            <app-zone [form]="formGroup" [class]="input.class ?? ''" [key]="input.key" [title]="input.title!"
-              [items]="input.items!" (blur)="onBlur(input)">
+            <app-zone
+              [form]="formGroup"
+              [class]="input.class ?? ''"
+              [key]="input.key"
+              [title]="input.title!"
+              [items]="input.items!"
+              (blur)="onBlur(input)">
             </app-zone>
           </div>
           <div *ngSwitchCase="'avatar'">
@@ -73,5 +128,8 @@
       </ng-container>
     </ng-container>
   </div>
-  <div *ngIf="form.footer" class="footer" [innerHTML]="form.footer | safeHtml"></div>
+  <div
+    *ngIf="form.footer"
+    class="footer"
+    [innerHTML]="form.footer | safeHtml"></div>
 </div>

@@ -51,20 +51,90 @@
   }
 }
 
-@keyframes l20-1{
-  0%    {clip-path: polygon(50% 50%,0       0,  50%   0%,  50%    0%, 50%    0%, 50%    0%, 50%    0% )}
-  12.5% {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100%   0%, 100%   0%, 100%   0% )}
-  25%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 100% 100%, 100% 100% )}
-  50%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
-  62.5% {clip-path: polygon(50% 50%,100%    0, 100%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
-  75%   {clip-path: polygon(50% 50%,100% 100%, 100% 100%,  100% 100%, 100% 100%, 50%  100%, 0%   100% )}
-  100%  {clip-path: polygon(50% 50%,50%  100%,  50% 100%,   50% 100%,  50% 100%, 50%  100%, 0%   100% )}
+@keyframes l20-1 {
+  0% {
+    clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
+  }
+  12.5% {
+    clip-path: polygon(
+      50% 50%,
+      0 0,
+      50% 0%,
+      100% 0%,
+      100% 0%,
+      100% 0%,
+      100% 0%
+    );
+  }
+  25% {
+    clip-path: polygon(
+      50% 50%,
+      0 0,
+      50% 0%,
+      100% 0%,
+      100% 100%,
+      100% 100%,
+      100% 100%
+    );
+  }
+  50% {
+    clip-path: polygon(
+      50% 50%,
+      0 0,
+      50% 0%,
+      100% 0%,
+      100% 100%,
+      50% 100%,
+      0% 100%
+    );
+  }
+  62.5% {
+    clip-path: polygon(
+      50% 50%,
+      100% 0,
+      100% 0%,
+      100% 0%,
+      100% 100%,
+      50% 100%,
+      0% 100%
+    );
+  }
+  75% {
+    clip-path: polygon(
+      50% 50%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      50% 100%,
+      0% 100%
+    );
+  }
+  100% {
+    clip-path: polygon(
+      50% 50%,
+      50% 100%,
+      50% 100%,
+      50% 100%,
+      50% 100%,
+      50% 100%,
+      0% 100%
+    );
+  }
 }
-@keyframes l20-2{
-  0%    {transform:scaleY(1)  rotate(0deg)}
-  49.99%{transform:scaleY(1)  rotate(135deg)}
-  50%   {transform:scaleY(-1) rotate(0deg)}
-  100%  {transform:scaleY(-1) rotate(-135deg)}
+@keyframes l20-2 {
+  0% {
+    transform: scaleY(1) rotate(0deg);
+  }
+  49.99% {
+    transform: scaleY(1) rotate(135deg);
+  }
+  50% {
+    transform: scaleY(-1) rotate(0deg);
+  }
+  100% {
+    transform: scaleY(-1) rotate(-135deg);
+  }
 }
 
 .fence-loader {
@@ -80,7 +150,8 @@
   animation: animloader 0.3s 0.3s linear infinite alternate;
 }
 
-.fence-loader::after, .fence-loader::before {
+.fence-loader::after,
+.fence-loader::before {
   content: '';
   width: 8px;
   height: 40px;
@@ -91,7 +162,7 @@
   transform: translateY(-50%);
   left: 20px;
   box-sizing: border-box;
-  animation: animloader 0.3s  0.45s  linear infinite alternate;
+  animation: animloader 0.3s 0.45s linear infinite alternate;
 }
 .fence-loader::before {
   left: -20px;
@@ -99,6 +170,10 @@
 }
 
 @keyframes animloader {
-  0%   { height: 48px}
-  100% { height: 4px}
+  0% {
+    height: 48px;
+  }
+  100% {
+    height: 4px;
+  }
 }
