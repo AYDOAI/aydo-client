@@ -1,4 +1,4 @@
-package com.aydo.app;
+package ai.aydo.app;
 
 import com.getcapacitor.BridgeActivity;
 
