@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { StatusBar, Style } from '@capacitor/status-bar';
+import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { LoadingService } from './services/loading.service';
 import { UIService } from './services/ui.service';
 
@@ -19,8 +20,21 @@ export class AppComponent {
     public platform: Platform,
     public loading: LoadingService,
     public router: Router,
-    public ui: UIService
+    public ui: UIService,
+    private zone: NgZone
   ) {
+    this.init();
+  }
+
+  public get isMobile(): boolean {
+    return (
+      this.platform.is('mobile') ||
+      this.platform.is('capacitor') ||
+      /iPhone|iPad|Android/i.test(navigator.userAgent)
+    );
+  }
+
+  private init(): void {
     this.platform.ready().then(_ => {
       if (this.platform.is('capacitor')) {
         const url = this.router.url;
@@ -31,15 +45,10 @@ export class AppComponent {
         }
       }
       this.subscribeToRouterEvents();
+      if (this.platform.is('android') || this.platform.is('ios')) {
+        this.initAppLinksHandler();
+      }
     });
-  }
-
-  public get isMobile(): boolean {
-    return (
-      this.platform.is('mobile') ||
-      this.platform.is('capacitor') ||
-      /iPhone|iPad|Android/i.test(navigator.userAgent)
-    );
   }
 
   private subscribeToRouterEvents(): void {
@@ -63,5 +72,18 @@ export class AppComponent {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  private initAppLinksHandler(): void {
+    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      this.zone.run(() => {
+        const { pathname, searchParams } = new URL(event.url);
+        const queryParams: { [key: string]: string } = {};
+        searchParams.forEach((value, key) => {
+          queryParams[key] = value;
+        });
+        this.router.navigate([pathname], { queryParams });
+      });
+    });
   }
 }

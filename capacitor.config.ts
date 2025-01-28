@@ -6,12 +6,15 @@ const config: CapacitorConfig = {
   webDir: 'www',
   cordova: {
     preferences: {
-      OverrideUserAgent: "Mozilla/5.0 Google"
-    }
+      OverrideUserAgent: 'Mozilla/5.0 Google',
+    },
   },
-  "server": {
-    "cleartext": true
-  }
+  server: {
+    hostname: 'app.aydo.ai',
+    androidScheme: 'https',
+    iosScheme: 'https',
+    cleartext: true,
+  },
   // server: {
   //   url: 'http://localhost:8100',
   //   cleartext: true,
