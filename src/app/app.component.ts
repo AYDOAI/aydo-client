@@ -37,6 +37,10 @@ export class AppComponent {
     )
   }
 
+  public get isMobile(): boolean {
+    return this.platform.is('mobile') || this.platform.is('capacitor') || /iPhone|iPad|Android/i.test(navigator.userAgent);
+  }
+
   private subscribeToRouterEvents(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
