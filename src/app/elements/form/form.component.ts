@@ -22,7 +22,6 @@ import { validateFormControls } from '../../shared/utils/form.utils';
 export class FormComponent extends BaseElement implements OnInit {
   @Input() form!: AppForm;
   @Input() formGroup!: FormGroup;
-  @Input() back!: FrameStep;
   @Input() btnDisabled: boolean = false;
   @Output() onClickButton: EventEmitter<any> = new EventEmitter<any>();
 

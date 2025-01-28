@@ -1,6 +1,4 @@
-<div
-  class="main"
-  [class.no-padding]="platform.is('mobile') || platform.is('capacitor')">
+<div class="main" [class.no-padding]="isMobile">
   <ion-app>
     <ion-router-outlet *ngIf="ui.appReady"></ion-router-outlet>
     <div *ngIf="loading.loading$ | async" class="loader-container">

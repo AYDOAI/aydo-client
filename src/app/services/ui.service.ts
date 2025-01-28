@@ -112,8 +112,8 @@ export class UIService implements OnDestroy {
           })
         )
         .subscribe(
-          (data: any) => {
-            this.user = data.user;
+          (user: any) => {
+            this.user = user;
             if (!this.user?.is_verified) {
               this.goStep('success');
               return;

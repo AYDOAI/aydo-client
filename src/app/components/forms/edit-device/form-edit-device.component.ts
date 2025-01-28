@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { AppFormInputs } from '../../../shared/types';
 import { FormBaseComponent } from '../../form-base.component';
-import { DeviceItem } from '../../../models/gateway.model';
 
 @Component({
   selector: 'app-form-edit-device',

@@ -1,12 +1,11 @@
 <app-full-screen-content-wrapper>
   <ng-template #header>
-    <app-header title="Profile"></app-header>
+    <app-header title="Profile" back="/devices"></app-header>
   </ng-template>
   <ng-template #content>
     <app-form
       [form]="form"
       [formGroup]="formGroup"
-      back="streams"
       (onClickButton)="button($event)"></app-form>
   </ng-template>
 </app-full-screen-content-wrapper>

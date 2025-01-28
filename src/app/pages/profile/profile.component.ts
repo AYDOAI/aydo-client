@@ -14,65 +14,52 @@ export class ProfileComponent extends FormBaseComponent {
   private readonly dialog = inject(DialogService);
   private readonly userService = inject(UserService);
 
+  user$ = this.userService.user$;
+
   override onInit() {
-    this.form.title = 'Profile';
-
-    if (this.ui.user && this.ui.user?.login) {
-      this.form.inputs.push({
-        key: 'firstname',
-        title: 'First name',
-        type: 'text',
-        defaultValue: this.ui.user.firstname,
-      });
-      this.form.inputs.push({
-        key: 'lastname',
-        title: 'Last name',
-        type: 'text',
-        defaultValue: this.ui.user.lastname,
-      });
-      // this.form.inputs.push({
-      //   key: 'wallet',
-      //   title: 'Wallet',
-      //   type: 'text',
-      //   defaultValue: this.ui.user.wallet,
-      // });
-      this.form.inputs.push({
-        key: 'email',
-        title: 'Email',
-        type: 'text',
-        defaultValue: this.ui.user.email,
-      });
-      // this.form.inputs.push({
-      //   key: 'balance',
-      //   title: 'Balance',
-      //   type: 'text',
-      //   defaultValue: this.ui.user.balance,
-      // });
-    }
-    if (this.ui.user?.email !== 'test@aydo.ai') {
-      this.form.inputs.push({
-        key: 'edit',
-        title: 'Edit',
-        type: 'button',
-        color: 'white',
-        backgroundColor: '#060022',
-      });
-    }
-    this.form.inputs.push({
-      key: 'logout',
-      title: 'Logout',
-      type: 'button',
-      color: 'white',
-      backgroundColor: '#060022',
+    this.user$.subscribe(user => {
+      this.form.inputs = [
+        {
+          key: 'firstname',
+          title: 'First name',
+          type: 'text',
+          defaultValue: user.firstname,
+        },
+        {
+          key: 'lastname',
+          title: 'Last name',
+          type: 'text',
+          defaultValue: user.lastname,
+        },
+        {
+          key: 'email',
+          title: 'Email',
+          type: 'text',
+          defaultValue: user.email,
+        },
+        {
+          key: 'edit',
+          title: 'Edit',
+          type: 'button',
+          color: 'white',
+          backgroundColor: '#060022',
+        },
+        {
+          key: 'logout',
+          title: 'Logout',
+          type: 'button',
+          color: 'white',
+          backgroundColor: '#060022',
+        },
+        {
+          key: 'delete',
+          title: 'Delete profile',
+          type: 'button',
+          class: 'red-btn',
+        },
+      ];
+      this.formGroup = this.createForm(this.form.inputs);
     });
-    this.form.inputs.push({
-      key: 'delete',
-      title: 'Delete profile',
-      type: 'button',
-      class: 'red-btn',
-    });
-
-    this.formGroup = this.createForm(this.form.inputs);
   }
 
   confirmDeleteProfile() {
