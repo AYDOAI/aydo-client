@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.aydo.app',
+  appId: 'ai.aydo.app',
   appName: 'AYDO',
   webDir: 'www',
   cordova: {

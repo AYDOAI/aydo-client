@@ -84,8 +84,8 @@ export class UIService implements OnDestroy {
           if (this.isAuthPage()) {
             this.defaultStep();
           }
-        })).subscribe((data: any) => {
-          this.user = data.user;
+        })).subscribe((user: any) => {
+          this.user = user;
           if (!this.user?.is_verified) {
             this.goStep('success');
             return
