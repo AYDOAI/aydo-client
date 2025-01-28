@@ -6,5 +6,5 @@ export interface BaseService<T> {
   getItems?(): Observable<T[]>;
   getItem?(): Observable<T>;
   saveItem?(): Observable<T>;
-  deleteItem?(): Observable<T>;
+  deleteItem?(value?: any): Observable<T>;
 }

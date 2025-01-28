@@ -41,7 +41,13 @@
               stroke="#A1AE84" stroke-width="2"/>
           </svg>
         </div>
-        <button (click)="toggle()" [disabled]="ui.isBtnLoading('streaming')" class="btn"
+        <button
+          class="btn text-center green-btn"
+          [routerLink]="'devices'"
+        >
+          {{ 'Connect devices' }}
+        </button>
+        <button (click)="toggle()" [disabled]="ui.isBtnLoading('streaming')" class="btn text-center"
                 [class.red-btn]="dataStream?.status === 1">
           <span *ngIf="ui.isBtnLoading('streaming')" class="spin-loader"></span>
           {{ dataStream?.status === 1 ? 'Stop streaming' : 'Start streaming' }}
