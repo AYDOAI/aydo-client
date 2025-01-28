@@ -31,7 +31,7 @@ export class FormBaseComponent extends BaseComponent {
   select(event: FrameStep) {
     switch (event) {
       case 'demo':
-        this.backend.userLogin({login: 'test@aydo.ai', password: '1qaz@WSX'}).then(() => {
+        this.backend.userLogin({login: 'test@aydo.ai', password: '1qaz@WSX'}).subscribe(() => {
           this.ui.afterLogin();
         })
         break;

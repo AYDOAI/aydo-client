@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AppFormInputs} from '../../../shared/types';
 import {FormBaseComponent} from '../../../components/form-base.component';
+import { finalize } from "rxjs";
 
 @Component({
   selector: 'app-success',
@@ -24,10 +25,9 @@ export class SuccessComponent extends FormBaseComponent {
     switch (input.key) {
       case 'resend':
         this.ui.lockBtn('resend');
-        this.backend.resendCode().then((data: any) => {
+        this.backend.resendCode().pipe(finalize(() => this.ui.unlockBtn('resend'))).subscribe((data: any) => {
           this.linkSent = true;
-        }).catch(() => {
-        }).finally(() => this.ui.unlockBtn('resend'));
+        })
         break;
       case 'logout':
         this.ui.logout();

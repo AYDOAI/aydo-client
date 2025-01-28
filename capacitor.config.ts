@@ -9,12 +9,15 @@ const config: CapacitorConfig = {
       OverrideUserAgent: "Mozilla/5.0 Google"
     }
   },
-  server: {
-    url: 'http://localhost:8100',
-    cleartext: true,
-    androidScheme: 'http',
-    allowNavigation: []
+  "server": {
+    "cleartext": true
   }
+  // server: {
+  //   url: 'http://localhost:8100',
+  //   cleartext: true,
+  //   androidScheme: 'http',
+  //   allowNavigation: []
+  // }
 };
 
 export default config;
