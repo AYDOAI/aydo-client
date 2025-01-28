@@ -1,5 +1,10 @@
 <app-content>
-  <app-form [form]="form" [formGroup]="formGroup" (onClickButton)="button($event)">
-    <p *ngIf="linkSent" class="success-message">Confirmation link has been sent to your email address</p>
+  <app-form
+    [form]="form"
+    [formGroup]="formGroup"
+    (onClickButton)="button($event)">
+    <p *ngIf="linkSent" class="success-message">
+      Confirmation link has been sent to your email address
+    </p>
   </app-form>
 </app-content>

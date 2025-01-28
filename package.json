@@ -11,7 +11,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:android": "ionic build --platform='android' && npx cap sync android && ionic cap open android",
-    "build:ios": "ionic build --platform='ios' && npx cap sync ios && ionic cap open ios"
+    "build:ios": "ionic build --platform='ios' && npx cap sync ios && ionic cap open ios",
+    "lint": "ng lint --fix",
+    "format": "prettier --write ./src",
+    "prepare": "husky"
   },
   "private": true,
   "dependencies": {
@@ -50,15 +53,35 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.0.0",
+    "@angular-eslint/builder": "19.0.2",
+    "@angular-eslint/eslint-plugin": "19.0.2",
+    "@angular-eslint/eslint-plugin-template": "19.0.2",
+    "@angular-eslint/schematics": "19.0.2",
+    "@angular-eslint/template-parser": "19.0.2",
     "@angular/cli": "18.2.12",
     "@angular/compiler-cli": "^18.0.0",
     "@types/jasmine": "~5.1.0",
+    "@typescript-eslint/eslint-plugin": "7.11.0",
+    "@typescript-eslint/parser": "7.11.0",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "^10.0.1",
+    "husky": "^9.1.7",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.4.2",
     "typescript": "~5.4.2"
+  },
+  "lint-staged": {
+    "*.{ts,scss,html}": [
+      "eslint --fix"
+    ],
+    "*.{json,css,md,ts,scss,html}": [
+      "prettier --write"
+    ]
   }
 }

@@ -1,11 +1,11 @@
-import {Component, inject, Input, OnInit} from "@angular/core";
-import {FormGroup} from "@angular/forms";
-import {ErrorsService} from "../../services/errors.service";
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ErrorsService } from '../../services/errors.service';
 
 @Component({
   selector: 'app-avatar',
   templateUrl: './avatar.component.html',
-  styleUrls: ['./avatar.component.scss']
+  styleUrls: ['./avatar.component.scss'],
 })
 export class AvatarComponent implements OnInit {
   errorService = inject(ErrorsService);
@@ -16,11 +16,10 @@ export class AvatarComponent implements OnInit {
 
   ngOnInit(): void {
     const controlValue = this.form.get(this.key)?.value;
-    if(controlValue) {
+    if (controlValue) {
       this.previewUrl = controlValue.url;
     }
   }
-
 
   onFileSelected(event: Event): void {
     const fileInput = event.target as HTMLInputElement;
@@ -31,7 +30,7 @@ export class AvatarComponent implements OnInit {
     }
 
     if (file.size > 1024 * 1024) {
-      this.errorService.showError("File size must not exceed 1 MB.");
+      this.errorService.showError('File size must not exceed 1 MB.');
       fileInput.value = '';
       return;
     }

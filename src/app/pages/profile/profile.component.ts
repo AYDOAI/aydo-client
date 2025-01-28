@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import {AppFormInputs} from '../../shared/types';
-import {FormBaseComponent} from '../../components/form-base.component';
-import {ConfirmationModalComponent} from "../../elements/dialog/confirmation-modal/confirmation-modal.component";
-import {DialogService} from "../../services/dialog.service";
-import {UserService} from '../../services/user.service';
+import { AppFormInputs } from '../../shared/types';
+import { FormBaseComponent } from '../../components/form-base.component';
+import { ConfirmationModalComponent } from '../../elements/dialog/confirmation-modal/confirmation-modal.component';
+import { DialogService } from '../../services/dialog.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +17,7 @@ export class ProfileComponent extends FormBaseComponent {
   user$ = this.userService.user$;
 
   override onInit() {
-    this.user$.subscribe((user) => {
+    this.user$.subscribe(user => {
       this.form.inputs = [
         {
           key: 'firstname',
@@ -42,21 +42,21 @@ export class ProfileComponent extends FormBaseComponent {
           title: 'Edit',
           type: 'button',
           color: 'white',
-          backgroundColor: '#060022'
+          backgroundColor: '#060022',
         },
         {
           key: 'logout',
           title: 'Logout',
           type: 'button',
           color: 'white',
-          backgroundColor: '#060022'
+          backgroundColor: '#060022',
         },
         {
           key: 'delete',
           title: 'Delete profile',
           type: 'button',
-          class: 'red-btn'
-        }
+          class: 'red-btn',
+        },
       ];
       this.formGroup = this.createForm(this.form.inputs);
     });
@@ -65,8 +65,10 @@ export class ProfileComponent extends FormBaseComponent {
   confirmDeleteProfile() {
     this.userService.requestDisposal().subscribe({
       next: () => {
-        this.errors.showInfo('To delete your profile, please follow the link sent to your email.');
-      }
+        this.errors.showInfo(
+          'To delete your profile, please follow the link sent to your email.'
+        );
+      },
     });
   }
 
@@ -74,7 +76,7 @@ export class ProfileComponent extends FormBaseComponent {
     this.dialog.show(ConfirmationModalComponent, {
       title: 'Confirmation',
       description: 'Are you sure you want to delete your profile?',
-      confirm: () => this.confirmDeleteProfile()
+      confirm: () => this.confirmDeleteProfile(),
     });
   }
 

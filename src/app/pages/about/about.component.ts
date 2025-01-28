@@ -1,14 +1,14 @@
-import {Component, OnInit, inject} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { App } from '@capacitor/app';
-import {DialogService} from "../../services/dialog.service";
-import {LicenseDialogComponent} from '../../elements/dialog/license-dialog/license-dialog.component';
-import {environment} from "../../../environments/environment";
-import {Capacitor} from "@capacitor/core";
+import { DialogService } from '../../services/dialog.service';
+import { LicenseDialogComponent } from '../../elements/dialog/license-dialog/license-dialog.component';
+import { environment } from '../../../environments/environment';
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
-  styleUrl: './about.component.scss'
+  styleUrl: './about.component.scss',
 })
 export class AboutComponent implements OnInit {
   private dialog = inject(DialogService);
@@ -17,24 +17,24 @@ export class AboutComponent implements OnInit {
 
   ngOnInit(): void {
     const platform = Capacitor.getPlatform();
-    if(platform === 'web') {
+    if (platform === 'web') {
       this.version = 'web';
     }
-    if(platform !== 'web') {
-      App.getInfo().then((appInfo) => {
+    if (platform !== 'web') {
+      App.getInfo().then(appInfo => {
         this.version = appInfo.version;
       });
     }
   }
 
   goToLink(url: string) {
-    window.open(url, "_blank");
+    window.open(url, '_blank');
   }
 
   public openLicense(e: MouseEvent): void {
-    e.preventDefault()
+    e.preventDefault();
     this.dialog.show(LicenseDialogComponent, {
-      headerTitle: 'License'
-    })
+      headerTitle: 'License',
+    });
   }
 }

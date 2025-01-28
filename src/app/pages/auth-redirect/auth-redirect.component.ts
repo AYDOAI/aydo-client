@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StorageService } from "../../services/storage.service";
-import { ErrorsService } from "../../services/errors.service";
+import { StorageService } from '../../services/storage.service';
+import { ErrorsService } from '../../services/errors.service';
 
 @Component({
   selector: 'app-auth-redirect',
@@ -15,7 +15,7 @@ export class AuthRedirectComponent implements OnInit {
   errors = inject(ErrorsService);
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.subscribe(params => {
       const userData = params['userData'];
       if (userData) {
         try {

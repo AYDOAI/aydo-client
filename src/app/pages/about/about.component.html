@@ -9,48 +9,100 @@
 
 <ng-template #contentTemplate>
   <div class="about">
-      <button class="btn" (click)="goToLink('https://www.notion.so/aydo/Step-by-Step-Guide-for-Installing-AYDO-71d1156bdc8f40bebd9fc7f04f1526f9?pvs=4')">
-          Step-by-Step Guide
-      </button>
+    <button
+      class="btn"
+      (click)="
+        goToLink(
+          'https://www.notion.so/aydo/Step-by-Step-Guide-for-Installing-AYDO-71d1156bdc8f40bebd9fc7f04f1526f9?pvs=4'
+        )
+      ">
+      Step-by-Step Guide
+    </button>
 
-      <button class="btn" (click)="openLicense($event)">
-          Privacy Policy
-      </button>
+    <button class="btn" (click)="openLicense($event)">Privacy Policy</button>
 
-      <div class="is-body-small txt-color-white56 txt-align-center">---------- or reach us through ----------</div>
+    <div class="is-body-small txt-color-white56 txt-align-center">
+      ---------- or reach us through ----------
+    </div>
 
-      <div class="social-grid w-full">
-          <span></span>
-          <a aria-label="Telegram" href="https://t.me/aydoai" target="_blank" class="social-wrap w-inline-block">
-              <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 25 20" fill="currentColor" class="social-logo">
-                  <path
-                      d="M2.14987 8.56244C8.59231 5.75557 12.8883 3.90512 15.0378 3.01107C21.175 0.45837 22.4503 0.0149404 23.2815 0.000141954C23.4643 -0.00292234 23.8731 0.0423843 24.1379 0.257234C24.3614 0.438648 24.4229 0.683713 24.4524 0.855714C24.4818 1.02771 24.5185 1.41954 24.4893 1.7257C24.1567 5.22014 22.7177 13.7002 21.9856 17.6141C21.6758 19.2702 21.0658 19.8254 20.4753 19.8798C19.1919 19.9979 18.2174 19.0317 16.9744 18.2169C15.0294 16.9419 13.9305 16.1482 12.0425 14.904C9.86064 13.4662 11.2751 12.6759 12.5185 11.3844C12.844 11.0464 18.4985 5.90319 18.6079 5.43662C18.6216 5.37827 18.6343 5.16076 18.5051 5.04591C18.3759 4.93105 18.1851 4.97033 18.0475 5.00156C17.8524 5.04584 14.7452 7.0996 8.72584 11.1628C7.84386 11.7685 7.04499 12.0636 6.32924 12.0481C5.54017 12.031 4.02233 11.6019 2.89397 11.2352C1.50999 10.7853 0.410032 10.5474 0.505814 9.7834C0.555703 9.38545 1.10372 8.97846 2.14987 8.56244Z"
-                      fill="currentColor" style="fill:#4B17E0;fill:color(display-p3 0.2936 0.0892 0.8767);fill-opacity:1;"
-                      class="social-logo-path"></path>
-              </svg>
-          </a>
-          <a aria-label="Twitter/X" href="https://x.com/AYDO_AI" target="_blank" class="social-wrap w-inline-block">
-              <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 28 26" fill="none" class="social-logo">
-                  <path
-                      d="M0.351228 0.162842L10.9421 14.3239L0.284348 25.8374H2.68299L12.0139 15.7572L19.553 25.8374H27.7157L16.5288 10.8798L26.449 0.162842H24.0504L15.4571 9.44658L8.5139 0.162842H0.351228ZM3.87861 1.92969H7.62856L24.1877 24.0703H20.4378L3.87861 1.92969Z"
-                      fill="currentColor" style="fill:#4B17E0;fill:color(display-p3 0.2936 0.0892 0.8767);fill-opacity:1;"
-                      class="social-logo-path"></path>
-              </svg>
-          </a>
-          <a aria-label="Discord" href="https://discord.gg/aydo" target="_blank" class="social-wrap w-inline-block">
-              <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 29 23" fill="none" class="social-logo">
-                  <path
-                      d="M24.1422 1.8858C22.2697 0.992828 20.293 0.359321 18.2624 0.00146484C17.9846 0.518872 17.7332 1.05121 17.5093 1.59627C15.3464 1.25676 13.1468 1.25676 10.9839 1.59627C10.7599 1.05127 10.5085 0.518934 10.2307 0.00146484C8.19889 0.362343 6.22084 0.997354 4.34648 1.89047C0.62539 7.62522 -0.383338 13.2175 0.121026 18.7304C2.30019 20.4076 4.73929 21.6831 7.33231 22.5015C7.91618 21.6835 8.43284 20.8157 8.87679 19.9073C8.03357 19.5792 7.21971 19.1745 6.44463 18.6978C6.64862 18.5436 6.84812 18.3849 7.0409 18.2308C9.29619 19.3355 11.7577 19.9084 14.2499 19.9084C16.7422 19.9084 19.2037 19.3355 21.459 18.2308C21.654 18.3965 21.8535 18.5553 22.0553 18.6978C21.2787 19.1753 20.4633 19.5808 19.6186 19.9096C20.062 20.8176 20.5787 21.6847 21.1631 22.5015C23.7583 21.6863 26.1993 20.4115 28.3789 18.7328C28.9707 12.3396 27.3679 6.79863 24.1422 1.8858ZM9.51565 15.34C8.11016 15.34 6.949 14.0114 6.949 12.3769C6.949 10.7424 8.06981 9.40215 9.51117 9.40215C10.9525 9.40215 12.1047 10.7424 12.0801 12.3769C12.0554 14.0114 10.948 15.34 9.51565 15.34ZM18.9842 15.34C17.5765 15.34 16.4198 14.0114 16.4198 12.3769C16.4198 10.7424 17.5406 9.40215 18.9842 9.40215C20.4279 9.40215 21.5711 10.7424 21.5464 12.3769C21.5218 14.0114 20.4166 15.34 18.9842 15.34Z"
-                      fill="currentColor" style="fill:#4B17E0;fill:color(display-p3 0.2936 0.0892 0.8767);fill-opacity:1;"
-                      class="social-logo-path"></path>
-              </svg>
-          </a>
-          <span></span>
-      </div>
+    <div class="social-grid w-full">
+      <span></span>
+      <a
+        aria-label="Telegram"
+        href="https://t.me/aydoai"
+        target="_blank"
+        class="social-wrap w-inline-block">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="100%"
+          viewBox="0 0 25 20"
+          fill="currentColor"
+          class="social-logo">
+          <path
+            d="M2.14987 8.56244C8.59231 5.75557 12.8883 3.90512 15.0378 3.01107C21.175 0.45837 22.4503 0.0149404 23.2815 0.000141954C23.4643 -0.00292234 23.8731 0.0423843 24.1379 0.257234C24.3614 0.438648 24.4229 0.683713 24.4524 0.855714C24.4818 1.02771 24.5185 1.41954 24.4893 1.7257C24.1567 5.22014 22.7177 13.7002 21.9856 17.6141C21.6758 19.2702 21.0658 19.8254 20.4753 19.8798C19.1919 19.9979 18.2174 19.0317 16.9744 18.2169C15.0294 16.9419 13.9305 16.1482 12.0425 14.904C9.86064 13.4662 11.2751 12.6759 12.5185 11.3844C12.844 11.0464 18.4985 5.90319 18.6079 5.43662C18.6216 5.37827 18.6343 5.16076 18.5051 5.04591C18.3759 4.93105 18.1851 4.97033 18.0475 5.00156C17.8524 5.04584 14.7452 7.0996 8.72584 11.1628C7.84386 11.7685 7.04499 12.0636 6.32924 12.0481C5.54017 12.031 4.02233 11.6019 2.89397 11.2352C1.50999 10.7853 0.410032 10.5474 0.505814 9.7834C0.555703 9.38545 1.10372 8.97846 2.14987 8.56244Z"
+            fill="currentColor"
+            style="
+              fill: #4b17e0;
+              fill: color(display-p3 0.2936 0.0892 0.8767);
+              fill-opacity: 1;
+            "
+            class="social-logo-path"></path>
+        </svg>
+      </a>
+      <a
+        aria-label="Twitter/X"
+        href="https://x.com/AYDO_AI"
+        target="_blank"
+        class="social-wrap w-inline-block">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="100%"
+          viewBox="0 0 28 26"
+          fill="none"
+          class="social-logo">
+          <path
+            d="M0.351228 0.162842L10.9421 14.3239L0.284348 25.8374H2.68299L12.0139 15.7572L19.553 25.8374H27.7157L16.5288 10.8798L26.449 0.162842H24.0504L15.4571 9.44658L8.5139 0.162842H0.351228ZM3.87861 1.92969H7.62856L24.1877 24.0703H20.4378L3.87861 1.92969Z"
+            fill="currentColor"
+            style="
+              fill: #4b17e0;
+              fill: color(display-p3 0.2936 0.0892 0.8767);
+              fill-opacity: 1;
+            "
+            class="social-logo-path"></path>
+        </svg>
+      </a>
+      <a
+        aria-label="Discord"
+        href="https://discord.gg/aydo"
+        target="_blank"
+        class="social-wrap w-inline-block">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="100%"
+          viewBox="0 0 29 23"
+          fill="none"
+          class="social-logo">
+          <path
+            d="M24.1422 1.8858C22.2697 0.992828 20.293 0.359321 18.2624 0.00146484C17.9846 0.518872 17.7332 1.05121 17.5093 1.59627C15.3464 1.25676 13.1468 1.25676 10.9839 1.59627C10.7599 1.05127 10.5085 0.518934 10.2307 0.00146484C8.19889 0.362343 6.22084 0.997354 4.34648 1.89047C0.62539 7.62522 -0.383338 13.2175 0.121026 18.7304C2.30019 20.4076 4.73929 21.6831 7.33231 22.5015C7.91618 21.6835 8.43284 20.8157 8.87679 19.9073C8.03357 19.5792 7.21971 19.1745 6.44463 18.6978C6.64862 18.5436 6.84812 18.3849 7.0409 18.2308C9.29619 19.3355 11.7577 19.9084 14.2499 19.9084C16.7422 19.9084 19.2037 19.3355 21.459 18.2308C21.654 18.3965 21.8535 18.5553 22.0553 18.6978C21.2787 19.1753 20.4633 19.5808 19.6186 19.9096C20.062 20.8176 20.5787 21.6847 21.1631 22.5015C23.7583 21.6863 26.1993 20.4115 28.3789 18.7328C28.9707 12.3396 27.3679 6.79863 24.1422 1.8858ZM9.51565 15.34C8.11016 15.34 6.949 14.0114 6.949 12.3769C6.949 10.7424 8.06981 9.40215 9.51117 9.40215C10.9525 9.40215 12.1047 10.7424 12.0801 12.3769C12.0554 14.0114 10.948 15.34 9.51565 15.34ZM18.9842 15.34C17.5765 15.34 16.4198 14.0114 16.4198 12.3769C16.4198 10.7424 17.5406 9.40215 18.9842 9.40215C20.4279 9.40215 21.5711 10.7424 21.5464 12.3769C21.5218 14.0114 20.4166 15.34 18.9842 15.34Z"
+            fill="currentColor"
+            style="
+              fill: #4b17e0;
+              fill: color(display-p3 0.2936 0.0892 0.8767);
+              fill-opacity: 1;
+            "
+            class="social-logo-path"></path>
+        </svg>
+      </a>
+      <span></span>
+    </div>
 
-      <div class="tech-info">
-        <p class="tech-item">Build version <span>{{version}}</span></p>
-        <p class="tech-item">API Endpoint <span class="tech-value">{{environment.main_url}}</span></p>
-      </div>
+    <div class="tech-info">
+      <p class="tech-item">
+        Build version <span>{{ version }}</span>
+      </p>
+      <p class="tech-item">
+        API Endpoint <span class="tech-value">{{ environment.main_url }}</span>
+      </p>
+    </div>
   </div>
 </ng-template>

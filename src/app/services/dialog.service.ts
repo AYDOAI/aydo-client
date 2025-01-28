@@ -1,36 +1,42 @@
 import {
-	ViewContainerRef,
-	Injector,
-	Injectable,
-	Type,
-	ComponentRef,
-	ComponentFactoryResolver,
-	Renderer2,
-	RendererFactory2,
+  ViewContainerRef,
+  Injector,
+  Injectable,
+  Type,
+  ComponentRef,
+  ComponentFactoryResolver,
+  Renderer2,
+  RendererFactory2,
 } from '@angular/core';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
-import { BaseDialogComponent } from "../elements/dialog/base-dialog";
+import { BaseDialogComponent } from '../elements/dialog/base-dialog';
 
 @Injectable({
-	providedIn: 'root',
+  providedIn: 'root',
 })
 export class DialogService {
-	public activeInstances: number;
-	private viewContainerRef: ViewContainerRef = {} as ViewContainerRef;
-	private activeInstances$: Subject<number> = new Subject();
-	private modalRef: ComponentRef<any>[] = [];
-	private renderer: Renderer2;
+  public activeInstances: number;
+  private viewContainerRef: ViewContainerRef = {} as ViewContainerRef;
+  private activeInstances$: Subject<number> = new Subject();
+  private modalRef: ComponentRef<any>[] = [];
+  private renderer: Renderer2;
 
-	constructor(private resolver: ComponentFactoryResolver, private rendererFactory: RendererFactory2) {
-		this.activeInstances = 0;
-		this.renderer = this.rendererFactory.createRenderer(null, null);
-	}
+  constructor(
+    private resolver: ComponentFactoryResolver,
+    private rendererFactory: RendererFactory2
+  ) {
+    this.activeInstances = 0;
+    this.renderer = this.rendererFactory.createRenderer(null, null);
+  }
 
-	public registerViewContainerRef(vcRef: ViewContainerRef): void {
-		this.viewContainerRef = vcRef;
-	}
+  public registerViewContainerRef(vcRef: ViewContainerRef): void {
+    this.viewContainerRef = vcRef;
+  }
 
-  public show<T extends BaseDialogComponent>(component: Type<T>, parameters?: any): Observable<ComponentRef<T>> {
+  public show<T extends BaseDialogComponent>(
+    component: Type<T>,
+    parameters?: any
+  ): Observable<ComponentRef<T>> {
     console.log('show');
     const componentRef$ = new ReplaySubject<ComponentRef<T>>(1);
 

@@ -1,17 +1,22 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {BaseComponent} from '../../components/base.component';
-import {DevicesService} from "../../services/devices.service";
-import {ActivatedRoute} from "@angular/router";
-import {StreamService} from "../../services/stream.service";
-import {BehaviorSubject, combineLatest, map, switchMap, tap} from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
+import { BaseComponent } from '../../components/base.component';
+import { DevicesService } from '../../services/devices.service';
+import { ActivatedRoute } from '@angular/router';
+import { StreamService } from '../../services/stream.service';
+import { BehaviorSubject, combineLatest, map, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-connect-devices',
   templateUrl: './connect-devices.component.html',
   styleUrl: './connect-devices.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConnectDevicesComponent extends BaseComponent {
+export class ConnectDevicesComponent extends BaseComponent implements OnInit {
   private devicesService = inject(DevicesService);
   private streamService = inject(StreamService);
 
@@ -22,35 +27,28 @@ export class ConnectDevicesComponent extends BaseComponent {
   private streamSubject = new BehaviorSubject<any | null>(null);
   stream$ = this.streamSubject.asObservable();
 
-  streamId$ = this.route.params.pipe(
-    map(params => params['id'])
-  );
+  streamId$ = this.route.params.pipe(map(params => params['id']));
 
   override ngOnInit() {
     super.ngOnInit();
 
-    this.streamId$.pipe(
-      switchMap(id => this.streamService.getStreamById(id)),
-    ).subscribe({
-      next: stream => this.streamSubject.next(stream)
-    });
+    this.streamId$
+      .pipe(switchMap(id => this.streamService.getStreamById(id)))
+      .subscribe({
+        next: stream => this.streamSubject.next(stream),
+      });
   }
 
-  mergedDevices$ = combineLatest([
-    this.devices$,
-    this.stream$
-  ]).pipe(
-    map(([allDevices, stream]) =>
-      {
-        if(!stream) {
-          return [];
-        }
-        return allDevices.map(device => ({
-          ...device,
-          connected: stream.devices?.some((d: any) => d.deviceId === device.id)
-        }))
+  mergedDevices$ = combineLatest([this.devices$, this.stream$]).pipe(
+    map(([allDevices, stream]) => {
+      if (!stream) {
+        return [];
       }
-    ),
+      return allDevices.map(device => ({
+        ...device,
+        connected: stream.devices?.some((d: any) => d.deviceId === device.id),
+      }));
+    })
   );
 
   onToggleConnection(deviceId: number, isConnected: boolean) {
@@ -59,7 +57,10 @@ export class ConnectDevicesComponent extends BaseComponent {
       return;
     }
     const update$ = isConnected
-      ? this.streamService.disconnectDeviceFromStream(currentStream.id, deviceId)
+      ? this.streamService.disconnectDeviceFromStream(
+          currentStream.id,
+          deviceId
+        )
       : this.streamService.connectDeviceToStream(currentStream.id, deviceId);
 
     update$.subscribe({
@@ -70,9 +71,9 @@ export class ConnectDevicesComponent extends BaseComponent {
 
         this.streamSubject.next({
           ...currentStream,
-          devices: updatedDevices
+          devices: updatedDevices,
         });
-      }
+      },
     });
   }
 }

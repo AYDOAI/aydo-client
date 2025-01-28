@@ -4,5 +4,4 @@ import { Component } from '@angular/core';
   selector: 'app-streams-home',
   template: '<ion-router-outlet></ion-router-outlet>',
 })
-export class StreamsHomeComponent {
-}
+export class StreamsHomeComponent {}

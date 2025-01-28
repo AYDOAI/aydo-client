@@ -1,17 +1,22 @@
-import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import {BaseElement} from '../base.component';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { BaseElement } from '../base.component';
 import { FormGroup } from '@angular/forms';
-import { SelectItem } from "../../shared/types";
+import { SelectItem } from '../../shared/types';
 
 @Component({
   selector: 'app-select',
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
-  animations: [
-  ]
+  animations: [],
 })
 export class SelectComponent extends BaseElement {
-
   @Input() class: string = '';
   @Input() form!: FormGroup;
   @Input() key: string = '';
@@ -32,7 +37,11 @@ export class SelectComponent extends BaseElement {
   value: string | number = '';
 
   get valueEx(): string | number {
-    return this.form ? this.form.get(this.key)?.value : (this.func ? this.func.value : this.value);
+    return this.form
+      ? this.form.get(this.key)?.value
+      : this.func
+        ? this.func.value
+        : this.value;
   }
 
   get itemsEx(): any[] {
@@ -44,7 +53,7 @@ export class SelectComponent extends BaseElement {
       return this.items;
     } else {
       const result: any[] = [];
-      Object.keys(this.items).forEach((key) => {
+      Object.keys(this.items).forEach(key => {
         // @ts-ignore
         result.push(this.items[key]);
       });
@@ -52,8 +61,7 @@ export class SelectComponent extends BaseElement {
     }
   }
 
-  onInit() {
-  }
+  onInit() {}
 
   select(item: SelectItem) {
     if (item.selectCallback) {
@@ -72,7 +80,11 @@ export class SelectComponent extends BaseElement {
   }
 
   blur(): void {
-    if (this.input && this.input.nativeElement && !this.form.get(this.key)?.value) {
+    if (
+      this.input &&
+      this.input.nativeElement &&
+      !this.form.get(this.key)?.value
+    ) {
       this.input.nativeElement.value = '';
     }
     this.onBlur.emit();
@@ -88,7 +100,7 @@ export class SelectComponent extends BaseElement {
     ev.stopPropagation();
     setTimeout(() => {
       this.input.nativeElement.focus();
-    })
+    });
   }
 
   skip(ev: Event) {
@@ -96,7 +108,11 @@ export class SelectComponent extends BaseElement {
   }
 
   isActive(item: SelectItem) {
-    return this.form ? this.form.get(this.key)?.value === item.id : (this.func ? this.func.value === item.id : false)
+    return this.form
+      ? this.form.get(this.key)?.value === item.id
+      : this.func
+        ? this.func.value === item.id
+        : false;
   }
 
   selectActive() {
@@ -148,8 +164,5 @@ export class SelectComponent extends BaseElement {
     return !item.icon ? item.id : '';
   }
 
-  findChange(e: Event) {
-
-  }
-
+  findChange(e: Event) {}
 }

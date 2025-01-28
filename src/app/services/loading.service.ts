@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, finalize, Observable, of, Subscription, timer } from 'rxjs';
+import {
+  BehaviorSubject,
+  finalize,
+  Observable,
+  of,
+  Subscription,
+  timer,
+} from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoadingService {
-  private loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private loadingSubject: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
   private loaderTimer: Subscription | null = null;
 
   public get loading$(): Observable<boolean> {
@@ -16,14 +24,16 @@ export class LoadingService {
   public showLoading$<T>(observable: Observable<T>): Observable<T> {
     this.showLoading();
     return observable.pipe(
-      switchMap((data) => of(data)),
+      switchMap(data => of(data)),
       finalize(() => this.dismissLoading())
     );
   }
 
   public showLoading(debounce: number = 500): void {
     if (!this.loaderTimer) {
-      this.loaderTimer = timer(debounce).subscribe(() => this.loadingSubject.next(true));
+      this.loaderTimer = timer(debounce).subscribe(() =>
+        this.loadingSubject.next(true)
+      );
     }
   }
 
@@ -33,7 +43,7 @@ export class LoadingService {
         this.loaderTimer.unsubscribe();
         this.loaderTimer = null;
       }
-      this.loadingSubject.next(false)
+      this.loadingSubject.next(false);
     }, 0);
   }
 }

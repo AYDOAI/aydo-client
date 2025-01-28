@@ -7,7 +7,7 @@ export function specialCharactersValidator() {
 
     if (value && !regex.test(value)) {
       return {
-        specialCharacters: true
+        specialCharacters: true,
       };
     }
 

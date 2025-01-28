@@ -1,39 +1,42 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { AppForm, AppFormInputs, FrameStep } from '../shared/types';
-import {BaseComponent} from './base.component';
+import { BaseComponent } from './base.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import {BackendService} from '../services/backend.service';
-import {ErrorsService} from "../services/errors.service";
-import {StorageService} from "../services/storage.service";
-import {UIService} from '../services/ui.service';
-import {Router} from '@angular/router';
-import { NavController } from "@ionic/angular";
+import { BackendService } from '../services/backend.service';
+import { ErrorsService } from '../services/errors.service';
+import { StorageService } from '../services/storage.service';
+import { UIService } from '../services/ui.service';
+import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-form-base',
   template: '',
 })
 export class FormBaseComponent extends BaseComponent {
-
-  form: AppForm = {title: '', inputs: []};
+  form: AppForm = { title: '', inputs: [] };
   formGroup!: FormGroup;
 
-  constructor(public override ui: UIService,
-              public override backend: BackendService,
-              public override errors: ErrorsService,
-              public override storage: StorageService,
-              public override router: Router,
-              public override fb: FormBuilder,
-              public override navCtrl: NavController) {
+  constructor(
+    public override ui: UIService,
+    public override backend: BackendService,
+    public override errors: ErrorsService,
+    public override storage: StorageService,
+    public override router: Router,
+    public override fb: FormBuilder,
+    public override navCtrl: NavController
+  ) {
     super(ui, backend, errors, storage, router, fb, navCtrl);
   }
 
   select(event: FrameStep) {
     switch (event) {
       case 'demo':
-        this.backend.userLogin({login: 'test@aydo.ai', password: '1qaz@WSX'}).subscribe(() => {
-          this.ui.afterLogin();
-        })
+        this.backend
+          .userLogin({ login: 'test@aydo.ai', password: '1qaz@WSX' })
+          .subscribe(() => {
+            this.ui.afterLogin();
+          });
         break;
       default:
         this.ui.goStep(event);
@@ -50,7 +53,7 @@ export class FormBaseComponent extends BaseComponent {
           input.error = message.errors[index];
           exists = true;
         }
-      })
+      });
     }
     if (!exists) {
       this.errors.showError(message.message);
@@ -60,6 +63,6 @@ export class FormBaseComponent extends BaseComponent {
   resetFormErrors() {
     this.form.inputs.forEach(input => {
       input.error = '';
-    })
+    });
   }
 }

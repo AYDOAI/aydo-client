@@ -1,30 +1,60 @@
 <div *ngIf="errors.length" class="error-container" [@fadeInOut]>
-  <div class="error-content" [ngClass]="{error: errors[0].error, info: errors[0].info}">
+  <div
+    class="error-content"
+    [ngClass]="{ error: errors[0].error, info: errors[0].info }">
     <div class="error-close" (click)="close()">
-      <svg width="32" height="24" viewBox="0 0 32 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20.2426 16.728L11.7573 8.24268" stroke="#060022" stroke-width="2" stroke-linecap="round"/>
-        <path d="M20.2426 8.24262L11.7573 16.7279" stroke="#060022" stroke-width="2" stroke-linecap="round"/>
+      <svg
+        width="32"
+        height="24"
+        viewBox="0 0 32 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M20.2426 16.728L11.7573 8.24268"
+          stroke="#060022"
+          stroke-width="2"
+          stroke-linecap="round" />
+        <path
+          d="M20.2426 8.24262L11.7573 16.7279"
+          stroke="#060022"
+          stroke-width="2"
+          stroke-linecap="round" />
       </svg>
     </div>
     <div class="error-text">
-      {{errors[0].message}}
+      {{ errors[0].message }}
     </div>
     <div *ngIf="errors[0].error" class="error-icon" (click)="close()">
-      <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="27" cy="27" r="27" fill="#FBFEF4" fill-opacity="0.3"/>
-        <circle cx="27" cy="27" r="20" fill="#FBFEF4" fill-opacity="0.3"/>
-        <path d="M33 21L21 33M21 21L33 33" stroke="#ED828F" stroke-width="2" stroke-linecap="round"/>
+      <svg
+        width="54"
+        height="54"
+        viewBox="0 0 54 54"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <circle cx="27" cy="27" r="27" fill="#FBFEF4" fill-opacity="0.3" />
+        <circle cx="27" cy="27" r="20" fill="#FBFEF4" fill-opacity="0.3" />
+        <path
+          d="M33 21L21 33M21 21L33 33"
+          stroke="#ED828F"
+          stroke-width="2"
+          stroke-linecap="round" />
       </svg>
     </div>
     <div *ngIf="errors[0].info" class="error-icon" (click)="close()">
-      <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="27" cy="27" r="27" fill="#FBFEF4" fill-opacity="0.3"/>
-        <circle cx="27" cy="27" r="20" fill="#FBFEF4" fill-opacity="0.3"/>
-        <path d="M33 21L21 33M21 21L33 33" stroke="#B7D774" stroke-width="2" stroke-linecap="round"/>
+      <svg
+        width="54"
+        height="54"
+        viewBox="0 0 54 54"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <circle cx="27" cy="27" r="27" fill="#FBFEF4" fill-opacity="0.3" />
+        <circle cx="27" cy="27" r="20" fill="#FBFEF4" fill-opacity="0.3" />
+        <path
+          d="M33 21L21 33M21 21L33 33"
+          stroke="#B7D774"
+          stroke-width="2"
+          stroke-linecap="round" />
       </svg>
     </div>
   </div>
 </div>
-
-
-

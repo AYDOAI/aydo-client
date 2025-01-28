@@ -1,16 +1,16 @@
 <app-full-screen-content-wrapper>
   <ng-template #header>
-    <app-header title="Connect devices" [back]="'/streams/' + (streamId$ | async)"></app-header>
+    <app-header
+      title="Connect devices"
+      [back]="'/streams/' + (streamId$ | async)"></app-header>
   </ng-template>
   <ng-template #content>
-    <div class="description">List of appropriate
-      devices</div>
+    <div class="description">List of appropriate devices</div>
     <div class="connect-devices">
       @for (device of mergedDevices$ | async; track device.id) {
-        <connect-device-card
+        <app-connect-card
           [device]="device"
-          (toggleConnect)="onToggleConnection(device.id, device.connected)"
-        />
+          (toggleConnect)="onToggleConnection(device.id, device.connected)" />
       }
     </div>
   </ng-template>
