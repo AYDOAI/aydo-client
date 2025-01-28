@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { take, timer } from "rxjs";
+import { take, timer } from 'rxjs';
 
 @Component({
   selector: 'app-automatically',
@@ -10,6 +10,8 @@ export class AutomaticallyComponent implements OnInit {
 
   // DEMO
   public ngOnInit(): void {
-    timer(5000).pipe(take(1)).subscribe(_ => this.state = 'found')
+    timer(5000)
+      .pipe(take(1))
+      .subscribe(_ => (this.state = 'found'));
   }
 }

@@ -1,16 +1,24 @@
-import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
-import {FormGroup, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {BaseElement} from '../base.component';
+import {
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  Output,
+} from '@angular/core';
+import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { BaseElement } from '../base.component';
 
 @Component({
   selector: 'app-checkbox',
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => CheckboxComponent),
-    multi: true
-  }]
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => CheckboxComponent),
+      multi: true,
+    },
+  ],
 })
 export class CheckboxComponent extends BaseElement {
   @Output() onBlur: EventEmitter<any> = new EventEmitter<any>();
@@ -32,5 +40,4 @@ export class CheckboxComponent extends BaseElement {
   touchend(ev: any) {
     ev.stopPropagation();
   }
-
 }

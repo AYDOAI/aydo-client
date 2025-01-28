@@ -1,31 +1,37 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Subscription} from "rxjs";
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { Subscription } from 'rxjs';
 
-import {AppFormInputs} from '../shared/types';
-import {BackendService} from '../services/backend.service';
-import {ErrorsService} from "../services/errors.service";
-import {StorageService} from "../services/storage.service";
-import {UIService} from '../services/ui.service';
-import {Router} from '@angular/router';
-import { fieldMatchValidator } from "../shared/validators/field-match.validator";
-import { onlyLettersValidator } from "../shared/validators/only-letters.validator";
-import { emailSpecialCharValidator } from "../shared/validators/email-special-characters.validator";
-import { strongPasswordValidator } from "../shared/validators/strong-password.validator";
-import { latinOnly } from "../shared/validators/latin-only.validator";
-import { onlySpacesValidator } from "../shared/validators/only-spaces.validator";
-import { specialCharactersValidator } from "../shared/validators/special-characters.validator";
-import { NavController } from "@ionic/angular";
+import { AppFormInputs } from '../shared/types';
+import { BackendService } from '../services/backend.service';
+import { ErrorsService } from '../services/errors.service';
+import { StorageService } from '../services/storage.service';
+import { UIService } from '../services/ui.service';
+import { Router } from '@angular/router';
+import { fieldMatchValidator } from '../shared/validators/field-match.validator';
+import { onlyLettersValidator } from '../shared/validators/only-letters.validator';
+import { emailSpecialCharValidator } from '../shared/validators/email-special-characters.validator';
+import { strongPasswordValidator } from '../shared/validators/strong-password.validator';
+import { latinOnly } from '../shared/validators/latin-only.validator';
+import { onlySpacesValidator } from '../shared/validators/only-spaces.validator';
+import { specialCharactersValidator } from '../shared/validators/special-characters.validator';
+import { NavController } from '@ionic/angular';
 
 // @ts-ignore
-export const emailRegExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+export const emailRegExp = new RegExp(
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+);
 
 @Component({
   selector: 'app-base',
   template: '',
 })
 export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
-
   errorSub: Subscription;
 
   constructor(
@@ -43,25 +49,15 @@ export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  onError(message: any) {
+  onError(message: any) {}
 
-  }
+  onCreate() {}
 
-  onCreate() {
+  onInit() {}
 
-  }
+  onDestroy() {}
 
-  onInit() {
-
-  }
-
-  onDestroy() {
-
-  }
-
-  onAfterViewInit() {
-
-  }
+  onAfterViewInit() {}
 
   ngOnInit() {
     this.onInit();
@@ -105,22 +101,22 @@ export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
       opts.push(fieldMatchValidator(input.key, input.matchingKey));
     }
     if (input.onlyLetters) {
-      opts.push(onlyLettersValidator())
+      opts.push(onlyLettersValidator());
     }
     if (input.latinOnly) {
-      opts.push(latinOnly())
+      opts.push(latinOnly());
     }
     if (input.emailSpecialChars) {
-      opts.push(emailSpecialCharValidator())
+      opts.push(emailSpecialCharValidator());
     }
     if (input.specialCharacters) {
-      opts.push(specialCharactersValidator())
+      opts.push(specialCharactersValidator());
     }
     if (input.strongPassword) {
-      opts.push(strongPasswordValidator())
+      opts.push(strongPasswordValidator());
     }
     if (input.onlySpaces) {
-      opts.push(onlySpacesValidator())
+      opts.push(onlySpacesValidator());
     }
     const control = new FormControl('', opts);
     if (input.defaultValue) {
@@ -143,5 +139,4 @@ export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     return new FormGroup(controls);
   }
-
 }

@@ -7,7 +7,7 @@
   align-items: center;
 
   font-size: 16px;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   color: var(--white);
   background: var(--very-dark-blue);
   border: 1px solid var(--very-dark-blue);
@@ -53,7 +53,7 @@
 
   &.green-btn {
     color: #060022;
-    background: #D5F790;
+    background: #d5f790;
     border-color: #060022;
     &:disabled {
       opacity: 0.7;
@@ -74,12 +74,14 @@
     opacity: 0.7;
   }
 
-  &:has(.icon), &:has(svg-icon) {
+  &:has(.icon),
+  &:has(svg-icon) {
     padding-right: 12px;
     justify-content: space-between;
   }
 
-  .icon, svg-icon {
+  .icon,
+  svg-icon {
     margin-left: auto;
   }
 }

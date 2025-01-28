@@ -13,10 +13,24 @@
       <div class="card-content">
         <div class="project-info">
           <div>
-            <svg *ngIf="!dataStream?.logo" width="40" height="40" viewBox="0 0 40 40" fill="none">
-              <circle cx="20" cy="20" r="19.7" fill="#EEF1E7" stroke="black" stroke-width="0.6"/>
+            <svg
+              *ngIf="!dataStream?.logo"
+              width="40"
+              height="40"
+              viewBox="0 0 40 40"
+              fill="none">
+              <circle
+                cx="20"
+                cy="20"
+                r="19.7"
+                fill="#EEF1E7"
+                stroke="black"
+                stroke-width="0.6" />
             </svg>
-            <img *ngIf="dataStream?.logo" class="logo-image" src="{{dataStream?.logo}}"/>
+            <img
+              *ngIf="dataStream?.logo"
+              class="logo-image"
+              src="{{ dataStream?.logo }}" />
           </div>
           <div class="project-content">
             <div class="card-header">
@@ -24,7 +38,7 @@
                 {{ dataStream?.name ?? '' }}
               </div>
               <div class="card-status">
-                 {{ dataStream?.status === 1 ? 'ACTIVE' : 'INACTIVE'}}
+                {{ dataStream?.status === 1 ? 'ACTIVE' : 'INACTIVE' }}
               </div>
             </div>
             <div class="card-desc">
@@ -33,22 +47,30 @@
           </div>
         </div>
         <div class="link-container">
-          <a href="{{ dataStream?.externalLink ?? '#' }}" target="_blank">{{ dataStream?.externalLink ?? '' }}</a>
-          <svg (click)="copy(dataStream?.externalLink || '')" width="18" height="18" viewBox="0 0 18 18" fill="none"
-               xmlns="http://www.w3.org/2000/svg">
+          <a href="{{ dataStream?.externalLink ?? '#' }}" target="_blank">{{
+            dataStream?.externalLink ?? ''
+          }}</a>
+          <svg
+            (click)="copy(dataStream?.externalLink || '')"
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
             <path
               d="M4 4.5V3C4 1.89543 4.89543 1 6 1H15C16.1046 1 17 1.89543 17 3V12C17 13.1046 16.1046 14 15 14H13.6667M3 17H12C13.1046 17 14 16.1046 14 15V6C14 4.89543 13.1046 4 12 4H3C1.89543 4 1 4.89543 1 6V15C1 16.1046 1.89543 17 3 17Z"
-              stroke="#A1AE84" stroke-width="2"/>
+              stroke="#A1AE84"
+              stroke-width="2" />
           </svg>
         </div>
-        <button
-          class="btn text-center green-btn"
-          [routerLink]="'devices'"
-        >
+        <button class="btn text-center green-btn" [routerLink]="'devices'">
           {{ 'Connect devices' }}
         </button>
-        <button (click)="toggle()" [disabled]="ui.isBtnLoading('streaming')" class="btn text-center"
-                [class.red-btn]="dataStream?.status === 1">
+        <button
+          (click)="toggle()"
+          [disabled]="ui.isBtnLoading('streaming')"
+          class="btn text-center"
+          [class.red-btn]="dataStream?.status === 1">
           <span *ngIf="ui.isBtnLoading('streaming')" class="spin-loader"></span>
           {{ dataStream?.status === 1 ? 'Stop streaming' : 'Start streaming' }}
         </button>

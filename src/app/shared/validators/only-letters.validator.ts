@@ -7,7 +7,7 @@ export function onlyLettersValidator() {
 
     if (value && !regex.test(value)) {
       return {
-        onlyLetters: true
+        onlyLetters: true,
       };
     }
 

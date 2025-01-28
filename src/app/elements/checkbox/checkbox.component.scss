@@ -20,8 +20,8 @@
     height: 20px;
     flex-shrink: 0;
     flex-grow: 0;
-    border: 1px solid rgba(#D2D7C6, 0.5);
-    background: rgba(#D2D7C6, 0.5);
+    border: 1px solid rgba(#d2d7c6, 0.5);
+    background: rgba(#d2d7c6, 0.5);
     border-radius: 4px;
     box-shadow: none;
     box-sizing: border-box;
@@ -34,8 +34,8 @@
   }
 
   .checkbox:not(:disabled):not(:checked) + label:hover::before {
-    background: rgba(#D2D7C6, 0.7);
-    border-color: rgba(#D2D7C6, 0.7);
+    background: rgba(#d2d7c6, 0.7);
+    border-color: rgba(#d2d7c6, 0.7);
   }
 
   .checkbox:not(:disabled):active + label::before {

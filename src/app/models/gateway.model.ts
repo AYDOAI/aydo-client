@@ -1,4 +1,4 @@
-import {BaseItem, BaseModel} from './base';
+import { BaseItem, BaseModel } from './base';
 import { AppFormType, SelectItem } from '../shared/types';
 
 export class GatewayItem extends BaseItem {
@@ -17,12 +17,11 @@ export class DriversModel extends BaseModel {
   update(data: any[]) {
     this.items = [];
     if (data) {
-      data.forEach((item) => {
+      data.forEach(item => {
         this.items.push(new DriverItem(this, item));
       });
     }
   }
-
 }
 
 export class DriverItem extends BaseItem {
@@ -33,12 +32,12 @@ export class DriverItem extends BaseItem {
   settings: SettingsModel | undefined;
 
   constructor(parent: BaseModel, data: any) {
-    super(parent, null)
+    super(parent, null);
     if (data) {
       Object.keys(data).forEach(key => {
         if (key === 'settings') {
           // @ts-ignore
-          this[key] = new SettingsModel(data[key])
+          this[key] = new SettingsModel(data[key]);
           // console.log(data[key])
         } else {
           // @ts-ignore
@@ -47,7 +46,6 @@ export class DriverItem extends BaseItem {
       });
     }
   }
-
 }
 
 export class SettingsModel extends BaseModel {
@@ -61,12 +59,11 @@ export class SettingsModel extends BaseModel {
   update(data: any[]) {
     this.items = [];
     if (data) {
-      data.forEach((item) => {
+      data.forEach(item => {
         this.items.push(new SettingItem(this, item));
       });
     }
   }
-
 }
 
 export class SettingItem extends BaseItem {
@@ -89,7 +86,6 @@ export class SettingItem extends BaseItem {
     }
     this._type = value as AppFormType;
   }
-
 }
 
 export class DevicesModel extends BaseModel {
@@ -103,13 +99,12 @@ export class DevicesModel extends BaseModel {
   update(data: any[]) {
     this.items = [];
     if (data) {
-      data.forEach((item) => {
+      data.forEach(item => {
         this.items.push(new DeviceItem(this, item));
       });
     }
   }
 }
-
 
 export class DeviceItem extends BaseItem {
   id!: number;
@@ -121,7 +116,6 @@ export class DeviceItem extends BaseItem {
   settings?: any[];
   connected?: boolean;
 }
-
 
 export class ZoneItem extends BaseItem {
   name!: string;
@@ -140,7 +134,7 @@ export class ZoneModel extends BaseModel {
   update(data: any[]) {
     this.items = [];
     if (data) {
-      data.forEach((item) => {
+      data.forEach(item => {
         this.items.push(new ZoneItem(this, item));
       });
     }

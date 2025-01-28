@@ -7,13 +7,16 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import {BackendService} from "../../services/backend.service";
+import { BackendService } from '../../services/backend.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UnauthGuard implements CanActivate {
-  constructor(private backendService: BackendService, private router: Router) {}
+  constructor(
+    private backendService: BackendService,
+    private router: Router
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,

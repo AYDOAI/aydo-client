@@ -13,21 +13,38 @@
   <div class="devices">
     <app-gateway-card></app-gateway-card>
     <ng-container *ngIf="ui.devices">
-      <div *ngIf="!ui.devices?.items?.length" [routerLink]="'/add-device'" class="btn_new-device">
-        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M32 0C29.7909 0 28 1.79086 28 4V28H4C1.79086 28 0 29.7909 0 32C0 34.2091 1.79086 36 4 36H28V60C28 62.2091 29.7909 64 32 64C34.2091 64 36 62.2091 36 60V36H60C62.2091 36 64 34.2091 64 32C64 29.7909 62.2091 28 60 28H36V4C36 1.79086 34.2091 0 32 0Z"
-                fill="#99B859" fill-opacity="0.5"/>
+      <div
+        *ngIf="!ui.devices?.items?.length"
+        [routerLink]="'/add-device'"
+        class="btn_new-device">
+        <svg
+          width="64"
+          height="64"
+          viewBox="0 0 64 64"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M32 0C29.7909 0 28 1.79086 28 4V28H4C1.79086 28 0 29.7909 0 32C0 34.2091 1.79086 36 4 36H28V60C28 62.2091 29.7909 64 32 64C34.2091 64 36 62.2091 36 60V36H60C62.2091 36 64 34.2091 64 32C64 29.7909 62.2091 28 60 28H36V4C36 1.79086 34.2091 0 32 0Z"
+            fill="#99B859"
+            fill-opacity="0.5" />
         </svg>
         <span>Add connectivity device</span>
       </div>
       <div *ngIf="ui.devices && ui.devices.items?.length" class="devices-list">
         <button class="btn" [routerLink]="'/add-device'">
           Add other device
-          <svg-icon [name]="'plus'" class="icon" width="12px" height="12px"></svg-icon>
+          <svg-icon
+            [name]="'plus'"
+            class="icon"
+            width="12px"
+            height="12px"></svg-icon>
         </button>
-        <ng-container *ngFor="let device of ui.devices.items;">
-          <app-device-card [device]="device" (edit)="edit($event)"></app-device-card>
+        <ng-container *ngFor="let device of ui.devices.items">
+          <app-device-card
+            [device]="device"
+            (edit)="edit($event)"></app-device-card>
         </ng-container>
       </div>
     </ng-container>

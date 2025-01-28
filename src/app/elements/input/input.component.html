@@ -1,24 +1,30 @@
-<div *ngIf="form"
-     [formGroup]="form"
-     class="input-wrapper"
-     [class.has-error]="!!error"
-     (touchend)="touchend($event)">
-  <input *ngIf="type !== 'textarea'"
-         [class.has-value]="!!form.get(key)?.value"
-         [class.has-label]="!!title"
-         [id]="key"
-         [formControlName]="key"
-         [disabled]="readonly"
-         [readonly]="readonly"
-         [type]="type"
-         (blur)="onBlur.emit()"
-         type="text">
-  <textarea *ngIf="type === 'textarea'" class="input-input" [rows]="rows" [formControlName]="key" [id]="key" (blur)="onBlur.emit()"></textarea>
-  <label *ngIf="!!title"
-         class="label-text"
-         [for]="key">{{ title }}</label>
+<div
+  *ngIf="form"
+  [formGroup]="form"
+  class="input-wrapper"
+  [class.has-error]="!!error"
+  (touchend)="touchend($event)">
+  <input
+    *ngIf="type !== 'textarea'"
+    [class.has-value]="!!form.get(key)?.value"
+    [class.has-label]="!!title"
+    [id]="key"
+    [formControlName]="key"
+    [disabled]="readonly"
+    [readonly]="readonly"
+    [type]="type"
+    (blur)="onBlur.emit()"
+    type="text" />
+  <textarea
+    *ngIf="type === 'textarea'"
+    class="input-input"
+    [rows]="rows"
+    [formControlName]="key"
+    [id]="key"
+    (blur)="onBlur.emit()"></textarea>
+  <label *ngIf="!!title" class="label-text" [for]="key">{{ title }}</label>
 </div>
 
 <div *ngIf="error" class="input-error-text">
-  {{error}}
+  {{ error }}
 </div>

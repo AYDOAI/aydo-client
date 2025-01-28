@@ -1,22 +1,33 @@
 <div class="card big" [appRipple]="true" (click)="edit.emit(device)">
   <div class="card-content">
     <div class="card-header">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="min-width: 24px" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="12" fill="url(#paint0_radial_679_1618)"/>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        style="min-width: 24px"
+        viewBox="0 0 24 24"
+        fill="none">
+        <circle cx="12" cy="12" r="12" fill="url(#paint0_radial_679_1618)" />
         <defs>
-          <radialGradient id="paint0_radial_679_1618" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
-                          gradientTransform="translate(12 12) rotate(90) scale(12)">
-            <stop stop-color="#D5F790"/>
-            <stop offset="1" stop-color="#D5F790" stop-opacity="0"/>
+          <radialGradient
+            id="paint0_radial_679_1618"
+            cx="0"
+            cy="0"
+            r="1"
+            gradientUnits="userSpaceOnUse"
+            gradientTransform="translate(12 12) rotate(90) scale(12)">
+            <stop stop-color="#D5F790" />
+            <stop offset="1" stop-color="#D5F790" stop-opacity="0" />
           </radialGradient>
         </defs>
       </svg>
       <div class="title-container">
         <div class="title-container__title">
-          {{device.name}}
+          {{ device.name }}
           <div *ngIf="device.zoneId" class="title-container__zone">
             <div class="title-container__zone-value">
-              {{zoneName(device)}}
+              {{ zoneName(device) }}
             </div>
           </div>
         </div>
@@ -25,12 +36,14 @@
     </div>
     <div *ngIf="deviceCapabilitiesExists(device)" class="capabilities">
       <ng-container *ngFor="let capability of device.capabilities">
-        <div class="capabilities__capability" *ngIf="capabilityExists(capability)">
+        <div
+          class="capabilities__capability"
+          *ngIf="capabilityExists(capability)">
           <div class="capabilities__capability-title">
-            {{capability.displayName}}
+            {{ capability.displayName }}
           </div>
           <div class="capabilities__capability-value">
-            {{capability.value ?? '-'}}{{capability.unit ?? ''}}
+            {{ capability.value ?? '-' }}{{ capability.unit ?? '' }}
           </div>
         </div>
       </ng-container>

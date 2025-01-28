@@ -20,10 +20,12 @@ import { Platform } from '@ionic/angular';
 @Component({
   selector: 'app-barcode-scanner',
   templateUrl: 'barcode-scanner.component.html',
-  styleUrl: './barcode-scanner.component.scss'
+  styleUrl: './barcode-scanner.component.scss',
 })
-export class BarcodeScannerComponent extends BaseDialogComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+export class BarcodeScannerComponent
+  extends BaseDialogComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private static formats: BarcodeFormat[] = [];
   private static lensFacing: LensFacing = LensFacing.Back;
 
@@ -79,32 +81,32 @@ export class BarcodeScannerComponent extends BaseDialogComponent
       this.squareElement?.nativeElement.getBoundingClientRect();
     const scaledRect = squareElementBoundingClientRect
       ? {
-        left: squareElementBoundingClientRect.left * window.devicePixelRatio,
-        right:
-          squareElementBoundingClientRect.right * window.devicePixelRatio,
-        top: squareElementBoundingClientRect.top * window.devicePixelRatio,
-        bottom:
-          squareElementBoundingClientRect.bottom * window.devicePixelRatio,
-        width:
-          squareElementBoundingClientRect.width * window.devicePixelRatio,
-        height:
-          squareElementBoundingClientRect.height * window.devicePixelRatio,
-      }
+          left: squareElementBoundingClientRect.left * window.devicePixelRatio,
+          right:
+            squareElementBoundingClientRect.right * window.devicePixelRatio,
+          top: squareElementBoundingClientRect.top * window.devicePixelRatio,
+          bottom:
+            squareElementBoundingClientRect.bottom * window.devicePixelRatio,
+          width:
+            squareElementBoundingClientRect.width * window.devicePixelRatio,
+          height:
+            squareElementBoundingClientRect.height * window.devicePixelRatio,
+        }
       : undefined;
     const detectionCornerPoints = scaledRect
       ? [
-        [scaledRect.left, scaledRect.top],
-        [scaledRect.left + scaledRect.width, scaledRect.top],
-        [
-          scaledRect.left + scaledRect.width,
-          scaledRect.top + scaledRect.height,
-        ],
-        [scaledRect.left, scaledRect.top + scaledRect.height],
-      ]
+          [scaledRect.left, scaledRect.top],
+          [scaledRect.left + scaledRect.width, scaledRect.top],
+          [
+            scaledRect.left + scaledRect.width,
+            scaledRect.top + scaledRect.height,
+          ],
+          [scaledRect.left, scaledRect.top + scaledRect.height],
+        ]
       : undefined;
     const listener = await BarcodeScanner.addListener(
       'barcodeScanned',
-      async (event) => {
+      async event => {
         this.ngZone.run(() => {
           const cornerPoints = event.barcode.cornerPoints;
           if (detectionCornerPoints && cornerPoints) {
@@ -124,7 +126,7 @@ export class BarcodeScannerComponent extends BaseDialogComponent
           listener.remove();
           this.closeModal(event.barcode);
         });
-      },
+      }
     );
     document.querySelector('body')?.classList.add('barcode-scanner-active');
     await BarcodeScanner.startScan(options);
@@ -141,14 +143,15 @@ export class BarcodeScannerComponent extends BaseDialogComponent
   }
 
   private checkTorchAvailable(): void {
-    BarcodeScanner.isTorchAvailable().then((result) => {
+    BarcodeScanner.isTorchAvailable().then(result => {
       this.isTorchAvailable = result.available;
     });
   }
 
   private checkGoogleScannerModule(): void {
     if (this.platform.is('android')) {
-      BarcodeScanner.isGoogleBarcodeScannerModuleAvailable().then(async (result) => {
+      BarcodeScanner.isGoogleBarcodeScannerModuleAvailable().then(
+        async result => {
           if (!result.available) {
             await BarcodeScanner.installGoogleBarcodeScannerModule();
           }

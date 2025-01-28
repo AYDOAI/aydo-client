@@ -23,7 +23,9 @@
   position: relative;
 }
 
-.menu-icon, .menu-icon:before, .menu-icon:after {
+.menu-icon,
+.menu-icon:before,
+.menu-icon:after {
   cursor: pointer;
   width: 24px;
   background: black;
@@ -43,14 +45,17 @@
   max-width: 75%;
 }
 
-.menu-icon, .menu-icon:before, .menu-icon:after {
+.menu-icon,
+.menu-icon:before,
+.menu-icon:after {
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;
   -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
 
-.menu-icon.active:before, .menu-icon.active:after {
+.menu-icon.active:before,
+.menu-icon.active:after {
   top: 3.5px;
 }
 

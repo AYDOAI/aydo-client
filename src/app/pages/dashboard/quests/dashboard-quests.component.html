@@ -14,7 +14,7 @@
         <div class="card-content">
           <div class="card-header">
             <div class="card-title">
-              {{quest.name}}
+              {{ quest.name }}
             </div>
             <div class="card-status">
               {{ quest.completed ? 'Completed' : 'Incomplete' }}
@@ -26,8 +26,9 @@
           <div class="chips">
             <div class="chips_item">
               <span class="operation">Reward</span>
-              <span
-                class="arrival">{{quest.reward_value}} {{quest.currency}}</span>
+              <span class="arrival"
+                >{{ quest.reward_value }} {{ quest.currency }}</span
+              >
             </div>
           </div>
         </div>

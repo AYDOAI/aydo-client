@@ -7,7 +7,7 @@ export function emailSpecialCharValidator() {
 
     if (value && !regex.test(value)) {
       return {
-        emailSpecialCharacters: true
+        emailSpecialCharacters: true,
       };
     }
 
