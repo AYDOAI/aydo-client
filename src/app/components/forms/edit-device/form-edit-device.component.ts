@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AppFormInputs} from '../../../shared/types';
 import {FormBaseComponent} from '../../form-base.component';
+import { finalize } from "rxjs";
 
 @Component({
   selector: 'app-form-edit-device',
@@ -94,10 +95,10 @@ export class FormEditDeviceComponent extends FormBaseComponent {
 
         if (isValid) {
           // @ts-ignore
-          this.backend.saveDevice(device).then(() => {
+          this.backend.saveDevice(device).pipe(finalize(() => this.ui.unlockBtn('save_device'))).subscribe(() => {
             this.errors.showInfo('Device successfully added. Please wait a few seconds while we update the information about the added devices.');
             this.ui.goStep('devices');
-          }).finally(() => this.ui.unlockBtn('save_device'))
+          });
         } else {
           this.ui.unlockBtn('save_device')
           this.errors.showError('Device with such settings is already linked to your account')
