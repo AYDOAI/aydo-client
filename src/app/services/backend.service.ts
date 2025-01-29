@@ -4,7 +4,7 @@ import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { RequestService } from './request.service';
-import { LoginItem, UserItem } from '../models/users.model';
+import { LoginItem, UserInfo, UserItem } from '../models/users.model';
 import { StorageService } from './storage.service';
 import { DeviceItem, GatewayItem, ZoneItem } from '../models/gateway.model';
 import { between } from '../shared/shared.functions';
@@ -197,7 +197,7 @@ export class BackendService {
       );
   }
 
-  userRegister(user: UserItem): Observable<any> {
+  userRegister(user: UserItem): Observable<UserInfo> {
     return this.request.post(
       `${environment.main_url}/backend/v2/user`,
       { user },
@@ -240,7 +240,7 @@ export class BackendService {
     );
   }
 
-  userInfo(): Observable<any> {
+  userInfo(): Observable<UserInfo> {
     return this.request.get(`${environment.main_url}/backend/v2/user/info`, {
       mainGroup: 'backend',
       method: 'user-info',

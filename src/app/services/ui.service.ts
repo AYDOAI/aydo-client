@@ -14,6 +14,7 @@ import { LoadingService } from './loading.service';
 import { Network } from '@capacitor/network';
 import { NavController } from '@ionic/angular';
 import { ErrorsService } from './errors.service';
+import { UserInfo } from '../models/users.model';
 
 @Injectable({
   providedIn: 'root',
@@ -27,26 +28,7 @@ export class UIService implements OnDestroy {
   selectedDevice!: DeviceItem | undefined;
   devices!: DevicesModel;
   valuesInterval!: any;
-  user:
-    | {
-        balance: string;
-        email: string;
-        wallet: string;
-        firstname: string;
-        lastname: string;
-        id: number;
-        is_verified: boolean;
-        login: string;
-        params: any;
-        token: string;
-        refresh_token: string;
-        avatar?: {
-          fileId: string;
-          url: string;
-        };
-      }
-    | null
-    | undefined = null;
+  user: UserInfo | null | undefined = null;
   public appReady: boolean = false;
   public inviteId: string;
   public isOnline: boolean = true;
@@ -112,7 +94,7 @@ export class UIService implements OnDestroy {
           })
         )
         .subscribe(
-          (user: any) => {
+          (user: UserInfo) => {
             this.user = user;
             if (!this.user?.is_verified) {
               this.goStep('success');
