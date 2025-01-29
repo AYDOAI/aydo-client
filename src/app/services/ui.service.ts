@@ -93,7 +93,10 @@ export class UIService implements OnDestroy {
               this.goStep('success');
               return;
             }
-            if (this.isAuthPage()) {
+            if (
+              this.isAuthPage() &&
+              !this.router.url.includes('privacy-policy')
+            ) {
               this.defaultStep();
             }
           })
@@ -104,7 +107,10 @@ export class UIService implements OnDestroy {
             const next = () => {
               this.loading.showLoading();
               this.getDevices();
-              if (this.isAuthPage()) {
+              if (
+                this.isAuthPage() &&
+                !this.router.url.includes('privacy-policy')
+              ) {
                 this.defaultStep();
               }
             };
