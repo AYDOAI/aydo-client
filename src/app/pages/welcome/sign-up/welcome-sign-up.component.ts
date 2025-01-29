@@ -94,8 +94,8 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
             .userRegister(user)
             .pipe(finalize(() => this.ui.unlockBtn('sign_up')))
             .subscribe(data => {
-              this.storage.token = data.user.token;
-              this.storage.refreshToken = data.user.refresh_token;
+              this.storage.token = data.token;
+              this.storage.refreshToken = data.refresh_token;
               this.ui.afterLogin();
             });
           break;
