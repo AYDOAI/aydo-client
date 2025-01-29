@@ -82,6 +82,7 @@ export class AppComponent {
         searchParams.forEach((value, key) => {
           queryParams[key] = value;
         });
+        this.ui.inviteId = queryParams['code'] ?? '';
         this.router.navigate([pathname], { queryParams });
       });
     });
