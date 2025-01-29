@@ -1,19 +1,25 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppForm, AppFormInputs, FrameStep } from '../../shared/types';
 import { BaseElement } from '../base.component';
-import {Location} from "@angular/common";
-import { DialogService } from "../../services/dialog.service";
-import { LicenseDialogComponent } from "../dialog/license-dialog/license-dialog.component";
-import { validateFormControls } from "../../shared/utils/form.utils";
+import { Location } from '@angular/common';
+import { DialogService } from '../../services/dialog.service';
+import { LicenseDialogComponent } from '../dialog/license-dialog/license-dialog.component';
+import { validateFormControls } from '../../shared/utils/form.utils';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
-  styleUrl: './form.component.scss'
+  styleUrl: './form.component.scss',
 })
 export class FormComponent extends BaseElement implements OnInit {
-
   @Input() form!: AppForm;
   @Input() formGroup!: FormGroup;
   @Input() back!: FrameStep;
@@ -43,14 +49,14 @@ export class FormComponent extends BaseElement implements OnInit {
   }
 
   public openLicense(e: MouseEvent): void {
-    e.preventDefault()
+    e.preventDefault();
     this.dialog.show(LicenseDialogComponent, {
-      headerTitle: 'License'
-    })
+      headerTitle: 'License',
+    });
   }
 
   public get formError(): string {
-    for (const input of this.form?.inputs) {
+    for (const input of this.form?.inputs || []) {
       if (input.error) {
         return input.error;
       }
@@ -84,7 +90,7 @@ export class FormComponent extends BaseElement implements OnInit {
     if (control.hasError('required') || control.hasError('onlySpaces')) {
       return `${title} is required`;
     } else if (control.hasError('latinOnly')) {
-      return `${title} contains invalid characters`
+      return `${title} contains invalid characters`;
     } else if (control.hasError('email')) {
       return `${title} is invalid`;
     } else if (control.hasError('minlength')) {
@@ -99,10 +105,13 @@ export class FormComponent extends BaseElement implements OnInit {
       return `${title} does not match`;
     } else if (control.hasError('onlyLetters')) {
       return `${title} must contain only letters (a-zA-Z)`;
-    } else if (control.hasError('emailSpecialCharacters') || control.hasError('specialCharacters')) {
+    } else if (
+      control.hasError('emailSpecialCharacters') ||
+      control.hasError('specialCharacters')
+    ) {
       return `${title} must not contain special characters`;
     } else if (control.hasError('strongPassword')) {
-      return `${title} is not strong enough`
+      return `${title} is not strong enough`;
     } else {
       return '';
     }
@@ -125,15 +134,21 @@ export class FormComponent extends BaseElement implements OnInit {
       if (element.conditions.visible) {
         Object.keys(element.conditions.visible).forEach(key => {
           if (this.formGroup.get(key) && this.formGroup.get(key)?.value) {
-            if (this.formGroup.get(key)?.value !== element.conditions.visible[key]) {
+            if (
+              this.formGroup.get(key)?.value !== element.conditions.visible[key]
+            ) {
               result = false;
 
               if (element.required) {
-                this.formGroup.get(element.key)?.removeValidators(Validators.required);
+                this.formGroup
+                  .get(element.key)
+                  ?.removeValidators(Validators.required);
               }
             } else {
               if (element.required) {
-                this.formGroup.get(element.key)?.addValidators(Validators.required);
+                this.formGroup
+                  .get(element.key)
+                  ?.addValidators(Validators.required);
               }
             }
           }

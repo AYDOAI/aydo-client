@@ -1,12 +1,12 @@
-import {Component, inject} from '@angular/core';
-import {BaseComponent} from '../../components/base.component';
-import {DeviceItem} from '../../models/gateway.model';
-import {ZoneService} from "../../services/zone.service";
+import { Component, inject } from '@angular/core';
+import { BaseComponent } from '../../components/base.component';
+import { DeviceItem } from '../../models/gateway.model';
+import { ZoneService } from '../../services/zone.service';
 
 @Component({
   selector: 'app-devices',
   templateUrl: './devices.component.html',
-  styleUrl: './devices.component.scss'
+  styleUrl: './devices.component.scss',
 })
 export class DevicesComponent extends BaseComponent {
   private zoneService = inject(ZoneService);
@@ -27,9 +27,11 @@ export class DevicesComponent extends BaseComponent {
   }
 
   public edit(device: DeviceItem): void {
-    this.ui.selectedDriver = this.ui.drivers.items.find(item => item.driverId == device.driverId);
+    this.ui.selectedDriver = this.ui.drivers.items.find(
+      item => item.driverId == device.driverId
+    );
     this.ui.selectedDevice = device;
-    this.navCtrl.navigateForward(['/devices/edit'])
+    this.navCtrl.navigateForward(['/devices/edit']);
   }
 
   public trackByIdent(index: number, device: DeviceItem): string {

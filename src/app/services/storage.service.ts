@@ -1,13 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Storage} from '@ionic/storage';
-import { Observable, ReplaySubject } from "rxjs";
-
+import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
+import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StorageService {
-
   private _token!: string;
   private _refreshToken!: string;
   private _serverId!: string;
@@ -26,7 +24,10 @@ export class StorageService {
     this._token = await this.getString('token');
     this._refreshToken = await this.getString('refresh_token');
     this._serverId = await this.getString('server_id');
-    this.initSubject.next({token: this._token, refreshToken: this._refreshToken});
+    this.initSubject.next({
+      token: this._token,
+      refreshToken: this._refreshToken,
+    });
   }
 
   get token(): string {
@@ -57,39 +58,55 @@ export class StorageService {
   }
 
   public next(): void {
-    this.initSubject.next({token: this._token, refreshToken: this._refreshToken});
-  }
-
-  getFromStorage(key: string): Promise<string> {
-    return this.storage.get(`aydo-${key}`).then((data: any) => {
-      return Promise.resolve(data);
-    }).catch((error: any) => {
-      return Promise.reject(error);
+    this.initSubject.next({
+      token: this._token,
+      refreshToken: this._refreshToken,
     });
   }
 
+  getFromStorage(key: string): Promise<string> {
+    return this.storage
+      .get(`aydo-${key}`)
+      .then((data: any) => {
+        return Promise.resolve(data);
+      })
+      .catch((error: any) => {
+        return Promise.reject(error);
+      });
+  }
+
   getString(key: string, defaultValue: string | null = null): Promise<string> {
-    return this.getFromStorage(key).then((data: any) => {
-      return Promise.resolve(data !== undefined && data !== null ? data : defaultValue);
-    }).catch(error => {
-      return Promise.reject(error);
-    })
+    return this.getFromStorage(key)
+      .then((data: any) => {
+        return Promise.resolve(
+          data !== undefined && data !== null ? data : defaultValue
+        );
+      })
+      .catch(error => {
+        return Promise.reject(error);
+      });
   }
 
   getBoolean(key: string, defaultValue: boolean = false): Promise<boolean> {
-    return this.getFromStorage(key).then((data: any) => {
-      return Promise.resolve(data !== undefined && data !== null ? data : defaultValue);
-    }).catch(error => {
-      return Promise.reject(error);
-    })
+    return this.getFromStorage(key)
+      .then((data: any) => {
+        return Promise.resolve(
+          data !== undefined && data !== null ? data : defaultValue
+        );
+      })
+      .catch(error => {
+        return Promise.reject(error);
+      });
   }
 
   getObject(key: string): Promise<any> {
-    return this.getFromStorage(key).then((data: any) => {
-      return Promise.resolve(data);
-    }).catch(error => {
-      return Promise.reject(error);
-    })
+    return this.getFromStorage(key)
+      .then((data: any) => {
+        return Promise.resolve(data);
+      })
+      .catch(error => {
+        return Promise.reject(error);
+      });
   }
 
   set(key: string, value: string) {
@@ -109,5 +126,4 @@ export class StorageService {
   setObject(key: string, value: object) {
     return this.storage.set(`aydo-${key}`, value);
   }
-
 }

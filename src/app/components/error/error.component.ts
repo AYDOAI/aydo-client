@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { Subscription } from "rxjs";
-import { ErrorsService } from "../../services/errors.service";
-import { animate, style, transition, trigger } from "@angular/animations";
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { ErrorsService } from '../../services/errors.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-error',
@@ -11,29 +11,32 @@ import { animate, style, transition, trigger } from "@angular/animations";
     trigger('fadeInOut', [
       transition(':enter', [
         style({ opacity: 0 }),
-        animate('100ms', style({ opacity: 1 }))
+        animate('100ms', style({ opacity: 1 })),
       ]),
-      transition(':leave', [
-        animate('100ms', style({ opacity: 0 }))
-      ])
-    ])
-  ]
+      transition(':leave', [animate('100ms', style({ opacity: 0 }))]),
+    ]),
+  ],
 })
-export class ErrorComponent {
-  public error: any[] = [];
+export class ErrorComponent implements OnInit, OnDestroy {
+  public errors: any[] = [];
   private showErrorSub: Subscription | null = null;
+  private errorsService = inject(ErrorsService);
 
-  constructor(private errors: ErrorsService) {
-    this.subscribeToErrors();
+  ngOnInit(): void {
+    this.showErrorSub = this.errorsService
+      .showErrorSub()
+      .subscribe((data: any) => {
+        this.errors.push(data);
+      });
+  }
+
+  ngOnDestroy() {
+    if (this.showErrorSub) {
+      this.showErrorSub.unsubscribe();
+    }
   }
 
   public close(): void {
-    this.error.splice(0, 1);
-  }
-
-  private subscribeToErrors(): void {
-    this.showErrorSub = this.errors.showErrorSub().subscribe((data: any) => {
-      this.error.push(data);
-    });
+    this.errors.splice(0, 1);
   }
 }

@@ -6,6 +6,6 @@ import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [ContentComponent],
   imports: [IonicModule, CommonModule],
-  exports: [ContentComponent]
+  exports: [ContentComponent],
 })
 export class ContentModule {}

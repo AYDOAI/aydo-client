@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">AYDO</string>
     <string name="title_activity_main">AYDO</string>
-    <string name="package_name">com.aydo.app</string>
-    <string name="custom_url_scheme">com.aydo.app</string>
+    <string name="package_name">ai.aydo.app</string>
+    <string name="custom_url_scheme">ai.aydo.app</string>
 </resources>

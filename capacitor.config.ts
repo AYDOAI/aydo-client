@@ -1,13 +1,19 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.aydo.app',
+  appId: 'ai.aydo.app',
   appName: 'AYDO',
   webDir: 'www',
   cordova: {
     preferences: {
-      OverrideUserAgent: "Mozilla/5.0 Google"
-    }
+      OverrideUserAgent: 'Mozilla/5.0 Google',
+    },
+  },
+  server: {
+    hostname: 'app.aydo.ai',
+    androidScheme: 'https',
+    iosScheme: 'https',
+    cleartext: true,
   },
   // server: {
   //   url: 'http://localhost:8100',

@@ -1,5 +1,4 @@
 export class BaseModel {
-
   constructor(data?: any) {
     if (data) {
       Object.keys(data).forEach(key => {
@@ -8,7 +7,6 @@ export class BaseModel {
       });
     }
   }
-
 }
 
 export class BaseItem {
@@ -23,5 +21,4 @@ export class BaseItem {
       });
     }
   }
-
 }

@@ -2,16 +2,16 @@
   margin-left: 20px;
   margin-top: 20px;
   display: flex;
-    .card {
-      width: 40px;
-      height: 40px;
-      box-sizing: border-box;
+  .card {
+    width: 40px;
+    height: 40px;
+    box-sizing: border-box;
 
-      .card-content {
-        --icon-width: 9px;
-        --icon-height: 18px;
-        padding-top: 2px !important;
-        padding-left: 4px !important;
-      }
+    .card-content {
+      --icon-width: 9px;
+      --icon-height: 18px;
+      padding-top: 2px !important;
+      padding-left: 4px !important;
     }
+  }
 }

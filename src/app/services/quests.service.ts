@@ -6,10 +6,9 @@ import { environment } from '../../environments/environment';
 import { QuestsModel } from '../models/quests.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class QuestsService implements BaseService<QuestsModel> {
-
   constructor(private request: RequestService) {}
 
   get baseUrl(): string {
@@ -21,7 +20,7 @@ export class QuestsService implements BaseService<QuestsModel> {
     return from(
       this.request.get(this.baseUrl, {
         mainGroup: 'backend',
-        method: 'get-all-quests'
+        method: 'get-all-quests',
       })
     );
   }

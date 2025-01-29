@@ -1,7 +1,7 @@
 import { FormArray, FormGroup, AbstractControl } from '@angular/forms';
 
 export function validateFormControls(form: FormGroup | FormArray): void {
-  Object.keys(form.controls).forEach((field) => {
+  Object.keys(form.controls).forEach(field => {
     const control = form.get(field) as AbstractControl;
     if (control) {
       control.markAsTouched({ onlySelf: true });

@@ -1,18 +1,18 @@
-import {Injectable} from '@angular/core';
-import {InAppBrowser} from "@awesome-cordova-plugins/in-app-browser/ngx";
-import {Platform} from "@ionic/angular";
-import {Router} from "@angular/router";
-import {environment} from '../../environments/environment';
-import {RequestService} from './request.service';
-import {LoginItem, UserItem} from '../models/users.model';
-import {StorageService} from './storage.service';
-import {DeviceItem, GatewayItem, ZoneItem} from '../models/gateway.model';
-import {between} from '../shared/shared.functions';
+import { Injectable } from '@angular/core';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+import { Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
+import { RequestService } from './request.service';
+import { LoginItem, UserInfo, UserItem } from '../models/users.model';
+import { StorageService } from './storage.service';
+import { DeviceItem, GatewayItem, ZoneItem } from '../models/gateway.model';
+import { between } from '../shared/shared.functions';
 import detectEthereumProvider from '@metamask/detect-provider';
-import {from} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
-import {ErrorsService} from "./errors.service";
-import {IDeviceSettings} from "../shared/interfaces/device-settings.interface";
+import { from, Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
+import { ErrorsService } from './errors.service';
+import { IDeviceSettings } from '../shared/interfaces/device-settings.interface';
 
 export interface Notification {
   title?: string;
@@ -62,235 +62,314 @@ export interface DataStreams {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BackendService {
-
   randomIndex = 0;
   notifications: Notifications[] = [
     {
-      items: []
+      items: [],
     },
     {
-      items: [{title: 'New project available'}]
+      items: [{ title: 'New project available' }],
     },
     {
-      items: [{title: 'New project available'}, {title: 'New reward acquired'}]
+      items: [
+        { title: 'New project available' },
+        { title: 'New reward acquired' },
+      ],
     },
   ];
   rewards: Reward[] = [
     {
       multiplier: 1.1,
       points: 10.01,
-      tokens: 120.00,
-      history: [{value: 40, type: 'tokens'}, {value: 15, type: 'points'}]
+      tokens: 120.0,
+      history: [
+        { value: 40, type: 'tokens' },
+        { value: 15, type: 'points' },
+      ],
     },
     {
       multiplier: 1.3,
       points: 15.54,
-      tokens: 60.00,
-      history: [{value: 25, type: 'points'}, {value: 50, type: 'tokens'}]
+      tokens: 60.0,
+      history: [
+        { value: 25, type: 'points' },
+        { value: 50, type: 'tokens' },
+      ],
     },
     {
       multiplier: 1.2,
       points: 9.68,
-      tokens: 200.00,
-      history: [{value: 60, type: 'tokens'}, {value: -25, type: 'points'}]
+      tokens: 200.0,
+      history: [
+        { value: 60, type: 'tokens' },
+        { value: -25, type: 'points' },
+      ],
     },
   ];
   mainQuests: Quests[] = [
     {
       items: [
-        {title: 'Install the sensor', reward: 40, type: 'tokens'},
-        {title: 'Log in to the app for 30 days', reward: 30, type: 'tokens'},
-        {title: 'Invite your friend', reward: 50, type: 'points'}
-      ]
+        { title: 'Install the sensor', reward: 40, type: 'tokens' },
+        { title: 'Log in to the app for 30 days', reward: 30, type: 'tokens' },
+        { title: 'Invite your friend', reward: 50, type: 'points' },
+      ],
     },
-    {items: []},
+    { items: [] },
     {
       items: [
-        {title: 'Install the sensor', reward: 40, type: 'tokens'},
-        {title: 'Log in to the app for 30 days', reward: 30, type: 'tokens'},
-        {title: 'Invite your friend', reward: 50, type: 'points'}
-      ]
+        { title: 'Install the sensor', reward: 40, type: 'tokens' },
+        { title: 'Log in to the app for 30 days', reward: 30, type: 'tokens' },
+        { title: 'Invite your friend', reward: 50, type: 'points' },
+      ],
     },
   ];
   additionalQuests: Quests[] = [
-    {items: []},
+    { items: [] },
     {
       items: [
-        {title: 'Install the sensor', reward: 40, type: 'tokens'},
-        {title: 'Log in to the app for 30 days', reward: 30, type: 'tokens'},
-        {title: 'Invite your friend', reward: 50, type: 'points'}
-      ]
+        { title: 'Install the sensor', reward: 40, type: 'tokens' },
+        { title: 'Log in to the app for 30 days', reward: 30, type: 'tokens' },
+        { title: 'Invite your friend', reward: 50, type: 'points' },
+      ],
     },
     {
       items: [
-        {title: 'Install the sensor', reward: 40, type: 'tokens'},
-        {title: 'Log in to the app for 30 days', reward: 30, type: 'tokens'},
-        {title: 'Invite your friend', reward: 50, type: 'points'}
-      ]
-    }
+        { title: 'Install the sensor', reward: 40, type: 'tokens' },
+        { title: 'Log in to the app for 30 days', reward: 30, type: 'tokens' },
+        { title: 'Invite your friend', reward: 50, type: 'points' },
+      ],
+    },
   ];
   rankings: Ranking[] = [
-    {title: 'Senior'},
-    {title: 'Expert'},
-    {title: 'Junior'},
+    { title: 'Senior' },
+    { title: 'Expert' },
+    { title: 'Junior' },
   ];
 
-  constructor(public request: RequestService,
-              public storage: StorageService,
-              public errors: ErrorsService,
-              private iab: InAppBrowser,
-              private platform: Platform,
-              private router: Router) {
+  constructor(
+    public request: RequestService,
+    public storage: StorageService,
+    public errors: ErrorsService,
+    private iab: InAppBrowser,
+    private platform: Platform,
+    private router: Router
+  ) {
     this.randomIndex = between(0, 2);
   }
 
-  userLogin(user: LoginItem): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/user/login`, {user}, {
-      mainGroup: 'backend',
-      method: 'user-login'
-    }).then(data => {
-      this.storage.token = data.user.token;
-      this.storage.refreshToken = data.user.refresh_token;
-      return Promise.resolve(data);
-    });
+  userLogin(user: LoginItem): Observable<any> {
+    return this.request
+      .post(
+        `${environment.main_url}/backend/v2/user/login`,
+        { user },
+        {
+          mainGroup: 'backend',
+          method: 'user-login',
+        }
+      )
+      .pipe(
+        tap(data => {
+          this.storage.token = data.user.token;
+          this.storage.refreshToken = data.user.refresh_token;
+        })
+      );
   }
 
-  demoLogin(): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/user/login`, { user: { login: 'test@aydo.ai', password: '1qaz@WSX' } }, {
-      mainGroup: 'backend',
-      method: 'demo-login',
-      ignoreError: true
-    }).then(data => {
-      this.storage.token = data.user.token;
-      this.storage.refreshToken = data.user.refresh_token;
-      return Promise.resolve(data);
-    });
+  demoLogin(): Observable<any> {
+    return this.request
+      .post(
+        `${environment.main_url}/backend/v2/user/login`,
+        { user: { login: 'test@aydo.ai', password: '1qaz@WSX' } },
+        {
+          mainGroup: 'backend',
+          method: 'demo-login',
+          ignoreError: true,
+        }
+      )
+      .pipe(
+        tap(data => {
+          this.storage.token = data.user.token;
+          this.storage.refreshToken = data.user.refresh_token;
+        })
+      );
   }
 
-  userRegister(user: UserItem): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/user`, {user}, {
-      mainGroup: 'backend',
-      method: 'user-register'
-    });
+  userRegister(user: UserItem): Observable<UserInfo> {
+    return this.request.post(
+      `${environment.main_url}/backend/v2/user`,
+      { user },
+      {
+        mainGroup: 'backend',
+        method: 'user-register',
+      }
+    );
   }
 
-  updateUser(user: any): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/user/edit`, {user}, {
-      mainGroup: 'backend',
-      method: 'user-update'
-    });
+  updateUser(user: any): Observable<any> {
+    return this.request.post(
+      `${environment.main_url}/backend/v2/user/edit`,
+      { user },
+      {
+        mainGroup: 'backend',
+        method: 'user-update',
+      }
+    );
   }
 
-  userForgot(user: LoginItem): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/user/forgot`, {user}, {
-      mainGroup: 'backend',
-      method: 'user-forgot'
-    });
+  userForgot(user: LoginItem): Observable<any> {
+    return this.request.post(
+      `${environment.main_url}/backend/v2/user/forgot`,
+      { user },
+      {
+        mainGroup: 'backend',
+        method: 'user-forgot',
+      }
+    );
   }
 
-  resendCode(): Promise<any> {
-    return this.request.get(`${environment.main_url}/backend/v2/user/resend-code`,  {
-      mainGroup: 'backend',
-      method: 'resend-code'
-    });
+  resendCode(): Observable<any> {
+    return this.request.get(
+      `${environment.main_url}/backend/v2/user/resend-code`,
+      {
+        mainGroup: 'backend',
+        method: 'resend-code',
+      }
+    );
   }
 
-  userInfo(): Promise<any> {
+  userInfo(): Observable<UserInfo> {
     return this.request.get(`${environment.main_url}/backend/v2/user/info`, {
       mainGroup: 'backend',
-      method: 'user-info'
+      method: 'user-info',
     });
   }
 
-  userRefresh(): Promise<any> {
-    return this.request.get(`${environment.main_url}/backend/v2/user/refresh`, {
-      mainGroup: 'backend',
-      method: 'user-refresh'
-    }).then(data => {
-      this.storage.set('token', data.user.token);
-      this.storage.set('refresh_token', data.user.refresh_token);
-      return Promise.resolve(data);
-    });
+  userRefresh(): Observable<any> {
+    return this.request
+      .get(`${environment.main_url}/backend/v2/user/refresh`, {
+        mainGroup: 'backend',
+        method: 'user-refresh',
+      })
+      .pipe(
+        tap(data => {
+          this.storage.set('token', data.user.token);
+          this.storage.set('refresh_token', data.user.refresh_token);
+          return Promise.resolve(data);
+        })
+      );
   }
 
-  gatewayConnect(gateway: GatewayItem): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/gateway/connect`, {gateway}, {
-      mainGroup: 'backend',
-      method: 'gateway-connect'
-    });
+  gatewayConnect(gateway: GatewayItem): Observable<any> {
+    return this.request.post(
+      `${environment.main_url}/backend/v2/gateway/connect`,
+      { gateway },
+      {
+        mainGroup: 'backend',
+        method: 'gateway-connect',
+      }
+    );
   }
 
-  drivers(): Promise<any> {
-    return this.request.get(`${environment.main_url}/backend/v2/gateway/drivers`, {
-      mainGroup: 'backend',
-      method: 'gateway-drivers'
-    });
+  drivers(): Observable<any> {
+    return this.request.get(
+      `${environment.main_url}/backend/v2/gateway/drivers`,
+      {
+        mainGroup: 'backend',
+        method: 'gateway-drivers',
+      }
+    );
   }
 
-  saveDevice(device: DeviceItem): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/gateway/device`, {device}, {
-      mainGroup: 'backend',
-      method: 'gateway-save-device'
-    });
+  saveDevice(device: DeviceItem): Observable<any> {
+    return this.request.post(
+      `${environment.main_url}/backend/v2/gateway/device`,
+      { device },
+      {
+        mainGroup: 'backend',
+        method: 'gateway-save-device',
+      }
+    );
   }
 
-  getDevices(): Promise<any> {
-    return this.request.get(`${environment.main_url}/backend/v2/gateway/device`, {
-      mainGroup: 'backend',
-      method: 'gateway-get-devices'
-    });
+  getDevices(): Observable<any> {
+    return this.request.get(
+      `${environment.main_url}/backend/v2/gateway/device`,
+      {
+        mainGroup: 'backend',
+        method: 'gateway-get-devices',
+      }
+    );
   }
 
-  deleteDevice(device_ident: string): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/gateway/device/delete`, { data: { device_ident } }, {
-      mainGroup: 'backend',
-      method: 'gateway-delete-device'
-    });
+  deleteDevice(device_ident: string): Observable<any> {
+    return this.request.post(
+      `${environment.main_url}/backend/v2/gateway/device/delete`,
+      { data: { device_ident } },
+      {
+        mainGroup: 'backend',
+        method: 'gateway-delete-device',
+      }
+    );
   }
 
-  updateDevice(device: IDeviceSettings): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/gateway/device/update`, { data: device }, {
-      mainGroup: 'backend',
-      method: 'gateway-update-device'
-    });
+  updateDevice(device: IDeviceSettings): Observable<any> {
+    return this.request.post(
+      `${environment.main_url}/backend/v2/gateway/device/update`,
+      { data: device },
+      {
+        mainGroup: 'backend',
+        method: 'gateway-update-device',
+      }
+    );
   }
 
-  getDeviceValues(): Promise<any> {
-    return this.request.get(`${environment.main_url}/backend/v2/gateway/device/values`, {
-      mainGroup: 'backend',
-      method: 'gateway-get-device-values'
-    });
+  getDeviceValues(): Observable<any> {
+    return this.request.get(
+      `${environment.main_url}/backend/v2/gateway/device/values`,
+      {
+        mainGroup: 'backend',
+        method: 'gateway-get-device-values',
+      }
+    );
   }
 
-  getGateway(): Promise<any> {
+  getGateway(): Observable<any> {
     return this.request.get(`${environment.main_url}/backend/v2/gateway`, {
       mainGroup: 'backend',
-      method: 'gateway-get-gateway'
+      method: 'gateway-get-gateway',
     });
   }
 
-  saveZone(zone: ZoneItem): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/gateway/zone`, { zone }, {
-      mainGroup: 'backend',
-      method: 'gateway-save-zone'
-    });
+  saveZone(zone: ZoneItem): Observable<any> {
+    return this.request.post(
+      `${environment.main_url}/backend/v2/gateway/zone`,
+      { zone },
+      {
+        mainGroup: 'backend',
+        method: 'gateway-save-zone',
+      }
+    );
   }
 
-  getZones(): Promise<any> {
+  getZones(): Observable<any> {
     return this.request.get(`${environment.main_url}/backend/v2/gateway/zone`, {
       mainGroup: 'backend',
-      method: 'gateway-get-zones'
+      method: 'gateway-get-zones',
     });
   }
 
-  deviceCommand(data: any): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/gateway/device/command`, data, {
-      mainGroup: 'backend',
-      method: 'gateway-device-command'
-    });
+  deviceCommand(data: any): Observable<any> {
+    return this.request.post(
+      `${environment.main_url}/backend/v2/gateway/device/command`,
+      data,
+      {
+        mainGroup: 'backend',
+        method: 'gateway-device-command',
+      }
+    );
   }
 
   getNotifications(): Promise<any> {
@@ -323,25 +402,32 @@ export class BackendService {
     });
   }
 
-  getDataStreams(): Promise<DataStream[]> {
+  getDataStreams(): Observable<DataStream[]> {
     return this.request.get(`${environment.main_url}/backend/v2/data-stream`, {
       mainGroup: 'backend',
-      method: 'data-streams'
+      method: 'data-streams',
     });
   }
 
-  getDataStreamById(id: number): Promise<DataStream> {
-    return this.request.get(`${environment.main_url}/backend/v2/data-stream/${id}`, {
-      mainGroup: 'backend',
-      method: 'data-stream'
-    });
+  getDataStreamById(id: number): Observable<DataStream> {
+    return this.request.get(
+      `${environment.main_url}/backend/v2/data-stream/${id}`,
+      {
+        mainGroup: 'backend',
+        method: 'data-stream',
+      }
+    );
   }
 
-  toggleDataStream(id: number): Promise<{ status: number }> {
-    return this.request.post(`${environment.main_url}/backend/v2/data-stream/${id}/toggle`, {},{
-      mainGroup: 'backend',
-      method: 'data-stream-toggle'
-    });
+  toggleDataStream(id: number): Observable<{ status: number }> {
+    return this.request.post(
+      `${environment.main_url}/backend/v2/data-stream/${id}/toggle`,
+      {},
+      {
+        mainGroup: 'backend',
+        method: 'data-stream-toggle',
+      }
+    );
   }
 
   public googleLogin(inviteId?: string): void {
@@ -349,38 +435,73 @@ export class BackendService {
     const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
     const browser = this.iab.create(url);
     if (this.platform.is('capacitor')) {
-      browser.on('loadstart').subscribe((event: any) => {
-        if (event.url.includes('google-auth-redirect')) {
-          browser.close();
-          const urlObj = new URL(event.url);
-          const token = urlObj.searchParams?.get('token');
-          const refreshToken = urlObj.searchParams?.get('refreshToken');
-          if (token && refreshToken) {
-            this.storage.token = token;
-            this.storage.refreshToken = refreshToken;
-            this.storage.next();
-          } else {
-            this.errors.showError('Not authenticated')
-          }
-        }
-      });
+      this.handleLogin(browser);
     }
+  }
+
+  public appleLogin(inviteId?: string): void {
+    // if (this.platform.is('ios')) {
+    //   const { response } = await SignInWithApple.authorize({
+    //     clientId: 'ai.aydo.app.apple',
+    //     scopes: 'email',
+    //     redirectURI: 'https://app.test.aydo.ai',
+    //   });
+    //   const { identityToken } = response;
+    // }
+    const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
+    const url = `${environment.main_url}/backend/v2/user/apple/login?state=${encodedState}`;
+    const browser = this.iab.create(url);
+    if (this.platform.is('capacitor')) {
+      this.handleLogin(browser);
+    }
+  }
+
+  private handleLogin(browser: any): void {
+    browser.on('loadstart').subscribe((event: any) => {
+      if (event.url.includes('auth-redirect')) {
+        browser.close();
+        const urlObj = new URL(event.url);
+        const userData = urlObj.searchParams?.get('userData');
+        if (userData) {
+          try {
+            const decodedData = atob(userData);
+            const userTokens = JSON.parse(decodedData);
+            const token = userTokens.token;
+            const refreshToken = userTokens.refreshToken;
+
+            if (token && refreshToken) {
+              this.storage.token = token;
+              this.storage.refreshToken = refreshToken;
+              this.storage.next();
+            } else {
+              this.errors.showError('Not authenticated');
+            }
+          } catch (error) {
+            this.errors.showError('Not authenticated');
+          }
+        } else {
+          this.errors.showError('Not authenticated');
+        }
+      }
+    });
   }
 
   public signInWithMetaMask(inviteId: string) {
     let ethereum: any;
 
     return from(detectEthereumProvider()).pipe(
-      switchMap(async (provider) => {
+      switchMap(async provider => {
         if (!provider) {
           throw new Error('Please install MetaMask');
         }
         ethereum = provider;
         return await ethereum.request({ method: 'eth_requestAccounts' });
       }),
-      switchMap(() => this.metamaskGetNonce(ethereum.selectedAddress, inviteId)),
+      switchMap(() =>
+        this.metamaskGetNonce(ethereum.selectedAddress, inviteId)
+      ),
       switchMap(
-        async (response) =>
+        async response =>
           await ethereum.request({
             method: 'personal_sign',
             params: [
@@ -389,42 +510,45 @@ export class BackendService {
             ],
           })
       ),
-      switchMap((sig) => this.metamaskVerifySignedMessage(ethereum.selectedAddress, sig)),
-      switchMap(
-        async (response) => {
-          this.storage.token = response.user.token;
-          this.storage.refreshToken = response.user.refresh_token;
-          this.storage.next();
-        }
-      )
+      switchMap(sig =>
+        this.metamaskVerifySignedMessage(ethereum.selectedAddress, sig)
+      ),
+      switchMap(async response => {
+        this.storage.token = response.user.token;
+        this.storage.refreshToken = response.user.refresh_token;
+        this.storage.next();
+      })
     );
   }
 
   private toHex(stringToConvert: string) {
     return stringToConvert
       .split('')
-      .map((c) => c.charCodeAt(0).toString(16).padStart(2, '0'))
+      .map(c => c.charCodeAt(0).toString(16).padStart(2, '0'))
       .join('');
   }
 
-  metamaskGetNonce(address: any, inviteId: string): Promise<any> {
-    return this.request.post(`${environment.main_url}/backend/v2/user/metamask/get-nonce`, {address, inviteId}, {
-      mainGroup: 'backend',
-      method: 'metamask-get-nonce',
-      ignoreError: true
-    }).then(data => {
-      return Promise.resolve(data);
-    });
+  metamaskGetNonce(address: any, inviteId: string): Observable<any> {
+    return this.request.post(
+      `${environment.main_url}/backend/v2/user/metamask/get-nonce`,
+      { address, inviteId },
+      {
+        mainGroup: 'backend',
+        method: 'metamask-get-nonce',
+        ignoreError: true,
+      }
+    );
   }
 
-  metamaskVerifySignedMessage(address: any, sig: any): Promise<any> {
-    const data = {address:address, sig: sig}
-    return this.request.post(`${environment.main_url}/backend/v2/user/metamask/verify`, {data}, {
-      mainGroup: 'backend',
-      method: 'metamask-verify-signed-message'
-    }).then(data => {
-      return Promise.resolve(data);
-    });
+  metamaskVerifySignedMessage(address: any, sig: any): Observable<any> {
+    const data = { address: address, sig: sig };
+    return this.request.post(
+      `${environment.main_url}/backend/v2/user/metamask/verify`,
+      { data },
+      {
+        mainGroup: 'backend',
+        method: 'metamask-verify-signed-message',
+      }
+    );
   }
-
 }

@@ -1,93 +1,95 @@
-import { Component, inject } from '@angular/core';
-import {AppFormInputs} from '../../../shared/types';
-import {FormBaseComponent} from '../../../components/form-base.component';
-import {UploaderService} from "../../../services/uploader.service";
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { AppFormInputs } from '../../../shared/types';
+import { FormBaseComponent } from '../../../components/form-base.component';
+import { UploaderService } from '../../../services/uploader.service';
+import { finalize } from 'rxjs';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
-  styleUrl: './edit-profile.component.scss'
+  styleUrl: './edit-profile.component.scss',
 })
 export class EditProfileComponent extends FormBaseComponent {
   private readonly uploader = inject(UploaderService);
+  private readonly userService = inject(UserService);
+
+  user$ = this.userService.user$;
 
   override onInit() {
-    this.form.title = 'Edit profile';
-    if (this.ui.user) {
-      this.form.inputs.push({
+    this.form.inputs = [
+      {
         key: 'avatar',
         type: 'avatar',
         title: 'Avatar',
-        defaultValue: this.ui.user.avatar
-      });
-      this.form.inputs.push({
+      },
+      {
         key: 'firstname',
         title: 'First name',
         type: 'input',
         maxLength: 256,
         required: true,
         onlyLetters: true,
-        defaultValue: this.ui.user.firstname,
-      });
-      this.form.inputs.push({
+      },
+      {
         key: 'lastname',
         title: 'Last name',
         type: 'input',
         maxLength: 256,
         required: true,
         onlyLetters: true,
-        defaultValue: this.ui.user.lastname,
-      });
-      // this.form.inputs.push({
-      //   key: 'wallet',
-      //   title: 'Wallet',
-      //   type: 'input',
-      //   maxLength: 256,
-      //   defaultValue: this.ui.user.wallet,
-      // });
-    }
-    this.form.inputs.push({
-      key: 'submit',
-      title: 'Save',
-      type: 'button',
-      color: 'white',
-      displayError: true,
-      backgroundColor: '#060022'
-    });
-
+      },
+      {
+        key: 'submit',
+        title: 'Save',
+        type: 'button',
+        color: 'white',
+        displayError: true,
+        backgroundColor: '#060022',
+      },
+    ];
     this.formGroup = this.createForm(this.form.inputs);
+    this.user$.subscribe(user => {
+      this.formGroup.patchValue(user);
+    });
   }
 
   async sendUpdateUser(avatarId: string | null) {
     this.ui.lockBtn('submit');
-    this.backend.updateUser({
-      avatarId,
-      firstname: this.formGroup.value.firstname,
-      lastname: this.formGroup.value.lastname,
-      wallet: ''
-    }).then(res => {
-      this.ui.user = res.user;
-      this.errors.showInfo('Profile changed successfully.');
-    }).finally(() => this.ui.unlockBtn('submit'));
+    this.backend
+      .updateUser({
+        avatarId,
+        firstname: this.formGroup.value.firstname,
+        lastname: this.formGroup.value.lastname,
+        wallet: '',
+      })
+      .pipe(finalize(() => this.ui.unlockBtn('submit')))
+      .subscribe(res => {
+        this.ui.user = res;
+        this.userService.updateUser(res);
+        this.errors.showInfo('Profile changed successfully.');
+      });
   }
 
-   updateProfile() {
-    if (this.formGroup.value.avatar && this.formGroup.value.avatar instanceof File) {
+  updateProfile() {
+    if (
+      this.formGroup.value.avatar &&
+      this.formGroup.value.avatar instanceof File
+    ) {
       this.ui.lockBtn('submit');
 
       this.uploader.upload(this.formGroup.value.avatar).subscribe({
-        next: (response) => {
+        next: response => {
           this.sendUpdateUser(response.id);
         },
-        error: (err) => {
+        error: err => {
           this.errors.showError('Failed to upload avatar. Please try again.');
           this.ui.unlockBtn('submit');
-        }
+        },
       });
     } else {
       this.sendUpdateUser(this.formGroup.value.avatar?.id || null);
     }
-
   }
 
   button(input: AppFormInputs) {

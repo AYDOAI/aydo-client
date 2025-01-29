@@ -2,15 +2,15 @@
   <div class="card-content">
     <div class="card-header">
       <div class="card-title">
-        {{ 'Reolink Camera' }}
+        {{ device.name }}
       </div>
     </div>
-    <app-input [readonly]="true" [form]="formGroup" key="Name" [title]="'Name'" [type]="'text'"></app-input>
-    <div class="input-group">
-      <app-input [readonly]="true" [form]="formGroup" key="Location" [title]="'Location'" [type]="'text'"></app-input>
-      <app-input [readonly]="true" [form]="formGroup" key="Status" [title]="'Status'" [type]="'text'"></app-input>
-    </div>
-    <button class="btn text-center">Connect</button>
+    <button
+      class="btn text-center"
+      [class.red-btn]="device.connected"
+      (click)="toggleConnect.emit()">
+      {{ device.connected ? 'Disconnect' : 'Connect' }}
+    </button>
     <p class="addition-info">Total Approximate Payout per hour</p>
     <p class="tokens">12 tokens</p>
   </div>

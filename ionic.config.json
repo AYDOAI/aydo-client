@@ -2,7 +2,7 @@
   "defaultProject": "client",
   "projects": {
     "client": {
-      "name": "client",
+      "name": "AYDO",
       "integrations": {
         "capacitor": {}
       },

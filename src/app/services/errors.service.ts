@@ -1,19 +1,16 @@
-import {Injectable} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {DatePipe} from '@angular/common';
+import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
-import {environment} from '../../environments/environment';
-import {jsonStringify} from "../shared/shared.functions";
+import { environment } from '../../environments/environment';
+import { jsonStringify } from '../shared/shared.functions';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ErrorsService {
-
   messages: any[] = [];
   datePipe;
-
-  private exceptionSubject: Subject<any> = new Subject<any>();
   private errorSubject: Subject<any> = new Subject<any>();
   private showErrorSubject: Subject<any> = new Subject<any>();
 
@@ -21,24 +18,16 @@ export class ErrorsService {
     this.datePipe = new DatePipe('en-US');
   }
 
-  onException(message: any) {
-    this.exceptionSubject.next(message);
-  }
-
   onError(message: any) {
     this.errorSubject.next(message);
   }
 
   showError(message: any) {
-    this.showErrorSubject.next({message, error: true});
+    this.showErrorSubject.next({ message, error: true });
   }
 
   showInfo(message: any) {
-    this.showErrorSubject.next({message, info: true});
-  }
-
-  exceptionSub(): Observable<any> {
-    return this.exceptionSubject.asObservable();
+    this.showErrorSubject.next({ message, info: true });
   }
 
   errorSub(): Observable<any> {
@@ -49,10 +38,11 @@ export class ErrorsService {
     return this.showErrorSubject.asObservable();
   }
 
-  log(message?: any, ...optionalParams: any[]) {
+  log(...args: any[]) {
     let result = '';
-    for (let i = 0; i < arguments.length; i++) {
-      const msg = typeof arguments[i] === 'object' ? jsonStringify(arguments[i], null, 2) : arguments[i];
+    for (let i = 0; i < args.length; i++) {
+      const msg =
+        typeof args[i] === 'object' ? jsonStringify(args[i], null, 2) : args[i];
       result += `${result ? ' ' : ''}${msg}`;
     }
     this.log1(result);
@@ -62,7 +52,10 @@ export class ErrorsService {
     if (!environment.production || error) {
       console.log(this.datePipe.transform(new Date(), 'HH:mm:ss'), message);
     }
-    this.messages.unshift({message: `${this.datePipe.transform(new Date(), 'HH:mm:ss')} ${message}`, error});
+    this.messages.unshift({
+      message: `${this.datePipe.transform(new Date(), 'HH:mm:ss')} ${message}`,
+      error,
+    });
     if (this.messages.length > 100) {
       this.messages.splice(100, this.messages.length - 100);
     }
@@ -72,7 +65,15 @@ export class ErrorsService {
     this.log1(message, true);
   }
 
-  logEx(message: any, mainGroup: string | null = null, group: string | null = null, method: string | null = null, body: any = null, time: number | null = null, error: any = null) {
+  logEx(
+    message: any,
+    mainGroup: string | null = null,
+    group: string | null = null,
+    method: string | null = null,
+    body: any = null,
+    time: number | null = null,
+    error: any = null
+  ) {
     if (typeof message === 'object') {
       message = jsonStringify(message);
     }
@@ -91,12 +92,20 @@ export class ErrorsService {
         config = config[method];
       }
       if (!config) {
-        if (!error && (typeof config === 'boolean' && !config) || environment.production) {
+        if (
+          (!error && typeof config === 'boolean' && !config) ||
+          environment.production
+        ) {
           return;
         }
       }
 
-      if (body && (!config || typeof config !== 'object' || (typeof config === 'object' && config['body']))) {
+      if (
+        body &&
+        (!config ||
+          typeof config !== 'object' ||
+          (typeof config === 'object' && config['body']))
+      ) {
         message += '' + body;
       } else if (body) {
         message += '' + body.length;
@@ -138,5 +147,4 @@ export class ErrorsService {
       this.log(message);
     }
   }
-
 }

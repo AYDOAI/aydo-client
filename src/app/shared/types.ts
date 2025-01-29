@@ -1,7 +1,7 @@
-import { TemplateRef } from "@angular/core";
+import { TemplateRef } from '@angular/core';
 
 export type FrameStep =
-  ''
+  | ''
   | 'main'
   | 'sign-in'
   | 'sign-up'
@@ -19,7 +19,8 @@ export type FrameStep =
 
 export type HubType = 'hub_aydo' | 'hub_pi' | 'hub_other';
 
-export type AppFormType = 'input'
+export type AppFormType =
+  | 'input'
   | 'button'
   | 'text'
   | 'string'
@@ -46,7 +47,7 @@ export interface AppFormInputs {
   backgroundColor?: string | undefined;
   value?: any;
   inputType?: string;
-//   name: string;
+  //   name: string;
   minLength?: number;
   maxLength?: number;
   defaultValue?: any;
@@ -62,29 +63,29 @@ export interface AppFormInputs {
   requiredTrue?: boolean;
   displayError?: boolean;
   isDisabled?: Function;
-// //   hidden?: boolean;
-// //   hidden2?: boolean;
+  // //   hidden?: boolean;
+  // //   hidden2?: boolean;
   number?: boolean;
   group?: boolean;
-// //   type?: InputControlType;
-// //   title?: string;
-// //   text?: string;
-// //   button_title?: string;
-// //   icon?: string;
+  // //   type?: InputControlType;
+  // //   title?: string;
+  // //   text?: string;
+  // //   button_title?: string;
+  // //   icon?: string;
   items?: SelectItem[];
   conditions?: any;
   class?: string;
-// //   placeholder?: string;
-//   readonly?: string;
+  // //   placeholder?: string;
+  //   readonly?: string;
   multi?: boolean;
-// //   rows?: number;
-// //   autocomplete?: string;
-// //   groupTab?: string;
-// //   reloadDevice?: boolean;
-// //   params?: any;
-// //   command?: string;
-// //   visibleField?: string;
-// //   description?: string;
+  // //   rows?: number;
+  // //   autocomplete?: string;
+  // //   groupTab?: string;
+  // //   reloadDevice?: boolean;
+  // //   params?: any;
+  // //   command?: string;
+  // //   visibleField?: string;
+  // //   description?: string;
   error?: string;
   icon?: string;
   template?: TemplateRef<any>;

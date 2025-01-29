@@ -1,19 +1,19 @@
-import {Component} from '@angular/core';
-import {AppFormInputs} from '../../../shared/types';
-import {FormBaseComponent} from '../../form-base.component';
+import { Component } from '@angular/core';
+import { AppFormInputs } from '../../../shared/types';
+import { FormBaseComponent } from '../../form-base.component';
 
 @Component({
   selector: 'app-form-add-hub',
   templateUrl: './form-add-hub.component.html',
-  styleUrl: './form-add-hub.component.scss'
+  styleUrl: './form-add-hub.component.scss',
 })
 export class FormAddHubComponent extends FormBaseComponent {
-
   override onInit() {
     this.form.title = 'Add hub';
-    this.form.description = 'You don\'t have a connected hub.';
+    this.form.description = "You don't have a connected hub.";
     // this.form.description = 'This app supports next hubs, choose one of them:';
-    this.form.footer = '<p>Zigbee module required for Raspberry Pi and other hubs</p>';
+    this.form.footer =
+      '<p>Zigbee module required for Raspberry Pi and other hubs</p>';
     // <p>Please ensure that the device is connected to your network and is functioning properly.</p>
     // this.form.inputs.push({
     //   key: 'hub_aydo',
@@ -38,14 +38,13 @@ export class FormAddHubComponent extends FormBaseComponent {
       key: 'add',
       title: 'Add hub',
       type: 'button',
-      icon: 'plus'
+      icon: 'plus',
     });
 
     this.formGroup = this.createForm(this.form.inputs);
   }
 
   button(input: AppFormInputs) {
-    this.router.navigate([`/add-hub/${input.key}`])
+    this.router.navigate([`/add-hub/${input.key}`]);
   }
-
 }

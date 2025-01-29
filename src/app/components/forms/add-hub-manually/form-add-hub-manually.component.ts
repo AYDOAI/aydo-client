@@ -1,17 +1,17 @@
-import {Component, inject, Input} from '@angular/core';
-import {FormBaseComponent} from '../../form-base.component';
-import {ActivatedRoute} from '@angular/router';
-import { AppFormInputs } from "../../../shared/types";
-import { DialogService } from "../../../services/dialog.service";
-import { BarcodeScannerComponent } from "../../../elements/barcode-scanner/barcode-scanner.component";
+import { Component, inject, Input } from '@angular/core';
+import { FormBaseComponent } from '../../form-base.component';
+import { ActivatedRoute } from '@angular/router';
+import { AppFormInputs } from '../../../shared/types';
+import { DialogService } from '../../../services/dialog.service';
+import { BarcodeScannerComponent } from '../../../elements/barcode-scanner/barcode-scanner.component';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-form-add-hub-manually',
   templateUrl: './form-add-hub-manually.component.html',
-  styleUrl: './form-add-hub-manually.component.scss'
+  styleUrl: './form-add-hub-manually.component.scss',
 })
 export class FormAddHubManuallyComponent extends FormBaseComponent {
-
   @Input() description = '';
 
   private activatedRoute = inject(ActivatedRoute);
@@ -25,13 +25,13 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
       key: 'identifier',
       title: 'Identificator',
       type: 'input',
-      required: true
+      required: true,
     });
     this.form.inputs.push({
       key: 'token',
       title: 'Token',
       type: 'input',
-      required: true
+      required: true,
     });
 
     this.formGroup = this.createForm(this.form.inputs);
@@ -42,7 +42,7 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
       type: 'button',
       icon: 'arrow-right',
       isDisabled: () => this.formGroup.invalid,
-      displayError: true
+      displayError: true,
     });
     // this.form.inputs.push({
     //   key: 'scan',
@@ -54,28 +54,26 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
 
   public button(button: AppFormInputs): void {
     switch (button.key) {
-      case 'scan':
-        this.dialogService.show(BarcodeScannerComponent, {
-
-        });
-        return;
-      case 'attach':
-        const gateway = {...this.formGroup.value};
+      case 'scan': {
+        this.dialogService.show(BarcodeScannerComponent, {});
+        break;
+      }
+      case 'attach': {
+        const gateway = { ...this.formGroup.value };
         this.resetFormErrors();
         this.ui.lockBtn('attach');
-        this.backend.gatewayConnect(gateway).then((data: any) => {
-          if (data && data.gateway && data.gateway.identifier) {
-            this.storage.serverId = data.gateway.identifier;
-            const hub = this.activatedRoute.snapshot.paramMap.get('hub');
-            this.router.navigate([`add-hub/${hub}/connected`]);
-          }
-        }).catch(() => {
-
-        }).finally(() => {
-          this.ui.unlockBtn('attach');
-        });
+        this.backend
+          .gatewayConnect(gateway)
+          .pipe(finalize(() => this.ui.unlockBtn('attach')))
+          .subscribe((data: any) => {
+            if (data && data.gateway && data.gateway.identifier) {
+              this.storage.serverId = data.gateway.identifier;
+              const hub = this.activatedRoute.snapshot.paramMap.get('hub');
+              this.router.navigate([`add-hub/${hub}/connected`]);
+            }
+          });
         break;
+      }
     }
   }
-
 }

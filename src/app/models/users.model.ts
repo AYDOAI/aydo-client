@@ -1,4 +1,4 @@
-import {BaseItem, BaseModel} from './base';
+import { BaseItem, BaseModel } from './base';
 
 export class UsersModel extends BaseModel {
   items: UserItem[] = [];
@@ -11,12 +11,11 @@ export class UsersModel extends BaseModel {
   update(data: any[]) {
     this.items = [];
     if (data) {
-      data.forEach((item) => {
+      data.forEach(item => {
         this.items.push(new UserItem(this, item));
       });
     }
   }
-
 }
 
 export class UserItem extends BaseItem {
@@ -25,11 +24,29 @@ export class UserItem extends BaseItem {
   lastname: string = '';
   login: string = '';
   password: string = '';
-
 }
 
 export class LoginItem extends BaseItem {
   login: string = '';
   password: string = '';
+}
 
+export interface UserInfo {
+  id: number;
+  firstname: string;
+  lastname: string;
+  login: string;
+  email: string;
+  params?: any;
+  balance?: string;
+  token: string;
+  refresh_token: string;
+  is_verified?: boolean;
+  wallet: string;
+  is_blocked?: boolean;
+  avatar?: {
+    fileId: string;
+    url: string;
+  };
+  deletedAt?: Date;
 }

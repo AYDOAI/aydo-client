@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 export interface BaseService<T> {
   baseUrl: string;
@@ -6,5 +6,5 @@ export interface BaseService<T> {
   getItems?(): Observable<T[]>;
   getItem?(): Observable<T>;
   saveItem?(): Observable<T>;
-  deleteItem?(): Observable<T>;
+  deleteItem?(value?: any): Observable<T>;
 }

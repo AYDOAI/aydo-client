@@ -1,17 +1,23 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {HubType, FrameStep} from '../shared/types';
-import {StorageService} from './storage.service';
-import { Subscription } from 'rxjs';
-import {BackendService} from './backend.service';
-import { DeviceItem, DevicesModel, DriverItem, DriversModel } from '../models/gateway.model';
-import {Router} from '@angular/router';
+import { Injectable, OnDestroy } from '@angular/core';
+import { HubType, FrameStep } from '../shared/types';
+import { StorageService } from './storage.service';
+import { finalize, Subscription } from 'rxjs';
+import { BackendService } from './backend.service';
+import {
+  DeviceItem,
+  DevicesModel,
+  DriverItem,
+  DriversModel,
+} from '../models/gateway.model';
+import { Router } from '@angular/router';
 import { LoadingService } from './loading.service';
 import { Network } from '@capacitor/network';
-import { NavController } from "@ionic/angular";
-import { ErrorsService } from "./errors.service";
+import { NavController } from '@ionic/angular';
+import { ErrorsService } from './errors.service';
+import { UserInfo } from '../models/users.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UIService implements OnDestroy {
   private _step!: FrameStep;
@@ -22,40 +28,32 @@ export class UIService implements OnDestroy {
   selectedDevice!: DeviceItem | undefined;
   devices!: DevicesModel;
   valuesInterval!: any;
-  user: {
-    balance: string;
-    email: string;
-    wallet: string;
-    firstname: string;
-    lastname: string;
-    id: number;
-    is_verified: boolean;
-    login: string;
-    params: any;
-    token: string;
-    refresh_token: string;
-    avatar?: {
-      fileId: string;
-      url: string;
-    };
-  } | null | undefined = null;
+  user: UserInfo | null | undefined = null;
   public appReady: boolean = false;
   public inviteId: string;
   public isOnline: boolean = true;
-  public gateway: { identifier: string, userId: string, token: string, is_online: boolean } | null | undefined = null;
+  public gateway:
+    | { identifier: string; userId: string; token: string; is_online: boolean }
+    | null
+    | undefined = null;
   private btnLoading: string[] = [];
 
-  constructor(public storage: StorageService,
-              public backend: BackendService,
-              public router: Router,
-              public navCtrl: NavController,
-              private loading: LoadingService,
-              private errors: ErrorsService) {
+  constructor(
+    public storage: StorageService,
+    public backend: BackendService,
+    public router: Router,
+    public navCtrl: NavController,
+    private loading: LoadingService,
+    private errors: ErrorsService
+  ) {
     const urlSearchParams = new URLSearchParams(window.location.search);
     this.inviteId = urlSearchParams.get('code') ?? '';
-    this.initSub = this.loading.showLoading$(this.storage.initSub()).subscribe(data => {
-      this.afterLogin();
-    });
+    console.log('invite id ' + this.inviteId);
+    this.initSub = this.loading
+      .showLoading$(this.storage.initSub())
+      .subscribe(data => {
+        this.afterLogin();
+      });
     this.subscribeToNetworkStatus();
   }
 
@@ -65,49 +63,65 @@ export class UIService implements OnDestroy {
 
   tryDemo(): void {
     this.lockBtn('try_demo');
-    this.backend.demoLogin().then(() => {
-      this.afterLogin();
-    }).catch(() => {
-      this.errors.showError(`An error occurred, please try again later`)
-    }).finally(() => {
-      this.unlockBtn('try_demo');
-    });
+    this.backend
+      .demoLogin()
+      .pipe(
+        finalize(() => {
+          this.unlockBtn('try_demo');
+        })
+      )
+      .subscribe(
+        () => {
+          this.afterLogin();
+        },
+        () => {
+          this.errors.showError(`An error occurred, please try again later`);
+        }
+      );
   }
 
   afterLogin() {
     if (this.storage.token) {
       this.loading.showLoading();
-      this.backend.userInfo().then((data: any) => {
-        this.user = data.user;
-        if (!this.user?.is_verified) {
-          this.goStep('success');
-          return
-        }
-        const next = () => {
-          this.loading.showLoading();
-          this.getDevices();
-          if (this.isAuthPage()) {
-            this.defaultStep();
+      this.backend
+        .userInfo()
+        .pipe(
+          finalize(() => {
+            this.appReady = true;
+            this.loading.dismissLoading();
+            if (this.user && !this.user?.is_verified) {
+              this.goStep('success');
+              return;
+            }
+            if (this.isAuthPage()) {
+              this.defaultStep();
+            }
+          })
+        )
+        .subscribe(
+          (user: UserInfo) => {
+            this.user = user;
+            const next = () => {
+              this.loading.showLoading();
+              this.getDevices();
+              if (this.isAuthPage()) {
+                this.defaultStep();
+              }
+            };
+            this.loading.showLoading();
+            this.getGateway(next);
+          },
+          error => {
+            this.goStep('sign-in');
+            if (error && error.name === 'JsonWebTokenError') {
+              //   this.backend.userRefresh().then(data => {
+              //     console.log(data);
+              //   }).catch((error) => {
+              //     console.log(error);
+              //   })
+            }
           }
-        }
-          this.loading.showLoading();
-          this.getGateway(next)
-      }).catch(error => {
-        this.goStep('sign-in');
-        if (error && error.name === 'JsonWebTokenError') {
-          //   this.backend.userRefresh().then(data => {
-          //     console.log(data);
-          //   }).catch((error) => {
-          //     console.log(error);
-          //   })
-        }
-      }).finally(() => {
-        this.appReady = true;
-        this.loading.dismissLoading();
-        if (this.isAuthPage()) {
-          this.defaultStep();
-        }
-      })
+        );
     } else {
       this.appReady = true;
       this.loading.dismissLoading();
@@ -123,7 +137,7 @@ export class UIService implements OnDestroy {
 
   goStep(step: FrameStep) {
     this._step = step;
-    this.navCtrl.navigateForward([`/${step}`])
+    this.navCtrl.navigateForward([`/${step}`]);
   }
 
   defaultStep() {
@@ -145,7 +159,7 @@ export class UIService implements OnDestroy {
 
   public unlockBtn(key: string): void {
     setTimeout(() => {
-      this.btnLoading = this.btnLoading.filter(el => el !== key)
+      this.btnLoading = this.btnLoading.filter(el => el !== key);
     }, 200);
   }
 
@@ -158,60 +172,75 @@ export class UIService implements OnDestroy {
       if (event) {
         event.target.complete();
       }
-    }
+    };
     if (this.storage.serverId) {
-      this.backend.getDevices().then((devices: any) => {
-        this.devices = new DevicesModel(devices);
-        // console.log(devices);
-        const getDeviceValues = () => {
-          if (this.storage.serverId && this.storage.token) {
-            this.backend.getDeviceValues().then((data: any) => {
-              // console.log(data);
-              const updateDeviceValues = (values: any) => {
-                values.forEach((item: any) => {
-                  const device = this.devices.items.find(item1 => item1.ident === item.ident);
-                  if (device) {
-                    device.capabilities.forEach(cap => {
-                      cap.value = item.values[`${cap.ident}_${cap.index}`]
-                    })
+      this.backend
+        .getDevices()
+        .pipe(
+          finalize(() => {
+            this.loading.dismissLoading();
+            complete();
+          })
+        )
+        .subscribe((devices: any) => {
+          this.devices = new DevicesModel(devices);
+          // console.log(devices);
+          const getDeviceValues = () => {
+            if (this.storage.serverId && this.storage.token) {
+              this.backend
+                .getDeviceValues()
+                .pipe(
+                  finalize(() => {
+                    this.loading.dismissLoading();
+                    complete();
+                  })
+                )
+                .subscribe((data: any) => {
+                  // console.log(data);
+                  const updateDeviceValues = (values: any) => {
+                    values.forEach((item: any) => {
+                      const device = this.devices.items.find(
+                        item1 => item1.ident === item.ident
+                      );
+                      if (device) {
+                        device.capabilities.forEach(cap => {
+                          cap.value = item.values[`${cap.ident}_${cap.index}`];
+                        });
+                      }
+                    });
+                  };
+                  if (data.length !== this.devices?.items?.length) {
+                    this.backend
+                      .getDevices()
+                      .pipe(
+                        finalize(() => {
+                          updateDeviceValues(data);
+                        })
+                      )
+                      .subscribe((devices: any) => {
+                        this.devices = new DevicesModel(devices);
+                      });
+                  } else {
+                    updateDeviceValues(data);
                   }
-                })
-              }
-              if (data.length !== this.devices?.items?.length) {
-                this.backend.getDevices().then((devices: any) => {
-                  this.devices = new DevicesModel(devices);
-                }).finally(() => {
-                  updateDeviceValues(data);
-                })
-              } else {
-                updateDeviceValues(data);
-              }
-            }).catch(() => {
-            }).finally(() => {
-              this.loading.dismissLoading();
-              complete();
-            })
-          }
-        }
-        clearInterval(this.valuesInterval);
-        this.valuesInterval = setInterval(() => {
-          if (this.storage.token) {
-            getDeviceValues()
-          }
-        }, 5000);
-        getDeviceValues();
-      }).catch(() => {
-      }).finally(() => {
-        this.loading.dismissLoading();
-        complete();
-      });
+                });
+            }
+          };
+          clearInterval(this.valuesInterval);
+          this.valuesInterval = setInterval(() => {
+            if (this.storage.token) {
+              getDeviceValues();
+            }
+          }, 5000);
+          getDeviceValues();
+        });
     } else {
       complete();
     }
   }
 
   getGateway(next?: () => void): void {
-    this.backend.getGateway().then((data) => {
+    this.loading.showLoading$(this.backend.getGateway()).subscribe(data => {
       if (data && data.gateway && data.gateway.identifier) {
         this.storage.serverId = data.gateway.identifier;
         this.gateway = data.gateway;
@@ -223,21 +252,26 @@ export class UIService implements OnDestroy {
           this.goStep('add-hub');
         }
       }
-    }).finally(() => this.loading.dismissLoading())
+    });
   }
 
   public getDrivers(): void {
-    this.backend.drivers().then((drivers: DriverItem[]) => {
-      this.drivers = new DriversModel(drivers);
-    }).catch(() => {
-    }).finally(() => {
-      this.loading.dismissLoading();
-    });
+    this.loading
+      .showLoading$(this.backend.drivers())
+      .subscribe((drivers: DriverItem[]) => {
+        this.drivers = new DriversModel(drivers);
+      });
   }
 
   private isAuthPage(): boolean {
     const currentUrl = this.router.url;
-    return currentUrl.includes('sign-up') || currentUrl.includes('sign-in') || currentUrl.includes('main') || currentUrl.includes('google-auth-redirect')
+    return (
+      currentUrl.includes('sign-up') ||
+      currentUrl.includes('sign-in') ||
+      currentUrl.includes('main') ||
+      currentUrl.includes('auth-redirect') ||
+      currentUrl.includes('privacy-policy')
+    );
   }
 
   private async subscribeToNetworkStatus(): Promise<void> {

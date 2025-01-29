@@ -7,7 +7,7 @@ export function fieldMatchValidator(fieldKey: string, confirmFieldKey: string) {
     const confirmField = formGroup?.get(confirmFieldKey);
     if (field?.value !== confirmField?.value) {
       return {
-        fieldMatch: true
+        fieldMatch: true,
       };
     }
     return null;

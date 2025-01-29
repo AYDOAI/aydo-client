@@ -1,12 +1,12 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: '[appRipple]'
+  selector: '[appRipple]',
 })
 export class RippleDirective {
   @Input() appRipple: boolean = false;
 
-  constructor(private el: ElementRef) { }
+  constructor(private el: ElementRef) {}
 
   @HostListener('click', ['$event']) onClick(event: MouseEvent) {
     if (!this.appRipple) {
@@ -19,7 +19,7 @@ export class RippleDirective {
 
     const buttonWidth = button.offsetWidth;
     const buttonHeight = button.offsetHeight;
-    let maxDimension = Math.max(buttonWidth, buttonHeight);
+    const maxDimension = Math.max(buttonWidth, buttonHeight);
 
     const ripple = document.createElement('span');
     button.appendChild(ripple);
@@ -35,7 +35,6 @@ export class RippleDirective {
     ripple.style.background = 'rgba(255, 255, 255, 0.5)';
     ripple.style.position = 'absolute';
 
-
     ripple.classList.add('ripple-animation');
 
     setTimeout(() => {
@@ -43,5 +42,3 @@ export class RippleDirective {
     }, 600);
   }
 }
-
-

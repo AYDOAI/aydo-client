@@ -1,21 +1,23 @@
-import {Injectable} from '@angular/core';
-import {MenuController} from '@ionic/angular';
-import {NavigationStart, Router} from '@angular/router';
-import {filter} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { MenuController } from '@ionic/angular';
+import { NavigationStart, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MenuService {
   public menuActive = false;
 
-  constructor(private menuCtrl: MenuController,
-              private router: Router) {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationStart)
-    ).subscribe(() => {
-      this.closeMenus();
-    });
+  constructor(
+    private menuCtrl: MenuController,
+    private router: Router
+  ) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationStart))
+      .subscribe(() => {
+        this.closeMenus();
+      });
   }
 
   async toggleMenu(): Promise<void> {
@@ -30,7 +32,7 @@ export class MenuService {
     this.menuActive = false;
     const menus = await this.menuCtrl.getMenus();
     menus.forEach(menu => {
-      menu.close()
+      menu.close();
     });
   }
 }
