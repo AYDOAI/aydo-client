@@ -1,0 +1,62 @@
+:host {
+  .license {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 22px;
+    padding-bottom: 36px;
+    overflow: auto;
+
+    .title {
+      margin-bottom: 16px;
+    }
+
+    .container {
+      display: flex;
+      align-items: flex-start;
+      margin: 8px 0;
+    }
+    .number {
+      width: 35px;
+      min-width: 35px;
+      text-align: left;
+      margin-right: 8px;
+      font-weight: bold;
+    }
+    .text {
+      flex-grow: 1;
+    }
+
+    .group-title {
+      margin-bottom: 4px;
+    }
+
+    b {
+      font-weight: bold;
+    }
+    ul {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    li {
+      margin-top: 4px;
+    }
+
+    table {
+      margin-bottom: 8px;
+    }
+  }
+
+  h4 {
+    margin: 0;
+
+    font-size: 21px;
+  }
+
+  p {
+    margin: 0;
+    margin-top: 12px;
+
+    font-size: 16px;
+  }
+}

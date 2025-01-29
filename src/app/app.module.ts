@@ -91,6 +91,7 @@ import { GatewayCardComponent } from './pages/devices/gateway-card/gateway-card.
 import { DeviceCardComponent } from './pages/devices/device-card/device-card.component';
 import { UserService } from './services/user.service';
 import { ConnectDeviceCardComponent } from './pages/connect-devices/card/device-card.component';
+import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 
 @NgModule({
   declarations: [
@@ -161,6 +162,7 @@ import { ConnectDeviceCardComponent } from './pages/connect-devices/card/device-
     FullScreenContentWrapperComponent,
     GatewayCardComponent,
     DeviceCardComponent,
+    PrivacyPolicyComponent,
   ],
   imports: [
     AppRoutingModule,

@@ -38,8 +38,14 @@ import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { DeviceEditComponent } from './pages/devices/edit/device-edit.component';
 import { AddZoneComponent } from './components/zone/add/add.component';
 import { HubGuard } from './shared/guards/hub.guard';
+import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 
 export const routes: Routes = [
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent,
+    pathMatch: 'full',
+  },
   {
     path: 'sign-in',
     component: WelcomeSignInComponent,
