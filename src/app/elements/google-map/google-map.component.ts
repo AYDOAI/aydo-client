@@ -9,8 +9,11 @@ import {
   of,
   merge,
   filter,
+  switchMap,
+  first,
+  concat,
 } from 'rxjs';
-import { takeUntil, catchError, tap, map } from 'rxjs/operators';
+import { takeUntil, catchError, tap, map, last } from 'rxjs/operators';
 
 @Component({
   selector: 'app-google-map',
@@ -37,8 +40,8 @@ export class GoogleMapComponent
   };
 
   defaultCenter = {
-    lat: 0,
-    lng: 0,
+    lat: 44.14625905641436,
+    lng: -105.5449705613737,
   };
 
   markerPositions$ = new BehaviorSubject<google.maps.LatLngLiteral[]>([]);
@@ -48,16 +51,30 @@ export class GoogleMapComponent
   private positionUpdates$ = new Subject<google.maps.LatLngLiteral>();
 
   ngOnInit() {
+    const currentPosition$ = this.getCurrentPosition();
     const initialPosition$ = this.getInitialPosition();
+
+    concat(initialPosition$, currentPosition$)
+      .pipe(first())
+      .subscribe({
+        next: position => {
+          this.currentLocation$.next(position);
+        },
+        error: error => {
+          console.error('Error:', error);
+        },
+      });
 
     merge(initialPosition$, this.positionUpdates$)
       .pipe(
         takeUntil(this.destroy$),
         tap(position => this.updateForm(new google.maps.LatLng(position)))
       )
-      .subscribe(position => {
-        this.markerPositions$.next([position]);
-      });
+      .subscribe();
+
+    this.markerPositions$.next([
+      this.parsePosition(this.form.get(this.key)?.value),
+    ]);
 
     this.form
       .get(this.key)
@@ -94,29 +111,24 @@ export class GoogleMapComponent
     if (defaultValue) {
       try {
         const position = this.parsePosition(defaultValue);
-        this.currentLocation$.next(position);
         return of(position);
       } catch (error) {
         console.error('Error parsing default position:', error);
-        return this.getCurrentPosition();
+        return EMPTY;
       }
     }
 
-    return this.getCurrentPosition().pipe(
-      tap(position => this.currentLocation$.next(position))
-    );
+    return EMPTY;
   }
 
   private getCurrentPosition() {
     return new Observable<google.maps.LatLngLiteral>(observer => {
       navigator.geolocation.getCurrentPosition(
         position => {
-          const loc = {
+          observer.next({
             lat: position.coords.latitude,
             lng: position.coords.longitude,
-          };
-          this.currentLocation$.next(loc);
-          observer.next(loc);
+          });
         },
         error => observer.error(error)
       );
