@@ -18,7 +18,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('../../keys/release-key.jks')
+            storeFile file('/usr/src/app/keys/release-key.jks')
             storePassword 'Yegc5sUYsQZPk'
             keyAlias 'release-key'
             keyPassword 'Yegc5sUYsQZPk'
@@ -27,7 +27,7 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true 
+            minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
