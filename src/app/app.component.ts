@@ -79,7 +79,9 @@ export class AppComponent {
       this.zone.run(() => {
         const { pathname, searchParams } = new URL(event.url);
         const queryParams: { [key: string]: string } = {};
+        console.log('search params');
         searchParams.forEach((value, key) => {
+          console.log(key + ' ' + value);
           queryParams[key] = value;
         });
         this.ui.inviteId = queryParams['code'] ?? '';
