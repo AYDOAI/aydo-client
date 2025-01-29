@@ -269,7 +269,8 @@ export class UIService implements OnDestroy {
       currentUrl.includes('sign-up') ||
       currentUrl.includes('sign-in') ||
       currentUrl.includes('main') ||
-      currentUrl.includes('auth-redirect')
+      currentUrl.includes('auth-redirect') ||
+      currentUrl.includes('privacy-policy')
     );
   }
 
