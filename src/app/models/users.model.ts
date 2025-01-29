@@ -30,3 +30,23 @@ export class LoginItem extends BaseItem {
   login: string = '';
   password: string = '';
 }
+
+export interface UserInfo {
+  id: number;
+  firstname: string;
+  lastname: string;
+  login: string;
+  email: string;
+  params?: any;
+  balance?: string;
+  token: string;
+  refresh_token: string;
+  is_verified?: boolean;
+  wallet: string;
+  is_blocked?: boolean;
+  avatar?: {
+    fileId: string;
+    url: string;
+  };
+  deletedAt?: Date;
+}

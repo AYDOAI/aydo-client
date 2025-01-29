@@ -17,48 +17,46 @@ export class ProfileComponent extends FormBaseComponent {
   user$ = this.userService.user$;
 
   override onInit() {
+    this.form.inputs = [
+      {
+        key: 'firstname',
+        title: 'First name',
+        type: 'text',
+      },
+      {
+        key: 'lastname',
+        title: 'Last name',
+        type: 'text',
+      },
+      {
+        key: 'email',
+        title: 'Email',
+        type: 'text',
+      },
+      {
+        key: 'edit',
+        title: 'Edit',
+        type: 'button',
+        color: 'white',
+        backgroundColor: '#060022',
+      },
+      {
+        key: 'logout',
+        title: 'Logout',
+        type: 'button',
+        color: 'white',
+        backgroundColor: '#060022',
+      },
+      {
+        key: 'delete',
+        title: 'Delete profile',
+        type: 'button',
+        class: 'red-btn',
+      },
+    ];
+    this.formGroup = this.createForm(this.form.inputs);
     this.user$.subscribe(user => {
-      this.form.inputs = [
-        {
-          key: 'firstname',
-          title: 'First name',
-          type: 'text',
-          defaultValue: user.firstname,
-        },
-        {
-          key: 'lastname',
-          title: 'Last name',
-          type: 'text',
-          defaultValue: user.lastname,
-        },
-        {
-          key: 'email',
-          title: 'Email',
-          type: 'text',
-          defaultValue: user.email,
-        },
-        {
-          key: 'edit',
-          title: 'Edit',
-          type: 'button',
-          color: 'white',
-          backgroundColor: '#060022',
-        },
-        {
-          key: 'logout',
-          title: 'Logout',
-          type: 'button',
-          color: 'white',
-          backgroundColor: '#060022',
-        },
-        {
-          key: 'delete',
-          title: 'Delete profile',
-          type: 'button',
-          class: 'red-btn',
-        },
-      ];
-      this.formGroup = this.createForm(this.form.inputs);
+      this.formGroup.patchValue(user);
     });
   }
 
