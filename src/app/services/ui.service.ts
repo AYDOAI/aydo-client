@@ -88,6 +88,10 @@ export class UIService implements OnDestroy {
           finalize(() => {
             this.appReady = true;
             this.loading.dismissLoading();
+            if (this.user && !this.user?.is_verified) {
+              this.goStep('success');
+              return;
+            }
             if (this.isAuthPage()) {
               this.defaultStep();
             }
@@ -96,10 +100,6 @@ export class UIService implements OnDestroy {
         .subscribe(
           (user: UserInfo) => {
             this.user = user;
-            if (!this.user?.is_verified) {
-              this.goStep('success');
-              return;
-            }
             const next = () => {
               this.loading.showLoading();
               this.getDevices();
