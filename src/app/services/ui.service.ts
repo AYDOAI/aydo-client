@@ -48,6 +48,7 @@ export class UIService implements OnDestroy {
   ) {
     const urlSearchParams = new URLSearchParams(window.location.search);
     this.inviteId = urlSearchParams.get('code') ?? '';
+    console.log('invite id ' + this.inviteId);
     this.initSub = this.loading
       .showLoading$(this.storage.initSub())
       .subscribe(data => {
