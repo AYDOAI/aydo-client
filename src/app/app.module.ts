@@ -167,9 +167,7 @@ import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.co
   imports: [
     AppRoutingModule,
     BrowserModule,
-    IonicModule.forRoot({
-      mode: 'md',
-    }),
+    IonicModule.forRoot({}),
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
