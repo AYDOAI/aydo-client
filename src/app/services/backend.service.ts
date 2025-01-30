@@ -433,7 +433,7 @@ export class BackendService {
   public googleLogin(inviteId?: string): void {
     const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
     const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
-    const browser = this.iab.create(url);
+    const browser = this.iab.create(url, '_blank');
     if (this.platform.is('capacitor')) {
       this.handleLogin(browser);
     }
@@ -450,7 +450,7 @@ export class BackendService {
     // }
     const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
     const url = `${environment.main_url}/backend/v2/user/apple/login?state=${encodedState}`;
-    const browser = this.iab.create(url);
+    const browser = this.iab.create(url, '_blank');
     if (this.platform.is('capacitor')) {
       this.handleLogin(browser);
     }
