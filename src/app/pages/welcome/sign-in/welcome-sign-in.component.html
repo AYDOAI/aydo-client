@@ -1,12 +1,21 @@
-<app-content>
-  <app-form
-    [form]="form"
-    [formGroup]="formGroup"
-    [btnDisabled]="formGroup.invalid"
-    (onClickButton)="button($event)"></app-form>
-  <app-welcome-providers title="or sign in with"></app-welcome-providers>
-  <app-welcome-navigate
-    [signUp]="true"
-    [demo]="true"
-    [forgot]="true"></app-welcome-navigate>
-</app-content>
+<app-full-screen-content-wrapper>
+  <ng-template #header>
+    <ion-toolbar>
+      <div class="header">
+        <div class="title">Sign In</div>
+      </div>
+    </ion-toolbar>
+  </ng-template>
+  <ng-template #content>
+    <app-form
+      [form]="form"
+      [formGroup]="formGroup"
+      [btnDisabled]="formGroup.invalid"
+      (onClickButton)="button($event)"></app-form>
+    <app-welcome-providers title="or sign in with"></app-welcome-providers>
+    <app-welcome-navigate
+      [signUp]="true"
+      [demo]="true"
+      [forgot]="true"></app-welcome-navigate>
+  </ng-template>
+</app-full-screen-content-wrapper>

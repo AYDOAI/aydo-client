@@ -1,12 +1,23 @@
-<app-content>
-  <app-form
-    [form]="form"
-    [formGroup]="formGroup"
-    (onClickButton)="button($event)">
-    <p *ngIf="linkSent" class="success-message">
-      A password reset link has been sent to your email address
-    </p>
-  </app-form>
+<app-full-screen-content-wrapper>
+  <ng-template #header>
+    <ion-toolbar>
+      <div class="header">
+        <div class="title">Forgot password?</div>
+      </div>
+    </ion-toolbar>
+  </ng-template>
+  <ng-template #content>
+    <app-form
+      [form]="form"
+      [formGroup]="formGroup"
+      (onClickButton)="button($event)">
+      <p *ngIf="linkSent" class="success-message">
+        A password reset link has been sent to your email address
+      </p>
+    </app-form>
 
-  <app-welcome-navigate [signUp]="true" [signIn]="true"></app-welcome-navigate>
-</app-content>
+    <app-welcome-navigate
+      [signUp]="true"
+      [signIn]="true"></app-welcome-navigate>
+  </ng-template>
+</app-full-screen-content-wrapper>

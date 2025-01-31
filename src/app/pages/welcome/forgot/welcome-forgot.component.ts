@@ -12,7 +12,6 @@ export class WelcomeForgotComponent extends FormBaseComponent {
   public linkSent: boolean = false;
 
   override onInit() {
-    this.form.title = 'Forgot password?';
     this.form.inputs.push({
       key: 'login',
       title: 'E-mail',

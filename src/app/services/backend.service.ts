@@ -433,7 +433,7 @@ export class BackendService {
   public googleLogin(inviteId?: string): void {
     const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
     const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
-    const browser = this.iab.create(url);
+    const browser = this.iab.create(url, '_blank');
     if (this.platform.is('capacitor')) {
       this.handleLogin(browser);
     }
@@ -450,7 +450,7 @@ export class BackendService {
     // }
     const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
     const url = `${environment.main_url}/backend/v2/user/apple/login?state=${encodedState}`;
-    const browser = this.iab.create(url);
+    const browser = this.iab.create(url, '_blank');
     if (this.platform.is('capacitor')) {
       this.handleLogin(browser);
     }
@@ -462,6 +462,12 @@ export class BackendService {
         browser.close();
         const urlObj = new URL(event.url);
         const userData = urlObj.searchParams?.get('userData');
+        const error = urlObj.searchParams?.get('error');
+        if (error) {
+          this.errors.showError(decodeURIComponent(error));
+          this.router.navigate(['/main']);
+          return;
+        }
         if (userData) {
           try {
             const decodedData = atob(userData);
