@@ -1,45 +1,52 @@
-.form {
-  padding: 24px 22px 32px 22px;
-}
+:host {
+  ::ng-deep {
+    .form {
+      padding: 0 22px 32px 22px !important;
 
-.title {
-  font-size: 30px;
-  margin-bottom: 32px;
-}
+      .form_content {
+        margin-top: 16px;
+      }
+    }
+  }
 
-.input {
-  margin-bottom: 12px;
-}
+  .title {
+    font-size: 30px;
+  }
 
-.button {
-  margin-top: 24px;
-}
+  .input {
+    margin-bottom: 12px;
+  }
 
-.separator-container {
-  display: flex;
-}
+  .button {
+    margin-top: 24px;
+  }
 
-.separator-border {
-  height: 8px;
-  width: calc(50% - 55px - 14px);
-  border-bottom: 1px solid #060022;
-}
+  .separator-container {
+    display: flex;
+  }
 
-.separator-text {
-  width: 110px;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 17px;
-  margin-left: 14px;
-  margin-right: 14px;
-}
+  .separator-border {
+    height: 8px;
+    width: calc(50% - 55px - 14px);
+    border-bottom: 1px solid #060022;
+  }
 
-.sign-up-buttons {
-  display: flex;
-  justify-content: center;
-  margin-top: 32px;
+  .separator-text {
+    width: 110px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 17px;
+    margin-left: 14px;
+    margin-right: 14px;
+  }
 
-  app-button {
-    margin: 0 5px;
+  .sign-up-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+
+    app-button {
+      margin: 0 5px;
+    }
   }
 }
