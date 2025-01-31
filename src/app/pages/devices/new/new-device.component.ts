@@ -1,13 +1,12 @@
-import { Component } from '@angular/core';
+import { FormBaseComponent } from '../../../components/form-base.component';
 import { AppFormInputs } from '../../../shared/types';
-import { FormBaseComponent } from '../../form-base.component';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-form-edit-device',
-  templateUrl: './form-edit-device.component.html',
-  styleUrl: './form-edit-device.component.scss',
+  selector: 'app-device-new',
+  templateUrl: './new-device.component.html',
 })
-export class FormEditDeviceComponent extends FormBaseComponent {
+export class NewDeviceComponent extends FormBaseComponent {
   override onInit() {
     this.form.title = 'Add device';
     // this.form.description = 'This app supports next device types, choose one of them:';

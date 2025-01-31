@@ -15,7 +15,7 @@
     <ng-container *ngIf="ui.devices">
       <div
         *ngIf="!ui.devices?.items?.length"
-        [routerLink]="'/add-device'"
+        [routerLink]="'/devices/add'"
         class="btn_new-device">
         <svg
           width="64"
@@ -33,7 +33,7 @@
         <span>Add connectivity device</span>
       </div>
       <div *ngIf="ui.devices && ui.devices.items?.length" class="devices-list">
-        <button class="btn" [routerLink]="'/add-device'">
+        <button class="btn" [routerLink]="'/devices/add'">
           Add other device
           <svg-icon
             [name]="'plus'"

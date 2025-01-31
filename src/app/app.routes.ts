@@ -26,8 +26,6 @@ import { DashboardAdditionalQuestsComponent } from './pages/dashboard/additional
 import { NotificationsComponent } from './pages/dashboard/notification/notifications.component';
 import { StreamsHomeComponent } from './pages/streams/streams-home';
 import { ProjectComponent } from './pages/streams/project/project.component';
-import { FormAddDeviceComponent } from './components/forms/add-device/form-add-device.component';
-import { FormEditDeviceComponent } from './components/forms/edit-device/form-edit-device.component';
 import { AuthRedirectComponent } from './pages/auth-redirect/auth-redirect.component';
 import { SuccessComponent } from './pages/welcome/success/success.component';
 import { EditProfileComponent } from './pages/profile/edit/edit-profile.component';
@@ -39,6 +37,8 @@ import { DeviceEditComponent } from './pages/devices/edit/device-edit.component'
 import { AddZoneComponent } from './components/zone/add/add.component';
 import { HubGuard } from './shared/guards/hub.guard';
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
+import { AddDeviceComponent } from './pages/devices/add/add-device.component';
+import { NewDeviceComponent } from './pages/devices/new/new-device.component';
 
 export const routes: Routes = [
   {
@@ -107,13 +107,13 @@ export const routes: Routes = [
     component: DeviceEditComponent,
   },
   {
-    path: 'add-device',
-    component: FormAddDeviceComponent,
+    path: 'devices/add',
+    component: AddDeviceComponent,
     canActivate: [HubGuard],
   },
   {
-    path: 'edit-device',
-    component: FormEditDeviceComponent,
+    path: 'devices/new',
+    component: NewDeviceComponent,
   },
   {
     path: 'settings',
