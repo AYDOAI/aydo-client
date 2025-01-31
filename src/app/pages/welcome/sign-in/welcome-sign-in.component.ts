@@ -12,7 +12,6 @@ export class WelcomeSignInComponent extends FormBaseComponent {
   @Input() title = '';
 
   override onInit() {
-    this.form.title = 'Sign in';
     this.form.inputs.push({
       key: 'login',
       title: 'E-mail',

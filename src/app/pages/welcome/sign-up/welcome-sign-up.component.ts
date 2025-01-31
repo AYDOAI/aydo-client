@@ -11,7 +11,6 @@ import { finalize } from 'rxjs';
 })
 export class WelcomeSignUpComponent extends FormBaseComponent {
   override onInit() {
-    this.form.title = 'Sign up';
     this.form.inputs.push({
       key: 'firstname',
       title: 'First name',
