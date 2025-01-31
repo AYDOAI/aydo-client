@@ -17,6 +17,12 @@ export class AuthRedirectComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const userData = params['userData'];
+      const error = params['error'];
+      if (error) {
+        this.errors.showError(decodeURIComponent(error));
+        this.router.navigate(['/sign-in']);
+        return;
+      }
       if (userData) {
         try {
           const decodedData = atob(userData);
