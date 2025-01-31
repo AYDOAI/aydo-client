@@ -15,6 +15,7 @@
   }
 
   .full-page__inner {
+    position: relative;
     display: flex;
     flex-direction: column;
 
@@ -22,7 +23,7 @@
     max-width: 375px;
     height: inherit;
 
-    padding: 12px 22px;
+    padding: 22px;
 
     background: var(--light-grayish-green);
   }
@@ -37,7 +38,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 22px;
-    padding-bottom: 16px;
     .title {
       font-size: 20px;
     }
@@ -50,5 +50,9 @@
         margin: auto;
       }
     }
+  }
+
+  ion-header {
+    box-shadow: none;
   }
 }

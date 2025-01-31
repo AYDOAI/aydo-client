@@ -12,7 +12,6 @@ export class SuccessComponent extends FormBaseComponent {
   public linkSent: boolean = false;
 
   override onInit() {
-    this.form.title = 'Sign up';
     this.form.inputs.push({
       key: 'success_message',
       type: 'string',
