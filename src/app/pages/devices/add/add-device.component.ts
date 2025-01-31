@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
-import { AppFormInputs } from '../../../shared/types';
-import { FormBaseComponent } from '../../form-base.component';
 import {
   DevicesModel,
   DriverItem,
   DriversModel,
 } from '../../../models/gateway.model';
+import { AppFormInputs } from '../../../shared/types';
+import { FormBaseComponent } from '../../../components/form-base.component';
 
 @Component({
-  selector: 'app-form-add-device',
-  templateUrl: './form-add-device.component.html',
-  styleUrl: './form-add-device.component.scss',
+  selector: 'app-device-add',
+  templateUrl: './add-device.component.html',
 })
-export class FormAddDeviceComponent extends FormBaseComponent {
+export class AddDeviceComponent extends FormBaseComponent {
   override onInit() {
     this.form.title = 'Add device';
     this.form.description =
@@ -86,7 +85,7 @@ export class FormAddDeviceComponent extends FormBaseComponent {
         this.errors.showError('Driver not found!');
       }
     } else {
-      this.ui.goStep('edit-device');
+      this.navCtrl.navigateForward(['/devices/new']);
     }
   }
 }
