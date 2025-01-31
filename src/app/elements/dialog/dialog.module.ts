@@ -5,6 +5,7 @@ import { DialogContainerComponent } from './dialog-container/dialog-container.co
 import { FullPageModalComponent } from './full-page-modal/full-page-modal.component';
 import { LicenseDialogComponent } from './license-dialog/license-dialog.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,7 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
     LicenseDialogComponent,
     ConfirmationModalComponent,
   ],
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, IonicModule],
   exports: [
     DialogContainerComponent,
     FullPageModalComponent,
