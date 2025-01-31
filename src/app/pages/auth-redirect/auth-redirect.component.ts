@@ -20,7 +20,7 @@ export class AuthRedirectComponent implements OnInit {
       const error = params['error'];
       if (error) {
         this.errors.showError(decodeURIComponent(error));
-        this.router.navigate(['/sign-in']);
+        this.router.navigate(['/main']);
         return;
       }
       if (userData) {
