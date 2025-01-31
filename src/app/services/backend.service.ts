@@ -462,6 +462,12 @@ export class BackendService {
         browser.close();
         const urlObj = new URL(event.url);
         const userData = urlObj.searchParams?.get('userData');
+        const error = urlObj.searchParams?.get('error');
+        if (error) {
+          this.errors.showError(decodeURIComponent(error));
+          this.router.navigate(['/main']);
+          return;
+        }
         if (userData) {
           try {
             const decodedData = atob(userData);
