@@ -66,33 +66,32 @@ export const routes: Routes = [
     path: 'auth-redirect',
     component: AuthRedirectComponent,
   },
-  // TODO: temporary disabled
-  // {
-  //   path: 'dashboard',
-  //   component: DashboardComponent,
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: DashboardMainComponent
-  //     },
-  //     {
-  //       path: 'rewards',
-  //       component: DashboardRewardsComponent
-  //     },
-  //     {
-  //       path: 'main-quests',
-  //       component: DashboardMainQuestsComponent
-  //     },
-  //     {
-  //       path: 'additional-quests',
-  //       component: DashboardAdditionalQuestsComponent
-  //     },
-  //     {
-  //       path: 'notifications',
-  //       component: NotificationsComponent
-  //     }
-  //   ]
-  // },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    children: [
+      {
+        path: '',
+        component: DashboardMainComponent,
+      },
+      {
+        path: 'rewards',
+        component: DashboardRewardsComponent,
+      },
+      // {
+      //   path: 'main-quests',
+      //   component: DashboardMainQuestsComponent
+      // },
+      // {
+      //   path: 'additional-quests',
+      //   component: DashboardAdditionalQuestsComponent
+      // },
+      // {
+      //   path: 'notifications',
+      //   component: NotificationsComponent
+      // }
+    ],
+  },
   {
     path: 'quests',
     component: DashboardMainQuestsComponent,

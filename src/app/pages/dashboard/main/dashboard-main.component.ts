@@ -1,11 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { BaseComponent } from '../../../components/base.component';
-import {
-  Notification,
-  Quest,
-  Ranking,
-  Reward,
-} from '../../../services/backend.service';
+import { QuestsService } from '../../../services/quests.service';
 
 @Component({
   selector: 'app-dashboard-main',
@@ -13,48 +8,16 @@ import {
   styleUrl: './dashboard-main.component.scss',
 })
 export class DashboardMainComponent extends BaseComponent {
-  notifications: Notification[] = [];
-  reward!: Reward;
-  mainQuests: Quest[] = [];
-  additionalQuests: Quest[] = [];
-  ranking!: Ranking;
+  public questsLength = 0;
+  private questsService = inject(QuestsService);
 
   override onInit() {
-    this.backend
-      .getNotifications()
-      .then(response => {
-        this.notifications = response.items;
-      })
-      .catch(() => {});
-    this.backend
-      .getRewards()
-      .then(response => {
-        this.reward = response;
-      })
-      .catch(() => {});
-    this.backend
-      .getMainQuests()
-      .then(response => {
-        this.mainQuests = response.items;
-      })
-      .catch(() => {});
-    this.backend
-      .getAdditionalQuests()
-      .then(response => {
-        this.additionalQuests = response.items;
-      })
-      .catch(() => {});
-    this.backend
-      .getRanking()
-      .then(response => {
-        this.ranking = response;
-      })
-      .catch(() => {});
+    this.questsService.getItems().subscribe(data => {
+      this.questsLength = data.length;
+    });
   }
 
-  navigate(page: string, arr: any = null) {
-    if (!arr || arr.length) {
-      this.router.navigate(['dashboard', page]);
-    }
+  navigate(page: string) {
+    this.navCtrl.navigateForward([page]);
   }
 }

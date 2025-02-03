@@ -50,3 +50,10 @@ export interface UserInfo {
   };
   deletedAt?: Date;
 }
+
+export interface UserRewards {
+  id: number;
+  title: string;
+  value: number;
+  currency: string;
+}
