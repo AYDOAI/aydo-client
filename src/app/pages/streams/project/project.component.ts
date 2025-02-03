@@ -59,13 +59,16 @@ export class ProjectComponent extends BaseComponent {
 
     this.streamService
       .toggleDataStream(currentStream.id)
-      .pipe(
-        switchMap(() => this.streamService.getStreamById(currentStream.id)),
-        finalize(() => this.ui.unlockBtn('streaming'))
-      )
+      .pipe(finalize(() => this.ui.unlockBtn('streaming')))
       .subscribe({
-        next: updatedStream => {
-          this.streamSubject.next(updatedStream);
+        next: ({ status }) => {
+          const oldValue = this.streamSubject.getValue();
+          if (oldValue) {
+            this.streamSubject.next({
+              ...oldValue,
+              status,
+            });
+          }
         },
       });
   }

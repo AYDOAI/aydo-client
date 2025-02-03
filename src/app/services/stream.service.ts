@@ -60,6 +60,8 @@ export class StreamService {
   }
 
   toggleDataStream(streamId: number) {
-    return this.httpClient.post(`${this.baseUrl}/${streamId}/toggle`, {});
+    return this.httpClient.post<{
+      status: 1 | 0;
+    }>(`${this.baseUrl}/${streamId}/toggle`, {});
   }
 }
