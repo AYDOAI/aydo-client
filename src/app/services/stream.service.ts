@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Observable, shareReplay } from 'rxjs';
+import { of, shareReplay, startWith, Subject, switchMap, take } from 'rxjs';
 import { DeviceItem } from '../models/gateway.model';
 
 export interface DataStream {
@@ -18,16 +18,33 @@ export interface DataStream {
   providedIn: 'root',
 })
 export class StreamService {
+  private reloadSubject = new Subject<void>();
   private readonly httpClient = inject(HttpClient);
 
   baseUrl = `${environment.main_url}/backend/v2/data-stream`;
 
-  streams$ = this.httpClient
-    .get<DataStream[]>(this.baseUrl)
-    .pipe(shareReplay(1));
+  streams$ = this.reloadSubject.pipe(
+    startWith(undefined),
+    switchMap(() => this.httpClient.get<DataStream[]>(this.baseUrl)),
+    shareReplay(1)
+  );
+
+  reloadData(): void {
+    this.reloadSubject.next();
+  }
 
   getStreamById(id: number) {
-    return this.httpClient.get<DataStream>(`${this.baseUrl}/${id}`);
+    return this.streams$.pipe(
+      take(1),
+      switchMap(streams => {
+        const stream = streams.find(s => s.id === id);
+        if (stream) {
+          return of(stream);
+        } else {
+          return this.httpClient.get<DataStream>(`${this.baseUrl}/${id}`);
+        }
+      })
+    );
   }
 
   disconnectDeviceFromStream(streamId: number, deviceId: number) {
@@ -40,5 +57,9 @@ export class StreamService {
     return this.httpClient.post(`${this.baseUrl}/${streamId}/devices`, {
       deviceId,
     });
+  }
+
+  toggleDataStream(streamId: number) {
+    return this.httpClient.post(`${this.baseUrl}/${streamId}/toggle`, {});
   }
 }
