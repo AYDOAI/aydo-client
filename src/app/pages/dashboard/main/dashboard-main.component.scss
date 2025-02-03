@@ -66,44 +66,9 @@
   }
 }
 
-.dashboard-item.rewards {
-  .dashboard-content {
-    margin-left: 12px;
-    margin-right: 12px;
-
-    .title {
-      margin-bottom: 50px;
-    }
-
-    .content {
-      display: flex;
-      align-items: flex-end;
-      gap: 9px;
-
-      .reward {
-        border: 1px solid #060022;
-        border-radius: 12px;
-        width: calc(50%);
-
-        .reward-content {
-          margin: 8px 12px;
-
-          .label {
-            color: #999999;
-            font-size: 12px;
-          }
-
-          .mb-44 {
-            margin-bottom: 44px;
-          }
-        }
-      }
-    }
-  }
-}
-
 .dashboard-item.main-quests,
-.dashboard-item.additional-quests {
+.dashboard-item.additional-quests,
+.dashboard-item.rewards {
   width: calc(50% - 22px);
 
   .dashboard-content {
@@ -120,6 +85,7 @@
       color: #999999;
       margin-bottom: 20px;
     }
+
     .content {
       display: flex;
       flex-direction: column;
@@ -131,6 +97,23 @@
         font-size: 18px;
 
         line-height: 140%;
+      }
+    }
+  }
+}
+
+.dashboard-item.rewards {
+  .dashboard-content {
+    .content {
+      display: flex;
+      gap: 9px;
+
+      .reward-content {
+        .label {
+          color: #999999;
+          font-weight: 500;
+          font-size: 12px;
+        }
       }
     }
   }

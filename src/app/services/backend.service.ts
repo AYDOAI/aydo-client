@@ -4,7 +4,12 @@ import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { RequestService } from './request.service';
-import { LoginItem, UserInfo, UserItem } from '../models/users.model';
+import {
+  LoginItem,
+  UserInfo,
+  UserItem,
+  UserRewards,
+} from '../models/users.model';
 import { StorageService } from './storage.service';
 import { DeviceItem, GatewayItem, ZoneItem } from '../models/gateway.model';
 import { between } from '../shared/shared.functions';
@@ -244,6 +249,13 @@ export class BackendService {
     return this.request.get(`${environment.main_url}/backend/v2/user/info`, {
       mainGroup: 'backend',
       method: 'user-info',
+    });
+  }
+
+  userRewards(): Observable<UserRewards[]> {
+    return this.request.get(`${environment.main_url}/backend/v2/user/rewards`, {
+      mainGroup: 'backend',
+      method: 'user-rewards',
     });
   }
 
