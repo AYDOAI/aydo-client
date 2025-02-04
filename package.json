@@ -8,6 +8,7 @@
     "start:ios": "ionic cap run ios -l --external",
     "build": "ng build",
     "build:testing": "ng build --configuration testing",
+    "build:dev": "ng build --configuration development",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:android": "ionic build --platform='android' && npx cap sync android && ionic cap open android",

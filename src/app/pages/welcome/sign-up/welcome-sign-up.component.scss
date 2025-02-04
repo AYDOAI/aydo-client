@@ -1,0 +1,15 @@
+:host {
+  ::ng-deep {
+    .form {
+      padding: 0 22px 32px 22px !important;
+
+      .form_content {
+        margin-top: 16px;
+      }
+    }
+  }
+
+  .title {
+    font-size: 30px;
+  }
+}

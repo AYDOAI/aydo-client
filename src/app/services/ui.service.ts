@@ -14,7 +14,7 @@ import { LoadingService } from './loading.service';
 import { Network } from '@capacitor/network';
 import { NavController } from '@ionic/angular';
 import { ErrorsService } from './errors.service';
-import { UserInfo } from '../models/users.model';
+import { UserInfo, UserRewards } from '../models/users.model';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +29,7 @@ export class UIService implements OnDestroy {
   devices!: DevicesModel;
   valuesInterval!: any;
   user: UserInfo | null | undefined = null;
+  rewards: UserRewards[] = [];
   public appReady: boolean = false;
   public inviteId: string;
   public isOnline: boolean = true;
@@ -48,7 +49,6 @@ export class UIService implements OnDestroy {
   ) {
     const urlSearchParams = new URLSearchParams(window.location.search);
     this.inviteId = urlSearchParams.get('code') ?? '';
-    console.log('invite id ' + this.inviteId);
     this.initSub = this.loading
       .showLoading$(this.storage.initSub())
       .subscribe(data => {
@@ -93,7 +93,10 @@ export class UIService implements OnDestroy {
               this.goStep('success');
               return;
             }
-            if (this.isAuthPage()) {
+            if (
+              this.isAuthPage() &&
+              !this.router.url.includes('privacy-policy')
+            ) {
               this.defaultStep();
             }
           })
@@ -104,7 +107,11 @@ export class UIService implements OnDestroy {
             const next = () => {
               this.loading.showLoading();
               this.getDevices();
-              if (this.isAuthPage()) {
+              this.getUserRewards();
+              if (
+                this.isAuthPage() &&
+                !this.router.url.includes('privacy-policy')
+              ) {
                 this.defaultStep();
               }
             };
@@ -129,6 +136,19 @@ export class UIService implements OnDestroy {
         this.goStep('main');
       }
     }
+  }
+
+  getUserRewards(e?: any): void {
+    this.backend
+      .userRewards()
+      .pipe(
+        finalize(() => {
+          if (e) {
+            e.target.complete();
+          }
+        })
+      )
+      .subscribe(data => (this.rewards = data));
   }
 
   // get step(): FrameStep {

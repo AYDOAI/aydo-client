@@ -1,19 +1,13 @@
 <app-full-screen-content-wrapper>
   <ng-template #header>
-    <ion-toolbar>
-      <div class="header">
-        <div class="title">Sign Up</div>
-      </div>
-    </ion-toolbar>
+    <app-header title="Devices"></app-header>
   </ng-template>
   <ng-template #content>
     <app-form
       [form]="form"
       [formGroup]="formGroup"
+      [back]="'/devices/add'"
       (onClickButton)="button($event)">
-      <p *ngIf="linkSent" class="success-message">
-        Confirmation link has been sent to your email address
-      </p>
     </app-form>
   </ng-template>
 </app-full-screen-content-wrapper>

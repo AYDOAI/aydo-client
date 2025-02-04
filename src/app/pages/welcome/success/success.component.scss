@@ -1,10 +1,17 @@
-.form {
-  padding: 24px 22px 32px 22px;
-}
+:host {
+  ::ng-deep {
+    .form {
+      padding: 0 22px 32px 22px !important;
 
-.title {
-  font-size: 30px;
-  margin-bottom: 32px;
+      .form_content {
+        margin-top: 16px;
+      }
+    }
+  }
+
+  .title {
+    font-size: 30px;
+  }
 }
 
 .input {

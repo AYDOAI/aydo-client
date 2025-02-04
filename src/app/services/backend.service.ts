@@ -4,7 +4,12 @@ import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { RequestService } from './request.service';
-import { LoginItem, UserInfo, UserItem } from '../models/users.model';
+import {
+  LoginItem,
+  UserInfo,
+  UserItem,
+  UserRewards,
+} from '../models/users.model';
 import { StorageService } from './storage.service';
 import { DeviceItem, GatewayItem, ZoneItem } from '../models/gateway.model';
 import { between } from '../shared/shared.functions';
@@ -247,6 +252,13 @@ export class BackendService {
     });
   }
 
+  userRewards(): Observable<UserRewards[]> {
+    return this.request.get(`${environment.main_url}/backend/v2/user/rewards`, {
+      mainGroup: 'backend',
+      method: 'user-rewards',
+    });
+  }
+
   userRefresh(): Observable<any> {
     return this.request
       .get(`${environment.main_url}/backend/v2/user/refresh`, {
@@ -433,7 +445,7 @@ export class BackendService {
   public googleLogin(inviteId?: string): void {
     const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
     const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
-    const browser = this.iab.create(url);
+    const browser = this.iab.create(url, '_blank');
     if (this.platform.is('capacitor')) {
       this.handleLogin(browser);
     }
@@ -450,7 +462,7 @@ export class BackendService {
     // }
     const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
     const url = `${environment.main_url}/backend/v2/user/apple/login?state=${encodedState}`;
-    const browser = this.iab.create(url);
+    const browser = this.iab.create(url, '_blank');
     if (this.platform.is('capacitor')) {
       this.handleLogin(browser);
     }
@@ -462,6 +474,12 @@ export class BackendService {
         browser.close();
         const urlObj = new URL(event.url);
         const userData = urlObj.searchParams?.get('userData');
+        const error = urlObj.searchParams?.get('error');
+        if (error) {
+          this.errors.showError(decodeURIComponent(error));
+          this.router.navigate(['/main']);
+          return;
+        }
         if (userData) {
           try {
             const decodedData = atob(userData);
