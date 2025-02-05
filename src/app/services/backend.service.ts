@@ -14,10 +14,30 @@ import { StorageService } from './storage.service';
 import { DeviceItem, GatewayItem, ZoneItem } from '../models/gateway.model';
 import { between } from '../shared/shared.functions';
 import detectEthereumProvider from '@metamask/detect-provider';
-import { from, Observable } from 'rxjs';
+import { catchError, from, Observable, throwError } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ErrorsService } from './errors.service';
 import { IDeviceSettings } from '../shared/interfaces/device-settings.interface';
+import {
+  connect,
+  createConfig,
+  getAccount,
+  getWalletClient,
+  http,
+} from '@wagmi/core';
+import { mainnet, sepolia } from '@wagmi/core/chains';
+import { metaMask } from '@wagmi/connectors';
+import { LoadingService } from './loading.service';
+
+export const config = createConfig({
+  chains: [mainnet, sepolia],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+  },
+});
+
+export const connector = metaMask();
 
 export interface Notification {
   title?: string;
@@ -160,7 +180,8 @@ export class BackendService {
     public errors: ErrorsService,
     private iab: InAppBrowser,
     private platform: Platform,
-    private router: Router
+    private router: Router,
+    private loading: LoadingService
   ) {
     this.randomIndex = between(0, 2);
   }
@@ -504,7 +525,78 @@ export class BackendService {
     });
   }
 
-  public signInWithMetaMask(inviteId: string) {
+  public signInWithMetaMask(inviteId: string): Observable<any> {
+    if (this.platform.is('ios') || this.platform.is('android')) {
+      return this.signInWithMetaMaskMobile(inviteId);
+    } else {
+      return this.signInWithMetaMaskWeb(inviteId);
+    }
+  }
+
+  private signInWithMetaMaskMobile(inviteId: string) {
+    const timeoutPromise = (ms: number) =>
+      new Promise((_, reject) =>
+        setTimeout(
+          () =>
+            reject(
+              new Error(
+                'Connection timeout. Please make sure MetaMask is installed and check your internet connection.'
+              )
+            ),
+          ms
+        )
+      );
+
+    const connectWithTimeout = Promise.race([
+      connect(config, { connector }),
+      timeoutPromise(5000),
+    ]);
+
+    return from(connectWithTimeout).pipe(
+      switchMap(async () => {
+        const account = getAccount(config);
+        if (!account.address) {
+          throw new Error('No connected account found');
+        }
+        return account.address;
+      }),
+      tap(() => this.loading.dismissLoading()),
+      switchMap(address => this.metamaskGetNonce(address, inviteId)),
+      switchMap(async response => {
+        try {
+          const provider = await getWalletClient(config);
+          const signer = provider!.account.address;
+          const signature = await provider!.request({
+            method: 'personal_sign',
+            params: [`0x${this.toHex(response.nonce)}`, signer],
+          });
+          return { address: signer, signature };
+        } catch (error) {
+          console.error('Error signing', error);
+          return throwError(`Error signing`);
+        }
+      }),
+      // @ts-ignore
+      switchMap(({ address, signature }) =>
+        this.metamaskVerifySignedMessage(address, signature)
+      ),
+      switchMap(async response => {
+        this.storage.token = response.user.token;
+        this.storage.refreshToken = response.user.refresh_token;
+        this.storage.next();
+        return {
+          address: response.user.address,
+          signature: response.user.signature,
+        };
+      }),
+      catchError(error => {
+        console.error('Metamask sign in error', error);
+        return throwError(error);
+      })
+    );
+  }
+
+  private signInWithMetaMaskWeb(inviteId: string) {
     let ethereum: any;
 
     return from(detectEthereumProvider()).pipe(

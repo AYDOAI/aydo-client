@@ -1,19 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { http, createConfig } from '@wagmi/core';
-import { mainnet, sepolia } from '@wagmi/core/chains';
 import { Router } from '@angular/router';
 import { BackendService } from '../../../services/backend.service';
 import { UIService } from '../../../services/ui.service';
 import { ErrorsService } from '../../../services/errors.service';
 import { LoadingService } from '../../../services/loading.service';
-
-export const config = createConfig({
-  chains: [mainnet, sepolia],
-  transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
-  },
-});
 
 @Component({
   selector: 'app-welcome-providers',
