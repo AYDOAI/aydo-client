@@ -549,7 +549,7 @@ export class BackendService {
 
     const connectWithTimeout = Promise.race([
       connect(config, { connector }),
-      timeoutPromise(5000),
+      timeoutPromise(10000),
     ]);
 
     return from(connectWithTimeout).pipe(
