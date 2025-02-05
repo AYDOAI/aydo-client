@@ -53,7 +53,7 @@ import { FormAddHubFoundComponent } from './components/forms/add-hub-found/form-
 import { FormAddHubConnectedComponent } from './components/forms/add-hub-connected/form-add-hub-connected.component';
 import { DashboardRewardsComponent } from './pages/dashboard/rewards/dashboard-rewards.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, mdTransitionAnimation } from '@ionic/angular';
 import { DashboardMainQuestsComponent } from './pages/dashboard/main-quests/dashboard-main-quests.component';
 import { DashboardQuestsComponent } from './pages/dashboard/quests/dashboard-quests.component';
 import { DashboardAdditionalQuestsComponent } from './pages/dashboard/additional-quests/dashboard-additional-quests.component';
@@ -167,7 +167,11 @@ import { NewDeviceComponent } from './pages/devices/new/new-device.component';
   imports: [
     AppRoutingModule,
     BrowserModule,
-    IonicModule.forRoot({}),
+    IonicModule.forRoot({
+      animated: true,
+      swipeBackEnabled: false,
+      navAnimation: mdTransitionAnimation,
+    }),
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
