@@ -4,13 +4,17 @@ import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { RequestService } from './request.service';
-import { LoginItem, UserInfo, UserItem } from '../models/users.model';
+import {
+  LoginItem,
+  UserInfo,
+  UserItem,
+  UserRewards,
+} from '../models/users.model';
 import { StorageService } from './storage.service';
 import { DeviceItem, GatewayItem, ZoneItem } from '../models/gateway.model';
 import { between } from '../shared/shared.functions';
-import detectEthereumProvider from '@metamask/detect-provider';
-import { from, Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { ErrorsService } from './errors.service';
 import { IDeviceSettings } from '../shared/interfaces/device-settings.interface';
 
@@ -244,6 +248,13 @@ export class BackendService {
     return this.request.get(`${environment.main_url}/backend/v2/user/info`, {
       mainGroup: 'backend',
       method: 'user-info',
+    });
+  }
+
+  userRewards(): Observable<UserRewards[]> {
+    return this.request.get(`${environment.main_url}/backend/v2/user/rewards`, {
+      mainGroup: 'backend',
+      method: 'user-rewards',
     });
   }
 
@@ -490,71 +501,5 @@ export class BackendService {
         }
       }
     });
-  }
-
-  public signInWithMetaMask(inviteId: string) {
-    let ethereum: any;
-
-    return from(detectEthereumProvider()).pipe(
-      switchMap(async provider => {
-        if (!provider) {
-          throw new Error('Please install MetaMask');
-        }
-        ethereum = provider;
-        return await ethereum.request({ method: 'eth_requestAccounts' });
-      }),
-      switchMap(() =>
-        this.metamaskGetNonce(ethereum.selectedAddress, inviteId)
-      ),
-      switchMap(
-        async response =>
-          await ethereum.request({
-            method: 'personal_sign',
-            params: [
-              `0x${this.toHex(response.nonce)}`,
-              ethereum.selectedAddress,
-            ],
-          })
-      ),
-      switchMap(sig =>
-        this.metamaskVerifySignedMessage(ethereum.selectedAddress, sig)
-      ),
-      switchMap(async response => {
-        this.storage.token = response.user.token;
-        this.storage.refreshToken = response.user.refresh_token;
-        this.storage.next();
-      })
-    );
-  }
-
-  private toHex(stringToConvert: string) {
-    return stringToConvert
-      .split('')
-      .map(c => c.charCodeAt(0).toString(16).padStart(2, '0'))
-      .join('');
-  }
-
-  metamaskGetNonce(address: any, inviteId: string): Observable<any> {
-    return this.request.post(
-      `${environment.main_url}/backend/v2/user/metamask/get-nonce`,
-      { address, inviteId },
-      {
-        mainGroup: 'backend',
-        method: 'metamask-get-nonce',
-        ignoreError: true,
-      }
-    );
-  }
-
-  metamaskVerifySignedMessage(address: any, sig: any): Observable<any> {
-    const data = { address: address, sig: sig };
-    return this.request.post(
-      `${environment.main_url}/backend/v2/user/metamask/verify`,
-      { data },
-      {
-        mainGroup: 'backend',
-        method: 'metamask-verify-signed-message',
-      }
-    );
   }
 }
