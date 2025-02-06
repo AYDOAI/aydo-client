@@ -1,19 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { http, createConfig } from '@wagmi/core';
-import { mainnet, sepolia } from '@wagmi/core/chains';
 import { Router } from '@angular/router';
 import { BackendService } from '../../../services/backend.service';
 import { UIService } from '../../../services/ui.service';
 import { ErrorsService } from '../../../services/errors.service';
 import { LoadingService } from '../../../services/loading.service';
-
-export const config = createConfig({
-  chains: [mainnet, sepolia],
-  transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
-  },
-});
+import { MetaMaskService } from '../../../services/metamask.service';
 
 @Component({
   selector: 'app-welcome-providers',
@@ -26,7 +17,8 @@ export class WelcomeProvidersComponent implements OnInit {
     private backend: BackendService,
     private ui: UIService,
     private errors: ErrorsService,
-    private loading: LoadingService
+    private loading: LoadingService,
+    private metamask: MetaMaskService
   ) {}
 
   ngOnInit(): void {}
@@ -43,7 +35,7 @@ export class WelcomeProvidersComponent implements OnInit {
 
   async handleAuth() {
     this.loading
-      .showLoading$(this.backend.signInWithMetaMask(this.ui.inviteId))
+      .showLoading$(this.metamask.signInWithMetaMask(this.ui.inviteId))
       .subscribe(
         () => {},
         err => {
