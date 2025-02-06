@@ -2,7 +2,15 @@ import { Component, inject } from '@angular/core';
 import { BaseComponent } from '../../../components/base.component';
 import { DataStream } from '../../../services/backend.service';
 import { ActivatedRoute } from '@angular/router';
-import { finalize } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  finalize,
+  map,
+  switchMap,
+  take,
+} from 'rxjs';
+import { StreamService } from '../../../services/stream.service';
 
 @Component({
   selector: 'app-project',
@@ -10,15 +18,22 @@ import { finalize } from 'rxjs';
   styleUrl: './project.component.scss',
 })
 export class ProjectComponent extends BaseComponent {
-  public dataStream: DataStream | null = null;
-
   private route = inject(ActivatedRoute);
+  private streamService = inject(StreamService);
+
+  private streamSubject = new BehaviorSubject<DataStream | null>(null);
+  public stream$: Observable<DataStream | null> =
+    this.streamSubject.asObservable();
 
   override onInit() {
-    const id = Number(this.route.snapshot.params['id']);
-    this.backend.getDataStreamById(id).subscribe(data => {
-      this.dataStream = data;
-    });
+    this.route.params
+      .pipe(
+        map(params => +params['id']),
+        switchMap(id => this.streamService.getStreamById(id))
+      )
+      .subscribe({
+        next: dataStream => this.streamSubject.next(dataStream),
+      });
   }
 
   public copy(text: string): void {
@@ -34,16 +49,27 @@ export class ProjectComponent extends BaseComponent {
   }
 
   public toggle(): void {
-    if (this.dataStream) {
-      this.ui.lockBtn('streaming');
-      this.backend
-        .toggleDataStream(this.dataStream.id)
-        .pipe(finalize(() => this.ui.unlockBtn('streaming')))
-        .subscribe(data => {
-          setTimeout(() => {
-            (this.dataStream as { status: number }).status = data.status;
-          }, 200);
-        });
+    this.ui.lockBtn('streaming');
+
+    const currentStream = this.streamSubject.getValue();
+    if (!currentStream) {
+      this.ui.unlockBtn('streaming');
+      return;
     }
+
+    this.streamService
+      .toggleDataStream(currentStream.id)
+      .pipe(finalize(() => this.ui.unlockBtn('streaming')))
+      .subscribe({
+        next: ({ status }) => {
+          const oldValue = this.streamSubject.getValue();
+          if (oldValue) {
+            this.streamSubject.next({
+              ...oldValue,
+              status,
+            });
+          }
+        },
+      });
   }
 }

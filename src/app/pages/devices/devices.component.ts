@@ -22,10 +22,6 @@ export class DevicesComponent extends BaseComponent {
     this.ui.getGateway(() => this.ui.getDevices(event));
   }
 
-  deviceAdd() {
-    this.ui.goStep('add-device');
-  }
-
   public edit(device: DeviceItem): void {
     this.ui.selectedDriver = this.ui.drivers.items.find(
       item => item.driverId == device.driverId

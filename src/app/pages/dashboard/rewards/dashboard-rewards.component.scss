@@ -29,7 +29,7 @@
     column-gap: 23px;
 
     padding: 0 20px;
-    margin-top: 30px;
+    margin-top: 16px;
   }
 
   .rewards {
@@ -71,34 +71,13 @@
     line-height: 140%;
   }
 
-  .chips {
-    margin-top: 24px;
+  .transfer-label {
+    font-weight: 300;
+  }
 
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-
-    &_item {
-      padding: 4px 8px;
-
-      display: flex;
-      flex-direction: column;
-
-      border: 1px solid var(--very-dark-blue);
-      border-radius: 8px;
-
-      .operation {
-        font-size: 12px;
-        line-height: 120%;
-        color: #999999;
-      }
-
-      .arrival {
-        font-size: 14px;
-        line-height: 140%;
-        font-weight: 600;
-        color: #0c1821;
-      }
+  .rewards {
+    .card-content {
+      padding: 8px 8px 8px 16px;
     }
   }
 }

@@ -31,8 +31,6 @@ import { WelcomeProvidersComponent } from './pages/welcome/providers/welcome-pro
 import { DevicesComponent } from './pages/devices/devices.component';
 import { FormAddHubComponent } from './components/forms/add-hub/form-add-hub.component';
 import { FormConfigHubComponent } from './components/forms/config-hub/form-config-hub.component';
-import { FormAddDeviceComponent } from './components/forms/add-device/form-add-device.component';
-import { FormEditDeviceComponent } from './components/forms/edit-device/form-edit-device.component';
 import { DashboardMainComponent } from './pages/dashboard/main/dashboard-main.component';
 import { HeaderComponent } from './elements/header/header.component';
 import { MenuComponent } from './components/menu/menu.component';
@@ -55,7 +53,7 @@ import { FormAddHubFoundComponent } from './components/forms/add-hub-found/form-
 import { FormAddHubConnectedComponent } from './components/forms/add-hub-connected/form-add-hub-connected.component';
 import { DashboardRewardsComponent } from './pages/dashboard/rewards/dashboard-rewards.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, mdTransitionAnimation } from '@ionic/angular';
 import { DashboardMainQuestsComponent } from './pages/dashboard/main-quests/dashboard-main-quests.component';
 import { DashboardQuestsComponent } from './pages/dashboard/quests/dashboard-quests.component';
 import { DashboardAdditionalQuestsComponent } from './pages/dashboard/additional-quests/dashboard-additional-quests.component';
@@ -92,6 +90,8 @@ import { DeviceCardComponent } from './pages/devices/device-card/device-card.com
 import { UserService } from './services/user.service';
 import { ConnectDeviceCardComponent } from './pages/connect-devices/card/device-card.component';
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
+import { AddDeviceComponent } from './pages/devices/add/add-device.component';
+import { NewDeviceComponent } from './pages/devices/new/new-device.component';
 
 @NgModule({
   declarations: [
@@ -112,8 +112,6 @@ import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.co
     WelcomeProvidersComponent,
     FormAddHubComponent,
     FormConfigHubComponent,
-    FormAddDeviceComponent,
-    FormEditDeviceComponent,
     DevicesComponent,
     SvgDefinitionsComponent,
     SvgIconComponent,
@@ -163,11 +161,17 @@ import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.co
     GatewayCardComponent,
     DeviceCardComponent,
     PrivacyPolicyComponent,
+    AddDeviceComponent,
+    NewDeviceComponent,
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
-    IonicModule.forRoot({}),
+    IonicModule.forRoot({
+      animated: true,
+      swipeBackEnabled: false,
+      navAnimation: mdTransitionAnimation,
+    }),
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
