@@ -10,19 +10,13 @@
 </app-full-screen-content-wrapper>
 
 <ng-template #contentTemplate>
-  <div class="caption">
-    <div class="card very-small" (click)="goBack()">
-      <div class="card-content">
-        <svg-icon name="arrow-left" width="12px"></svg-icon>
-      </div>
-    </div>
-    <div class="title">Your reward multiplier x 1.0</div>
-  </div>
-
+  <app-header
+    title="Your reward multiplier x 1.0"
+    back="/dashboard"></app-header>
   <div class="rewards">
     <div class="card small">
       <div class="card-content">
-        <div class="card-title">Balance of AYDO points</div>
+        <div class="card-title">Balance of AYDO Points</div>
         <span class="balance">Your balance</span>
         <span class="amount">{{ ui.user?.balance }} Points</span>
       </div>
