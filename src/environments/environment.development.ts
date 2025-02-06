@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  main_url: 'http://localhost:3000',
+  main_url: 'http://127.0.0.1:3001',
   index_url: '/streams',
   log: {
     backend: {
