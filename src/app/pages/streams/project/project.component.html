@@ -3,11 +3,15 @@
     <app-header title="Project info" back="streams"></app-header>
   </ng-template>
   <ng-template #content>
-    <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+    <ng-container
+      *ngIf="stream$ | async as dataStream"
+      [ngTemplateOutlet]="contentTemplate"
+      [ngTemplateOutletContext]="{ dataStream }">
+    </ng-container>
   </ng-template>
 </app-full-screen-content-wrapper>
 
-<ng-template #contentTemplate>
+<ng-template #contentTemplate let-dataStream="dataStream">
   <div class="project">
     <div class="card big">
       <div class="card-content">

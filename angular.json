@@ -83,6 +83,9 @@
             },
             "development": {
               "buildTarget": "client:build:development"
+            },
+            "testing": {
+              "buildTarget": "client:build:testing"
             }
           },
           "defaultConfiguration": "development"
