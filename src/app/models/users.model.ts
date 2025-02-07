@@ -49,6 +49,7 @@ export interface UserInfo {
     url: string;
   };
   deletedAt?: Date;
+  invite_code: string;
 }
 
 export interface UserRewards {

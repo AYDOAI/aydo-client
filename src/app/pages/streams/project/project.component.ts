@@ -2,15 +2,9 @@ import { Component, inject } from '@angular/core';
 import { BaseComponent } from '../../../components/base.component';
 import { DataStream } from '../../../services/backend.service';
 import { ActivatedRoute } from '@angular/router';
-import {
-  BehaviorSubject,
-  Observable,
-  finalize,
-  map,
-  switchMap,
-  take,
-} from 'rxjs';
+import { BehaviorSubject, Observable, finalize, map, switchMap } from 'rxjs';
 import { StreamService } from '../../../services/stream.service';
+import { ClipboardService } from '../../../services/clipboard.service';
 
 @Component({
   selector: 'app-project',
@@ -20,6 +14,7 @@ import { StreamService } from '../../../services/stream.service';
 export class ProjectComponent extends BaseComponent {
   private route = inject(ActivatedRoute);
   private streamService = inject(StreamService);
+  private clipboard = inject(ClipboardService);
 
   private streamSubject = new BehaviorSubject<DataStream | null>(null);
   public stream$: Observable<DataStream | null> =
@@ -36,16 +31,8 @@ export class ProjectComponent extends BaseComponent {
       });
   }
 
-  public copy(text: string): void {
-    // TODO component, notification "text copied"?
-    if (text) {
-      navigator.clipboard
-        .writeText(text)
-        .then(() => {})
-        .catch(err => {
-          console.error(err);
-        });
-    }
+  public copyLink(text: string, event: MouseEvent | TouchEvent): void {
+    this.clipboard.copy(text, event);
   }
 
   public toggle(): void {
