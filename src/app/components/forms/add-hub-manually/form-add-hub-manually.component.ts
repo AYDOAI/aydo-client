@@ -2,9 +2,9 @@ import { Component, inject, Input } from '@angular/core';
 import { FormBaseComponent } from '../../form-base.component';
 import { ActivatedRoute } from '@angular/router';
 import { AppFormInputs } from '../../../shared/types';
+import { finalize } from 'rxjs';
 import { DialogService } from '../../../services/dialog.service';
 import { BarcodeScannerComponent } from '../../../elements/barcode-scanner/barcode-scanner.component';
-import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-form-add-hub-manually',
@@ -34,7 +34,12 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
       required: true,
     });
 
-    this.formGroup = this.createForm(this.form.inputs);
+    this.form.inputs.push({
+      key: 'scan',
+      title: 'Scan QR Code',
+      type: 'button',
+      icon: 'arrow-right',
+    });
 
     this.form.inputs.push({
       key: 'attach',
@@ -44,18 +49,23 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
       isDisabled: () => this.formGroup.invalid,
       displayError: true,
     });
-    // this.form.inputs.push({
-    //   key: 'scan',
-    //   title: 'Scan QR Code',
-    //   type: 'button',
-    //   icon: 'arrow-right'
-    // });
+
+    this.formGroup = this.createForm(this.form.inputs);
   }
 
+  private scanQR() {
+    this.dialogService.show(BarcodeScannerComponent, {
+      onScan: (barcode: any) => {
+        const result = JSON.parse(barcode.displayValue);
+        this.formGroup.get('identifier')?.setValue(result.identifier);
+        this.formGroup.get('token')?.setValue(result.token);
+      },
+    });
+  }
   public button(button: AppFormInputs): void {
     switch (button.key) {
       case 'scan': {
-        this.dialogService.show(BarcodeScannerComponent, {});
+        this.scanQR();
         break;
       }
       case 'attach': {
