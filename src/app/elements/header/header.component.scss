@@ -1,9 +1,14 @@
+$padding-x-btn: 22px;
+
 .header {
   position: relative;
-  padding: 12px 22px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  .title {
+    margin-left: -$padding-x-btn * 2;
+  }
 }
 
 .back-button {
@@ -21,6 +26,11 @@
   height: 9px;
   width: 24px;
   position: relative;
+}
+
+.back-button,
+.menu-button {
+  padding: $padding-x-btn 22px;
 }
 
 .menu-icon,
