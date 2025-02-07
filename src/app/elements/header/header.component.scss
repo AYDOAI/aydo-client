@@ -1,4 +1,5 @@
-$padding-x-btn: 22px;
+$padding-x-btn: 12px;
+$padding-y-btn: 22px;
 
 .header {
   position: relative;
@@ -30,7 +31,7 @@ $padding-x-btn: 22px;
 
 .back-button,
 .menu-button {
-  padding: $padding-x-btn 22px;
+  padding: $padding-x-btn $padding-y-btn;
 }
 
 .menu-icon,
