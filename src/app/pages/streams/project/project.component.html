@@ -55,7 +55,7 @@
             dataStream?.externalLink ?? ''
           }}</a>
           <svg
-            (click)="copy(dataStream?.externalLink || '')"
+            (click)="copyLink(dataStream?.externalLink || '', $event)"
             width="18"
             height="18"
             viewBox="0 0 18 18"

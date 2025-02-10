@@ -54,6 +54,12 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
       matchingKey: 'password',
     });
     this.form.inputs.push({
+      key: 'invite_code',
+      title: 'Invite code',
+      type: 'input',
+      defaultValue: this.ui?.inviteId || '',
+    });
+    this.form.inputs.push({
       key: 'agreement',
       title: '',
       type: 'agreement',
@@ -86,7 +92,7 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
         if (this.formGroup.valid) {
           const user = { ...this.formGroup.value };
           user.email = user.login.trim();
-          user.inviteId = this.ui.inviteId;
+          user.inviteId = this.formGroup.get('invite_code')?.value;
           this.resetFormErrors();
           this.ui.lockBtn('sign_up');
           this.backend
