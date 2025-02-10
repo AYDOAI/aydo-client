@@ -28,6 +28,7 @@ export class BarcodeScannerComponent
 {
   private static formats: BarcodeFormat[] = [];
   private static lensFacing: LensFacing = LensFacing.Back;
+  private onScan!: (barcode: Barcode) => void;
 
   @ViewChild('square')
   public squareElement: ElementRef<HTMLDivElement> | undefined;
@@ -60,7 +61,7 @@ export class BarcodeScannerComponent
 
   public async closeModal(barcode?: Barcode): Promise<void> {
     if (barcode) {
-      // TODO: callback to parent component
+      this.onScan(barcode);
       this.close();
     } else {
       this.close();
@@ -93,6 +94,7 @@ export class BarcodeScannerComponent
             squareElementBoundingClientRect.height * window.devicePixelRatio,
         }
       : undefined;
+
     const detectionCornerPoints = scaledRect
       ? [
           [scaledRect.left, scaledRect.top],
@@ -104,6 +106,7 @@ export class BarcodeScannerComponent
           [scaledRect.left, scaledRect.top + scaledRect.height],
         ]
       : undefined;
+
     const listener = await BarcodeScanner.addListener(
       'barcodeScanned',
       async event => {
@@ -128,6 +131,7 @@ export class BarcodeScannerComponent
         });
       }
     );
+
     document.querySelector('body')?.classList.add('barcode-scanner-active');
     await BarcodeScanner.startScan(options);
   }
