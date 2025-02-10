@@ -161,7 +161,7 @@ export class UIService implements OnDestroy {
   }
 
   defaultStep() {
-    this.goStep('streams');
+    this.goStep('dashboard');
   }
 
   public logout(): void {
