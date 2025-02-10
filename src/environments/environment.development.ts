@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   main_url: 'http://127.0.0.1:3001',
-  index_url: '/streams',
+  index_url: '/dashboard',
   log: {
     backend: {
       request: {

@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   main_url: 'https://cloud.aydo.ai',
-  index_url: '/streams',
+  index_url: '/dashboard',
   log: {
     backend: {
       request: {

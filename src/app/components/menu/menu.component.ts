@@ -13,14 +13,14 @@ export class MenuComponent extends BaseElement {
   @Input() contentId: string = '';
 
   menu = [
-    { link: '/streams', icon: 'menu-unknown', title: 'Data streams' },
-    { link: '/quests', icon: 'menu-service-status', title: 'Quests' },
     {
       link: '/dashboard',
       icon: 'menu-unknown',
       title: 'Dashboard',
       step: 'dashboard',
     },
+    { link: '/streams', icon: 'menu-unknown', title: 'Data streams' },
+    { link: '/quests', icon: 'menu-service-status', title: 'Quests' },
     {
       link: '/devices',
       icon: 'menu-devices',
