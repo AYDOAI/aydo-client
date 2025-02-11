@@ -92,6 +92,7 @@ import { ConnectDeviceCardComponent } from './pages/connect-devices/card/device-
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 import { AddDeviceComponent } from './pages/devices/add/add-device.component';
 import { NewDeviceComponent } from './pages/devices/new/new-device.component';
+import { HubEditComponent } from './pages/devices/hub/hub-edit.component';
 
 @NgModule({
   declarations: [
@@ -163,6 +164,7 @@ import { NewDeviceComponent } from './pages/devices/new/new-device.component';
     PrivacyPolicyComponent,
     AddDeviceComponent,
     NewDeviceComponent,
+    HubEditComponent,
   ],
   imports: [
     AppRoutingModule,

@@ -1,4 +1,8 @@
-<div *ngIf="ui.gateway" class="card big">
+<div
+  *ngIf="ui.gateway"
+  [appRipple]="true"
+  (click)="edit.emit()"
+  class="card big">
   <div class="card-content">
     <div class="card-header">
       <svg
@@ -26,6 +30,7 @@
         <div class="title-container__title">
           HUB: {{ ui.gateway.identifier }}
         </div>
+        <svg-icon name="arrow" class="icon"></svg-icon>
       </div>
     </div>
     <div class="capabilities">

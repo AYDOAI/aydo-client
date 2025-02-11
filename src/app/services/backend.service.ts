@@ -354,6 +354,16 @@ export class BackendService {
     });
   }
 
+  deleteGateway(): Observable<any> {
+    return this.request.del(
+      `${environment.main_url}/backend/v2/gateway/delete`,
+      {
+        mainGroup: 'backend',
+        method: 'gateway-delete',
+      }
+    );
+  }
+
   saveZone(zone: ZoneItem): Observable<any> {
     return this.request.post(
       `${environment.main_url}/backend/v2/gateway/zone`,
