@@ -53,7 +53,6 @@ export class WelcomeSignInComponent extends FormBaseComponent {
       .pipe(finalize(() => this.ui.unlockBtn(input.key)))
       .subscribe(() => {
         this.ui.afterLogin();
-        this.userService.reloadUser();
       });
   }
 

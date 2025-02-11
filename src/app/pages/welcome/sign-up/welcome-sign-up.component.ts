@@ -104,7 +104,6 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
               this.storage.token = data.token;
               this.storage.refreshToken = data.refresh_token;
               this.ui.afterLogin();
-              this.userService.reloadUser();
             });
           break;
         }

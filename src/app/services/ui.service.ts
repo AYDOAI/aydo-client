@@ -15,6 +15,7 @@ import { Network } from '@capacitor/network';
 import { NavController } from '@ionic/angular';
 import { ErrorsService } from './errors.service';
 import { UserInfo, UserRewards } from '../models/users.model';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +46,8 @@ export class UIService implements OnDestroy {
     public router: Router,
     public navCtrl: NavController,
     private loading: LoadingService,
-    private errors: ErrorsService
+    private errors: ErrorsService,
+    private userService: UserService
   ) {
     const urlSearchParams = new URLSearchParams(window.location.search);
     this.inviteId = urlSearchParams.get('code') ?? '';
@@ -83,6 +85,7 @@ export class UIService implements OnDestroy {
   afterLogin() {
     if (this.storage.token) {
       this.loading.showLoading();
+      this.userService.reloadUser();
       this.backend
         .userInfo()
         .pipe(
