@@ -11,7 +11,7 @@
 
 <ng-template #contentTemplate>
   <div class="devices">
-    <app-gateway-card></app-gateway-card>
+    <app-gateway-card (edit)="editHub()"></app-gateway-card>
     <ng-container *ngIf="ui.devices">
       <div
         *ngIf="!ui.devices?.items?.length"

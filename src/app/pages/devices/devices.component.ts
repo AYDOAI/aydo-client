@@ -30,6 +30,10 @@ export class DevicesComponent extends BaseComponent {
     this.navCtrl.navigateForward(['/devices/edit']);
   }
 
+  public editHub(): void {
+    this.navCtrl.navigateForward(['/devices/hub']);
+  }
+
   public trackByIdent(index: number, device: DeviceItem): string {
     return device.ident;
   }

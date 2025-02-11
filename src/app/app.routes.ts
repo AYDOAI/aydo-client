@@ -39,6 +39,7 @@ import { HubGuard } from './shared/guards/hub.guard';
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 import { AddDeviceComponent } from './pages/devices/add/add-device.component';
 import { NewDeviceComponent } from './pages/devices/new/new-device.component';
+import { HubEditComponent } from './pages/devices/hub/hub-edit.component';
 
 export const routes: Routes = [
   {
@@ -104,6 +105,10 @@ export const routes: Routes = [
   {
     path: 'devices/edit',
     component: DeviceEditComponent,
+  },
+  {
+    path: 'devices/hub',
+    component: HubEditComponent,
   },
   {
     path: 'devices/add',
