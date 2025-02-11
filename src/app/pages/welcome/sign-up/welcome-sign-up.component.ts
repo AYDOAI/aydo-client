@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AppFormInputs } from '../../../shared/types';
 import { FormBaseComponent } from '../../../components/form-base.component';
 import { environment } from '../../../../environments/environment';
 import { finalize } from 'rxjs';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-welcome-sign-up',
@@ -10,6 +11,7 @@ import { finalize } from 'rxjs';
   styleUrl: './welcome-sign-up.component.scss',
 })
 export class WelcomeSignUpComponent extends FormBaseComponent {
+  private readonly userService = inject(UserService);
   override onInit() {
     this.form.inputs.push({
       key: 'firstname',
@@ -102,6 +104,7 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
               this.storage.token = data.token;
               this.storage.refreshToken = data.refresh_token;
               this.ui.afterLogin();
+              this.userService.reloadUser();
             });
           break;
         }
