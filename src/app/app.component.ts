@@ -56,7 +56,7 @@ export class AppComponent {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         gtag('config', 'G-DF0L8MY2G4', { page_path: event.urlAfterRedirects });
-        if (this.platform.is('capacitor')) {
+        if (this.platform.is('android')) {
           this.updateStatusBarColor(event.urlAfterRedirects);
         }
       }
