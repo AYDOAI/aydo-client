@@ -8,6 +8,12 @@
       [formGroup]="formGroup"
       back="devices"
       (onClickButton)="button($event)">
+      <ng-template #skeleton>
+        <ion-skeleton-text animated class="btn-loading"></ion-skeleton-text>
+        <ion-skeleton-text animated class="btn-loading"></ion-skeleton-text>
+        <ion-skeleton-text animated class="btn-loading"></ion-skeleton-text>
+        <ion-skeleton-text animated class="btn-loading"></ion-skeleton-text>
+      </ng-template>
     </app-form>
   </ng-template>
 </app-full-screen-content-wrapper>
