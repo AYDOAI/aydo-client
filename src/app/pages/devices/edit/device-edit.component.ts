@@ -27,8 +27,6 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
       return;
     }
 
-    console.log(selectedDevice);
-
     this.form.inputs.push({
       key: 'device_name',
       title: 'Device name',
