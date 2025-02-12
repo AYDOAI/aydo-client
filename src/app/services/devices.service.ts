@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { from, Observable, shareReplay } from 'rxjs';
+import { BehaviorSubject, from, Observable, shareReplay, tap } from 'rxjs';
 import { RequestService } from './request.service';
 import { BaseService } from '../models/base-service.interface';
 import { IDeviceSettings } from '../shared/interfaces/device-settings.interface';
@@ -11,12 +11,20 @@ import { DeviceItem } from '../models/gateway.model';
   providedIn: 'root',
 })
 export class DevicesService implements BaseService<any> {
-  private readonly httpClient = inject(HttpClient);
   constructor(private request: RequestService) {}
 
-  devices$ = this.httpClient
-    .get<DeviceItem[]>(this.baseUrl)
-    .pipe(shareReplay(1));
+  private selectedDeviceSub = new BehaviorSubject<DeviceItem | null>(null);
+  selectedDevice$ = this.selectedDeviceSub.asObservable();
+
+  getSelectedDevice() {
+    return this.selectedDeviceSub.getValue();
+  }
+
+  selectDevice(device: DeviceItem) {
+    this.selectedDeviceSub.next(device);
+  }
+
+  devices$ = this.request.get<DeviceItem[]>(this.baseUrl).pipe(shareReplay(1));
 
   get baseUrl(): string {
     return `${environment.main_url}/backend/v2/gateway/device`;
@@ -41,14 +49,38 @@ export class DevicesService implements BaseService<any> {
     );
   }
 
-  updateItem(device: IDeviceSettings): Observable<any> {
-    return this.request.post(
-      `${this.baseUrl}/update`,
-      { data: device },
-      {
-        mainGroup: 'backend',
-        method: 'gateway-update-device',
-      }
-    );
+  updateItem(changes: IDeviceSettings): Observable<any> {
+    return this.request
+      .post(
+        `${this.baseUrl}/update`,
+        { data: changes },
+        {
+          mainGroup: 'backend',
+          method: 'gateway-update-device',
+        }
+      )
+      .pipe(
+        tap(() => {
+          const device = this.selectedDeviceSub.getValue();
+          if (device) {
+            this.selectedDeviceSub.next({
+              ...device,
+              name: changes.device_name,
+              zoneId: changes.zone_id,
+              settings: device.settings?.map(setting => {
+                if (!changes.settings) {
+                  return setting;
+                }
+                Object.entries(changes.settings).map(([key, value]) => {
+                  if (setting.key === key) {
+                    setting.value = value;
+                  }
+                  return setting;
+                });
+              }),
+            });
+          }
+        })
+      );
   }
 }

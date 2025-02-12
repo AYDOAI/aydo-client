@@ -26,8 +26,8 @@ export class RequestService {
     public errors: ErrorsService
   ) {}
 
-  get(url: string, opts: RequestOptions | null = null): Observable<any> {
-    return this.request('GET', url, null, opts);
+  get<T>(url: string, opts: RequestOptions | null = null): Observable<T> {
+    return this.request<T>('GET', url, null, opts);
   }
 
   post(
@@ -50,7 +50,7 @@ export class RequestService {
     return this.request('DELETE', url, null, opts);
   }
 
-  private request(
+  private request<T>(
     requestMethod: string,
     url: string,
     body: object | null,
@@ -62,13 +62,13 @@ export class RequestService {
     const responseType: any =
       opts && opts.responseType ? opts.responseType : 'json';
     return this.http
-      .request(requestMethod, url, {
+      .request<T>(requestMethod, url, {
         body,
         responseType,
         observe: 'response',
       })
       .pipe(
-        tap((response: HttpResponse<any>) => {
+        tap((response: HttpResponse<T>) => {
           if (response.body) {
             this.errors.logEx(
               `${requestMethod} ${url}`,

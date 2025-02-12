@@ -6,6 +6,7 @@ import { DeviceItem, ZoneModel } from '../../../models/gateway.model';
 import { AppFormInputs } from '../../../shared/types';
 import { IDeviceSettings } from '../../../shared/interfaces/device-settings.interface';
 import { finalize } from 'rxjs';
+import { DevicesService } from '../../../services/devices.service';
 
 @Component({
   selector: 'app-device-edit',
@@ -14,20 +15,23 @@ import { finalize } from 'rxjs';
 })
 export class DeviceEditComponent extends FormBaseComponent implements OnInit {
   private dialog = inject(DialogService);
+  private deviceService = inject(DevicesService);
+
+  selectedDevice$ = this.deviceService.selectedDevice$;
 
   public override ngOnInit() {
     super.ngOnInit();
-    if (!this.ui.selectedDevice) {
+    const selectedDevice = this.deviceService.getSelectedDevice();
+    if (!selectedDevice) {
       this.navCtrl.navigateBack(['/devices']);
+      return;
     }
-
-    this.form.title = this.ui.selectedDevice?.name || '';
 
     this.form.inputs.push({
       key: 'device_name',
       title: 'Device name',
       type: 'input',
-      defaultValue: this.ui.selectedDevice?.name || '',
+      defaultValue: selectedDevice.name,
       required: true,
       minLength: 1,
       maxLength: 30,
@@ -36,7 +40,7 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
       specialCharacters: true,
     });
 
-    if (this.ui.selectedDevice?.settings?.length) {
+    if (selectedDevice.settings?.length) {
       this.form.inputs.push({
         key: '',
         title: 'Device settings',
@@ -45,9 +49,9 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
       });
 
       this.ui.selectedDriver = this.ui.drivers.items?.find(
-        item => item.driverId === this.ui.selectedDevice!.driverId
+        item => item.driverId === selectedDevice.driverId
       );
-      this.ui.selectedDevice?.settings?.forEach(setting => {
+      selectedDevice.settings?.forEach(setting => {
         const driverSetting = this.ui.selectedDriver?.settings?.items?.find(
           s => s.key === setting.key
         );
@@ -80,6 +84,13 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
     });
 
     this.formGroup = this.createForm(this.form.inputs);
+
+    this.selectedDevice$.subscribe(device => {
+      if (device) {
+        this.form.title = device.name;
+        this.formGroup.patchValue(device);
+      }
+    });
   }
 
   public getItems(setting: any) {
@@ -126,6 +137,8 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
   }
 
   private updateDevice(): void {
+    const selectedDevice = this.deviceService.getSelectedDevice();
+
     const obj: IDeviceSettings = Object.keys(this.formGroup.controls).reduce(
       (acc, key) => {
         const value = this.formGroup.get(key)?.value;
@@ -135,7 +148,7 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
         } else if ((key === 'zoneId' || key.includes('zone')) && value) {
           acc.zone_id = Number(value);
         } else if (value !== undefined && value !== null) {
-          const initialSetting = this.ui.selectedDevice?.settings?.find(
+          const initialSetting = selectedDevice?.settings?.find(
             s => s.key === key
           );
           if (
@@ -148,15 +161,15 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
         return acc;
       },
       {
-        device_ident: this.ui.selectedDevice?.ident!,
+        device_ident: selectedDevice?.ident!,
         device_name: '',
         settings: {},
       } as IDeviceSettings
     );
 
     this.ui.lockBtn('save_device_settings');
-    this.backend
-      .updateDevice(obj)
+    this.deviceService
+      .updateItem(obj)
       .pipe(finalize(() => this.ui.unlockBtn('save_device_settings')))
       .subscribe(() => {
         this.ui.devices.items = this.ui.devices.items.map(item =>
@@ -177,11 +190,11 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
   }
 
   private delete(): void {
-    const device = this.ui.selectedDevice;
-    if (device?.ident) {
-      this.backend.deleteDevice(device.ident).subscribe(res => {
+    const selectedDevice = this.deviceService.getSelectedDevice();
+    if (selectedDevice) {
+      this.backend.deleteDevice(selectedDevice.ident).subscribe(res => {
         this.ui.devices.items = this.ui.devices.items.filter(
-          d => d.ident !== device.ident
+          d => d.ident !== selectedDevice.ident
         );
         this.navCtrl.navigateForward(['/devices']);
       });
@@ -189,13 +202,14 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
   }
 
   private getDefaultValue(setting: any) {
+    const selectedDevice = this.deviceService.getSelectedDevice();
     const property: keyof DeviceItem = setting.key;
 
-    if (this.ui.selectedDevice && this.ui.selectedDevice[property]) {
-      return this.ui.selectedDevice[property];
+    if (selectedDevice && selectedDevice[property]) {
+      return selectedDevice[property];
     }
 
-    const selectedDeviceSetting = this.ui.selectedDevice?.settings?.find(
+    const selectedDeviceSetting = selectedDevice?.settings?.find(
       s => s.key === property
     );
 
