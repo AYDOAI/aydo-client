@@ -18,7 +18,7 @@ export class QuestsService implements BaseService<QuestsModel> {
   // TODO: refactor request service, return observables
   getItems(): Observable<QuestsModel[]> {
     return from(
-      this.request.get(this.baseUrl, {
+      this.request.get<QuestsModel[]>(this.baseUrl, {
         mainGroup: 'backend',
         method: 'get-all-quests',
       })
