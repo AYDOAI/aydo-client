@@ -1,5 +1,4 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { FormBaseComponent } from '../../../components/form-base.component';
 import { DeviceItem } from '../../../models/gateway.model';
 import { ZoneService } from '../../../services/zone.service';
 
@@ -8,7 +7,7 @@ import { ZoneService } from '../../../services/zone.service';
   templateUrl: './device-card.component.html',
   styleUrl: './device-card.component.scss',
 })
-export class DeviceCardComponent extends FormBaseComponent {
+export class DeviceCardComponent {
   @Input() device!: DeviceItem;
   @Output() edit: EventEmitter<DeviceItem> = new EventEmitter<DeviceItem>();
 
