@@ -37,6 +37,7 @@ export interface AppForm {
   description?: string;
   footer?: string;
   inputs: AppFormInputs[];
+  loading?: boolean;
 }
 
 export interface AppFormInputs {

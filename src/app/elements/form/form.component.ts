@@ -1,10 +1,12 @@
 import {
   Component,
+  ContentChild,
   EventEmitter,
   inject,
   Input,
   OnInit,
   Output,
+  TemplateRef,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppForm, AppFormInputs, FrameStep } from '../../shared/types';
@@ -25,6 +27,8 @@ export class FormComponent extends BaseElement implements OnInit {
   @Input() back!: string;
   @Input() btnDisabled: boolean = false;
   @Output() onClickButton: EventEmitter<any> = new EventEmitter<any>();
+
+  @ContentChild('skeleton') skeletonTemplateRef!: TemplateRef<HTMLElement>;
 
   private location = inject(Location);
   private dialog = inject(DialogService);
