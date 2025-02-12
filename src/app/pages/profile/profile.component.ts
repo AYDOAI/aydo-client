@@ -78,11 +78,15 @@ export class ProfileComponent extends FormBaseComponent {
     });
   }
 
+  private logout() {
+    this.resetFormErrors();
+    this.ui.logout();
+  }
+
   button(input: AppFormInputs) {
     switch (input.key) {
       case 'logout':
-        this.resetFormErrors();
-        this.ui.logout();
+        this.logout();
         break;
       case 'delete':
         this.deleteProfile();
