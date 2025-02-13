@@ -61,7 +61,7 @@ import { NotificationsComponent } from './pages/dashboard/notification/notificat
 import { DialogModule } from './elements/dialog/dialog.module';
 import { BarcodeScannerComponent } from './elements/barcode-scanner/barcode-scanner.component';
 import { StreamsHomeComponent } from './pages/streams/streams-home';
-import { ProjectComponent } from './pages/streams/project/project.component';
+import { ProjectDefaultComponent } from './pages/streams/projects/default/default.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthRedirectComponent } from './pages/auth-redirect/auth-redirect.component';
 import { SuccessComponent } from './pages/welcome/success/success.component';
@@ -93,6 +93,7 @@ import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.co
 import { AddDeviceComponent } from './pages/devices/add/add-device.component';
 import { NewDeviceComponent } from './pages/devices/new/new-device.component';
 import { HubEditComponent } from './pages/devices/hub/hub-edit.component';
+import { Project375Component } from './pages/streams/projects/375/375.component';
 
 @NgModule({
   declarations: [
@@ -141,7 +142,8 @@ import { HubEditComponent } from './pages/devices/hub/hub-edit.component';
     NotificationsComponent,
     BarcodeScannerComponent,
     StreamsHomeComponent,
-    ProjectComponent,
+    ProjectDefaultComponent,
+    Project375Component,
     ProjectInfoComponent,
     LinkContainerComponent,
     ConnectWalletComponent,

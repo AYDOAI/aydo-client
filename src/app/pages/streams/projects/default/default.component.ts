@@ -1,17 +1,17 @@
 import { Component, inject } from '@angular/core';
-import { BaseComponent } from '../../../components/base.component';
-import { DataStream } from '../../../services/backend.service';
+import { BaseComponent } from '../../../../components/base.component';
+import { DataStream } from '../../../../services/backend.service';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, finalize, map, switchMap } from 'rxjs';
-import { StreamService } from '../../../services/stream.service';
-import { ClipboardService } from '../../../services/clipboard.service';
+import { StreamService } from '../../../../services/stream.service';
+import { ClipboardService } from '../../../../services/clipboard.service';
 
 @Component({
   selector: 'app-project',
-  templateUrl: './project.component.html',
-  styleUrl: './project.component.scss',
+  templateUrl: './default.component.html',
+  styleUrl: './default.component.scss',
 })
-export class ProjectComponent extends BaseComponent {
+export class ProjectDefaultComponent extends BaseComponent {
   private route = inject(ActivatedRoute);
   private streamService = inject(StreamService);
   private clipboard = inject(ClipboardService);

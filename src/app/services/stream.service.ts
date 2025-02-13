@@ -7,6 +7,7 @@ import { DeviceItem } from '../models/gateway.model';
 export interface DataStream {
   id: number;
   name: string;
+  keyword: string;
   description: string;
   externalLink: string;
   status?: 0 | 1;

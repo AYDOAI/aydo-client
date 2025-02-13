@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { BaseComponent } from '../../../components/base.component';
 import { ViewWillEnter } from '@ionic/angular';
-import { StreamService } from '../../../services/stream.service';
+import { DataStream, StreamService } from '../../../services/stream.service';
 
 @Component({
   selector: 'app-streams',
@@ -21,7 +21,11 @@ export class StreamsComponent extends BaseComponent implements ViewWillEnter {
     this.streamsService.reloadData();
   }
 
-  public openProject(i: number): void {
-    this.router.navigate(['streams', i]);
+  public openProject(stream: DataStream): void {
+    if (stream.keyword) {
+      this.router.navigate(['streams', stream.keyword]);
+    } else {
+      this.router.navigate(['streams', stream.id]);
+    }
   }
 }
