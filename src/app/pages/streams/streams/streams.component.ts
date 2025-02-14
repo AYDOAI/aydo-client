@@ -22,10 +22,6 @@ export class StreamsComponent extends BaseComponent implements ViewWillEnter {
   }
 
   public openProject(stream: DataStream): void {
-    if (stream.keyword) {
-      this.router.navigate(['streams', stream.keyword]);
-    } else {
-      this.router.navigate(['streams', stream.id]);
-    }
+    this.router.navigate(['streams', stream.id]);
   }
 }

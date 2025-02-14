@@ -5,6 +5,7 @@ import { of, shareReplay, startWith, Subject, switchMap, take } from 'rxjs';
 import { DeviceItem } from '../models/gateway.model';
 
 export interface DataStream {
+  smartContract: any;
   id: number;
   name: string;
   keyword: string;
@@ -43,6 +44,22 @@ export class StreamService {
           return of(stream);
         } else {
           return this.httpClient.get<DataStream>(`${this.baseUrl}/${id}`);
+        }
+      })
+    );
+  }
+
+  getStreamByKeyword(keyword: string) {
+    return this.streams$.pipe(
+      take(1),
+      switchMap(streams => {
+        const stream = streams.find(s => s.keyword === keyword);
+        if (stream) {
+          return of(stream);
+        } else {
+          return this.httpClient.get<DataStream>(
+            `${this.baseUrl}/keyword/${keyword}`
+          );
         }
       })
     );

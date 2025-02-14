@@ -22,10 +22,7 @@ import { DashboardRewardsComponent } from './pages/dashboard/rewards/dashboard-r
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DashboardMainComponent } from './pages/dashboard/main/dashboard-main.component';
 import { DashboardMainQuestsComponent } from './pages/dashboard/main-quests/dashboard-main-quests.component';
-import { DashboardAdditionalQuestsComponent } from './pages/dashboard/additional-quests/dashboard-additional-quests.component';
-import { NotificationsComponent } from './pages/dashboard/notification/notifications.component';
 import { StreamsHomeComponent } from './pages/streams/streams-home';
-import { ProjectDefaultComponent } from './pages/streams/projects/default/default.component';
 import { AuthRedirectComponent } from './pages/auth-redirect/auth-redirect.component';
 import { SuccessComponent } from './pages/welcome/success/success.component';
 import { EditProfileComponent } from './pages/profile/edit/edit-profile.component';
@@ -40,7 +37,7 @@ import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.co
 import { AddDeviceComponent } from './pages/devices/add/add-device.component';
 import { NewDeviceComponent } from './pages/devices/new/new-device.component';
 import { HubEditComponent } from './pages/devices/hub/hub-edit.component';
-import { Project375Component } from './pages/streams/projects/375/375.component';
+import { ProjectComponent } from './pages/streams/project/project.component';
 
 export const routes: Routes = [
   {
@@ -141,12 +138,8 @@ export const routes: Routes = [
         component: StreamsComponent,
       },
       {
-        path: '375',
-        component: Project375Component,
-      },
-      {
         path: ':id',
-        component: ProjectDefaultComponent,
+        component: ProjectComponent,
       },
       {
         path: ':id/devices',
