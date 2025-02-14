@@ -92,7 +92,7 @@ export class ProjectComponent extends BaseComponent {
 
   getWalletName(): string | null {
     if (this.walletService) {
-      return this.walletService.getName();
+      return this.walletService.name;
     }
 
     return null;

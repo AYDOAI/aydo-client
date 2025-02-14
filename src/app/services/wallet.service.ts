@@ -1,38 +1,46 @@
 import { WalletSolflareService } from './wallets/solflare.service';
+import { WalletAdapter } from './wallets/wallet.adapter';
 
 export class WalletService {
-  private wallet: WalletSolflareService | undefined;
+  private wallet: WalletAdapter | undefined;
 
-  public connected = false;
-  public publicKey: string | null = null;
+  constructor(walletType: 'solana') {
+    this.wallet = this.createWallet(walletType);
+  }
 
-  constructor(type: string) {
-    if (type == 'solana') {
-      this.wallet = new WalletSolflareService();
+  private createWallet(type: string): WalletAdapter | undefined {
+    switch (type) {
+      case 'solana':
+        return new WalletSolflareService();
+      default:
+        console.error('Unsupported wallet type:', type);
+        return undefined;
     }
   }
 
   async connect(): Promise<void> {
-    if (this.wallet) {
-      await this.wallet.connect();
-      this.connected = this.wallet.connected;
-      this.publicKey = this.wallet.publicKey;
+    if (!this.wallet) {
+      throw new Error('No wallet selected');
     }
+
+    await this.wallet.connect();
   }
 
   async disconnect(): Promise<void> {
-    if (this.wallet) {
-      await this.wallet.disconnect();
-      this.connected = false;
-      this.publicKey = null;
-    }
+    if (!this.wallet) return;
+
+    await this.wallet.disconnect();
   }
 
-  getName(): string | null {
-    if (this.wallet) {
-      return this.wallet.name;
-    }
+  get connected(): boolean {
+    return this.wallet?.connected ?? false;
+  }
 
-    return null;
+  get publicKey(): string | null {
+    return this.wallet?.publicKey ?? null;
+  }
+
+  get name(): string | null {
+    return this.wallet?.name ?? null;
   }
 }
