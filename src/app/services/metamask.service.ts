@@ -71,9 +71,6 @@ export class MetaMaskService {
         }
         return of(account.address);
       }),
-      tap(() => {
-        this.loading.dismissLoading();
-      }),
       switchMap(address =>
         from(this.metamaskGetNonce(address, inviteId)).pipe(
           map(nonceResponse => ({ address, nonce: nonceResponse.nonce }))
