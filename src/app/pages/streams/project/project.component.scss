@@ -104,4 +104,36 @@
       }
     }
   }
+
+  .wallet-info {
+    padding: 16px 12px;
+
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid #060022;
+    border-radius: 8px;
+
+    &__label {
+      margin-top: 10px;
+
+      font-size: 11px;
+      line-height: 140%;
+      color: #999999;
+    }
+
+    &__value {
+      font-size: 17px;
+      line-height: 135%;
+      color: #0c1821;
+    }
+  }
+
+  ::ng-deep {
+    .btn {
+      .svg-icon {
+        height: 12px;
+      }
+    }
+  }
 }
