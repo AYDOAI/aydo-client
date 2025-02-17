@@ -70,6 +70,29 @@
         <button class="btn text-center green-btn" [routerLink]="'devices'">
           {{ 'Connect devices' }}
         </button>
+        <ng-container *ngIf="dataStream?.smartContract">
+          <button
+            class="btn text-center"
+            *ngIf="isConnected === true"
+            (click)="disconnectWallet()">
+            {{ 'Disconnect wallet' }}
+          </button>
+          <button
+            class="btn text-center"
+            *ngIf="isConnected === false"
+            (click)="connectWallet()">
+            {{ 'Connect wallet' }}
+          </button>
+          <div class="wallet-info" *ngIf="isConnected">
+            <span class="wallet-info__title">{{ getWalletName() }}</span>
+            <span class="wallet-info__label">Blockchain</span>
+            <span class="wallet-info__value">{{
+              dataStream?.smartContract.blockchain.name
+            }}</span>
+            <span class="wallet-info__label">Wallet address</span>
+            <span class="wallet-info__value">{{ publicKey }}</span>
+          </div>
+        </ng-container>
         <button
           (click)="toggle()"
           [disabled]="ui.isBtnLoading('streaming')"

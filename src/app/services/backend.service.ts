@@ -52,6 +52,20 @@ export interface Ranking {
   title: string;
 }
 
+export interface Blockchain {
+  id: number;
+  name: string;
+  keyword: string;
+}
+
+export interface SmartContract {
+  id: number;
+  name: string;
+  keyword: string;
+  pubkey: string;
+  blockchain: Blockchain;
+}
+
 export interface DataStream {
   id: number;
   name: string;
@@ -59,6 +73,7 @@ export interface DataStream {
   externalLink: string;
   status?: 0 | 1;
   logo?: string;
+  smartContract?: SmartContract;
 }
 
 export interface DataStreams {
