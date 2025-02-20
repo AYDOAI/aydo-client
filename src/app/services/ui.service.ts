@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HubType, FrameStep } from '../shared/types';
 import { StorageService } from './storage.service';
-import { finalize, Subscription } from 'rxjs';
+import { finalize, interval, of, startWith, Subscription } from 'rxjs';
 import { BackendService } from './backend.service';
 import {
   DeviceItem,
@@ -16,6 +16,7 @@ import { NavController } from '@ionic/angular';
 import { ErrorsService } from './errors.service';
 import { UserInfo, UserRewards } from '../models/users.model';
 import { UserService } from './user.service';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,6 @@ export class UIService implements OnDestroy {
   selectedDriver!: DriverItem | undefined;
   selectedDevice!: DeviceItem | undefined;
   devices!: DevicesModel;
-  valuesInterval!: any;
   user: UserInfo | null | undefined = null;
   rewards: UserRewards[] = [];
   public appReady: boolean = false;
@@ -39,6 +39,7 @@ export class UIService implements OnDestroy {
     | null
     | undefined = null;
   private btnLoading: string[] = [];
+  private valuesInterval$: Subscription | null = null;
 
   constructor(
     public storage: StorageService,
@@ -172,7 +173,7 @@ export class UIService implements OnDestroy {
     this.storage.refreshToken = '';
     this.storage.serverId = '';
     this.user = null;
-    clearInterval(this.valuesInterval);
+    this.stopDeviceValuesInterval();
     this.navCtrl.navigateForward(['/sign-in']);
   }
 
@@ -207,55 +208,8 @@ export class UIService implements OnDestroy {
         )
         .subscribe((devices: any) => {
           this.devices = new DevicesModel(devices);
+          this.startDeviceValuesInterval();
           // console.log(devices);
-          const getDeviceValues = () => {
-            if (this.storage.serverId && this.storage.token) {
-              this.backend
-                .getDeviceValues()
-                .pipe(
-                  finalize(() => {
-                    this.loading.dismissLoading();
-                    complete();
-                  })
-                )
-                .subscribe((data: any) => {
-                  // console.log(data);
-                  const updateDeviceValues = (values: any) => {
-                    values.forEach((item: any) => {
-                      const device = this.devices.items.find(
-                        item1 => item1.ident === item.ident
-                      );
-                      if (device) {
-                        device.capabilities.forEach(cap => {
-                          cap.value = item.values[`${cap.ident}_${cap.index}`];
-                        });
-                      }
-                    });
-                  };
-                  if (data.length !== this.devices?.items?.length) {
-                    this.backend
-                      .getDevices()
-                      .pipe(
-                        finalize(() => {
-                          updateDeviceValues(data);
-                        })
-                      )
-                      .subscribe((devices: any) => {
-                        this.devices = new DevicesModel(devices);
-                      });
-                  } else {
-                    updateDeviceValues(data);
-                  }
-                });
-            }
-          };
-          clearInterval(this.valuesInterval);
-          this.valuesInterval = setInterval(() => {
-            if (this.storage.token) {
-              getDeviceValues();
-            }
-          }, 5000);
-          getDeviceValues();
         });
     } else {
       complete();
@@ -276,6 +230,65 @@ export class UIService implements OnDestroy {
         }
       }
     });
+  }
+
+  startDeviceValuesInterval(): void {
+    const getDeviceValues = () => {
+      if (this.storage.serverId && this.storage.token) {
+        return this.backend.getDeviceValues().pipe(
+          finalize(() => {
+            this.loading.dismissLoading();
+          }),
+          switchMap((data: any) => {
+            const updateDeviceValues = (values: any) => {
+              values.forEach((item: any) => {
+                const device = this.devices.items.find(
+                  item1 => item1.ident === item.ident
+                );
+                if (device) {
+                  device.capabilities.forEach(cap => {
+                    cap.value = item.values[`${cap.ident}_${cap.index}`];
+                  });
+                }
+              });
+            };
+
+            if (data.length !== this.devices?.items?.length) {
+              return this.backend.getDevices().pipe(
+                finalize(() => {
+                  updateDeviceValues(data);
+                }),
+                switchMap((devices: any) => {
+                  this.devices = new DevicesModel(devices);
+                  return of(null);
+                })
+              );
+            } else {
+              updateDeviceValues(data);
+              return of(null);
+            }
+          })
+        );
+      } else {
+        return of(null);
+      }
+    };
+
+    this.stopDeviceValuesInterval();
+
+    this.valuesInterval$ = interval(5000)
+      .pipe(
+        startWith(null),
+        switchMap(() => getDeviceValues())
+      )
+      .subscribe();
+  }
+
+  public stopDeviceValuesInterval(): void {
+    if (this.valuesInterval$) {
+      this.valuesInterval$.unsubscribe();
+      this.valuesInterval$ = null;
+    }
   }
 
   public getDrivers(): void {
