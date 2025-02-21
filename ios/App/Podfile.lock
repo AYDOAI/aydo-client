@@ -8,7 +8,7 @@ PODS:
   - CapacitorCommunityAppleSignIn (6.0.0):
     - Capacitor
   - CapacitorCordova (6.1.2)
-  - CapacitorMlkitBarcodeScanning (6.1.0):
+  - CapacitorMlkitBarcodeScanning (6.2.0):
     - Capacitor
     - GoogleMLKit/BarcodeScanning (= 5.0.0)
   - CapacitorNetwork (6.0.3):
@@ -133,7 +133,7 @@ SPEC CHECKSUMS:
   CapacitorClipboard: 55e0a514f1e97b1409d533266c119dcbff3e78c3
   CapacitorCommunityAppleSignIn: c8bba4ca8ff6ff843367ece13ee8af24e9266eb9
   CapacitorCordova: f48c89f96c319101cd2f0ce8a2b7449b5fb8b3dd
-  CapacitorMlkitBarcodeScanning: 63e217d376f8f63b1be84c0d19568f318e87f4d3
+  CapacitorMlkitBarcodeScanning: 178fb57424ec688b6a2fceee506ecc1ea00d1c8d
   CapacitorNetwork: da96b5fff8d05b67f4658503aabb22f65bda2c0f
   CapacitorStatusBar: 3b9ac7d0684770522c532d1158a1434512ab1477
   CapgoCapacitorNavigationBar: 836e568969c7030c85fca3b3ced5836199c343d0
