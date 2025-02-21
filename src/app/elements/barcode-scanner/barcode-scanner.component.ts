@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Input,
   NgZone,
   OnDestroy,
   OnInit,
@@ -14,58 +15,63 @@ import {
   LensFacing,
   StartScanOptions,
 } from '@capacitor-mlkit/barcode-scanning';
-import { BaseDialogComponent } from '../dialog/base-dialog';
-import { Platform } from '@ionic/angular';
+import { InputCustomEvent } from '@ionic/angular';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-barcode-scanner',
-  templateUrl: 'barcode-scanner.component.html',
+  templateUrl: './barcode-scanner.component.html',
   styleUrl: './barcode-scanner.component.scss',
 })
 export class BarcodeScannerComponent
-  extends BaseDialogComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  private static formats: BarcodeFormat[] = [];
-  private static lensFacing: LensFacing = LensFacing.Back;
-  private onScan!: (barcode: Barcode) => void;
+  @Input()
+  public formats: BarcodeFormat[] = [];
+  @Input()
+  public lensFacing: LensFacing = LensFacing.Back;
 
   @ViewChild('square')
   public squareElement: ElementRef<HTMLDivElement> | undefined;
 
   public isTorchAvailable = false;
+  public minZoomRatio: number | undefined;
+  public maxZoomRatio: number | undefined;
 
   constructor(
-    private readonly ngZone: NgZone,
-    private readonly platform: Platform
-  ) {
-    super();
-  }
+    private readonly dialogService: ModalService,
+    private readonly ngZone: NgZone
+  ) {}
 
-  public async ngOnInit(): Promise<void> {
-    const granted = await this.requestPermissions();
-    if (!granted) {
-      this.close();
-    }
-    this.checkTorchAvailable();
-    this.checkGoogleScannerModule();
+  public ngOnInit(): void {
+    BarcodeScanner.isTorchAvailable().then(result => {
+      this.isTorchAvailable = result.available;
+    });
   }
 
   public ngAfterViewInit(): void {
-    this.startScan();
+    setTimeout(() => {
+      this.startScan();
+    }, 500);
   }
 
   public ngOnDestroy(): void {
     this.stopScan();
   }
 
-  public async closeModal(barcode?: Barcode): Promise<void> {
-    if (barcode) {
-      this.onScan(barcode);
-      this.close();
-    } else {
-      this.close();
+  public setZoomRatio(event: InputCustomEvent): void {
+    if (!event.detail.value) {
+      return;
     }
+    BarcodeScanner.setZoomRatio({
+      zoomRatio: parseInt(event.detail.value as any, 10),
+    });
+  }
+
+  public async closeModal(barcode?: Barcode): Promise<void> {
+    this.dialogService.dismissModal({
+      barcode: barcode,
+    });
   }
 
   public async toggleTorch(): Promise<void> {
@@ -73,13 +79,16 @@ export class BarcodeScannerComponent
   }
 
   private async startScan(): Promise<void> {
+    document.querySelector('body')?.classList.add('barcode-scanning-active');
+
     const options: StartScanOptions = {
-      formats: BarcodeScannerComponent.formats,
-      lensFacing: BarcodeScannerComponent.lensFacing,
+      formats: this.formats,
+      lensFacing: this.lensFacing,
     };
 
     const squareElementBoundingClientRect =
       this.squareElement?.nativeElement.getBoundingClientRect();
+
     const scaledRect = squareElementBoundingClientRect
       ? {
           left: squareElementBoundingClientRect.left * window.devicePixelRatio,
@@ -131,36 +140,23 @@ export class BarcodeScannerComponent
         });
       }
     );
+    try {
+      await BarcodeScanner.startScan(options);
+    } catch (e) {
+      console.log(e);
+    }
 
-    document.querySelector('body')?.classList.add('barcode-scanner-active');
-    await BarcodeScanner.startScan(options);
-  }
-
-  private async stopScan(): Promise<void> {
-    document.querySelector('body')?.classList.remove('barcode-scanner-active');
-    await BarcodeScanner.stopScan();
-  }
-
-  private async requestPermissions(): Promise<boolean> {
-    const { camera } = await BarcodeScanner.requestPermissions();
-    return camera === 'granted' || camera === 'limited';
-  }
-
-  private checkTorchAvailable(): void {
-    BarcodeScanner.isTorchAvailable().then(result => {
-      this.isTorchAvailable = result.available;
+    void BarcodeScanner.getMinZoomRatio().then(result => {
+      this.minZoomRatio = result.zoomRatio;
+    });
+    void BarcodeScanner.getMaxZoomRatio().then(result => {
+      this.maxZoomRatio = result.zoomRatio;
     });
   }
 
-  private checkGoogleScannerModule(): void {
-    if (this.platform.is('android')) {
-      BarcodeScanner.isGoogleBarcodeScannerModuleAvailable().then(
-        async result => {
-          if (!result.available) {
-            await BarcodeScanner.installGoogleBarcodeScannerModule();
-          }
-        }
-      );
-    }
+  private async stopScan(): Promise<void> {
+    document.querySelector('body')?.classList.remove('barcode-scanning-active');
+
+    await BarcodeScanner.stopScan();
   }
 }

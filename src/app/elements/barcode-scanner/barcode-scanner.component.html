@@ -1,7 +1,22 @@
-<div class="barcode-scanner">
-  <div class="close-btn" (click)="closeModal()">Close</div>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Scanning</ion-title>
+    <ion-buttons slot="end">
+      <svg-icon
+        name="close"
+        class="close-icon"
+        (click)="closeModal()"></svg-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
   <div #square class="square"></div>
-  <div *ngIf="isTorchAvailable">
-    <div class="torch-btn" (click)="toggleTorch()">Torch</div>
+  <div class="zoom-ratio-wrapper">
+    <ion-range
+      [min]="minZoomRatio"
+      [max]="maxZoomRatio"
+      [disabled]="minZoomRatio === undefined || maxZoomRatio === undefined"
+      (ionChange)="setZoomRatio($any($event))"></ion-range>
   </div>
-</div>
+</ion-content>
