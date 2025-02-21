@@ -1,10 +1,11 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, NgZone } from '@angular/core';
 import { FormBaseComponent } from '../../form-base.component';
 import { ActivatedRoute } from '@angular/router';
 import { AppFormInputs } from '../../../shared/types';
 import { finalize } from 'rxjs';
-import { DialogService } from '../../../services/dialog.service';
 import { BarcodeScannerComponent } from '../../../elements/barcode-scanner/barcode-scanner.component';
+import { ModalService } from '../../../services/modal.service';
+import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 
 @Component({
   selector: 'app-form-add-hub-manually',
@@ -13,9 +14,8 @@ import { BarcodeScannerComponent } from '../../../elements/barcode-scanner/barco
 })
 export class FormAddHubManuallyComponent extends FormBaseComponent {
   @Input() description = '';
-
   private activatedRoute = inject(ActivatedRoute);
-  private dialogService = inject(DialogService);
+  private modalService = inject(ModalService);
 
   override onInit() {
     this.form.title = 'Add hub';
@@ -53,14 +53,32 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
     this.formGroup = this.createForm(this.form.inputs);
   }
 
-  private scanQR() {
-    this.dialogService.show(BarcodeScannerComponent, {
-      onScan: (barcode: any) => {
-        const result = JSON.parse(barcode.displayValue);
-        this.formGroup.get('identifier')?.setValue(result.identifier);
-        this.formGroup.get('token')?.setValue(result.token);
-      },
-    });
+  private async requestPermission(): Promise<boolean | void> {
+    const isSupported = await BarcodeScanner.isSupported();
+    if (!isSupported) {
+      return;
+    }
+    const result = await BarcodeScanner.requestPermissions();
+
+    if (result.camera === 'granted') {
+      return true;
+    }
+  }
+
+  private async scanQR() {
+    if (await this.requestPermission()) {
+      const element = await this.modalService.showModal({
+        component: BarcodeScannerComponent,
+        cssClass: 'barcode-scanning-modal',
+        showBackdrop: false,
+      });
+      const result = await element.onDidDismiss();
+      if (result.data?.barcode) {
+        const data = JSON.parse(result.data.barcode);
+        this.formGroup.get('identifier')?.setValue(data.identifier);
+        this.formGroup.get('token')?.setValue(data.token);
+      }
+    }
   }
   public button(button: AppFormInputs): void {
     switch (button.key) {
