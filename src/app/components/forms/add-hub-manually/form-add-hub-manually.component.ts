@@ -73,8 +73,9 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
         showBackdrop: false,
       });
       const result = await element.onDidDismiss();
-      if (result.data?.barcode) {
-        const data = JSON.parse(result.data.barcode);
+      const rawValue = result.data?.barcode?.rawValue;
+      if (rawValue) {
+        const data = JSON.parse(rawValue);
         this.formGroup.get('identifier')?.setValue(data.identifier);
         this.formGroup.get('token')?.setValue(data.token);
       }
