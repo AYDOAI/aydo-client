@@ -10,7 +10,7 @@
       @for (device of mergedDevices$ | async; track device.id) {
         <app-connect-card
           [device]="device"
-          (toggleConnect)="onToggleConnection(device.id, device.isOnline)" />
+          (toggleConnect)="onToggleConnection(device.id, device.connected)" />
       }
     </div>
   </ng-template>
