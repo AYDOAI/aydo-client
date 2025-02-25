@@ -15,6 +15,18 @@ const config: CapacitorConfig = {
     iosScheme: 'https',
     cleartext: true,
   },
+  android: {
+    includePlugins: [
+      '@capacitor-mlkit/barcode-scanning',
+      '@capacitor-community/apple-sign-in',
+      '@capacitor/app',
+      '@capacitor/clipboard',
+      '@capacitor/network',
+      '@capacitor/status-bar',
+      '@capgo/capacitor-navigation-bar',
+      'cordova-plugin-inappbrowser',
+    ],
+  },
   // server: {
   //   url: 'http://localhost:8100',
   //   cleartext: true,

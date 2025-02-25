@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, finalize, map, switchMap } from 'rxjs';
 import { StreamService } from '../../../services/stream.service';
 import { ClipboardService } from '../../../services/clipboard.service';
+import { WalletService } from '../../../services/wallet.service';
 
 @Component({
   selector: 'app-project',
@@ -15,6 +16,11 @@ export class ProjectComponent extends BaseComponent {
   private route = inject(ActivatedRoute);
   private streamService = inject(StreamService);
   private clipboard = inject(ClipboardService);
+
+  private walletService: WalletService | undefined;
+
+  isConnected = false;
+  publicKey: string | null = null;
 
   private streamSubject = new BehaviorSubject<DataStream | null>(null);
   public stream$: Observable<DataStream | null> =
@@ -27,7 +33,15 @@ export class ProjectComponent extends BaseComponent {
         switchMap(id => this.streamService.getStreamById(id))
       )
       .subscribe({
-        next: dataStream => this.streamSubject.next(dataStream),
+        next: dataStream => {
+          this.streamSubject.next(dataStream);
+
+          if (dataStream.smartContract) {
+            this.walletService = new WalletService(
+              dataStream.smartContract.blockchain.keyword
+            );
+          }
+        },
       });
   }
 
@@ -58,5 +72,29 @@ export class ProjectComponent extends BaseComponent {
           }
         },
       });
+  }
+
+  async connectWallet(): Promise<void> {
+    if (this.walletService) {
+      await this.walletService.connect();
+      this.isConnected = this.walletService.connected;
+      this.publicKey = this.walletService.publicKey?.toString() || null;
+    }
+  }
+
+  async disconnectWallet(): Promise<void> {
+    if (this.walletService) {
+      await this.walletService.disconnect();
+      this.isConnected = this.walletService.connected;
+      this.publicKey = null;
+    }
+  }
+
+  getWalletName(): string | null {
+    if (this.walletService) {
+      return this.walletService.name;
+    }
+
+    return null;
   }
 }

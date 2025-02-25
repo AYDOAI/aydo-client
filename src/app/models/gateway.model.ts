@@ -114,7 +114,7 @@ export class DeviceItem extends BaseItem {
   zoneId!: number | null;
   capabilities!: any[];
   settings?: any[];
-  connected?: boolean;
+  isOnline?: boolean;
 }
 
 export class ZoneItem extends BaseItem {

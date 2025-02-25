@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { BaseComponent } from '../../components/base.component';
 import { DeviceItem } from '../../models/gateway.model';
 import { ZoneService } from '../../services/zone.service';
+import { DevicesService } from '../../services/devices.service';
 
 @Component({
   selector: 'app-devices',
@@ -10,6 +11,7 @@ import { ZoneService } from '../../services/zone.service';
 })
 export class DevicesComponent extends BaseComponent {
   private zoneService = inject(ZoneService);
+  private devicesService = inject(DevicesService);
 
   override onInit() {
     super.onInit();
@@ -27,7 +29,12 @@ export class DevicesComponent extends BaseComponent {
       item => item.driverId == device.driverId
     );
     this.ui.selectedDevice = device;
+    this.devicesService.selectDevice(device);
     this.navCtrl.navigateForward(['/devices/edit']);
+  }
+
+  public editHub(): void {
+    this.navCtrl.navigateForward(['/devices/hub']);
   }
 
   public trackByIdent(index: number, device: DeviceItem): string {

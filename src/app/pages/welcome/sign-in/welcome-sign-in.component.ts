@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { AppFormInputs } from '../../../shared/types';
 import { FormBaseComponent } from '../../../components/form-base.component';
 import { finalize } from 'rxjs';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-welcome-sign-in',
@@ -10,6 +11,7 @@ import { finalize } from 'rxjs';
 })
 export class WelcomeSignInComponent extends FormBaseComponent {
   @Input() title = '';
+  private readonly userService = inject(UserService);
 
   override onInit() {
     this.form.inputs.push({

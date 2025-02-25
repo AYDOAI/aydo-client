@@ -1,15 +1,16 @@
 import {
   Component,
+  ContentChild,
   EventEmitter,
   inject,
   Input,
   OnInit,
   Output,
+  TemplateRef,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AppForm, AppFormInputs, FrameStep } from '../../shared/types';
+import { AppForm, AppFormInputs } from '../../shared/types';
 import { BaseElement } from '../base.component';
-import { Location } from '@angular/common';
 import { DialogService } from '../../services/dialog.service';
 import { LicenseDialogComponent } from '../dialog/license-dialog/license-dialog.component';
 import { validateFormControls } from '../../shared/utils/form.utils';
@@ -26,7 +27,8 @@ export class FormComponent extends BaseElement implements OnInit {
   @Input() btnDisabled: boolean = false;
   @Output() onClickButton: EventEmitter<any> = new EventEmitter<any>();
 
-  private location = inject(Location);
+  @ContentChild('skeleton') skeletonTemplateRef!: TemplateRef<HTMLElement>;
+
   private dialog = inject(DialogService);
 
   ngOnInit(): void {
@@ -45,7 +47,11 @@ export class FormComponent extends BaseElement implements OnInit {
   }
 
   goBack() {
-    this.location.back();
+    if (this.back) {
+      this.navCtrl.navigateForward([this.back]);
+    } else {
+      this.navCtrl.back();
+    }
   }
 
   public openLicense(e: MouseEvent): void {

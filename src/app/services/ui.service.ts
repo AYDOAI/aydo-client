@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HubType, FrameStep } from '../shared/types';
 import { StorageService } from './storage.service';
-import { finalize, Subscription } from 'rxjs';
+import { finalize, interval, of, startWith, Subscription } from 'rxjs';
 import { BackendService } from './backend.service';
 import {
   DeviceItem,
@@ -12,9 +12,13 @@ import {
 import { Router } from '@angular/router';
 import { LoadingService } from './loading.service';
 import { Network } from '@capacitor/network';
-import { NavController } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { ErrorsService } from './errors.service';
 import { UserInfo, UserRewards } from '../models/users.model';
+import { UserService } from './user.service';
+import { switchMap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +31,6 @@ export class UIService implements OnDestroy {
   selectedDriver!: DriverItem | undefined;
   selectedDevice!: DeviceItem | undefined;
   devices!: DevicesModel;
-  valuesInterval!: any;
   user: UserInfo | null | undefined = null;
   rewards: UserRewards[] = [];
   public appReady: boolean = false;
@@ -38,6 +41,7 @@ export class UIService implements OnDestroy {
     | null
     | undefined = null;
   private btnLoading: string[] = [];
+  private valuesInterval$: Subscription | null = null;
 
   constructor(
     public storage: StorageService,
@@ -45,7 +49,10 @@ export class UIService implements OnDestroy {
     public router: Router,
     public navCtrl: NavController,
     private loading: LoadingService,
-    private errors: ErrorsService
+    private errors: ErrorsService,
+    private userService: UserService,
+    private iab: InAppBrowser,
+    private platform: Platform
   ) {
     const urlSearchParams = new URLSearchParams(window.location.search);
     this.inviteId = urlSearchParams.get('code') ?? '';
@@ -83,6 +90,7 @@ export class UIService implements OnDestroy {
   afterLogin() {
     if (this.storage.token) {
       this.loading.showLoading();
+      this.userService.reloadUser();
       this.backend
         .userInfo()
         .pipe(
@@ -169,7 +177,7 @@ export class UIService implements OnDestroy {
     this.storage.refreshToken = '';
     this.storage.serverId = '';
     this.user = null;
-    clearInterval(this.valuesInterval);
+    this.stopDeviceValuesInterval();
     this.navCtrl.navigateForward(['/sign-in']);
   }
 
@@ -204,55 +212,8 @@ export class UIService implements OnDestroy {
         )
         .subscribe((devices: any) => {
           this.devices = new DevicesModel(devices);
+          this.startDeviceValuesInterval();
           // console.log(devices);
-          const getDeviceValues = () => {
-            if (this.storage.serverId && this.storage.token) {
-              this.backend
-                .getDeviceValues()
-                .pipe(
-                  finalize(() => {
-                    this.loading.dismissLoading();
-                    complete();
-                  })
-                )
-                .subscribe((data: any) => {
-                  // console.log(data);
-                  const updateDeviceValues = (values: any) => {
-                    values.forEach((item: any) => {
-                      const device = this.devices.items.find(
-                        item1 => item1.ident === item.ident
-                      );
-                      if (device) {
-                        device.capabilities.forEach(cap => {
-                          cap.value = item.values[`${cap.ident}_${cap.index}`];
-                        });
-                      }
-                    });
-                  };
-                  if (data.length !== this.devices?.items?.length) {
-                    this.backend
-                      .getDevices()
-                      .pipe(
-                        finalize(() => {
-                          updateDeviceValues(data);
-                        })
-                      )
-                      .subscribe((devices: any) => {
-                        this.devices = new DevicesModel(devices);
-                      });
-                  } else {
-                    updateDeviceValues(data);
-                  }
-                });
-            }
-          };
-          clearInterval(this.valuesInterval);
-          this.valuesInterval = setInterval(() => {
-            if (this.storage.token) {
-              getDeviceValues();
-            }
-          }, 5000);
-          getDeviceValues();
         });
     } else {
       complete();
@@ -273,6 +234,65 @@ export class UIService implements OnDestroy {
         }
       }
     });
+  }
+
+  startDeviceValuesInterval(): void {
+    const getDeviceValues = () => {
+      if (this.storage.serverId && this.storage.token) {
+        return this.backend.getDeviceValues().pipe(
+          finalize(() => {
+            this.loading.dismissLoading();
+          }),
+          switchMap((data: any) => {
+            const updateDeviceValues = (values: any) => {
+              values.forEach((item: any) => {
+                const device = this.devices.items.find(
+                  item1 => item1.ident === item.ident
+                );
+                if (device) {
+                  device.capabilities.forEach(cap => {
+                    cap.value = item.values[`${cap.ident}_${cap.index}`];
+                  });
+                }
+              });
+            };
+
+            if (data.length !== this.devices?.items?.length) {
+              return this.backend.getDevices().pipe(
+                finalize(() => {
+                  updateDeviceValues(data);
+                }),
+                switchMap((devices: any) => {
+                  this.devices = new DevicesModel(devices);
+                  return of(null);
+                })
+              );
+            } else {
+              updateDeviceValues(data);
+              return of(null);
+            }
+          })
+        );
+      } else {
+        return of(null);
+      }
+    };
+
+    this.stopDeviceValuesInterval();
+
+    this.valuesInterval$ = interval(5000)
+      .pipe(
+        startWith(null),
+        switchMap(() => getDeviceValues())
+      )
+      .subscribe();
+  }
+
+  public stopDeviceValuesInterval(): void {
+    if (this.valuesInterval$) {
+      this.valuesInterval$.unsubscribe();
+      this.valuesInterval$ = null;
+    }
   }
 
   public getDrivers(): void {
@@ -300,6 +320,69 @@ export class UIService implements OnDestroy {
 
     Network.addListener('networkStatusChange', status => {
       this.isOnline = status.connected;
+    });
+  }
+
+  public googleLogin(inviteId?: string): void {
+    const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
+    const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
+    const browser = this.iab.create(url, '_blank');
+    if (this.platform.is('capacitor')) {
+      this.handleLogin(browser);
+    }
+  }
+
+  public appleLogin(inviteId?: string): void {
+    // if (this.platform.is('ios')) {
+    //   const { response } = await SignInWithApple.authorize({
+    //     clientId: 'ai.aydo.app.apple',
+    //     scopes: 'email',
+    //     redirectURI: 'https://app.test.aydo.ai',
+    //   });
+    //   const { identityToken } = response;
+    // }
+    const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
+    const url = `${environment.main_url}/backend/v2/user/apple/login?state=${encodedState}`;
+    const browser = this.iab.create(url, '_blank');
+    if (this.platform.is('capacitor')) {
+      this.handleLogin(browser);
+    }
+  }
+
+  private handleLogin(browser: any): void {
+    browser.on('loadstart').subscribe((event: any) => {
+      if (event.url.includes('auth-redirect')) {
+        browser.close();
+        const urlObj = new URL(event.url);
+        const userData = urlObj.searchParams?.get('userData');
+        const error = urlObj.searchParams?.get('error');
+        if (error) {
+          this.errors.showError(decodeURIComponent(error));
+          this.router.navigate(['/main']);
+          return;
+        }
+        if (userData) {
+          try {
+            const decodedData = atob(userData);
+            const userTokens = JSON.parse(decodedData);
+            const token = userTokens.token;
+            const refreshToken = userTokens.refreshToken;
+
+            if (token && refreshToken) {
+              this.storage.token = token;
+              this.storage.refreshToken = refreshToken;
+              this.storage.next();
+            } else {
+              this.errors.showError('Not authenticated');
+            }
+          } catch (error) {
+            this.errors.showError('Not authenticated');
+          }
+        } else {
+          this.errors.showError('Not authenticated');
+        }
+        this.afterLogin();
+      }
     });
   }
 }

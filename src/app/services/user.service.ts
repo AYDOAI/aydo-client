@@ -27,8 +27,11 @@ export class UserService {
   private readonly baseUrl = `${environment.main_url}/backend/v2/user`;
 
   private userPatch$ = new Subject<Partial<User>>();
+  private reloadTrigger$ = new Subject<void>();
 
-  user$ = this.httpClient.get<User>(`${this.baseUrl}/info`).pipe(
+  user$ = this.reloadTrigger$.pipe(
+    startWith(undefined),
+    switchMap(() => this.httpClient.get<User>(`${this.baseUrl}/info`)),
     switchMap(initialUser =>
       this.userPatch$.pipe(
         scan((acc, patch) => ({ ...acc, ...patch }), initialUser),
@@ -44,5 +47,9 @@ export class UserService {
 
   requestDisposal() {
     return this.httpClient.delete(this.baseUrl);
+  }
+
+  reloadUser() {
+    this.reloadTrigger$.next();
   }
 }

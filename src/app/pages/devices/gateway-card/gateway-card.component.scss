@@ -14,6 +14,11 @@
       align-items: center;
       gap: 12px;
 
+      .status-icon {
+        --icon-width: 24px;
+        --icon-height: 24px;
+      }
+
       .title-container {
         display: flex;
         width: 100%;

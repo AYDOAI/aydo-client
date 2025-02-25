@@ -6,6 +6,7 @@
 @import 'assets/styles/spinner';
 @import 'assets/styles/page-caption';
 @import 'assets/styles/header';
+@import 'assets/styles/barcode-scanner';
 
 @import '@ionic/angular/css/core.css';
 //@import "@ionic/angular/css/normalize.css";
@@ -24,16 +25,6 @@ body {
 
 body * {
   color: var(--very-dark-blue);
-}
-
-body.barcode-scanner-active {
-  visibility: hidden;
-  background: transparent;
-  --ion-background-color: transparent;
-}
-
-.barcode-scanner {
-  visibility: visible;
 }
 
 .menu-content.menu-content-push {
@@ -181,4 +172,5 @@ html {
   margin: 0;
   font-family: 'IBM Plex Mono', monospace;
   overscroll-behavior: none;
+  overflow-y: hidden;
 }

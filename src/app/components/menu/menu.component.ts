@@ -9,6 +9,7 @@ import { MenuService } from '../../services/menu.service';
 })
 export class MenuComponent extends BaseElement {
   public menuService = inject(MenuService);
+  swipeEnabled$ = this.menuService.swipeEnabled$;
 
   @Input() contentId: string = '';
 

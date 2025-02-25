@@ -61,7 +61,6 @@ import { NotificationsComponent } from './pages/dashboard/notification/notificat
 import { DialogModule } from './elements/dialog/dialog.module';
 import { BarcodeScannerComponent } from './elements/barcode-scanner/barcode-scanner.component';
 import { StreamsHomeComponent } from './pages/streams/streams-home';
-import { ProjectComponent } from './pages/streams/project/project.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthRedirectComponent } from './pages/auth-redirect/auth-redirect.component';
 import { SuccessComponent } from './pages/welcome/success/success.component';
@@ -92,6 +91,8 @@ import { ConnectDeviceCardComponent } from './pages/connect-devices/card/device-
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 import { AddDeviceComponent } from './pages/devices/add/add-device.component';
 import { NewDeviceComponent } from './pages/devices/new/new-device.component';
+import { HubEditComponent } from './pages/devices/hub/hub-edit.component';
+import { ProjectComponent } from './pages/streams/project/project.component';
 
 @NgModule({
   declarations: [
@@ -163,6 +164,7 @@ import { NewDeviceComponent } from './pages/devices/new/new-device.component';
     PrivacyPolicyComponent,
     AddDeviceComponent,
     NewDeviceComponent,
+    HubEditComponent,
   ],
   imports: [
     AppRoutingModule,

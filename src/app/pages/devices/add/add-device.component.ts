@@ -16,8 +16,10 @@ export class AddDeviceComponent extends FormBaseComponent {
     this.form.title = 'Add device';
     this.form.description =
       'This app supports next device types, choose one of them:';
+    this.form.loading = true;
 
     this.backend.drivers().subscribe((drivers: DriverItem[]) => {
+      this.form.loading = false;
       this.ui.drivers = new DriversModel(drivers);
       drivers.forEach((driver: any) => {
         this.form.inputs.push({

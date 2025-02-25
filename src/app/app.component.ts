@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
+import { NavigationBar } from '@capgo/capacitor-navigation-bar';
 import { LoadingService } from './services/loading.service';
 import { UIService } from './services/ui.service';
 
@@ -40,7 +41,7 @@ export class AppComponent {
         const url = this.router.url;
         StatusBar.setOverlaysWebView({ overlay: false });
         StatusBar.setStyle({ style: Style.Light });
-        if (this.ui.appReady) {
+        if (this.ui.appReady && this.platform.is('android')) {
           this.updateStatusBarColor(url);
         }
       }
@@ -55,7 +56,7 @@ export class AppComponent {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         gtag('config', 'G-DF0L8MY2G4', { page_path: event.urlAfterRedirects });
-        if (this.platform.is('capacitor')) {
+        if (this.platform.is('android')) {
           this.updateStatusBarColor(event.urlAfterRedirects);
         }
       }
@@ -66,8 +67,10 @@ export class AppComponent {
     try {
       if (url.includes('main')) {
         await StatusBar.setBackgroundColor({ color: '#947FFF' });
+        await NavigationBar.setNavigationBarColor({ color: '#947FFF' });
       } else {
         await StatusBar.setBackgroundColor({ color: '#EEF1E7' });
+        await NavigationBar.setNavigationBarColor({ color: '#EEF1E7' });
       }
     } catch (error) {
       console.error(error);

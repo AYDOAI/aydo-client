@@ -21,7 +21,7 @@ export class RecaptchaComponent extends BaseElement {
 
   public siteKey = environment.recaptcha.sitekey;
   public theme: 'light' | 'dark' = 'light';
-  public size: 'compact' | 'normal' = 'compact';
+  public size: 'compact' | 'normal' = 'normal';
   public lang = 'en';
   public type: 'image' | 'audio' = 'image';
 }
