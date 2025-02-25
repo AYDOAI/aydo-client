@@ -25,7 +25,7 @@ export class WelcomeProvidersComponent implements OnInit {
 
   public googleAuth(): void {
     if (this.ui.isOnline) {
-      this.backend.googleLogin(this.ui.inviteId);
+      this.ui.googleLogin(this.ui.inviteId);
     } else {
       this.errors.showError(
         'There was an error connecting. Please check your internet connection and try again later.'
@@ -37,7 +37,9 @@ export class WelcomeProvidersComponent implements OnInit {
     this.loading
       .showLoading$(this.metamask.signInWithMetaMask(this.ui.inviteId))
       .subscribe(
-        () => {},
+        () => {
+          this.ui.afterLogin();
+        },
         err => {
           this.errors.showError(err.message);
         }
@@ -46,7 +48,7 @@ export class WelcomeProvidersComponent implements OnInit {
 
   async signInWithApple() {
     if (this.ui.isOnline) {
-      this.backend.appleLogin(this.ui.inviteId);
+      this.ui.appleLogin(this.ui.inviteId);
     } else {
       this.errors.showError(
         'There was an error connecting. Please check your internet connection and try again later.'
