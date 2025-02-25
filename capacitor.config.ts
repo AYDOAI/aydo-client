@@ -24,6 +24,7 @@ const config: CapacitorConfig = {
       '@capacitor/network',
       '@capacitor/status-bar',
       '@capgo/capacitor-navigation-bar',
+      'cordova-plugin-inappbrowser',
     ],
   },
   // server: {
