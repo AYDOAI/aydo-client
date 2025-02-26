@@ -7,11 +7,11 @@
     </div>
     <button
       class="btn text-center"
-      [class.red-btn]="device.isOnline"
+      [class.red-btn]="!device.connected"
       (click)="toggleConnect.emit()">
-      {{ device.isOnline ? 'Online' : 'Offline' }}
+      {{ device.connected ? 'Connected' : 'Disconnected' }}
     </button>
     <p class="addition-info">Total Approximate Payout per hour</p>
-    <p class="tokens">12 tokens</p>
+    <p class="tokens">12 points</p>
   </div>
 </div>
