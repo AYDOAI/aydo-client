@@ -250,6 +250,7 @@ export class UIService implements OnDestroy {
                   item1 => item1.ident === item.ident
                 );
                 if (device) {
+                  device.isOnline = item.isOnline;
                   device.capabilities.forEach(cap => {
                     cap.value = item.values[`${cap.ident}_${cap.index}`];
                   });
