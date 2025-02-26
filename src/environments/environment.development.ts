@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  main_url: 'http://192.168.88.113:3001',
+  main_url: 'http://127.0.0.1:3001',
   index_url: '/dashboard',
   log: {
     backend: {
