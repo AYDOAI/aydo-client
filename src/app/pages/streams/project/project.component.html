@@ -39,10 +39,10 @@
           <div class="project-content">
             <div class="card-header">
               <div class="card-title">
-                {{ dataStream?.name ?? '' }}
-              </div>
-              <div class="card-status">
-                {{ dataStream?.status === 1 ? 'ACTIVE' : 'INACTIVE' }}
+                <span class="title-text">{{ dataStream.name || '' }}</span>
+                <span class="card-status">
+                  {{ dataStream.status === 1 ? 'Active' : 'Inactive' }}
+                </span>
               </div>
             </div>
             <div class="card-desc">
