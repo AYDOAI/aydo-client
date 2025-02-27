@@ -12,17 +12,12 @@ export class HeaderComponent extends BaseElement {
   public menuService = inject(MenuService);
 
   @Input() title = '';
-  @Input() add: FrameStep = '';
   @Input() back: string = '';
 
   menuVisible = false;
 
   async showHideMenu() {
     await this.menuService.toggleMenu();
-  }
-
-  addClick() {
-    this.ui.goStep(this.add);
   }
 
   public backClick(): void {

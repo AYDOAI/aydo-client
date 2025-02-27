@@ -77,13 +77,21 @@
     margin-left: auto;
   }
 
-  .card-status {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .card-title {
+    font-size: 14px;
+    line-height: 140%;
+    font-weight: 600;
+  }
 
+  .title-text {
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  .card-status {
+    display: inline-block;
+    white-space: nowrap;
     padding: 4px;
-    margin-left: 8px;
 
     color: #999999;
     font-style: normal;
