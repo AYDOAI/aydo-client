@@ -1,24 +1,42 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ErrorsService } from '../../services/errors.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-avatar',
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
 })
-export class AvatarComponent implements OnInit {
+export class AvatarComponent implements OnInit, OnDestroy {
+  private destroy$: Subject<void> = new Subject();
   errorService = inject(ErrorsService);
   previewUrl: string | ArrayBuffer | null = null;
 
   @Input() form!: FormGroup;
   @Input() key!: string;
+  @Input() readonly: boolean | undefined = false;
 
   ngOnInit(): void {
-    const controlValue = this.form.get(this.key)?.value;
-    if (controlValue) {
-      this.previewUrl = controlValue.url;
-    }
+    this.form
+      .get(this.key)
+      ?.valueChanges?.pipe(takeUntil(this.destroy$))
+      ?.subscribe(value => {
+        this.previewUrl = value.url;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onFileSelected(event: Event): void {
