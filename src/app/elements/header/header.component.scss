@@ -1,29 +1,13 @@
 $padding-x-btn: 22px;
 $padding-y-btn: 12px;
 
-.header {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  .title {
-    margin-left: -$padding-x-btn * 2;
-  }
-}
-
 .back-button {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.add {
-  width: 16px;
-}
-
 .menu-button {
-  display: inline-block;
   height: 9px;
   width: 24px;
   position: relative;
@@ -31,6 +15,7 @@ $padding-y-btn: 12px;
 
 .back-button,
 .menu-button {
+  justify-self: start;
   padding: $padding-y-btn $padding-x-btn;
 }
 

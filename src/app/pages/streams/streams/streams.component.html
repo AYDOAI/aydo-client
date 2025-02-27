@@ -40,10 +40,10 @@
           <div class="project-content">
             <div class="card-header">
               <div class="card-title">
-                {{ stream.name || '' }}
-              </div>
-              <div class="card-status">
-                {{ stream.status === 1 ? 'Active' : 'Inactive' }}
+                <span class="title-text">{{ stream.name || '' }}</span>
+                <span class="card-status">
+                  {{ stream.status === 1 ? 'Active' : 'Inactive' }}
+                </span>
               </div>
               <svg-icon name="arrow" class="icon"></svg-icon>
             </div>
