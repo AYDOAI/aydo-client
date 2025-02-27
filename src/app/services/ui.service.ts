@@ -1,7 +1,15 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { App } from '@capacitor/app';
 import { HubType, FrameStep } from '../shared/types';
 import { StorageService } from './storage.service';
-import { finalize, interval, of, startWith, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  finalize,
+  interval,
+  of,
+  startWith,
+  Subscription,
+} from 'rxjs';
 import { BackendService } from './backend.service';
 import {
   DeviceItem,
@@ -36,6 +44,7 @@ export class UIService implements OnDestroy {
   public appReady: boolean = false;
   public inviteId: string;
   public isOnline: boolean = true;
+  public isAppFocused$ = new BehaviorSubject<boolean>(true);
   public gateway:
     | { identifier: string; userId: string; token: string; is_online: boolean }
     | null
@@ -62,6 +71,7 @@ export class UIService implements OnDestroy {
         this.afterLogin();
       });
     this.subscribeToNetworkStatus();
+    this.subscribeToFocusState();
   }
 
   ngOnDestroy() {
@@ -321,6 +331,12 @@ export class UIService implements OnDestroy {
 
     Network.addListener('networkStatusChange', status => {
       this.isOnline = status.connected;
+    });
+  }
+
+  private subscribeToFocusState(): void {
+    App.addListener('appStateChange', state => {
+      this.isAppFocused$.next(state.isActive);
     });
   }
 

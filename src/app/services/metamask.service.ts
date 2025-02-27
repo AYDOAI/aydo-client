@@ -16,6 +16,7 @@ import { LoadingService } from './loading.service';
 import { RequestService } from './request.service';
 import { mainnet, sepolia } from '@wagmi/core/chains';
 import { metaMask } from '@wagmi/connectors';
+import { UIService } from './ui.service';
 
 export const config = createConfig({
   chains: [mainnet, sepolia],
@@ -33,7 +34,8 @@ export class MetaMaskService {
     private storage: StorageService,
     private platform: Platform,
     private loading: LoadingService,
-    private request: RequestService
+    private request: RequestService,
+    private ui: UIService
   ) {}
 
   public signInWithMetaMask(inviteId: string): Observable<any> {
@@ -45,22 +47,56 @@ export class MetaMaskService {
   }
 
   private signInWithMetaMaskMobile(inviteId: string) {
-    const timeoutPromise = (ms: number) =>
-      new Promise((_, reject) =>
-        setTimeout(
-          () =>
+    const connectionTimeoutMs = 10000;
+    let connectionTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    const timeoutPromise = new Promise((_, reject) => {
+      const startTimer = () => {
+        if (connectionTimeout) {
+          clearTimeout(connectionTimeout);
+        }
+
+        connectionTimeout = setTimeout(() => {
+          if (this.ui.isAppFocused$.value) {
             reject(
               new Error(
                 'Connection timeout. Please make sure MetaMask is installed and check your internet connection.'
               )
-            ),
-          ms
-        )
+            );
+          }
+        }, connectionTimeoutMs);
+      };
+
+      const stopTimer = () => {
+        if (connectionTimeout) {
+          clearTimeout(connectionTimeout);
+          connectionTimeout = null;
+        }
+      };
+
+      const appFocusedSubscription$ = this.ui.isAppFocused$.subscribe(
+        isFocused => {
+          if (isFocused) {
+            startTimer();
+          } else {
+            stopTimer();
+          }
+        }
       );
+
+      if (this.ui.isAppFocused$.value) {
+        startTimer();
+      }
+
+      return () => {
+        stopTimer();
+        appFocusedSubscription$.unsubscribe();
+      };
+    });
 
     const connectWithTimeout = Promise.race([
       connect(config, { connector }),
-      timeoutPromise(10000),
+      timeoutPromise,
     ]);
 
     return from(connectWithTimeout).pipe(
