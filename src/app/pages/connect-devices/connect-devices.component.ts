@@ -44,10 +44,16 @@ export class ConnectDevicesComponent extends BaseComponent implements OnInit {
       if (!stream) {
         return [];
       }
-      return allDevices.map(device => ({
-        ...device,
-        connected: stream.devices?.some((d: any) => d.deviceId === device.id),
-      }));
+      return allDevices
+        .filter(
+          device =>
+            !stream.driverClassNameInclude ||
+            device.ident.includes(stream.driverClassNameInclude)
+        )
+        .map(device => ({
+          ...device,
+          connected: stream.devices?.some((d: any) => d.deviceId === device.id),
+        }));
     })
   );
 
