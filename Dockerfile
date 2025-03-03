@@ -1,7 +1,7 @@
 # ============================================
 # Development Stage
 # ============================================
-FROM node:18 AS dev
+FROM node:22.14.0 AS dev
 
 # Create app directory
 WORKDIR /usr/src/app
