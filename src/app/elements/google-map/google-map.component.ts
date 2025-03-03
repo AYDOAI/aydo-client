@@ -128,19 +128,29 @@ export class GoogleMapComponent
   private getCurrentPosition() {
     return new Observable<google.maps.LatLngLiteral>(observer => {
       if (this.platform.is('cordova') || this.platform.is('capacitor')) {
-        Geolocation.getCurrentPosition().then(position => {
-          observer.next({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        });
+        Geolocation.getCurrentPosition().then(
+          position => {
+            observer.next({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          },
+          error => {
+            observer.error(error);
+          }
+        );
       } else {
-        navigator.geolocation.getCurrentPosition(position => {
-          observer.next({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        });
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            observer.next({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          },
+          positionError => {
+            observer.error(positionError.message);
+          }
+        );
       }
     }).pipe(
       catchError(error => {
