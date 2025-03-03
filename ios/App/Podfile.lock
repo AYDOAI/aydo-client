@@ -1,25 +1,26 @@
 PODS:
-  - Capacitor (6.1.2):
+  - Capacitor (7.0.1):
     - CapacitorCordova
-  - CapacitorApp (6.0.2):
+  - CapacitorApp (7.0.0):
     - Capacitor
-  - CapacitorClipboard (6.0.2):
+  - CapacitorClipboard (7.0.0):
     - Capacitor
-  - CapacitorCommunityAppleSignIn (6.0.0):
+  - CapacitorCommunityAppleSignIn (7.0.0):
     - Capacitor
-  - CapacitorCordova (6.1.2)
-  - CapacitorGeolocation (6.0.2):
+  - CapacitorCordova (7.0.1)
+  - CapacitorGeolocation (7.1.1):
     - Capacitor
-  - CapacitorMlkitBarcodeScanning (7.0.0-next.2):
+    - IONGeolocationLib (~> 1.0)
+  - CapacitorMlkitBarcodeScanning (7.1.0):
     - Capacitor
     - GoogleMLKit/BarcodeScanning (= 7.0.0)
-  - CapacitorNetwork (6.0.3):
+  - CapacitorNetwork (7.0.0):
     - Capacitor
-  - CapacitorStatusBar (6.0.2):
+  - CapacitorStatusBar (7.0.0):
     - Capacitor
-  - CapgoCapacitorNavigationBar (6.1.75):
+  - CapgoCapacitorNavigationBar (7.1.2):
     - Capacitor
-  - CordovaPlugins (6.1.2):
+  - CordovaPlugins (7.0.1):
     - CapacitorCordova
   - GoogleDataTransport (10.1.0):
     - nanopb (~> 3.30910.0)
@@ -44,6 +45,7 @@ PODS:
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
   - GTMSessionFetcher/Core (3.5.0)
+  - IONGeolocationLib (1.0.0)
   - MLImage (1.0.0-beta6)
   - MLKitBarcodeScanning (6.0.0):
     - MLKitCommon (~> 12.0)
@@ -88,6 +90,7 @@ SPEC REPOS:
     - GoogleToolboxForMac
     - GoogleUtilities
     - GTMSessionFetcher
+    - IONGeolocationLib
     - MLImage
     - MLKitBarcodeScanning
     - MLKitCommon
@@ -120,22 +123,23 @@ EXTERNAL SOURCES:
     :path: "../capacitor-cordova-ios-plugins"
 
 SPEC CHECKSUMS:
-  Capacitor: 679f9673fdf30597493a6362a5d5bf233d46abc2
-  CapacitorApp: 2a8c3a0b0814322e5e6e15fe595f02c3808f0f8b
-  CapacitorClipboard: 55e0a514f1e97b1409d533266c119dcbff3e78c3
-  CapacitorCommunityAppleSignIn: c8bba4ca8ff6ff843367ece13ee8af24e9266eb9
-  CapacitorCordova: f48c89f96c319101cd2f0ce8a2b7449b5fb8b3dd
-  CapacitorGeolocation: 9db9e7ed7cfb5d5d8f01b108ab483ad9c9d2865d
-  CapacitorMlkitBarcodeScanning: 31cdbb3859c44697910ecc4f5a55627bd6bfbf25
-  CapacitorNetwork: da96b5fff8d05b67f4658503aabb22f65bda2c0f
-  CapacitorStatusBar: 3b9ac7d0684770522c532d1158a1434512ab1477
-  CapgoCapacitorNavigationBar: 836e568969c7030c85fca3b3ced5836199c343d0
-  CordovaPlugins: b26881c27739f4c46bac6baf422f660500cd5561
+  Capacitor: 23fff43571a4d1e3ee7d67b5a3588c6e757c2913
+  CapacitorApp: 45cb7cbef4aa380b9236fd6980033eb5cde6fcd2
+  CapacitorClipboard: 2afc5e21902233d7990978c8f41f023ddcee3e3d
+  CapacitorCommunityAppleSignIn: 9f938324c6939545f001fa66a2eaaf3a93fda64e
+  CapacitorCordova: 63d476958d5022d76f197031e8b7ea3519988c64
+  CapacitorGeolocation: 8f8ac02ceaeb203a4762f8dc4ff5119e3f7fa50a
+  CapacitorMlkitBarcodeScanning: 11376567a1ee60e04839b3d70548405f4163a6a1
+  CapacitorNetwork: cd17b98182841055ff58629213242a1f22f4a76b
+  CapacitorStatusBar: 438e90beeeefa8276b24e6c5991cb02dd13e51bf
+  CapgoCapacitorNavigationBar: 3a0e93a40b7da3d3cb74c0410bb761a1525406be
+  CordovaPlugins: 539a885515cd52d02b142ccd170488529ff80a54
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleMLKit: eff9e23ec1d90ea4157a1ee2e32a4f610c5b3318
   GoogleToolboxForMac: d1a2cbf009c453f4d6ded37c105e2f67a32206d8
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
+  IONGeolocationLib: 81f33f88d025846946de2cf63b0c7628e7c6bc9d
   MLImage: 0ad1c5f50edd027672d8b26b0fee78a8b4a0fc56
   MLKitBarcodeScanning: 0a3064da0a7f49ac24ceb3cb46a5bc67496facd2
   MLKitCommon: 07c2c33ae5640e5380beaaa6e4b9c249a205542d
