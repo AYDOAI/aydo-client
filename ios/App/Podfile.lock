@@ -8,6 +8,8 @@ PODS:
   - CapacitorCommunityAppleSignIn (6.0.0):
     - Capacitor
   - CapacitorCordova (6.1.2)
+  - CapacitorGeolocation (6.0.2):
+    - Capacitor
   - CapacitorMlkitBarcodeScanning (7.0.0-next.2):
     - Capacitor
     - GoogleMLKit/BarcodeScanning (= 7.0.0)
@@ -72,6 +74,7 @@ DEPENDENCIES:
   - "CapacitorClipboard (from `../../node_modules/@capacitor/clipboard`)"
   - "CapacitorCommunityAppleSignIn (from `../../node_modules/@capacitor-community/apple-sign-in`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorGeolocation (from `../../node_modules/@capacitor/geolocation`)"
   - "CapacitorMlkitBarcodeScanning (from `../../node_modules/@capacitor-mlkit/barcode-scanning`)"
   - "CapacitorNetwork (from `../../node_modules/@capacitor/network`)"
   - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
@@ -103,6 +106,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor-community/apple-sign-in"
   CapacitorCordova:
     :path: "../../node_modules/@capacitor/ios"
+  CapacitorGeolocation:
+    :path: "../../node_modules/@capacitor/geolocation"
   CapacitorMlkitBarcodeScanning:
     :path: "../../node_modules/@capacitor-mlkit/barcode-scanning"
   CapacitorNetwork:
@@ -115,16 +120,17 @@ EXTERNAL SOURCES:
     :path: "../capacitor-cordova-ios-plugins"
 
 SPEC CHECKSUMS:
-  Capacitor: 69c7f687aabb8d85e543497411e40638b5cc08c0
-  CapacitorApp: e1e6b7d05e444d593ca16fd6d76f2b7c48b5aea7
-  CapacitorClipboard: 4443c3cdb7c77b1533dfe3ff0f9f7756aa8579df
-  CapacitorCommunityAppleSignIn: c9c2541ee7580618055a91b3516c3f0313fe2544
+  Capacitor: 679f9673fdf30597493a6362a5d5bf233d46abc2
+  CapacitorApp: 2a8c3a0b0814322e5e6e15fe595f02c3808f0f8b
+  CapacitorClipboard: 55e0a514f1e97b1409d533266c119dcbff3e78c3
+  CapacitorCommunityAppleSignIn: c8bba4ca8ff6ff843367ece13ee8af24e9266eb9
   CapacitorCordova: f48c89f96c319101cd2f0ce8a2b7449b5fb8b3dd
-  CapacitorMlkitBarcodeScanning: b1c10b193bf764af8c82dc2242462868daf50a0c
-  CapacitorNetwork: ef75d8208f0974a2de3f98136bf9684524798f5c
-  CapacitorStatusBar: b16799a26320ffa52f6c8b01737d5a95bbb8f3eb
-  CapgoCapacitorNavigationBar: 3fb4c6fbb06946a972eb41ee9d04b8da9db8d461
-  CordovaPlugins: 9cf38ce16d3be795fed21f2a4c26f7fba8de33d1
+  CapacitorGeolocation: 9db9e7ed7cfb5d5d8f01b108ab483ad9c9d2865d
+  CapacitorMlkitBarcodeScanning: 31cdbb3859c44697910ecc4f5a55627bd6bfbf25
+  CapacitorNetwork: da96b5fff8d05b67f4658503aabb22f65bda2c0f
+  CapacitorStatusBar: 3b9ac7d0684770522c532d1158a1434512ab1477
+  CapgoCapacitorNavigationBar: 836e568969c7030c85fca3b3ced5836199c343d0
+  CordovaPlugins: b26881c27739f4c46bac6baf422f660500cd5561
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleMLKit: eff9e23ec1d90ea4157a1ee2e32a4f610c5b3318
   GoogleToolboxForMac: d1a2cbf009c453f4d6ded37c105e2f67a32206d8
@@ -137,6 +143,6 @@ SPEC CHECKSUMS:
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
 
-PODFILE CHECKSUM: f226032546da6ee7424bed206c56b4bdd5ef9da0
+PODFILE CHECKSUM: cb2abd9789366b73b3f2c5537b99c92bf0ecc51d
 
 COCOAPODS: 1.16.2
