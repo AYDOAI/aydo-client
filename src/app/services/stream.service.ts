@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { of, shareReplay, startWith, Subject, switchMap, take } from 'rxjs';
-import { DeviceItem } from '../models/gateway.model';
+import { RequestService } from './request.service';
 
 export interface DataStream {
   smartContract: any;
@@ -13,7 +13,12 @@ export interface DataStream {
   externalLink: string;
   status?: 0 | 1;
   logo?: string;
-  devices: DeviceItem[];
+  devices?: {
+    id: number;
+    deviceId: number;
+    dataStreamId: number;
+    createdAt: Date;
+  }[];
 }
 
 @Injectable({
@@ -30,6 +35,8 @@ export class StreamService {
     switchMap(() => this.httpClient.get<DataStream[]>(this.baseUrl)),
     shareReplay(1)
   );
+
+  constructor(private request: RequestService) {}
 
   reloadData(): void {
     this.reloadSubject.next();
@@ -57,7 +64,7 @@ export class StreamService {
         if (stream) {
           return of(stream);
         } else {
-          return this.httpClient.get<DataStream>(
+          return this.request.get<DataStream>(
             `${this.baseUrl}/keyword/${keyword}`
           );
         }
@@ -66,20 +73,16 @@ export class StreamService {
   }
 
   disconnectDeviceFromStream(streamId: number, deviceId: number) {
-    return this.httpClient.delete(
-      `${this.baseUrl}/${streamId}/devices/${deviceId}`
-    );
+    return this.request.del(`${this.baseUrl}/${streamId}/devices/${deviceId}`);
   }
 
   connectDeviceToStream(streamId: number, deviceId: number) {
-    return this.httpClient.post(`${this.baseUrl}/${streamId}/devices`, {
+    return this.request.post(`${this.baseUrl}/${streamId}/devices`, {
       deviceId,
     });
   }
 
   toggleDataStream(streamId: number) {
-    return this.httpClient.post<{
-      status: 1 | 0;
-    }>(`${this.baseUrl}/${streamId}/toggle`, {});
+    return this.request.post(`${this.baseUrl}/${streamId}/toggle`, {});
   }
 }

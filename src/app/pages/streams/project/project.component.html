@@ -95,11 +95,17 @@
         </ng-container>
         <button
           (click)="toggle()"
-          [disabled]="ui.isBtnLoading('streaming')"
+          [disabled]="
+            ui.isBtnLoading('streaming') || !dataStream.devices?.length
+          "
           class="btn text-center"
           [class.red-btn]="dataStream?.status === 1">
           <span *ngIf="ui.isBtnLoading('streaming')" class="spin-loader"></span>
-          {{ dataStream?.status === 1 ? 'Stop streaming' : 'Start streaming' }}
+          {{
+            dataStream?.status === 1 && dataStream.devices?.length > 0
+              ? 'Stop streaming'
+              : 'Start streaming'
+          }}
         </button>
       </div>
     </div>

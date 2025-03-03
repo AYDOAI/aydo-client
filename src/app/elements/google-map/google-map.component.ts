@@ -14,6 +14,7 @@ import {
   concat,
 } from 'rxjs';
 import { takeUntil, catchError, tap, map, last } from 'rxjs/operators';
+import { Geolocation } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-google-map',
@@ -123,15 +124,12 @@ export class GoogleMapComponent
 
   private getCurrentPosition() {
     return new Observable<google.maps.LatLngLiteral>(observer => {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          observer.next({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        error => observer.error(error)
-      );
+      Geolocation.getCurrentPosition().then(position => {
+        observer.next({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      });
     }).pipe(
       catchError(error => {
         console.error('Geolocation error:', error);

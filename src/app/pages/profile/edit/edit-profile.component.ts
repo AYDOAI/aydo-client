@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AppFormInputs } from '../../../shared/types';
 import { FormBaseComponent } from '../../../components/form-base.component';
 import { UploaderService } from '../../../services/uploader.service';
@@ -49,6 +49,9 @@ export class EditProfileComponent extends FormBaseComponent {
       },
     ];
     this.formGroup = this.createForm(this.form.inputs);
+  }
+
+  ionViewWillEnter() {
     this.user$.subscribe(user => {
       this.formGroup.patchValue(user);
     });
