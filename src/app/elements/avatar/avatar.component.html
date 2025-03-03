@@ -1,14 +1,21 @@
 <div class="avatar-container">
-  <label for="avatarInput" class="avatar-label">
+  <label
+    for="avatarInput"
+    class="avatar-label"
+    [style.pointer-events]="readonly ? 'none' : 'auto'">
     <svg-icon height="42" width="27" *ngIf="!previewUrl" name="aydo-avatar" />
     <div class="avatar-preview" *ngIf="previewUrl">
       <img [src]="previewUrl" alt="Avatar Preview" class="avatar-image" />
-      <button (click)="removeImage($event)" class="remove-button">
+      <button
+        *ngIf="!readonly"
+        (click)="removeImage($event)"
+        class="remove-button">
         &times;
       </button>
     </div>
   </label>
   <input
+    [disabled]="readonly"
     id="avatarInput"
     type="file"
     (change)="onFileSelected($event)"
