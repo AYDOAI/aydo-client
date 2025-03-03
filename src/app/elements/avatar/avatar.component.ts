@@ -30,7 +30,7 @@ export class AvatarComponent implements OnInit, OnDestroy {
       .get(this.key)
       ?.valueChanges?.pipe(takeUntil(this.destroy$))
       ?.subscribe(value => {
-        this.previewUrl = value.url;
+        this.previewUrl = value?.url || null;
       });
   }
 

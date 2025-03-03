@@ -42,6 +42,7 @@ export class UserService {
   );
 
   updateUser(value: Partial<User>) {
+    console.log('updateUser', value);
     this.userPatch$.next(value);
   }
 
