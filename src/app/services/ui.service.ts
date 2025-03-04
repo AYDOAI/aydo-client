@@ -74,6 +74,15 @@ export class UIService implements OnDestroy {
     this.subscribeToFocusState();
   }
 
+  public get isMobile(): boolean {
+    return (
+      this.platform.is('mobile') ||
+      this.platform.is('android') ||
+      this.platform.is('ios') ||
+      /iPhone|iPad|Android/i.test(navigator.userAgent)
+    );
+  }
+
   ngOnDestroy() {
     this.initSub?.unsubscribe();
   }
@@ -344,7 +353,7 @@ export class UIService implements OnDestroy {
     const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
     const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
     const browser = this.iab.create(url, '_blank');
-    if (this.platform.is('capacitor')) {
+    if (this.isMobile) {
       this.handleLogin(browser);
     }
   }
@@ -361,7 +370,7 @@ export class UIService implements OnDestroy {
     const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
     const url = `${environment.main_url}/backend/v2/user/apple/login?state=${encodedState}`;
     const browser = this.iab.create(url, '_blank');
-    if (this.platform.is('capacitor')) {
+    if (this.isMobile) {
       this.handleLogin(browser);
     }
   }
