@@ -29,13 +29,11 @@ export class AppComponent {
 
   private init(): void {
     this.platform.ready().then(_ => {
-      if (this.ui.isMobile) {
+      if (this.platform.is('android')) {
         const url = this.router.url;
         StatusBar.setOverlaysWebView({ overlay: false });
         StatusBar.setStyle({ style: Style.Light });
-        if (this.platform.is('android')) {
-          this.updateStatusBarColor(url);
-        }
+        this.updateStatusBarColor(url);
       }
       this.subscribeToRouterEvents();
       if (this.platform.is('android') || this.platform.is('ios')) {
