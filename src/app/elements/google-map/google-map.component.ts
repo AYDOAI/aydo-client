@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BaseElement } from '../base.component';
 import {
@@ -15,6 +15,7 @@ import {
 } from 'rxjs';
 import { takeUntil, catchError, tap, map, last } from 'rxjs/operators';
 import { Geolocation } from '@capacitor/geolocation';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-google-map',
@@ -28,6 +29,8 @@ export class GoogleMapComponent
   @Input() form!: FormGroup;
   @Input() key!: string;
   @Input() title!: string;
+
+  private platform = inject(Platform);
 
   private destroy$ = new Subject<void>();
 
@@ -124,12 +127,31 @@ export class GoogleMapComponent
 
   private getCurrentPosition() {
     return new Observable<google.maps.LatLngLiteral>(observer => {
-      Geolocation.getCurrentPosition().then(position => {
-        observer.next({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      });
+      if (this.platform.is('cordova') || this.platform.is('capacitor')) {
+        Geolocation.getCurrentPosition().then(
+          position => {
+            observer.next({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          },
+          error => {
+            observer.error(error);
+          }
+        );
+      } else {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            observer.next({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          },
+          positionError => {
+            observer.error(positionError.message);
+          }
+        );
+      }
     }).pipe(
       catchError(error => {
         console.error('Geolocation error:', error);
