@@ -51,7 +51,6 @@ export class UIService implements OnDestroy {
     | null
     | undefined = null;
   private btnLoading: string[] = [];
-  private valuesInterval$: Subscription | null = null;
 
   constructor(
     public storage: StorageService,

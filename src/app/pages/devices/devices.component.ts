@@ -3,6 +3,8 @@ import { BaseComponent } from '../../components/base.component';
 import { DeviceItem } from '../../models/gateway.model';
 import { ZoneService } from '../../services/zone.service';
 import { DevicesService } from '../../services/devices.service';
+import { SocketService } from '../../services/socket.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-devices',
@@ -12,12 +14,21 @@ import { DevicesService } from '../../services/devices.service';
 export class DevicesComponent extends BaseComponent {
   private zoneService = inject(ZoneService);
   private devicesService = inject(DevicesService);
+  private socket = inject(SocketService);
 
   override onInit() {
     super.onInit();
     this.getDevices();
     this.ui.getDrivers();
     this.zoneService.load();
+    this.socket.updateDevices$.pipe(takeUntil(this.destroy$)).subscribe(() =>
+      this.ui.getGateway(() => {
+        this.ui.getDevices();
+      })
+    );
+    this.socket.updateDeviceValues$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.ui.getDeviceValues());
   }
 
   public getDevices(event: any = null) {

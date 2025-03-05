@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 import { environment } from '../../environments/environment';
 import { StorageService } from './storage.service';
-import { UIService } from './ui.service';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {
+  public updateDevices$ = new Subject<void>();
+  public updateDeviceValues$ = new Subject<void>();
   private socket!: Socket;
-  constructor(
-    private storage: StorageService,
-    private ui: UIService
-  ) {}
+  constructor(private storage: StorageService) {}
 
   public connect(): void {
     this.socket = io(environment.main_url, {
@@ -45,13 +44,10 @@ export class SocketService {
       this.authenticate();
     });
     this.socket.on('register-devices', () => {
-      this.ui.getGateway(() => {
-        this.ui.getDevices();
-        this.ui.getDrivers();
-      });
+      this.updateDevices$.next();
     });
     this.socket.on('update-capabilities', () => {
-      this.ui.getDeviceValues();
+      this.updateDeviceValues$.next();
     });
   }
 }
