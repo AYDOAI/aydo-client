@@ -99,13 +99,9 @@
             ui.isBtnLoading('streaming') || !dataStream.devices?.length
           "
           class="btn text-center"
-          [class.red-btn]="dataStream?.status === 1">
+          [class.red-btn]="isStreamingActive">
           <span *ngIf="ui.isBtnLoading('streaming')" class="spin-loader"></span>
-          {{
-            dataStream?.status === 1 && dataStream.devices?.length > 0
-              ? 'Stop streaming'
-              : 'Start streaming'
-          }}
+          {{ isStreamingActive ? 'Stop streaming' : 'Start streaming' }}
         </button>
       </div>
     </div>
