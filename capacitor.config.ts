@@ -26,6 +26,7 @@ const config: CapacitorConfig = {
       '@capgo/capacitor-navigation-bar',
       'cordova-plugin-inappbrowser',
       '@capacitor/geolocation',
+      '@capacitor/camera',
     ],
   },
   // server: {
