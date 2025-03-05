@@ -50,5 +50,8 @@ export class SocketService {
         this.ui.getDrivers();
       });
     });
+    this.socket.on('update-capabilities', () => {
+      this.ui.getDeviceValues();
+    });
   }
 }
