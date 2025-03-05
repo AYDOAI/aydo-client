@@ -27,6 +27,7 @@ import { UserService } from './user.service';
 import { switchMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+import { SocketService } from './socket.service';
 
 @Injectable({
   providedIn: 'root',
@@ -61,7 +62,8 @@ export class UIService implements OnDestroy {
     private errors: ErrorsService,
     private userService: UserService,
     private iab: InAppBrowser,
-    private platform: Platform
+    private platform: Platform,
+    private socket: SocketService
   ) {
     const urlSearchParams = new URLSearchParams(window.location.search);
     this.inviteId = urlSearchParams.get('code') ?? '';
@@ -135,6 +137,7 @@ export class UIService implements OnDestroy {
             };
             this.loading.showLoading();
             this.getGateway(next);
+            this.socket.connect();
           },
           error => {
             this.goStep('sign-in');
