@@ -9,7 +9,6 @@ import {
   of,
   merge,
   filter,
-  switchMap,
   first,
   concat,
 } from 'rxjs';
@@ -125,10 +124,25 @@ export class GoogleMapComponent
     return EMPTY;
   }
 
+  private async getPositionNative() {
+    const permissionStatus = await Geolocation.checkPermissions();
+    if (permissionStatus?.location !== 'granted') {
+      const requestStatus = await Geolocation.requestPermissions();
+      if (requestStatus.location !== 'granted') {
+        throw new Error('Could not get location native');
+      }
+    }
+    return await Geolocation.getCurrentPosition({
+      maximumAge: 3000,
+      timeout: 10000,
+      enableHighAccuracy: true,
+    });
+  }
+
   private getCurrentPosition() {
     return new Observable<google.maps.LatLngLiteral>(observer => {
       if (this.platform.is('cordova') || this.platform.is('capacitor')) {
-        Geolocation.getCurrentPosition().then(
+        this.getPositionNative().then(
           position => {
             observer.next({
               lat: position.coords.latitude,
