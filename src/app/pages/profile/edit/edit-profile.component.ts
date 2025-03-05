@@ -69,7 +69,10 @@ export class EditProfileComponent extends FormBaseComponent {
       .pipe(finalize(() => this.ui.unlockBtn('submit')))
       .subscribe(res => {
         this.ui.user = res;
-        this.userService.updateUser(res);
+        this.userService.updateUser({
+          ...res,
+          avatar: res.avatar || null,
+        });
         this.errors.showInfo('Profile changed successfully.');
       });
   }
