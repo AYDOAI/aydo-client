@@ -2,10 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>NSLocationAlwaysUsageDescription</key>
-	<string>Always allow location access</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow location access while using the App</string>
+  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>Your app requires access to location data to provide personalized recommendations.</string>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>Your app needs access to your location while it is active to enhance user experience.</string>
+  <key>NSCameraUsageDescription</key>
+  <string>Your app needs access to the camera to allow users to upload photos.</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Your app requires microphone access to enable voice recording.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
