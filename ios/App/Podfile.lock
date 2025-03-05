@@ -134,12 +134,12 @@ SPEC CHECKSUMS:
   CapacitorClipboard: 2afc5e21902233d7990978c8f41f023ddcee3e3d
   CapacitorCommunityAppleSignIn: 9f938324c6939545f001fa66a2eaaf3a93fda64e
   CapacitorCordova: 63d476958d5022d76f197031e8b7ea3519988c64
-  CapacitorGeolocation: 8f8ac02ceaeb203a4762f8dc4ff5119e3f7fa50a
-  CapacitorMlkitBarcodeScanning: 11376567a1ee60e04839b3d70548405f4163a6a1
-  CapacitorNetwork: cd17b98182841055ff58629213242a1f22f4a76b
-  CapacitorStatusBar: 438e90beeeefa8276b24e6c5991cb02dd13e51bf
-  CapgoCapacitorNavigationBar: 3a0e93a40b7da3d3cb74c0410bb761a1525406be
-  CordovaPlugins: 539a885515cd52d02b142ccd170488529ff80a54
+  CapacitorGeolocation: c0755715aaadf5c86dc0053e1127b368444c914b
+  CapacitorMlkitBarcodeScanning: 8ed3b0c5b015c0f65ecdaf8d99aaa08b4e647693
+  CapacitorNetwork: 30c2e78a0ed32530656cb426c8ee6c2caec10dbf
+  CapacitorStatusBar: a8c4c83ed2e973bdafb979e80e4b00d027832cb7
+  CapgoCapacitorNavigationBar: 3924b761f44960458d2df426bd2a45b6606545f9
+  CordovaPlugins: c1b07aa5a30eeff293189f83d40c92b3d3e2c448
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleMLKit: eff9e23ec1d90ea4157a1ee2e32a4f610c5b3318
   GoogleToolboxForMac: d1a2cbf009c453f4d6ded37c105e2f67a32206d8
