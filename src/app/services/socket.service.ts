@@ -8,6 +8,8 @@ import { StorageService } from './storage.service';
 export class SocketService {
   public updateDevices$ = new Subject<void>();
   public updateDeviceValues$ = new Subject<void>();
+  public updateUserInfo$ = new Subject<void>();
+  public updateUserRewards$ = new Subject<void>();
   private socket!: Socket;
   constructor(private storage: StorageService) {}
 
@@ -48,6 +50,10 @@ export class SocketService {
     });
     this.socket.on('update-capabilities', () => {
       this.updateDeviceValues$.next();
+    });
+    this.socket.on('update-info', () => {
+      this.updateUserInfo$.next();
+      this.updateUserRewards$.next();
     });
   }
 }
