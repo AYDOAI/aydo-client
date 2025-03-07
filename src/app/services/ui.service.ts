@@ -27,6 +27,7 @@ import { UserService } from './user.service';
 import { switchMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+import { SocketService } from './socket.service';
 
 @Injectable({
   providedIn: 'root',
@@ -50,7 +51,6 @@ export class UIService implements OnDestroy {
     | null
     | undefined = null;
   private btnLoading: string[] = [];
-  private valuesInterval$: Subscription | null = null;
 
   constructor(
     public storage: StorageService,
@@ -61,7 +61,8 @@ export class UIService implements OnDestroy {
     private errors: ErrorsService,
     private userService: UserService,
     private iab: InAppBrowser,
-    private platform: Platform
+    private platform: Platform,
+    private socket: SocketService
   ) {
     const urlSearchParams = new URLSearchParams(window.location.search);
     this.inviteId = urlSearchParams.get('code') ?? '';
@@ -144,6 +145,7 @@ export class UIService implements OnDestroy {
             };
             this.loading.showLoading();
             this.getGateway(next);
+            this.socket.connect();
           },
           error => {
             this.goStep('sign-in');
@@ -196,7 +198,7 @@ export class UIService implements OnDestroy {
     this.storage.refreshToken = '';
     this.storage.serverId = '';
     this.user = null;
-    this.stopDeviceValuesInterval();
+    this.socket.disconnect();
     this.navCtrl.navigateForward(['/sign-in']);
   }
 
@@ -231,7 +233,7 @@ export class UIService implements OnDestroy {
         )
         .subscribe((devices: any) => {
           this.devices = new DevicesModel(devices);
-          this.startDeviceValuesInterval();
+          this.getDeviceValues();
           // console.log(devices);
         });
     } else {
@@ -255,63 +257,45 @@ export class UIService implements OnDestroy {
     });
   }
 
-  startDeviceValuesInterval(): void {
-    const getDeviceValues = () => {
-      if (this.storage.serverId && this.storage.token) {
-        return this.backend.getDeviceValues().pipe(
-          finalize(() => {
-            this.loading.dismissLoading();
-          }),
-          switchMap((data: any) => {
-            const updateDeviceValues = (values: any) => {
-              values.forEach((item: any) => {
-                const device = this.devices.items.find(
-                  item1 => item1.ident === item.ident
-                );
-                if (device) {
-                  device.isOnline = item.isOnline;
-                  device.capabilities.forEach(cap => {
-                    cap.value = item.values[`${cap.ident}_${cap.index}`];
-                  });
-                }
-              });
-            };
-
-            if (data.length !== this.devices?.items?.length) {
-              return this.backend.getDevices().pipe(
-                finalize(() => {
-                  updateDeviceValues(data);
-                }),
-                switchMap((devices: any) => {
-                  this.devices = new DevicesModel(devices);
-                  return of(null);
-                })
+  public getDeviceValues() {
+    if (this.storage.serverId && this.storage.token) {
+      return this.backend.getDeviceValues().pipe(
+        finalize(() => {
+          this.loading.dismissLoading();
+        }),
+        switchMap((data: any) => {
+          const updateDeviceValues = (values: any) => {
+            values.forEach((item: any) => {
+              const device = this.devices.items.find(
+                item1 => item1.ident === item.ident
               );
-            } else {
-              updateDeviceValues(data);
-              return of(null);
-            }
-          })
-        );
-      } else {
-        return of(null);
-      }
-    };
+              if (device) {
+                device.isOnline = item.isOnline;
+                device.capabilities.forEach(cap => {
+                  cap.value = item.values[`${cap.ident}_${cap.index}`];
+                });
+              }
+            });
+          };
 
-    this.stopDeviceValuesInterval();
-
-    this.valuesInterval$ = interval(5000)
-      .pipe(
-        startWith(null),
-        switchMap(() => getDeviceValues())
-      )
-      .subscribe();
-  }
-
-  public stopDeviceValuesInterval(): void {
-    if (this.valuesInterval$) {
-      this.valuesInterval$.unsubscribe();
-      this.valuesInterval$ = null;
+          if (data.length !== this.devices?.items?.length) {
+            return this.backend.getDevices().pipe(
+              finalize(() => {
+                updateDeviceValues(data);
+              }),
+              switchMap((devices: any) => {
+                this.devices = new DevicesModel(devices);
+                return of(null);
+              })
+            );
+          } else {
+            updateDeviceValues(data);
+            return of(null);
+          }
+        })
+      );
+    } else {
+      return of(null);
     }
   }
 

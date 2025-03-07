@@ -98,7 +98,7 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
             if (data && data.gateway && data.gateway.identifier) {
               this.storage.serverId = data.gateway.identifier;
               const hub = this.activatedRoute.snapshot.paramMap.get('hub');
-              this.ui.startDeviceValuesInterval();
+              this.ui.getDeviceValues();
               this.router.navigate([`add-hub/${hub}/connected`]);
             }
           });
