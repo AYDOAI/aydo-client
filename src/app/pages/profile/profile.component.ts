@@ -4,8 +4,6 @@ import { FormBaseComponent } from '../../components/form-base.component';
 import { ConfirmationModalComponent } from '../../elements/dialog/confirmation-modal/confirmation-modal.component';
 import { DialogService } from '../../services/dialog.service';
 import { UserService } from '../../services/user.service';
-import { SocketService } from '../../services/socket.service';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +13,6 @@ import { takeUntil } from 'rxjs/operators';
 export class ProfileComponent extends FormBaseComponent {
   private readonly dialog = inject(DialogService);
   private readonly userService = inject(UserService);
-  private readonly socket = inject(SocketService);
 
   user$ = this.userService.user$;
 
@@ -64,9 +61,6 @@ export class ProfileComponent extends FormBaseComponent {
       },
     ];
     this.formGroup = this.createForm(this.form.inputs);
-    this.socket.updateUserInfo$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.userService.reloadUser());
   }
 
   ionViewWillEnter() {

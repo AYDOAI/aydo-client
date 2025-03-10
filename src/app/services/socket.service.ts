@@ -1,17 +1,19 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Injectable, Injector } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { environment } from '../../environments/environment';
 import { StorageService } from './storage.service';
+import { UIService } from './ui.service';
+import { UserService } from './user.service';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {
-  public updateDevices$ = new Subject<void>();
-  public updateDeviceValues$ = new Subject<void>();
-  public updateUserInfo$ = new Subject<void>();
-  public updateUserRewards$ = new Subject<void>();
   private socket!: Socket;
-  constructor(private storage: StorageService) {}
+  private ui!: UIService;
+  constructor(
+    private storage: StorageService,
+    private user: UserService,
+    private injector: Injector
+  ) {}
 
   public connect(): void {
     this.socket = io(environment.main_url, {
@@ -19,7 +21,7 @@ export class SocketService {
       reconnectionDelay: 10000,
       reconnectionAttempts: 5,
     });
-
+    this.ui = this.injector.get(UIService);
     this.subscribeToMessages();
   }
 
@@ -46,14 +48,16 @@ export class SocketService {
       this.authenticate();
     });
     this.socket.on('register-devices', () => {
-      this.updateDevices$.next();
+      this.ui.getGateway(() => {
+        this.ui.getDevices();
+      });
     });
     this.socket.on('update-capabilities', () => {
-      this.updateDeviceValues$.next();
+      this.ui.getDeviceValues();
     });
     this.socket.on('update-info', () => {
-      this.updateUserInfo$.next();
-      this.updateUserRewards$.next();
+      this.user.reloadUser();
+      this.ui.getUserRewards();
     });
   }
 }
