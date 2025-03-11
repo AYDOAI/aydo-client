@@ -233,7 +233,7 @@ export class UIService implements OnDestroy {
         )
         .subscribe((devices: any) => {
           this.devices = new DevicesModel(devices);
-          this.getDeviceValues();
+          this.getDeviceValues().subscribe();
           // console.log(devices);
         });
     } else {
