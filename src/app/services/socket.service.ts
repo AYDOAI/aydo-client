@@ -53,7 +53,7 @@ export class SocketService {
       });
     });
     this.socket.on('update-capabilities', () => {
-      this.ui.getDeviceValues();
+      this.ui.getDeviceValues().subscribe();
     });
     this.socket.on('update-info', () => {
       this.user.reloadUser();
