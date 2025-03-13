@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -21,6 +27,7 @@ import { latinOnly } from '../shared/validators/latin-only.validator';
 import { onlySpacesValidator } from '../shared/validators/only-spaces.validator';
 import { specialCharactersValidator } from '../shared/validators/special-characters.validator';
 import { NavController } from '@ionic/angular';
+import { ErrorHandlerService } from '../services/error-handler.service';
 
 // @ts-ignore
 export const emailRegExp = new RegExp(
@@ -32,8 +39,10 @@ export const emailRegExp = new RegExp(
   template: '',
 })
 export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
-  errorSub: Subscription;
   destroy$: Subject<void> = new Subject<void>();
+
+  protected errorHandler = inject(ErrorHandlerService);
+
   constructor(
     public ui: UIService,
     public backend: BackendService,
@@ -44,9 +53,7 @@ export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
     public navCtrl: NavController
   ) {
     this.onCreate();
-    this.errorSub = this.errors.errorSub().subscribe((message: any) => {
-      this.onError(message);
-    });
+    this.errorHandler.registerComponent(this);
   }
 
   onError(message: any) {}
@@ -68,10 +75,12 @@ export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
+    if (!(this as any).form || !(this as any).form.inputs) {
+      this.errorHandler.unregisterComponent(this);
+    }
     this.onDestroy();
     this.destroy$.next();
     this.destroy$.complete();
-    this.errorSub.unsubscribe();
   }
 
   createInput(input: AppFormInputs) {
