@@ -19,12 +19,6 @@ export class ProfileComponent extends FormBaseComponent {
   override onInit() {
     this.form.inputs = [
       {
-        key: 'avatar',
-        type: 'avatar',
-        title: 'Avatar',
-        readonly: true,
-      },
-      {
         key: 'firstname',
         title: 'First name',
         type: 'text',
@@ -61,9 +55,6 @@ export class ProfileComponent extends FormBaseComponent {
       },
     ];
     this.formGroup = this.createForm(this.form.inputs);
-  }
-
-  ionViewWillEnter() {
     this.user$.subscribe(user => {
       this.formGroup.patchValue(user);
     });

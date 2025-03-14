@@ -74,13 +74,6 @@ export interface DataStream {
   status?: 0 | 1;
   logo?: string;
   smartContract?: SmartContract;
-  keyword: string;
-  devices?: {
-    id: number;
-    deviceId: number;
-    dataStreamId: number;
-    createdAt: Date;
-  }[];
 }
 
 export interface DataStreams {

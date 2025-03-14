@@ -128,10 +128,7 @@
               </app-zone>
             </div>
             <div *ngSwitchCase="'avatar'">
-              <app-avatar
-                [form]="formGroup"
-                [key]="input.key"
-                [readonly]="input.readonly" />
+              <app-avatar [form]="formGroup" [key]="input.key" />
             </div>
           </ng-container>
         </ng-container>
