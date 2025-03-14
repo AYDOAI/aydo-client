@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AppForm, AppFormInputs, FrameStep } from '../shared/types';
 import { BaseComponent } from './base.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -8,12 +8,16 @@ import { StorageService } from '../services/storage.service';
 import { UIService } from '../services/ui.service';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { ErrorHandlerService } from '../services/error-handler.service';
 
 @Component({
   selector: 'app-form-base',
   template: '',
 })
-export class FormBaseComponent extends BaseComponent {
+export class FormBaseComponent
+  extends BaseComponent
+  implements OnInit, OnDestroy
+{
   form: AppForm = { title: '', inputs: [] };
   formGroup!: FormGroup;
 
@@ -27,6 +31,16 @@ export class FormBaseComponent extends BaseComponent {
     public override navCtrl: NavController
   ) {
     super(ui, backend, errors, storage, router, fb, navCtrl);
+  }
+
+  override ngOnInit() {
+    super.ngOnInit();
+    this.errorHandler.registerForm(this.form, this);
+  }
+
+  override ngOnDestroy() {
+    this.errorHandler.unregisterForm(this);
+    super.ngOnDestroy();
   }
 
   select(event: FrameStep) {

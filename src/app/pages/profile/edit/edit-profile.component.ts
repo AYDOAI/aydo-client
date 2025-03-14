@@ -78,6 +78,7 @@ export class EditProfileComponent extends FormBaseComponent {
   }
 
   updateProfile() {
+    console.log(this.formGroup.value);
     if (
       this.formGroup.value.avatar &&
       this.formGroup.value.avatar instanceof File
@@ -94,7 +95,7 @@ export class EditProfileComponent extends FormBaseComponent {
         },
       });
     } else {
-      this.sendUpdateUser(this.formGroup.value.avatar?.id || null);
+      this.sendUpdateUser(this.formGroup.value.avatar?.fileId || null);
     }
   }
 
