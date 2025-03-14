@@ -20,6 +20,7 @@ export class ProjectComponent extends BaseComponent {
   private walletService: WalletService | undefined;
 
   isConnected = false;
+  isStreamingActive: boolean = false;
   publicKey: string | null = null;
 
   private streamSubject = new BehaviorSubject<DataStream | null>(null);
@@ -35,7 +36,7 @@ export class ProjectComponent extends BaseComponent {
       .subscribe({
         next: dataStream => {
           this.streamSubject.next(dataStream);
-
+          this.isStreamingActive = this.checkStreamingActive(dataStream);
           if (dataStream.smartContract) {
             this.walletService = new WalletService(
               dataStream.smartContract.blockchain.keyword
@@ -65,10 +66,12 @@ export class ProjectComponent extends BaseComponent {
         next: ({ status }) => {
           const oldValue = this.streamSubject.getValue();
           if (oldValue) {
-            this.streamSubject.next({
+            const dataStream = {
               ...oldValue,
               status,
-            });
+            };
+            this.isStreamingActive = this.checkStreamingActive(dataStream);
+            this.streamSubject.next(dataStream);
           }
         },
       });
@@ -96,5 +99,9 @@ export class ProjectComponent extends BaseComponent {
     }
 
     return null;
+  }
+
+  checkStreamingActive(dataStream: any): boolean {
+    return dataStream?.status === 1 && dataStream.devices?.length > 0;
   }
 }

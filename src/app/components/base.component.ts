@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { AppFormInputs } from '../shared/types';
 import { BackendService } from '../services/backend.service';
@@ -33,7 +33,7 @@ export const emailRegExp = new RegExp(
 })
 export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
   errorSub: Subscription;
-
+  destroy$: Subject<void> = new Subject<void>();
   constructor(
     public ui: UIService,
     public backend: BackendService,
@@ -69,6 +69,8 @@ export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy() {
     this.onDestroy();
+    this.destroy$.next();
+    this.destroy$.complete();
     this.errorSub.unsubscribe();
   }
 

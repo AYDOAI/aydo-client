@@ -27,23 +27,13 @@ export class AppComponent {
     this.init();
   }
 
-  public get isMobile(): boolean {
-    return (
-      this.platform.is('mobile') ||
-      this.platform.is('capacitor') ||
-      /iPhone|iPad|Android/i.test(navigator.userAgent)
-    );
-  }
-
   private init(): void {
     this.platform.ready().then(_ => {
-      if (this.platform.is('capacitor')) {
+      if (this.platform.is('android')) {
         const url = this.router.url;
         StatusBar.setOverlaysWebView({ overlay: false });
         StatusBar.setStyle({ style: Style.Light });
-        if (this.ui.appReady && this.platform.is('android')) {
-          this.updateStatusBarColor(url);
-        }
+        this.updateStatusBarColor(url);
       }
       this.subscribeToRouterEvents();
       if (this.platform.is('android') || this.platform.is('ios')) {
@@ -82,9 +72,7 @@ export class AppComponent {
       this.zone.run(() => {
         const { pathname, searchParams } = new URL(event.url);
         const queryParams: { [key: string]: string } = {};
-        console.log('search params');
         searchParams.forEach((value, key) => {
-          console.log(key + ' ' + value);
           queryParams[key] = value;
         });
         this.ui.inviteId = queryParams['code'] ?? '';
