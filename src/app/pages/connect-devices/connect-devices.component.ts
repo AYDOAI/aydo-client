@@ -8,7 +8,7 @@ import { BaseComponent } from '../../components/base.component';
 import { DevicesService } from '../../services/devices.service';
 import { ActivatedRoute } from '@angular/router';
 import { StreamService } from '../../services/stream.service';
-import { BehaviorSubject, combineLatest, map, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-connect-devices',
@@ -79,8 +79,6 @@ export class ConnectDevicesComponent extends BaseComponent implements OnInit {
           ...currentStream,
           devices: updatedDevices,
         });
-
-        this.streamService.reloadData();
       },
     });
   }
