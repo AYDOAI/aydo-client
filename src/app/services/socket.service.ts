@@ -1,14 +1,19 @@
 import { Injectable, Injector } from '@angular/core';
-import { io, Socket } from 'socket.io-client';
 import { environment } from '../../environments/environment';
 import { StorageService } from './storage.service';
 import { UIService } from './ui.service';
 import { UserService } from './user.service';
+import { io, Socket } from 'socket.io-client';
+import { Observable, Subject } from 'rxjs';
+import { filter, map, takeUntil } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {
   private socket!: Socket;
+  private messageSubject = new Subject<any>();
+  private destroy$ = new Subject<void>();
   private ui!: UIService;
+
   constructor(
     private storage: StorageService,
     private user: UserService,
@@ -21,6 +26,14 @@ export class SocketService {
       reconnectionDelay: 10000,
       reconnectionAttempts: 5,
     });
+
+    this.socket.on('connect', () => {
+      this.authenticate();
+    });
+
+    this.socket.onAny((event, data) => {
+      this.messageSubject.next({ event, data });
+    });
     this.ui = this.injector.get(UIService);
     this.subscribeToMessages();
   }
@@ -29,35 +42,49 @@ export class SocketService {
     if (this.socket) {
       this.socket.disconnect();
     }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  authenticate() {
-    const data: any = { token: this.storage.token };
+  private authenticate(): void {
+    const data = { token: this.storage.token };
     this.send('authenticate', data);
   }
 
-  send(method: string, data = null) {
-    if (!this.socket) {
-      return;
+  send(method: string, data: any = null): void {
+    if (this.socket) {
+      this.socket.emit(method, data);
     }
-    this.socket.emit(method, data);
   }
 
-  subscribeToMessages(): void {
-    this.socket.on('connect', () => {
-      this.authenticate();
-    });
-    this.socket.on('register-devices', () => {
-      this.ui.getGateway(() => {
-        this.ui.getDevices();
+  on<T>(event: string): Observable<T> {
+    return this.messageSubject.pipe(
+      filter(message => message.event === event),
+      map(message => message.data),
+      takeUntil(this.destroy$)
+    );
+  }
+
+  private subscribeToMessages(): void {
+    this.on('register-devices')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.ui.getGateway(() => {
+          this.ui.getDevices();
+        });
       });
-    });
-    this.socket.on('update-capabilities', () => {
-      this.ui.getDeviceValues().subscribe();
-    });
-    this.socket.on('update-info', () => {
-      this.user.reloadUser();
-      this.ui.getUserRewards();
-    });
+
+    this.on('update-capabilities')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.ui.getDeviceValues().subscribe();
+      });
+
+    this.on('update-info')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.user.reloadUser();
+        this.ui.getUserRewards();
+      });
   }
 }
