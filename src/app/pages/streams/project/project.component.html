@@ -96,7 +96,9 @@
         <button
           (click)="toggle()"
           [disabled]="
-            ui.isBtnLoading('streaming') || !dataStream.devices?.length
+            ui.isBtnLoading('streaming') ||
+            !dataStream.devices?.length ||
+            !this.ui.gateway
           "
           class="btn text-center"
           [class.red-btn]="isStreamingActive">
