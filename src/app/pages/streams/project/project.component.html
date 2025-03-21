@@ -91,7 +91,22 @@
             }}</span>
             <span class="wallet-info__label">Wallet address</span>
             <span class="wallet-info__value">{{ publicKey }}</span>
+            <ng-container *ngIf="streamerTokenAccount">
+              <span class="wallet-info__label">Balance of tokens</span>
+              <span class="wallet-info__value">{{
+                streamerTokenAccount.value.amount
+              }}</span>
+            </ng-container>
           </div>
+          <button
+            class="btn text-center"
+            *ngIf="
+              isConnected &&
+              (streamerAccount === null || streamerTokenAccount === null)
+            "
+            (click)="createStreamerAccount()">
+            Register as a streamer
+          </button>
         </ng-container>
         <button
           (click)="toggle()"
