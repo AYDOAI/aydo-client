@@ -8,7 +8,7 @@ import { AppForm } from '../shared/types';
 })
 export class ErrorHandlerService implements OnDestroy {
   private errorSub: Subscription;
-  private registeredForms: Array<{ form: AppForm; component: any }> = [];
+  private registeredForm: { form: AppForm; component: any } | null = null;
   private registeredComponents: Array<any> = [];
 
   constructor(private errors: ErrorsService) {
@@ -22,16 +22,11 @@ export class ErrorHandlerService implements OnDestroy {
   }
 
   registerForm(form: AppForm, component: any): void {
-    this.registeredForms.push({ form, component });
+    this.registeredForm = { form, component };
   }
 
   unregisterForm(component: any): void {
-    const index = this.registeredForms.findIndex(
-      item => item.component === component
-    );
-    if (index !== -1) {
-      this.registeredForms.splice(index, 1);
-    }
+    this.registeredForm = null;
   }
 
   registerComponent(component: any): void {
@@ -50,29 +45,20 @@ export class ErrorHandlerService implements OnDestroy {
   private handleFormErrors(message: any): boolean {
     let formHandled = false;
 
-    if (
-      message &&
-      message.codes &&
-      message.errors &&
-      this.registeredForms.length > 0
-    ) {
-      for (const { form, component } of this.registeredForms) {
-        let inputFieldHandled = false;
-
-        message.codes.forEach((code: string, index: number) => {
-          const input = form.inputs.find(item => item.key === code);
-          if (input) {
-            input.error = message.errors[index];
-            inputFieldHandled = true;
-            formHandled = true;
-          }
-        });
-
-        if (!inputFieldHandled && form.inputs.length > 0 && !formHandled) {
-          component.errors.showError(message.message);
+    if (message && message.codes && message.errors && this.registeredForm) {
+      const { form, component } = this.registeredForm;
+      let inputFieldHandled = false;
+      message.codes.forEach((code: string, index: number) => {
+        const input = form.inputs.find(item => item.key === code);
+        if (input) {
+          input.error = message.errors[index];
+          inputFieldHandled = true;
           formHandled = true;
-          break;
         }
+      });
+      if (!inputFieldHandled && form.inputs.length > 0 && !formHandled) {
+        component.errors.showError(message.message);
+        formHandled = true;
       }
     }
 
