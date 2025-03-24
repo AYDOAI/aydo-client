@@ -13,7 +13,7 @@ export const environment = {
     },
   },
   recaptcha: {
-    enabled: false,
-    sitekey: '6Lcbk8wqAAAAAFDW62c0DKFtcGfC1EUfmoGgKqUS',
+    enabled: true,
+    sitekey: '6LeHSv4qAAAAAKEmgiX4l80dM0F7QirDAJr83ZDu',
   },
 };
