@@ -10,12 +10,5 @@ import { QuestsModel } from '../../../models/quests.interface';
 export class DashboardAdditionalQuestsComponent extends BaseComponent {
   quests!: QuestsModel[];
 
-  override onInit() {
-    this.backend
-      .getAdditionalQuests()
-      .then(response => {
-        this.quests = response.items;
-      })
-      .catch(() => {});
-  }
+  override onInit() {}
 }

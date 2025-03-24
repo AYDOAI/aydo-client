@@ -11,14 +11,7 @@ import { environment } from '../../../../environments/environment';
 export class NotificationsComponent extends BaseComponent {
   notifications: Notification[] = [];
 
-  override onInit() {
-    this.backend
-      .getNotifications()
-      .then(response => {
-        this.notifications = response.items;
-      })
-      .catch(() => {});
-  }
+  override onInit() {}
 
   closeNotification(ind: number) {
     this.notifications.splice(ind, 1);
