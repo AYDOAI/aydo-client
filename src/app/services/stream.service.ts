@@ -1,8 +1,14 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { of, shareReplay, startWith, Subject, switchMap, take } from 'rxjs';
-import { RequestService } from './request.service';
+import { Injectable } from '@angular/core';
+import {
+  Observable,
+  of,
+  shareReplay,
+  startWith,
+  Subject,
+  switchMap,
+  take,
+} from 'rxjs';
+import { WsRequestService } from './ws-request.service';
 
 export interface DataStream {
   smartContract: any;
@@ -26,17 +32,16 @@ export interface DataStream {
 })
 export class StreamService {
   private reloadSubject = new Subject<void>();
-  private readonly httpClient = inject(HttpClient);
 
-  baseUrl = `${environment.main_url}/backend/v2/data-stream`;
+  baseUrl = `/backend/v2/data-stream`;
 
   streams$ = this.reloadSubject.pipe(
     startWith(undefined),
-    switchMap(() => this.httpClient.get<DataStream[]>(this.baseUrl)),
+    switchMap(() => this.request.get<DataStream[]>(this.baseUrl)),
     shareReplay(1)
   );
 
-  constructor(private request: RequestService) {}
+  constructor(private request: WsRequestService) {}
 
   reloadData(): void {
     this.reloadSubject.next();
@@ -50,7 +55,7 @@ export class StreamService {
         if (stream) {
           return of(stream);
         } else {
-          return this.httpClient.get<DataStream>(`${this.baseUrl}/${id}`);
+          return this.request.get<DataStream>(`${this.baseUrl}/${id}`);
         }
       })
     );
@@ -73,7 +78,9 @@ export class StreamService {
   }
 
   disconnectDeviceFromStream(streamId: number, deviceId: number) {
-    return this.request.del(`${this.baseUrl}/${streamId}/devices/${deviceId}`);
+    return this.request.delete(
+      `${this.baseUrl}/${streamId}/devices/${deviceId}`
+    );
   }
 
   connectDeviceToStream(streamId: number, deviceId: number) {
@@ -82,7 +89,7 @@ export class StreamService {
     });
   }
 
-  toggleDataStream(streamId: number) {
+  toggleDataStream(streamId: number): Observable<any> {
     return this.request.post(`${this.baseUrl}/${streamId}/toggle`, {});
   }
 }
