@@ -22,6 +22,8 @@ export class ProjectComponent extends BaseComponent {
   isConnected = false;
   isStreamingActive: boolean = false;
   publicKey: string | null = null;
+  streamerAccount: any | null = undefined;
+  streamerTokenAccount: any | null = undefined;
 
   private streamSubject = new BehaviorSubject<DataStream | null>(null);
   public stream$: Observable<DataStream | null> =
@@ -82,6 +84,12 @@ export class ProjectComponent extends BaseComponent {
       await this.walletService.connect();
       this.isConnected = this.walletService.connected;
       this.publicKey = this.walletService.publicKey?.toString() || null;
+
+      if (this.isConnected) {
+        this.streamerAccount = await this.walletService.getStreamerAccount();
+        this.streamerTokenAccount =
+          await this.walletService.getStreamerTokenAccount();
+      }
     }
   }
 
@@ -90,6 +98,12 @@ export class ProjectComponent extends BaseComponent {
       await this.walletService.disconnect();
       this.isConnected = this.walletService.connected;
       this.publicKey = null;
+    }
+  }
+
+  async createStreamerAccount(): Promise<void> {
+    if (this.walletService) {
+      await this.walletService.createStreamerAccount();
     }
   }
 

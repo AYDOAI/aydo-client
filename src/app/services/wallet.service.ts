@@ -43,4 +43,36 @@ export class WalletService {
   get name(): string | null {
     return this.wallet?.name ?? null;
   }
+
+  getStreamerAccountKey(): string | null {
+    if (!this.wallet) {
+      throw new Error('No wallet selected');
+    }
+
+    return this.wallet.getStreamerAccountKey();
+  }
+
+  async getStreamerAccount(): Promise<any> {
+    if (!this.wallet) {
+      throw new Error('No wallet selected');
+    }
+
+    return this.wallet.getStreamerAccount();
+  }
+
+  async getStreamerTokenAccount(): Promise<any> {
+    if (!this.wallet) {
+      throw new Error('No wallet selected');
+    }
+
+    return this.wallet.getStreamerTokenAccount();
+  }
+
+  async createStreamerAccount(): Promise<any> {
+    if (!this.wallet) {
+      throw new Error('No wallet selected');
+    }
+
+    return this.wallet.createStreamerAccount();
+  }
 }
