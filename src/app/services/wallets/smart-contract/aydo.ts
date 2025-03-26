@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/aydo.json`.
  */
 export type Aydo = {
-  address: 'GD438rEY5ujfBPJ9DLWJwZVT7cYGFduNiGsM1LaFy7gd';
+  address: '9yfK1UMw4EjX9XViX3SwaufH7q6TaypzhycMQn6r9Z5Z';
   metadata: {
     name: 'aydo';
     version: '0.1.0';
