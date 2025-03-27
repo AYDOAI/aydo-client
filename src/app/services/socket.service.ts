@@ -93,7 +93,7 @@ export class SocketService {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: { message: string }) => {
         if (data.message) {
-          this.errors.showError(data.message);
+          this.errors.showNotify(data.message);
         }
       });
   }

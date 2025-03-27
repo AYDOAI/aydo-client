@@ -93,6 +93,7 @@ import { AddDeviceComponent } from './pages/devices/add/add-device.component';
 import { NewDeviceComponent } from './pages/devices/new/new-device.component';
 import { HubEditComponent } from './pages/devices/hub/hub-edit.component';
 import { ProjectComponent } from './pages/streams/project/project.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -165,6 +166,7 @@ import { ProjectComponent } from './pages/streams/project/project.component';
     AddDeviceComponent,
     NewDeviceComponent,
     HubEditComponent,
+    NotificationComponent,
   ],
   imports: [
     AppRoutingModule,
