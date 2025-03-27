@@ -1,0 +1,9 @@
+<div class="notifications-container">
+  <div
+    *ngFor="let notification of notifications$ | async"
+    class="notification"
+    [@fadeInOut]>
+    <span>{{ notification.message }}</span>
+    <button (click)="closeNotification(notification.id)">✖</button>
+  </div>
+</div>

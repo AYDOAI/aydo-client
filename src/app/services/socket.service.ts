@@ -6,6 +6,7 @@ import { UserService } from './user.service';
 import { io, Socket } from 'socket.io-client';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
+import { ErrorsService } from './errors.service';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {
@@ -17,6 +18,7 @@ export class SocketService {
   constructor(
     private storage: StorageService,
     private user: UserService,
+    private errors: ErrorsService,
     private injector: Injector
   ) {}
 
@@ -85,6 +87,14 @@ export class SocketService {
       .subscribe(() => {
         this.user.reloadUser();
         this.ui.getUserRewards();
+      });
+
+    this.on<{ message: string }>('notification')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: { message: string }) => {
+        if (data.message) {
+          this.errors.showNotify(data.message);
+        }
       });
   }
 }

@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
 import { environment } from '../../environments/environment';
 import { jsonStringify } from '../shared/shared.functions';
+
+export interface INotification {
+  id: number;
+  message: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +18,15 @@ export class ErrorsService {
   datePipe;
   private errorSubject: Subject<any> = new Subject<any>();
   private showErrorSubject: Subject<any> = new Subject<any>();
+
+  private notifications: INotification[] = [];
+  private notificationsQueue: { id: number; message: string }[] = [];
+  private isNotificationProcessing = false;
+  private notifications$ = new BehaviorSubject<INotification[]>([]);
+
+  get notificationsStream() {
+    return this.notifications$.asObservable();
+  }
 
   constructor() {
     this.datePipe = new DatePipe('en-US');
@@ -28,6 +42,43 @@ export class ErrorsService {
 
   showInfo(message: any) {
     this.showErrorSubject.next({ message, info: true });
+  }
+
+  showNotify(message: string) {
+    const id = Date.now();
+    this.notificationsQueue.push({ id, message });
+    if (!this.isNotificationProcessing) {
+      this.processNotifications();
+    }
+  }
+
+  private async processNotifications() {
+    this.isNotificationProcessing = true;
+
+    while (this.notificationsQueue.length > 0) {
+      const notify = this.notificationsQueue.shift();
+      if (notify) {
+        this.notifications.push(notify);
+        this.updateNotifications();
+
+        setTimeout(() => {
+          this.removeNotify(notify.id);
+        }, 7000);
+
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+    }
+
+    this.isNotificationProcessing = false;
+  }
+
+  removeNotify(id: number) {
+    this.notifications = this.notifications.filter(n => n.id !== id);
+    this.updateNotifications();
+  }
+
+  updateNotifications() {
+    this.notifications$.next(this.notifications.slice(0, 3));
   }
 
   errorSub(): Observable<any> {
