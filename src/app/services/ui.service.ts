@@ -144,8 +144,8 @@ export class UIService implements OnDestroy {
               }
             };
             this.loading.showLoading();
-            this.getGateway(next);
             this.socket.connect();
+            this.getGateway(next);
           },
           error => {
             this.goStep('sign-in');
@@ -234,7 +234,6 @@ export class UIService implements OnDestroy {
         .subscribe((devices: any) => {
           this.devices = new DevicesModel(devices);
           this.getDeviceValues().subscribe();
-          // console.log(devices);
         });
     } else {
       complete();
