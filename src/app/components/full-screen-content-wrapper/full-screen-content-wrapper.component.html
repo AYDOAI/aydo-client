@@ -20,7 +20,7 @@
   <!--   Content-->
   <ion-content
     [fullscreen]="false"
-    [forceOverscroll]="true"
+    [forceOverscroll]="isMobile"
     [ngClass]="contentClass"
     [class.disabled]="menuService.menuActive">
     <ion-refresher

@@ -2,14 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { App } from '@capacitor/app';
 import { HubType, FrameStep } from '../shared/types';
 import { StorageService } from './storage.service';
-import {
-  BehaviorSubject,
-  finalize,
-  interval,
-  of,
-  startWith,
-  Subscription,
-} from 'rxjs';
+import { BehaviorSubject, finalize, of, Subscription } from 'rxjs';
 import { BackendService } from './backend.service';
 import {
   DeviceItem,
@@ -28,6 +21,7 @@ import { switchMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { SocketService } from './socket.service';
+import { IPagination } from '../models/pagination.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -167,17 +161,10 @@ export class UIService implements OnDestroy {
     }
   }
 
-  getUserRewards(e?: any): void {
-    this.backend
-      .userRewards()
-      .pipe(
-        finalize(() => {
-          if (e) {
-            e.target.complete();
-          }
-        })
-      )
-      .subscribe(data => (this.rewards = data));
+  getUserRewards(): void {
+    this.backend.userRewards({ page: 1, limit: 15 }).subscribe(data => {
+      this.rewards = data.items;
+    });
   }
 
   // get step(): FrameStep {
