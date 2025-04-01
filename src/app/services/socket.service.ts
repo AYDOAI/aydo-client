@@ -7,6 +7,7 @@ import { io, Socket } from 'socket.io-client';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { ErrorsService } from './errors.service';
+import { DevicesService } from './devices.service';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {
@@ -14,6 +15,7 @@ export class SocketService {
   private messageSubject = new Subject<any>();
   private destroy$ = new Subject<void>();
   private ui!: UIService;
+  private devices!: DevicesService;
 
   constructor(
     private storage: StorageService,
@@ -37,6 +39,7 @@ export class SocketService {
       this.messageSubject.next({ event, data });
     });
     this.ui = this.injector.get(UIService);
+    this.devices = this.injector.get(DevicesService);
     this.subscribeToMessages();
   }
 
@@ -74,6 +77,7 @@ export class SocketService {
         this.ui.getGateway(() => {
           this.ui.getDevices();
         });
+        this.devices.refreshDevices();
       });
 
     this.on('update-capabilities')

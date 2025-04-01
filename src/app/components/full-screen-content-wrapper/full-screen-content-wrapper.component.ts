@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
+import { UIService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-full-screen-content-wrapper',
@@ -36,11 +37,18 @@ export class FullScreenContentWrapperComponent {
 
   @Output() refresh: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private ui: UIService
+  ) {
     this.currentPage = this.router.url.replace(/\//g, '');
   }
 
   public get getHeaderHeight(): number {
     return this.headerEl?.nativeElement.offsetHeight || 0;
+  }
+
+  public get isMobile(): boolean {
+    return this.ui.isMobile;
   }
 }

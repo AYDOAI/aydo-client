@@ -6,13 +6,14 @@ import { BehaviorSubject, Observable, finalize, map, switchMap } from 'rxjs';
 import { StreamService } from '../../../services/stream.service';
 import { ClipboardService } from '../../../services/clipboard.service';
 import { WalletService } from '../../../services/wallet.service';
+import { ViewWillEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
   styleUrl: './project.component.scss',
 })
-export class ProjectComponent extends BaseComponent {
+export class ProjectComponent extends BaseComponent implements ViewWillEnter {
   private route = inject(ActivatedRoute);
   private streamService = inject(StreamService);
   private clipboard = inject(ClipboardService);
@@ -29,7 +30,7 @@ export class ProjectComponent extends BaseComponent {
   public stream$: Observable<DataStream | null> =
     this.streamSubject.asObservable();
 
-  override onInit() {
+  ionViewWillEnter() {
     this.route.params
       .pipe(
         map(params => +params['id']),
