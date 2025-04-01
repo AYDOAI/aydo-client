@@ -7,6 +7,7 @@
     "start:test": "ng serve --configuration=testing",
     "start:android": "ionic cap run android -l --external",
     "start:ios": "ionic cap run ios -l --external",
+    "prebuild": "node ./src/scripts/prebuild.js",
     "build": "ng build",
     "build:testing": "ng build --configuration testing",
     "build:dev": "ng build --configuration development",

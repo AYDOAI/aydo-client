@@ -73,6 +73,8 @@ export class UIService implements OnDestroy {
       });
     this.subscribeToNetworkStatus();
     this.subscribeToFocusState();
+
+    console.log('Platform:', environment.platform);
   }
 
   public get isMobile(): boolean {

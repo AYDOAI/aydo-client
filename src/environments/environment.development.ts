@@ -1,6 +1,7 @@
 export const environment = {
   production: false,
   main_url: 'http://127.0.0.1:3001',
+  platform: (window as any)['__env']?.platform || 'web',
   index_url: '/dashboard',
   log: {
     backend: {
