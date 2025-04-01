@@ -9,7 +9,9 @@ import { WsRequestService } from './ws-request.service';
   providedIn: 'root',
 })
 export class DevicesService implements BaseService<any> {
-  constructor(private request: WsRequestService) {}
+  constructor(private request: WsRequestService) {
+    this.refreshDevices();
+  }
 
   private selectedDeviceSub = new BehaviorSubject<DeviceItem | null>(null);
   selectedDevice$ = this.selectedDeviceSub.asObservable();
@@ -22,7 +24,8 @@ export class DevicesService implements BaseService<any> {
     this.selectedDeviceSub.next(device);
   }
 
-  devices$ = this.request.get<DeviceItem[]>(this.baseUrl).pipe(shareReplay(1));
+  private devicesSub = new BehaviorSubject<DeviceItem[]>([]);
+  devices$ = this.devicesSub.asObservable();
 
   get baseUrl(): string {
     return `/backend/v2/gateway/device`;
@@ -79,5 +82,16 @@ export class DevicesService implements BaseService<any> {
           }
         })
       );
+  }
+
+  refreshDevices() {
+    this.request.get<DeviceItem[]>(this.baseUrl).subscribe(
+      devices => {
+        this.devicesSub.next(devices);
+      },
+      error => {
+        console.error('Ошибка при обновлении устройств', error);
+      }
+    );
   }
 }
