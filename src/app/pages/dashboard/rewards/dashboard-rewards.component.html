@@ -1,6 +1,6 @@
 <app-full-screen-content-wrapper
   [isRefreshable]="true"
-  (refresh)="getRewards($event)">
+  (refresh)="refresh($event)">
   <ng-template #header>
     <app-header title="Rewards"></app-header>
   </ng-template>
@@ -33,4 +33,9 @@
       </div>
     </div>
   </div>
+
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)" slot="fixed">
+    <ion-infinite-scroll-content loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ng-template>

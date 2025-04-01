@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
-import { Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { RequestService } from './request.service';
 import {
@@ -18,6 +15,10 @@ import { tap } from 'rxjs/operators';
 import { ErrorsService } from './errors.service';
 import { IDeviceSettings } from '../shared/interfaces/device-settings.interface';
 import { WsRequestService } from './ws-request.service';
+import {
+  IPaginatedResponse,
+  IPagination,
+} from '../models/pagination.interface';
 
 export interface Notification {
   title?: string;
@@ -272,11 +273,17 @@ export class BackendService {
     });
   }
 
-  userRewards(): Observable<UserRewards[]> {
-    return this.wsRequest.get(`/backend/v2/user/rewards`, {
-      mainGroup: 'backend',
-      method: 'user-rewards',
-    });
+  userRewards(
+    pagination: IPagination
+  ): Observable<IPaginatedResponse<UserRewards>> {
+    return this.wsRequest.post(
+      `/backend/v2/user/rewards`,
+      { pagination },
+      {
+        mainGroup: 'backend',
+        method: 'user-rewards',
+      }
+    );
   }
 
   userRefresh(): Observable<any> {
