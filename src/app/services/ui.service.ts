@@ -29,6 +29,8 @@ import { environment } from '../../environments/environment';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { SocketService } from './socket.service';
 
+declare const window: any;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -73,8 +75,15 @@ export class UIService implements OnDestroy {
       });
     this.subscribeToNetworkStatus();
     this.subscribeToFocusState();
+  }
 
-    console.log('Platform:', environment.platform);
+  async getDesktopConfig() {
+    if (window?.electron?.ipcRenderer) {
+      const config =
+        await window.electron.ipcRenderer.invoke('aydo-server-config');
+      return config;
+    }
+    return null;
   }
 
   public get isMobile(): boolean {
@@ -146,8 +155,8 @@ export class UIService implements OnDestroy {
               }
             };
             this.loading.showLoading();
-            this.getGateway(next);
             this.socket.connect();
+            this.getGateway(next);
           },
           error => {
             this.goStep('sign-in');
@@ -252,6 +261,25 @@ export class UIService implements OnDestroy {
           next();
         }
       } else {
+        if (environment.platform == 'desktop') {
+          // Automatically register a hub for the desktop version of the application.
+          // We take the identifier and token from the config.
+          console.log('Getting config for platform ', environment.platform);
+          this.getDesktopConfig().then(config => {
+            const gateway = {
+              identifier: config.identifier,
+              token: config.token,
+            };
+
+            this.backend.gatewayConnect(gateway).subscribe((data: any) => {
+              if (data && data.gateway && data.gateway.identifier) {
+                this.storage.serverId = data.gateway.identifier;
+                this.goStep('devices');
+              }
+            });
+          });
+        }
+
         if (this.isAuthPage()) {
           this.goStep('add-hub');
         }
