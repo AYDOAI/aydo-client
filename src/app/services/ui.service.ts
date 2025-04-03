@@ -149,8 +149,10 @@ export class UIService implements OnDestroy {
               }
             };
             this.loading.showLoading();
-            this.socket.connect();
-            this.getGateway(next);
+            if (this.user && this.user.is_verified) {
+              this.socket.connect();
+              this.getGateway(next);
+            }
           },
           error => {
             this.goStep('sign-in');
