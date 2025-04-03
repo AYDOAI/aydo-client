@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
   main_url: 'https://cloud.aydo.ai',
+  platform: (window as any)['__env']?.platform || 'web',
   index_url: '/dashboard',
   log: {
     backend: {
