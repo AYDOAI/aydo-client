@@ -47,8 +47,9 @@ export class ConnectDevicesComponent extends BaseComponent implements OnInit {
       return allDevices
         .filter(
           device =>
-            !stream.driverClassNameInclude ||
-            device.ident.includes(stream.driverClassNameInclude)
+            (!stream.driverClassNameInclude ||
+              device.ident.includes(stream.driverClassNameInclude)) &&
+            !device.setupRequired
         )
         .map(device => ({
           ...device,
