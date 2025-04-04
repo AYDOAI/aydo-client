@@ -15,10 +15,15 @@
             </div>
           </div>
         </div>
-        <svg-icon name="arrow" class="icon"></svg-icon>
+        <svg-icon
+          *ngIf="!device.setupRequired"
+          name="arrow"
+          class="icon"></svg-icon>
       </div>
     </div>
-    <div *ngIf="deviceCapabilitiesExists(device)" class="capabilities">
+    <div
+      *ngIf="deviceCapabilitiesExists(device) && !device.setupRequired"
+      class="capabilities">
       <ng-container *ngFor="let capability of device.capabilities">
         <div
           class="capabilities__capability"
@@ -31,6 +36,16 @@
           </div>
         </div>
       </ng-container>
+    </div>
+    <div *ngIf="device.setupRequired" class="setup-btn">
+      <button (click)="edit.emit(device)" class="btn green-btn">
+        Set up now
+        <svg-icon
+          [name]="'arrow'"
+          class="icon"
+          width="12px"
+          height="12px"></svg-icon>
+      </button>
     </div>
   </div>
 </div>
