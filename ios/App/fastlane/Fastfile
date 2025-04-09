@@ -31,7 +31,6 @@ platform :ios do
 
     # 1. Увеличиваем build number
     increment_build_number(xcodeproj: "App.xcodeproj")
-    )
     # 2. Архивация
     sh <<-EOS
       xcodebuild \
