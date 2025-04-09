@@ -30,10 +30,7 @@ platform :ios do
     #sh "security unlock-keychain -p \"#{ENV['KEYCHAIN_PASSWORD']}\" ~/Library/Keychains/login.keychain-db"
 
     # 1. Увеличиваем build number
-    #increment_build_number(xcodeproj: "App.xcodeproj")
-    increment_build_number(
-      xcodeproj: "App.xcodeproj",
-      build_number: "24"
+    increment_build_number(xcodeproj: "App.xcodeproj")
     )
     # 2. Архивация
     sh <<-EOS
