@@ -1,6 +1,6 @@
 <!-- Header -->
 <div class="ion-page">
-  <ion-header slot="fixed" class="ion-no-border">
+  <ion-header *ngIf="ui.clientWidth < 768" slot="fixed" class="ion-no-border">
     <div #headerContainer>
       <ng-container [ngTemplateOutlet]="headerTemplateRef" />
       <ng-content select="[additionalSlot]"></ng-content>
@@ -24,7 +24,7 @@
     [ngClass]="contentClass"
     [class.disabled]="menuService.menuActive">
     <ion-refresher
-      *ngIf="isRefreshable"
+      *ngIf="isRefreshable && isMobile"
       slot="fixed"
       (ionRefresh)="refresh.emit($event)">
       <ion-refresher-content></ion-refresher-content>

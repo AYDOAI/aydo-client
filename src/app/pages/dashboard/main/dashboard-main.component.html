@@ -14,7 +14,8 @@
         class="dashboard-item main-quests card small"
         (click)="navigate('/quests')">
         <div class="dashboard-content card-content">
-          <div class="title">
+          <div
+            class="title text-[14px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]">
             Quests
             <svg-icon *ngIf="questsLength" name="arrow" class="icon"></svg-icon>
           </div>
@@ -47,7 +48,10 @@
     <div class="dashboard-item card long">
       <div class="card-content">
         <div class="card-header">
-          <div class="card-title">Your referral link</div>
+          <div
+            class="card-title text-[14px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]">
+            Your referral link
+          </div>
         </div>
         <div class="link-container">
           <a href="https://{{ refLink }}" target="_blank">{{ refLink }}</a>

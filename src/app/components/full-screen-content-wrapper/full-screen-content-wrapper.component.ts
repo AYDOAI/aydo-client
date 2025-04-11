@@ -39,7 +39,7 @@ export class FullScreenContentWrapperComponent {
 
   constructor(
     private router: Router,
-    private ui: UIService
+    public ui: UIService
   ) {
     this.currentPage = this.router.url.replace(/\//g, '');
   }
