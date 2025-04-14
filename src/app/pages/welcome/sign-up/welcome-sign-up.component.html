@@ -7,15 +7,23 @@
     </ion-toolbar>
   </ng-template>
   <ng-template #content>
-    <app-form
-      [form]="form"
-      [formGroup]="formGroup"
-      [btnDisabled]="formGroup.invalid"
-      (onClickButton)="button($event)"></app-form>
-    <app-welcome-providers title="or sign in with"></app-welcome-providers>
-    <app-welcome-navigate
-      [signIn]="true"
-      [demo]="true"
-      [forgot]="true"></app-welcome-navigate>
+    <div class="sign-up">
+      <div class="sign-up__form">
+        <div *ngIf="ui.clientWidth >= 768" class="header">
+          <div class="title">Sign Up</div>
+        </div>
+        <app-form
+          [form]="form"
+          [formGroup]="formGroup"
+          [btnDisabled]="formGroup.invalid"
+          (onClickButton)="button($event)"></app-form>
+        <app-welcome-providers title="or sign in with"></app-welcome-providers>
+        <app-welcome-navigate
+          [signIn]="true"
+          [demo]="true"
+          [forgot]="true"></app-welcome-navigate>
+      </div>
+      <div *ngIf="ui.clientWidth >= 768" class="sign-up__logo"></div>
+    </div>
   </ng-template>
 </app-full-screen-content-wrapper>

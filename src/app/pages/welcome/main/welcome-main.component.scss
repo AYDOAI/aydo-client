@@ -38,3 +38,11 @@
     width: 100%;
   }
 }
+
+@media (min-width: 768px) {
+  .welcome {
+    max-width: 444px;
+    margin: 0 auto;
+    background-color: #eef1e7;
+  }
+}
