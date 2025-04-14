@@ -19,7 +19,10 @@ type MenuSection = {
   templateUrl: './desktop-sidebar.component.html',
   styleUrl: './desktop-sidebar.component.scss',
 })
-export class DesktopSidebarComponent extends FormBaseComponent implements OnInit {
+export class DesktopSidebarComponent
+  extends FormBaseComponent
+  implements OnInit
+{
   public menuService = inject(MenuService);
 
   public get currentUrl(): string {
@@ -56,18 +59,14 @@ export class DesktopSidebarComponent extends FormBaseComponent implements OnInit
           title: 'Devices',
           step: 'devices',
         },
-        {
-          link: '/profile',
-          icon: 'menu-profile',
-          title: 'Profile',
-          step: 'profile',
-        },
-        { link: '/feedback', icon: 'menu-unknown', title: 'Feedback' },
       ],
     },
     {
       type: 'Other',
-      items: [{ link: '/about', icon: 'menu-about', title: 'About' }],
+      items: [
+        { link: '/about', icon: 'menu-about', title: 'About' },
+        { link: '/feedback', icon: 'menu-unknown', title: 'Feedback' },
+      ],
     },
   ];
 
