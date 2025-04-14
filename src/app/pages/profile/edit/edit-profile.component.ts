@@ -2,8 +2,17 @@ import { Component, inject } from '@angular/core';
 import { AppFormInputs } from '../../../shared/types';
 import { FormBaseComponent } from '../../../components/form-base.component';
 import { UploaderService } from '../../../services/uploader.service';
-import { finalize } from 'rxjs';
+import {
+  finalize,
+  first,
+  catchError,
+  switchMap,
+  of,
+  map,
+  Observable,
+} from 'rxjs';
 import { UserService } from '../../../services/user.service';
+import { GeolocationService } from '../../../services/geolocation.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -13,6 +22,7 @@ import { UserService } from '../../../services/user.service';
 export class EditProfileComponent extends FormBaseComponent {
   private readonly uploader = inject(UploaderService);
   private readonly userService = inject(UserService);
+  private readonly geolocationService = inject(GeolocationService);
 
   user$ = this.userService.user$;
 
@@ -40,6 +50,12 @@ export class EditProfileComponent extends FormBaseComponent {
         onlyLetters: true,
       },
       {
+        key: 'location',
+        title: 'Location',
+        type: 'google-map',
+        required: false,
+      },
+      {
         key: 'submit',
         title: 'Save',
         type: 'button',
@@ -65,6 +81,7 @@ export class EditProfileComponent extends FormBaseComponent {
         firstname: this.formGroup.value.firstname,
         lastname: this.formGroup.value.lastname,
         wallet: '',
+        location: this.formGroup.value.location,
       })
       .pipe(finalize(() => this.ui.unlockBtn('submit')))
       .subscribe(res => {
