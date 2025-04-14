@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   main_url: 'https://cloud.test.aydo.ai',
   platform: (window as any)['__env']?.platform || 'web',
   index_url: '/dashboard',
