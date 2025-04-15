@@ -19,11 +19,13 @@
     width="60px"
     height="60px"
     (click)="googleAuth()"></app-button>
-  <app-button
-    [icon]="'metamask'"
-    [arrow]="false"
-    [ripple]="true"
-    width="60px"
-    height="60px"
-    (click)="handleAuth()"></app-button>
+  <ng-container *ngIf="isDesktop() === false">
+    <app-button
+      [icon]="'metamask'"
+      [arrow]="false"
+      [ripple]="true"
+      width="60px"
+      height="60px"
+      (click)="handleAuth()"></app-button>
+  </ng-container>
 </div>

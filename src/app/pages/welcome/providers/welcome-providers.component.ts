@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 import { BackendService } from '../../../services/backend.service';
 import { UIService } from '../../../services/ui.service';
 import { ErrorsService } from '../../../services/errors.service';
@@ -54,5 +55,9 @@ export class WelcomeProvidersComponent implements OnInit {
         'There was an error connecting. Please check your internet connection and try again later.'
       );
     }
+  }
+
+  public isDesktop() {
+    return this.ui.isDesktop();
   }
 }
