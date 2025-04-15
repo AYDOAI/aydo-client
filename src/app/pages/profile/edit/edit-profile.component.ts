@@ -51,10 +51,11 @@ export class EditProfileComponent extends FormBaseComponent {
     this.formGroup = this.createForm(this.form.inputs);
   }
 
-  ionViewWillEnter() {
+  override ionViewDidEnter() {
     this.user$.subscribe(user => {
       this.formGroup.patchValue(user);
     });
+    super.ionViewDidEnter();
   }
 
   async sendUpdateUser(avatarId: string | null) {
@@ -89,7 +90,7 @@ export class EditProfileComponent extends FormBaseComponent {
         next: response => {
           this.sendUpdateUser(response.id);
         },
-        error: err => {
+        error: () => {
           this.errors.showError('Failed to upload avatar. Please try again.');
           this.ui.unlockBtn('submit');
         },

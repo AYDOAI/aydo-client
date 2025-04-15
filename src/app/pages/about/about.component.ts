@@ -12,6 +12,7 @@ import packageInfo from '../../../../package.json';
   styleUrl: './about.component.scss',
 })
 export class AboutComponent implements OnInit {
+  public isModal: boolean = false;
   private dialog = inject(DialogService);
   protected readonly environment = environment;
   protected version!: string;

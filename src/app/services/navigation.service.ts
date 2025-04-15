@@ -18,19 +18,20 @@ export class NavigationService {
   private isMobileSubject = new BehaviorSubject<boolean>(false);
   public isMobile$ = this.isMobileSubject.asObservable();
 
-  private readonly modalRouteComponentMap = new Map<string, any>([
+  private currentModal: HTMLIonModalElement | null = null;
+  private isModalTransition = false;
+  private currentModalComponent: any = null;
+
+  private modalRouteComponentMap = new Map<string, any>([
     ['feedback', FeedbackComponent],
-    ['profile/edit', EditProfileComponent],
     ['profile', ProfileComponent],
-    ['dashboard/rewards', DashboardRewardsComponent],
+    ['profile-edit', EditProfileComponent],
+    ['rewards', DashboardRewardsComponent],
     ['about', AboutComponent],
     ['add-hub', HubComponent],
-    ['devices/add', AddDeviceComponent],
-    ['devices/new', NewDeviceComponent],
+    ['devices-add', AddDeviceComponent],
+    ['devices-new', NewDeviceComponent],
   ]);
-
-  private currentModal: HTMLIonModalElement | null = null;
-  private previousUrl: string = '';
 
   constructor(
     private router: Router,
@@ -54,35 +55,39 @@ export class NavigationService {
   }
 
   private async handleNavigation(event: NavigationStart): Promise<void> {
-    const url = event.url;
+    if (this.isModalTransition) {
+      return;
+    }
+
+    const urlTree = this.router.parseUrl(event.url);
+    const modalSegment = urlTree.root.children['modal'];
     const isMobile = await this.isMobile$.pipe(take(1)).toPromise();
 
-    const matchingRoute = [...this.modalRouteComponentMap.keys()].find(route =>
-      url.includes(route)
-    );
+    if (modalSegment && !isMobile) {
+      const fullPath = modalSegment.segments.map(s => s.path).join('/');
+      const component = this.modalRouteComponentMap.get(fullPath);
 
-    if (matchingRoute && !isMobile) {
-      if (!this.currentModal) {
-        this.previousUrl = this.router.url;
+      if (component) {
+        if (this.currentModalComponent === component) {
+          return;
+        }
+
+        this.isModalTransition = true;
+
+        if (this.currentModal) {
+          await this.currentModal.dismiss();
+          this.currentModal = null;
+          this.currentModalComponent = null;
+        }
+
+        history.replaceState({}, '', event.url);
+        await this.openModal(component);
+        this.isModalTransition = false;
       }
-      this.router.navigateByUrl(this.previousUrl, {
-        skipLocationChange: true,
-        replaceUrl: true,
-      });
-      await this.openModal(matchingRoute);
-      window.history.pushState({}, '', url);
     }
   }
 
-  private async openModal(route: string): Promise<void> {
-    const component = this.modalRouteComponentMap.get(route);
-    if (!component) return;
-
-    if (this.currentModal) {
-      await this.currentModal.dismiss();
-      this.currentModal = null;
-    }
-
+  private async openModal(component: any): Promise<void> {
     const modal = await this.modalCtrl.create({
       component,
       cssClass: 'modal-wrapper',
@@ -90,16 +95,19 @@ export class NavigationService {
     });
 
     this.currentModal = modal;
+    this.currentModalComponent = component;
+
     await modal.present();
 
     modal.onDidDismiss().then(() => {
       if (this.currentModal === modal) {
         this.currentModal = null;
-        if (this.previousUrl.length > 2) {
-          this.router.navigateByUrl(this.previousUrl, {
-            skipLocationChange: true,
+        this.currentModalComponent = null;
+        if (!this.isModalTransition) {
+          const newUrl = this.router.url.replace(/\(modal:[^)]*\)/g, '');
+          this.router.navigateByUrl(newUrl, {
+            replaceUrl: true,
           });
-          window.history.pushState({}, '', this.previousUrl);
         }
       }
     });

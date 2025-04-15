@@ -38,6 +38,7 @@ import { AddDeviceComponent } from './pages/devices/add/add-device.component';
 import { NewDeviceComponent } from './pages/devices/new/new-device.component';
 import { HubEditComponent } from './pages/devices/hub/hub-edit.component';
 import { ProjectComponent } from './pages/streams/project/project.component';
+import { ModalRedirectGuard } from './shared/guards/modal-redirect.guard';
 
 export const routes: Routes = [
   {
@@ -75,6 +76,7 @@ export const routes: Routes = [
       },
       {
         path: 'rewards',
+        canActivate: [ModalRedirectGuard],
         component: DashboardRewardsComponent,
       },
       // {
@@ -111,11 +113,12 @@ export const routes: Routes = [
   {
     path: 'devices/add',
     component: AddDeviceComponent,
-    canActivate: [HubGuard],
+    canActivate: [HubGuard, ModalRedirectGuard],
   },
   {
     path: 'devices/new',
     component: NewDeviceComponent,
+    canActivate: [ModalRedirectGuard],
   },
   {
     path: 'settings',
@@ -123,10 +126,12 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
+    canActivate: [ModalRedirectGuard],
     component: ProfileComponent,
   },
   {
     path: 'profile/edit',
+    canActivate: [ModalRedirectGuard],
     component: EditProfileComponent,
   },
   {
@@ -162,9 +167,11 @@ export const routes: Routes = [
   {
     path: 'about',
     component: AboutComponent,
+    canActivate: [ModalRedirectGuard],
   },
   {
     path: 'feedback',
+    canActivate: [ModalRedirectGuard],
     component: FeedbackComponent,
   },
   {
@@ -205,6 +212,16 @@ export const routes: Routes = [
     path: 'zone/add',
     component: AddZoneComponent,
   },
+  // desktop modal
+  { path: 'feedback', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'profile', component: ProfileComponent, outlet: 'modal' },
+  { path: 'profile-edit', component: EditProfileComponent, outlet: 'modal' },
+  { path: 'rewards', component: DashboardRewardsComponent, outlet: 'modal' },
+  { path: 'about', component: AboutComponent, outlet: 'modal' },
+  { path: 'add-hub', component: HubComponent, outlet: 'modal' },
+  { path: 'devices-add', component: AddDeviceComponent, outlet: 'modal' },
+  { path: 'devices-new', component: NewDeviceComponent, outlet: 'modal' },
+  //
   { path: 'main', component: WelcomeMainComponent },
   { path: '**', redirectTo: 'main' },
 ];

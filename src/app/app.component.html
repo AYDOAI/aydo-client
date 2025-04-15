@@ -1,5 +1,9 @@
 <div class="main">
   <ion-app>
+    <!--  desktop modals  -->
+    <ion-router-outlet
+      name="modal"
+      class="modal-router-outlet"></ion-router-outlet>
     <!-- unauthorized -->
     <ng-container *ngIf="!ui.user || ui.clientWidth < 768">
       <ion-router-outlet

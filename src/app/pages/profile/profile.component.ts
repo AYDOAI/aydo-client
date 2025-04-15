@@ -63,10 +63,11 @@ export class ProfileComponent extends FormBaseComponent {
     this.formGroup = this.createForm(this.form.inputs);
   }
 
-  ionViewWillEnter() {
+  override ionViewDidEnter() {
     this.user$.subscribe(user => {
       this.formGroup.patchValue(user);
     });
+    super.ionViewDidEnter();
   }
 
   confirmDeleteProfile() {

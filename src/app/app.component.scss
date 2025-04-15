@@ -31,3 +31,7 @@ ion-app {
     position: relative;
   }
 }
+
+.modal-router-outlet {
+  display: none;
+}
