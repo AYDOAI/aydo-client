@@ -2,7 +2,15 @@ import { Component, inject } from '@angular/core';
 import { BaseComponent } from '../../../components/base.component';
 import { DataStream } from '../../../services/backend.service';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, finalize, map, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  finalize,
+  map,
+  switchMap,
+  filter,
+  of,
+} from 'rxjs';
 import { StreamService } from '../../../services/stream.service';
 import { ClipboardService } from '../../../services/clipboard.service';
 import { WalletService } from '../../../services/wallet.service';
@@ -30,11 +38,25 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
   public stream$: Observable<DataStream | null> =
     this.streamSubject.asObservable();
 
+  private id!: number;
+
   ionViewWillEnter() {
-    this.route.params
+    const url = this.router.url;
+    const modalMatch = url.match(/\(modal:stream\/(\d+)\)/);
+
+    const id$ = modalMatch
+      ? of(+modalMatch[1])
+      : this.route.params.pipe(
+          map(params => +params['id']),
+          filter(id => !!id && !isNaN(id))
+        );
+
+    id$
       .pipe(
-        map(params => +params['id']),
-        switchMap(id => this.streamService.getStreamById(id))
+        switchMap(id => {
+          this.id = id;
+          return this.streamService.getStreamById(id);
+        })
       )
       .subscribe({
         next: dataStream => {
@@ -78,6 +100,10 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
           }
         },
       });
+  }
+
+  public connectDevices(): void {
+    this.navCtrl.navigateForward(`/streams/${this.id}/devices`);
   }
 
   async connectWallet(): Promise<void> {

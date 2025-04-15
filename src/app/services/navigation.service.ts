@@ -12,6 +12,8 @@ import { AboutComponent } from '../pages/about/about.component';
 import { AddDeviceComponent } from '../pages/devices/add/add-device.component';
 import { NewDeviceComponent } from '../pages/devices/new/new-device.component';
 import { EditProfileComponent } from '../pages/profile/edit/edit-profile.component';
+import { ProjectComponent } from '../pages/streams/project/project.component';
+import { ConnectDevicesComponent } from '../pages/connect-devices/connect-devices.component';
 
 @Injectable({ providedIn: 'root' })
 export class NavigationService {
@@ -65,7 +67,19 @@ export class NavigationService {
 
     if (modalSegment && !isMobile) {
       const fullPath = modalSegment.segments.map(s => s.path).join('/');
-      const component = this.modalRouteComponentMap.get(fullPath);
+      let component = this.modalRouteComponentMap.get(fullPath);
+
+      if (!component) {
+        const isStream = /^stream\/\d+$/.test(fullPath);
+        const isStreamDevices = /^stream\/\d+\/devices$/.test(fullPath);
+
+        if (isStream) {
+          component = ProjectComponent;
+        }
+        if (isStreamDevices) {
+          component = ConnectDevicesComponent;
+        }
+      }
 
       if (component) {
         if (this.currentModalComponent === component) {

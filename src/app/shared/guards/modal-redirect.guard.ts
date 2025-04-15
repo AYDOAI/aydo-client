@@ -27,6 +27,25 @@ export class ModalRedirectGuard implements CanActivate {
       .pipe(take(1))
       .toPromise();
     const originalPath = route.routeConfig?.path;
+    const idParam = route.params['id'];
+
+    if (originalPath === ':id' && idParam) {
+      if (!isMobile) {
+        return this.router.createUrlTree([
+          { outlets: { modal: `stream/${idParam}` } },
+        ]);
+      }
+      return true;
+    }
+
+    if (originalPath === ':id/devices' && idParam) {
+      if (!isMobile) {
+        return this.router.createUrlTree([
+          { outlets: { modal: `stream/${idParam}/devices` } },
+        ]);
+      }
+      return true;
+    }
 
     if (!originalPath) return true;
 
