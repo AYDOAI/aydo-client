@@ -1,5 +1,5 @@
 <div *ngIf="form && formGroup" class="form">
-  <div class="header" *ngIf="form.title">
+  <div class="header" *ngIf="form.title && showTitle">
     <div class="back" *ngIf="back" (click)="goBack()">
       <svg
         width="29"

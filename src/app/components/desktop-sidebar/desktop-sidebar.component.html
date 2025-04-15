@@ -65,9 +65,9 @@
   <div class="bottom">
     <div class="balance">
       <p class="label">Total Balance</p>
-      <p class="amount">$1,405</p>
+      <p class="amount">{{ ui.user?.balance }} Points</p>
     </div>
-    <div class="profile">
+    <div class="profile" routerLink="/profile" [appRipple]="true">
       <app-avatar [form]="formGroup" [key]="'avatar'" [readonly]="true" />
       <div class="info">
         <div class="name">Nickname</div>

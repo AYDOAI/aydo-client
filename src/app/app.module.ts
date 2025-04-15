@@ -95,6 +95,7 @@ import { HubEditComponent } from './pages/devices/hub/hub-edit.component';
 import { ProjectComponent } from './pages/streams/project/project.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { DesktopSidebarComponent } from './components/desktop-sidebar/desktop-sidebar.component';
+import { ModalWrapperComponent } from './components/modal-wrapper/modal-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -169,6 +170,7 @@ import { DesktopSidebarComponent } from './components/desktop-sidebar/desktop-si
     NewDeviceComponent,
     HubEditComponent,
     NotificationComponent,
+    ModalWrapperComponent,
   ],
   imports: [
     AppRoutingModule,

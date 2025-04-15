@@ -10,9 +10,9 @@
 
     <!-- authorized -->
     <ng-container *ngIf="ui.user && ui.clientWidth >= 768">
-      <div class="test">
+      <div class="main-layout">
         <app-desktop-sidebar></app-desktop-sidebar>
-        <div class="router">
+        <div class="view-container">
           <ion-router-outlet
             *ngIf="
               ui.appReady || router.url.includes('privacy-policy')

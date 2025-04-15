@@ -25,6 +25,7 @@ export class FormComponent extends BaseElement implements OnInit {
   @Input() formGroup!: FormGroup;
   @Input() back!: string;
   @Input() btnDisabled: boolean = false;
+  @Input() showTitle: boolean = true;
   @Output() onClickButton: EventEmitter<any> = new EventEmitter<any>();
 
   @ContentChild('skeleton') skeletonTemplateRef!: TemplateRef<HTMLElement>;
