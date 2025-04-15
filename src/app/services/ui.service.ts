@@ -351,16 +351,27 @@ export class UIService implements OnDestroy {
     });
   }
 
-  public googleLogin(inviteId?: string): void {
+  public async googleLogin(inviteId?: string): Promise<void> {
     const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
     const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
-    const browser = this.iab.create(url, '_blank');
-    if (this.isMobile) {
-      this.handleLogin(browser);
+
+    if (environment.platform == 'desktop') {
+      const redirectResult = await window.electron.startOAuth(
+        url,
+        'auth-redirect'
+      );
+      console.log('googleLogin');
+      console.log(redirectResult);
+      this.processLoginUrl(redirectResult);
+    } else {
+      const browser = this.iab.create(url, '_blank');
+      if (this.isMobile) {
+        this.handleLogin(browser);
+      }
     }
   }
 
-  public appleLogin(inviteId?: string): void {
+  public async appleLogin(inviteId?: string): Promise<void> {
     // if (this.platform.is('ios')) {
     //   const { response } = await SignInWithApple.authorize({
     //     clientId: 'ai.aydo.app.apple',
@@ -371,9 +382,20 @@ export class UIService implements OnDestroy {
     // }
     const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
     const url = `${environment.main_url}/backend/v2/user/apple/login?state=${encodedState}`;
-    const browser = this.iab.create(url, '_blank');
-    if (this.isMobile) {
-      this.handleLogin(browser);
+
+    if (environment.platform == 'desktop') {
+      const redirectResult = await window.electron.startOAuth(
+        url,
+        'auth-redirect'
+      );
+      console.log('appleLogin');
+      console.log(redirectResult);
+      this.processLoginUrl(redirectResult);
+    } else {
+      const browser = this.iab.create(url, '_blank');
+      if (this.isMobile) {
+        this.handleLogin(browser);
+      }
     }
   }
 
@@ -381,36 +403,43 @@ export class UIService implements OnDestroy {
     browser.on('loadstart').subscribe((event: any) => {
       if (event.url.includes('auth-redirect')) {
         browser.close();
-        const urlObj = new URL(event.url);
-        const userData = urlObj.searchParams?.get('userData');
-        const error = urlObj.searchParams?.get('error');
-        if (error) {
-          this.errors.showError(decodeURIComponent(error));
-          this.router.navigate(['/main']);
-          return;
-        }
-        if (userData) {
-          try {
-            const decodedData = atob(userData);
-            const userTokens = JSON.parse(decodedData);
-            const token = userTokens.token;
-            const refreshToken = userTokens.refreshToken;
+        this.processLoginUrl(event.url);
+      }
+    });
+  }
 
-            if (token && refreshToken) {
-              this.storage.token = token;
-              this.storage.refreshToken = refreshToken;
-              this.storage.next();
-            } else {
-              this.errors.showError('Not authenticated');
-            }
-          } catch (error) {
-            this.errors.showError('Not authenticated');
-          }
+  public processLoginUrl(url: string): void {
+    const urlObj = new URL(url);
+    const userData = urlObj.searchParams?.get('userData');
+    const error = urlObj.searchParams?.get('error');
+
+    if (error) {
+      this.errors.showError(decodeURIComponent(error));
+      this.router.navigate(['/main']);
+      return;
+    }
+
+    if (userData) {
+      try {
+        const decodedData = atob(userData);
+        const userTokens = JSON.parse(decodedData);
+        const token = userTokens.token;
+        const refreshToken = userTokens.refreshToken;
+
+        if (token && refreshToken) {
+          this.storage.token = token;
+          this.storage.refreshToken = refreshToken;
+          this.storage.next();
         } else {
           this.errors.showError('Not authenticated');
         }
-        this.afterLogin();
+      } catch (error) {
+        this.errors.showError('Not authenticated');
       }
-    });
+    } else {
+      this.errors.showError('Not authenticated');
+    }
+
+    this.afterLogin();
   }
 }
