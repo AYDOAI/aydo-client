@@ -249,7 +249,7 @@ export class UIService implements OnDestroy {
           next();
         }
       } else {
-        if (environment.platform == 'desktop') {
+        if (this.isDesktop()) {
           // Automatically register a hub for the desktop version of the application.
           // We take the identifier and token from the config.
           console.log('Getting config for platform ', environment.platform);
@@ -355,7 +355,7 @@ export class UIService implements OnDestroy {
     const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
     const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
 
-    if (environment.platform == 'desktop') {
+    if (this.isDesktop()) {
       const redirectResult = await window.electron.startOAuth(
         url,
         'auth-redirect'
@@ -383,7 +383,7 @@ export class UIService implements OnDestroy {
     const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
     const url = `${environment.main_url}/backend/v2/user/apple/login?state=${encodedState}`;
 
-    if (environment.platform == 'desktop') {
+    if (this.isDesktop()) {
       const redirectResult = await window.electron.startOAuth(
         url,
         'auth-redirect'
@@ -441,5 +441,9 @@ export class UIService implements OnDestroy {
     }
 
     this.afterLogin();
+  }
+
+  public isDesktop() {
+    return environment.platform === 'desktop';
   }
 }
