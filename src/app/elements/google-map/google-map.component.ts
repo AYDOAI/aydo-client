@@ -13,8 +13,7 @@ import {
   concat,
 } from 'rxjs';
 import { takeUntil, catchError, tap, map, last } from 'rxjs/operators';
-import { Geolocation } from '@capacitor/geolocation';
-import { Platform } from '@ionic/angular';
+import { GeolocationService } from '../../services/geolocation.service';
 
 @Component({
   selector: 'app-google-map',
@@ -29,7 +28,7 @@ export class GoogleMapComponent
   @Input() key!: string;
   @Input() title!: string;
 
-  private platform = inject(Platform);
+  private geolocationService = inject(GeolocationService);
 
   private destroy$ = new Subject<void>();
 
@@ -54,7 +53,7 @@ export class GoogleMapComponent
   private positionUpdates$ = new Subject<google.maps.LatLngLiteral>();
 
   ngOnInit() {
-    const currentPosition$ = this.getCurrentPosition();
+    const currentPosition$ = this.geolocationService.getCurrentPosition();
     const initialPosition$ = this.getInitialPosition();
 
     concat(initialPosition$, currentPosition$)
@@ -122,56 +121,6 @@ export class GoogleMapComponent
     }
 
     return EMPTY;
-  }
-
-  private async getPositionNative() {
-    const permissionStatus = await Geolocation.checkPermissions();
-    if (permissionStatus?.location !== 'granted') {
-      const requestStatus = await Geolocation.requestPermissions();
-      if (requestStatus.location !== 'granted') {
-        throw new Error('Could not get location native');
-      }
-    }
-    return await Geolocation.getCurrentPosition({
-      maximumAge: 3000,
-      timeout: 10000,
-      enableHighAccuracy: true,
-    });
-  }
-
-  private getCurrentPosition() {
-    return new Observable<google.maps.LatLngLiteral>(observer => {
-      if (this.platform.is('cordova') || this.platform.is('capacitor')) {
-        this.getPositionNative().then(
-          position => {
-            observer.next({
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            });
-          },
-          error => {
-            observer.error(error);
-          }
-        );
-      } else {
-        navigator.geolocation.getCurrentPosition(
-          position => {
-            observer.next({
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            });
-          },
-          positionError => {
-            observer.error(positionError.message);
-          }
-        );
-      }
-    }).pipe(
-      catchError(error => {
-        console.error('Geolocation error:', error);
-        return EMPTY;
-      })
-    );
   }
 
   updateMarkerPosition(point: google.maps.LatLng) {
