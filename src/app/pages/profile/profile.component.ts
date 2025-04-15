@@ -40,6 +40,13 @@ export class ProfileComponent extends FormBaseComponent {
         type: 'text',
       },
       {
+        key: 'location',
+        title: 'Location',
+        type: 'google-map',
+        required: false,
+        readonly: true,
+      },
+      {
         key: 'edit',
         title: 'Edit',
         type: 'button',

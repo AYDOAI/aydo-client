@@ -9,6 +9,9 @@
       <div class="title-container">
         <div class="title-container__title">
           {{ device.name }}
+          <div class="title-container-desciption">
+            {{ deviceDesciption(device) }}
+          </div>
           <div *ngIf="device.zoneId" class="title-container__zone">
             <div class="title-container__zone-value">
               {{ zoneName(device) }}

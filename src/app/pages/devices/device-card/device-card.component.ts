@@ -1,6 +1,7 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { DeviceItem } from '../../../models/gateway.model';
 import { ZoneService } from '../../../services/zone.service';
+import { UIService } from '../../../services/ui.service';
 
 @Component({
   selector: 'app-device-card',
@@ -12,6 +13,7 @@ export class DeviceCardComponent {
   @Output() edit: EventEmitter<DeviceItem> = new EventEmitter<DeviceItem>();
 
   private zoneService = inject(ZoneService);
+  private ui = inject(UIService);
 
   public deviceCapabilitiesExists(device: DeviceItem): boolean {
     return !!device.capabilities.find(item => this.capabilityExists(item));
@@ -29,5 +31,16 @@ export class DeviceCardComponent {
     return this.zoneService.zones?.items?.find(
       item => String((item as any).id) === String(device.zoneId)
     )?.name;
+  }
+
+  public deviceDesciption(device: DeviceItem): string {
+    const selectedDriver = this.ui.drivers.items?.find(
+      item => item.driverId === device.driverId
+    );
+    if (selectedDriver && selectedDriver.desciption) {
+      return selectedDriver.desciption;
+    }
+
+    return '';
   }
 }
