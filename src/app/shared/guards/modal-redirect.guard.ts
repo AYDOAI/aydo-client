@@ -30,7 +30,9 @@ export class ModalRedirectGuard implements CanActivate {
       .toPromise();
     const originalPath = route.routeConfig?.path;
     const idParam = route.params['id'];
-
+    const hubParam = route.params['hub'];
+    console.log(idParam);
+    console.log(hubParam);
     if (originalPath === ':id' && idParam) {
       if (!isMobile) {
         return this.router.createUrlTree([
@@ -49,7 +51,6 @@ export class ModalRedirectGuard implements CanActivate {
       return true;
     }
 
-    const hubParam = route.params['hub'];
     if (originalPath === ':hub' && hubParam) {
       if (!isMobile) {
         return this.router.createUrlTree([
