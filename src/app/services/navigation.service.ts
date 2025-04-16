@@ -14,6 +14,11 @@ import { NewDeviceComponent } from '../pages/devices/new/new-device.component';
 import { EditProfileComponent } from '../pages/profile/edit/edit-profile.component';
 import { ProjectComponent } from '../pages/streams/project/project.component';
 import { ConnectDevicesComponent } from '../pages/connect-devices/connect-devices.component';
+import { HubEditComponent } from '../pages/devices/hub/hub-edit.component';
+import { DeviceEditComponent } from '../pages/devices/edit/device-edit.component';
+import { FormAddHubAgreementComponent } from '../components/forms/add-hub-agreement/form-add-hub-agreement.component';
+import { FormAddHubManuallyComponent } from '../components/forms/add-hub-manually/form-add-hub-manually.component';
+import { FormAddHubConnectedComponent } from '../components/forms/add-hub-connected/form-add-hub-connected.component';
 
 @Injectable({ providedIn: 'root' })
 export class NavigationService {
@@ -33,6 +38,8 @@ export class NavigationService {
     ['add-hub', HubComponent],
     ['devices-add', AddDeviceComponent],
     ['devices-new', NewDeviceComponent],
+    ['device-edit', DeviceEditComponent],
+    ['device-hub', HubEditComponent],
   ]);
 
   constructor(
@@ -60,7 +67,6 @@ export class NavigationService {
     if (this.isModalTransition) {
       return;
     }
-
     const urlTree = this.router.parseUrl(event.url);
     const modalSegment = urlTree.root.children['modal'];
     const isMobile = await this.isMobile$.pipe(take(1)).toPromise();
@@ -68,16 +74,29 @@ export class NavigationService {
     if (modalSegment && !isMobile) {
       const fullPath = modalSegment.segments.map(s => s.path).join('/');
       let component = this.modalRouteComponentMap.get(fullPath);
-
       if (!component) {
         const isStream = /^stream\/\d+$/.test(fullPath);
         const isStreamDevices = /^stream\/\d+\/devices$/.test(fullPath);
+        const isAddHub = /^add-hub\/.+$/.test(fullPath);
+        const isAddHubManually = /^add-hub\/.+\/search\/manually$/.test(
+          fullPath
+        );
+        const isAddHubConnected = /^add-hub\/.+\/connected$/.test(fullPath);
 
         if (isStream) {
           component = ProjectComponent;
         }
         if (isStreamDevices) {
           component = ConnectDevicesComponent;
+        }
+        if (isAddHub) {
+          component = FormAddHubAgreementComponent;
+        }
+        if (isAddHubManually) {
+          component = FormAddHubManuallyComponent;
+        }
+        if (isAddHubConnected) {
+          component = FormAddHubConnectedComponent;
         }
       }
 

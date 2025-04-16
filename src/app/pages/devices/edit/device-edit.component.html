@@ -1,4 +1,12 @@
-<app-full-screen-content-wrapper *ngIf="ui.selectedDevice">
+<app-modal-wrapper *ngIf="ui.selectedDevice && isModal" title="Edit device">
+  <app-form
+    [form]="form"
+    [formGroup]="formGroup"
+    back="devices"
+    [showTitle]="false"
+    (onClickButton)="button($event)"></app-form>
+</app-modal-wrapper>
+<app-full-screen-content-wrapper *ngIf="ui.selectedDevice && !isModal">
   <ng-template #header>
     <app-header title="Devices"></app-header>
   </ng-template>

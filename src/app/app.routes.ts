@@ -105,10 +105,12 @@ export const routes: Routes = [
   {
     path: 'devices/edit',
     component: DeviceEditComponent,
+    canActivate: [ModalRedirectGuard],
   },
   {
     path: 'devices/hub',
     component: HubEditComponent,
+    canActivate: [ModalRedirectGuard],
   },
   {
     path: 'devices/add',
@@ -191,6 +193,7 @@ export const routes: Routes = [
       {
         path: ':hub',
         component: FormAddHubAgreementComponent,
+        canActivate: [ModalRedirectGuard],
       },
       {
         path: ':hub/search',
@@ -203,10 +206,12 @@ export const routes: Routes = [
       {
         path: ':hub/search/manually',
         component: FormAddHubManuallyComponent,
+        canActivate: [ModalRedirectGuard],
       },
       {
         path: ':hub/connected',
         component: FormAddHubConnectedComponent,
+        canActivate: [ModalRedirectGuard],
       },
     ],
   },
@@ -223,8 +228,21 @@ export const routes: Routes = [
   { path: 'add-hub', component: FeedbackComponent, outlet: 'modal' },
   { path: 'devices-add', component: FeedbackComponent, outlet: 'modal' },
   { path: 'devices-new', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'device-edit', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'device-hub', component: FeedbackComponent, outlet: 'modal' },
   { path: 'stream/:id', component: FeedbackComponent, outlet: 'modal' },
   { path: 'stream/:id/devices', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'add-hub/:hub', component: FeedbackComponent, outlet: 'modal' },
+  {
+    path: 'add-hub/:hub/search/manually',
+    component: FeedbackComponent,
+    outlet: 'modal',
+  },
+  {
+    path: 'add-hub/:hub/connected',
+    component: FeedbackComponent,
+    outlet: 'modal',
+  },
   //
   { path: 'main', component: WelcomeMainComponent },
   { path: '**', redirectTo: 'main' },

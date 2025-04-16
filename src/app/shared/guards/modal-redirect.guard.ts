@@ -15,6 +15,8 @@ export class ModalRedirectGuard implements CanActivate {
     'dashboard/rewards': 'rewards',
     'devices/add': 'devices-add',
     'devices/new': 'devices-new',
+    'devices/edit': 'device-edit',
+    'devices/hub': 'device-hub',
   };
 
   constructor(
@@ -42,6 +44,34 @@ export class ModalRedirectGuard implements CanActivate {
       if (!isMobile) {
         return this.router.createUrlTree([
           { outlets: { modal: `stream/${idParam}/devices` } },
+        ]);
+      }
+      return true;
+    }
+
+    const hubParam = route.params['hub'];
+    if (originalPath === ':hub' && hubParam) {
+      if (!isMobile) {
+        return this.router.createUrlTree([
+          { outlets: { modal: `add-hub/${hubParam}` } },
+        ]);
+      }
+      return true;
+    }
+
+    if (originalPath === ':hub/search/manually' && hubParam) {
+      if (!isMobile) {
+        return this.router.createUrlTree([
+          { outlets: { modal: `add-hub/${hubParam}/search/manually` } },
+        ]);
+      }
+      return true;
+    }
+
+    if (originalPath === ':hub/connected' && hubParam) {
+      if (!isMobile) {
+        return this.router.createUrlTree([
+          { outlets: { modal: `add-hub/${hubParam}/connected` } },
         ]);
       }
       return true;
