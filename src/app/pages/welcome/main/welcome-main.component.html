@@ -201,7 +201,7 @@
     </div>
 
     <div class="buttons">
-      <button class="btn" [routerLink]="['/sign-up']">
+      <button class="btn" (click)="goToSignUp()">
         Sign up
         <svg
           class="icon arrow"
@@ -217,7 +217,7 @@
             stroke-linecap="round" />
         </svg>
       </button>
-      <button class="btn btn-outline" [routerLink]="['/sign-in']">
+      <button class="btn btn-outline" (click)="goToSignIn()">
         Sign in
         <svg
           class="icon arrow"

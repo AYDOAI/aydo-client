@@ -39,6 +39,7 @@ import { NewDeviceComponent } from './pages/devices/new/new-device.component';
 import { HubEditComponent } from './pages/devices/hub/hub-edit.component';
 import { ProjectComponent } from './pages/streams/project/project.component';
 import { ModalRedirectGuard } from './shared/guards/modal-redirect.guard';
+import { UnauthGuard } from './shared/guards/unauth.guard';
 
 export const routes: Routes = [
   {
@@ -49,14 +50,17 @@ export const routes: Routes = [
   {
     path: 'sign-in',
     component: WelcomeSignInComponent,
+    canActivate: [UnauthGuard],
   },
   {
     path: 'sign-up',
     component: WelcomeSignUpComponent,
+    canActivate: [UnauthGuard],
   },
   {
     path: 'forgot-password',
     component: WelcomeForgotComponent,
+    canActivate: [UnauthGuard],
   },
   {
     path: 'success',
@@ -244,7 +248,7 @@ export const routes: Routes = [
     outlet: 'modal',
   },
   //
-  { path: 'main', component: WelcomeMainComponent },
+  { path: 'main', component: WelcomeMainComponent, canActivate: [UnauthGuard] },
   { path: '**', redirectTo: 'main' },
 ];
 
