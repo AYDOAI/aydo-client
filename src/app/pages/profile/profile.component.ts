@@ -4,6 +4,7 @@ import { FormBaseComponent } from '../../components/form-base.component';
 import { ConfirmationModalComponent } from '../../elements/dialog/confirmation-modal/confirmation-modal.component';
 import { DialogService } from '../../services/dialog.service';
 import { UserService } from '../../services/user.service';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +14,7 @@ import { UserService } from '../../services/user.service';
 export class ProfileComponent extends FormBaseComponent {
   private readonly dialog = inject(DialogService);
   private readonly userService = inject(UserService);
-
+  private modalCtrl = inject(ModalController);
   user$ = this.userService.user$;
 
   override onInit() {
@@ -96,6 +97,9 @@ export class ProfileComponent extends FormBaseComponent {
   }
 
   private logout() {
+    if (this.isModal) {
+      this.modalCtrl.dismiss();
+    }
     this.resetFormErrors();
     this.ui.logout();
   }
