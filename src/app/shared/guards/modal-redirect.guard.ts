@@ -31,8 +31,6 @@ export class ModalRedirectGuard implements CanActivate {
     const originalPath = route.routeConfig?.path;
     const idParam = route.params['id'];
     const hubParam = route.params['hub'];
-    console.log(idParam);
-    console.log(hubParam);
     if (originalPath === ':id' && idParam) {
       if (!isMobile) {
         return this.router.createUrlTree([

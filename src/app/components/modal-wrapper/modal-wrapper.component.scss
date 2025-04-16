@@ -1,0 +1,14 @@
+:host {
+  ion-content {
+    --height: auto;
+    --overflow: visible;
+    height: auto;
+    contain: none;
+  }
+
+  ion-content::part(scroll) {
+    position: relative;
+    height: auto;
+    overflow: visible;
+  }
+}
