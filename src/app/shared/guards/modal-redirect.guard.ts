@@ -83,10 +83,6 @@ export class ModalRedirectGuard implements CanActivate {
       return this.router.createUrlTree([{ outlets: { modal: [newPath] } }]);
     }
 
-    if (this.pathMapping[originalPath]) {
-      return this.router.createUrlTree([this.pathMapping[originalPath]]);
-    }
-
     return true;
   }
 }
