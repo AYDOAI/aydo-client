@@ -1,6 +1,6 @@
 <app-modal-wrapper
   *ngIf="ui.gateway && isModal"
-  [title]="ui.gateway?.identifier || ''">
+  [title]="ui.gateway ? ui.gateway.identifier : ''">
   <app-form
     [form]="form"
     [formGroup]="formGroup"
