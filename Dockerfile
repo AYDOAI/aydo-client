@@ -34,6 +34,29 @@ COPY --from=testing /usr/src/app/www/ /etc/nginx/html
 # Expose port 80 for testing
 EXPOSE 80
 # ============================================
+# PROD Build Stage 
+# ============================================
+FROM dev AS build-production
+
+# Copy application source code
+COPY . .
+
+# Run build script
+RUN npm run build:production
+
+# ============================================
+# NGINX Runtime Stage
+# ============================================
+FROM nginx AS production
+
+# Copy custom nginx configuration
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+# Copy built files from the build stage
+COPY --from=build-production /usr/src/app/www/ /etc/nginx/html
+
+EXPOSE 80
+# ============================================
 # Build APK for Android
 # ============================================
 FROM mingc/android-build-box:1.28.0 AS build-android
