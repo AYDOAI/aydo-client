@@ -42,7 +42,7 @@ FROM dev AS build-production
 COPY . .
 
 # Run build script
-RUN npm run build:production
+RUN npm run build
 
 # ============================================
 # NGINX Runtime Stage
