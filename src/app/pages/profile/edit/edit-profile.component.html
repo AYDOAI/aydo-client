@@ -1,4 +1,12 @@
-<app-full-screen-content-wrapper>
+<app-modal-wrapper *ngIf="isModal" title="Edit profile">
+  <app-form
+    [form]="form"
+    [formGroup]="formGroup"
+    [showTitle]="false"
+    (onClickButton)="button($event)">
+  </app-form>
+</app-modal-wrapper>
+<app-full-screen-content-wrapper *ngIf="!isModal">
   <ng-template #header>
     <app-header title="Edit profile" back="/profile"></app-header>
   </ng-template>

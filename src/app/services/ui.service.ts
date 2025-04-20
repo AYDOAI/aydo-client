@@ -21,7 +21,6 @@ import { switchMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { SocketService } from './socket.service';
-import { IPagination } from '../models/pagination.interface';
 
 declare const window: any;
 
@@ -87,6 +86,14 @@ export class UIService implements OnDestroy {
       this.platform.is('ios') ||
       /iPhone|iPad|Android/i.test(navigator.userAgent)
     );
+  }
+
+  public get clientWidth(): number {
+    return document.documentElement.clientWidth;
+  }
+
+  public get clientHeight(): number {
+    return document.documentElement.clientHeight;
   }
 
   ngOnDestroy() {

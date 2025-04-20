@@ -1,4 +1,14 @@
-<app-full-screen-content-wrapper *ngIf="ui.gateway">
+<app-modal-wrapper
+  *ngIf="ui.gateway && isModal"
+  [title]="ui.gateway ? ui.gateway.identifier : ''">
+  <app-form
+    [form]="form"
+    [formGroup]="formGroup"
+    [showTitle]="false"
+    back="devices"
+    (onClickButton)="button($event)"></app-form>
+</app-modal-wrapper>
+<app-full-screen-content-wrapper *ngIf="ui.gateway && !isModal">
   <ng-template #header>
     <app-header title="Devices"></app-header>
   </ng-template>

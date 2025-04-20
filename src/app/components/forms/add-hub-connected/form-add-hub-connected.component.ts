@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBaseComponent } from '../../form-base.component';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-form-add-hub-connected',
@@ -7,6 +8,7 @@ import { FormBaseComponent } from '../../form-base.component';
   styleUrl: './form-add-hub-connected.component.scss',
 })
 export class FormAddHubConnectedComponent extends FormBaseComponent {
+  private modalCtrl = inject(ModalController);
   override onInit() {
     this.form.title = 'Add hub';
     this.form.description = 'AYDO Hub connected';
@@ -22,6 +24,9 @@ export class FormAddHubConnectedComponent extends FormBaseComponent {
 
   public button(): void {
     this.ui.getGateway();
+    if (this.isModal) {
+      this.modalCtrl.dismiss();
+    }
     this.navCtrl.navigateForward(['/devices']);
   }
 }

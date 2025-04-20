@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBaseComponent } from '../../form-base.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-form-add-hub-agreement',
@@ -7,6 +8,7 @@ import { FormBaseComponent } from '../../form-base.component';
   styleUrl: './form-add-hub-agreement.component.scss',
 })
 export class FormAddHubAgreementComponent extends FormBaseComponent {
+  private activatedRoute = inject(ActivatedRoute);
   override onInit() {
     this.form.title = 'Add hub';
     this.form.inputs.push({
@@ -41,6 +43,11 @@ export class FormAddHubAgreementComponent extends FormBaseComponent {
   }
 
   public next(): void {
-    this.router.navigate([`${this.router.url}/search/manually`]);
+    let hub = this.activatedRoute.snapshot.paramMap.get('hub');
+    if (!hub) {
+      const urlMatch = this.router.url.match('add-hub/([^/)+]+)');
+      hub = urlMatch?.[1] ?? 'add';
+    }
+    this.navCtrl.navigateForward(`/add-hub/${hub}/search/manually`);
   }
 }

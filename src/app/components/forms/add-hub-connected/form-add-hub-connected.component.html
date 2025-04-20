@@ -1,4 +1,12 @@
-<app-content>
+<app-modal-wrapper *ngIf="isModal" title="Add hub">
+  <app-form
+    [form]="form"
+    [formGroup]="formGroup"
+    [showTitle]="false"
+    (onClickButton)="button()">
+  </app-form>
+</app-modal-wrapper>
+<app-content *ngIf="!isModal">
   <app-form [form]="form" [formGroup]="formGroup" (onClickButton)="button()">
   </app-form>
 </app-content>

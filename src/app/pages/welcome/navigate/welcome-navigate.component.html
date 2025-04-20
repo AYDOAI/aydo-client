@@ -5,7 +5,7 @@
       [border]="false"
       [arrow]="false"
       height="22px"
-      [routerLink]="['/sign-in']"></app-button>
+      (onClick)="goToSignIn()"></app-button>
   </div>
   <div *ngIf="signUp" class="button">
     <app-button
@@ -13,7 +13,7 @@
       [border]="false"
       [arrow]="false"
       height="22px"
-      [routerLink]="['/sign-up']"></app-button>
+      (onClick)="goToSignUp()"></app-button>
   </div>
   <button
     *ngIf="demo"
@@ -29,6 +29,6 @@
       [border]="false"
       [arrow]="false"
       height="22px"
-      [routerLink]="['/forgot-password']"></app-button>
+      (onClick)="goToForgotPassword()"></app-button>
   </div>
 </div>

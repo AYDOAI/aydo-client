@@ -8,7 +8,15 @@ import { BaseComponent } from '../../components/base.component';
 import { DevicesService } from '../../services/devices.service';
 import { ActivatedRoute } from '@angular/router';
 import { StreamService } from '../../services/stream.service';
-import { BehaviorSubject, combineLatest, map, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  filter,
+  map,
+  Observable,
+  of,
+  switchMap,
+} from 'rxjs';
 
 @Component({
   selector: 'app-connect-devices',
@@ -27,7 +35,14 @@ export class ConnectDevicesComponent extends BaseComponent implements OnInit {
   private streamSubject = new BehaviorSubject<any | null>(null);
   stream$ = this.streamSubject.asObservable();
 
-  streamId$ = this.route.params.pipe(map(params => params['id']));
+  modalMatch = this.router.url.match(/\(modal:stream\/(\d+)\/devices\)/);
+
+  streamId$: Observable<number> = this.modalMatch
+    ? of(+this.modalMatch[1])
+    : this.route.params.pipe(
+        map(params => +params['id']),
+        filter(id => !isNaN(id) && id > 0)
+      );
 
   override ngOnInit() {
     super.ngOnInit();

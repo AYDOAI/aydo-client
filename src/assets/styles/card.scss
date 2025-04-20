@@ -17,6 +17,7 @@
 
   &.small {
     clip-path: polygon(100% 0, 100% 70%, 90% 100%, 0 100%, 0 0);
+
     &:after {
       clip-path: polygon(100% 0, 100% 70.3%, 90.3% 100%, 0 100%, 0 0);
     }
@@ -25,6 +26,7 @@
   &.very-small {
     border-radius: 8px;
     clip-path: polygon(100% 0, 100% 55%, 55% 100%, 0 100%, 0 0);
+
     &:after {
       border-radius: 8px;
       clip-path: polygon(100% 0, 100% 55%, 55% 100%, 0 100%, 0 0);
@@ -33,6 +35,7 @@
 
   &.big {
     clip-path: polygon(100% 0, 100% 70%, 95% 100%, 0 100%, 0 0);
+
     &:after {
       clip-path: polygon(100% 0, 100% 70%, 95% 100%, 0 100%, 0 0);
     }
@@ -40,6 +43,7 @@
 
   &.long {
     clip-path: polygon(100% 0, 100% 70%, 95% 100%, 0 100%, 0 0);
+
     &:after {
       clip-path: polygon(100% 0, 100% 70.3%, 95.3% 100%, 0 100%, 0 0);
     }
@@ -78,7 +82,7 @@
   }
 
   .card-title {
-    font-size: 14px;
+    //font-size: 14px;
     line-height: 140%;
     font-weight: 600;
   }
@@ -112,4 +116,27 @@
   font-size: 12px;
   line-height: 120%;
   color: #999999;
+}
+
+@media (min-width: 768px) {
+  .card {
+    clip-path: none;
+
+    background-color: var(--milk);
+    border: 1px solid var(--very-dark-blue);
+
+    &.small,
+    &.big,
+    &.long {
+      clip-path: none;
+
+      &:after {
+        display: none;
+      }
+    }
+
+    &:after {
+      display: none;
+    }
+  }
 }

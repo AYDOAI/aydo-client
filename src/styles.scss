@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import 'assets/styles/vars';
 @import 'assets/styles/button';
 @import 'assets/styles/icon';
@@ -36,6 +40,31 @@ ion-menu {
   outline: none;
   margin-top: 60px;
   z-index: 9;
+}
+
+.modal-wrapper {
+  --width: 444px;
+  --height: auto;
+  --max-width: 90vw;
+  --max-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ion-header {
+    box-shadow: none;
+  }
+}
+
+.modal-wrapper::part(content) {
+  min-width: 444px;
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 16px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #060022;
 }
 
 @font-face {
