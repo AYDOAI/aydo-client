@@ -3,6 +3,7 @@ import { FormBaseComponent } from '../../../components/form-base.component';
 import { ConfirmationModalComponent } from '../../../elements/dialog/confirmation-modal/confirmation-modal.component';
 import { DialogService } from '../../../services/dialog.service';
 import { AppFormInputs } from '../../../shared/types';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-hub-edit',
@@ -11,6 +12,7 @@ import { AppFormInputs } from '../../../shared/types';
 })
 export class HubEditComponent extends FormBaseComponent implements OnInit {
   private dialog = inject(DialogService);
+  private modalCtrl = inject(ModalController);
 
   public override ngOnInit() {
     super.ngOnInit();
@@ -54,8 +56,12 @@ export class HubEditComponent extends FormBaseComponent implements OnInit {
       this.backend.deleteGateway().subscribe(() => {
         this.errors.showInfo('Hub is successfully deleted');
         this.storage.serverId = '';
+        this.storage.next();
         this.ui.gateway = null;
-        this.navCtrl.navigateRoot(['/devices']);
+        if (this.isModal) {
+          this.modalCtrl.dismiss();
+        }
+        this.navCtrl.navigateRoot('/add-hub');
       });
     }
   }

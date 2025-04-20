@@ -1,4 +1,13 @@
-<app-content>
+<app-modal-wrapper *ngIf="isModal" title="Add Hub">
+  <app-form
+    [form]="form"
+    [formGroup]="formGroup"
+    [btnDisabled]="formGroup.invalid"
+    [showTitle]="false"
+    back="add-hub"
+    (onClickButton)="next()"></app-form>
+</app-modal-wrapper>
+<app-content *ngIf="!isModal">
   <app-form
     [form]="form"
     [formGroup]="formGroup"

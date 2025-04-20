@@ -2,20 +2,20 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
-  Router,
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { BackendService } from '../../services/backend.service';
+import { UIService } from '../../services/ui.service';
+import { NavController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UnauthGuard implements CanActivate {
   constructor(
-    private backendService: BackendService,
-    private router: Router
+    private ui: UIService,
+    private navCtrl: NavController
   ) {}
 
   canActivate(
@@ -26,8 +26,8 @@ export class UnauthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.backendService.isAuth()) {
-      return this.router.parseUrl('/main');
+    if (this.ui.user) {
+      return this.navCtrl.navigateRoot('/dashboard');
     }
     return true;
   }

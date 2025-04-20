@@ -3,6 +3,7 @@
   flex-flow: row wrap;
   column-gap: 12px;
   row-gap: 12px;
+  max-width: 888px;
   margin: 32px 22px 0;
 
   .link-container {
@@ -47,7 +48,7 @@
 
       font-style: normal;
       font-weight: 500;
-      font-size: 14px;
+      //font-size: 14px;
       line-height: 140%;
       letter-spacing: 0.05em;
       color: #0c1821;
@@ -88,8 +89,6 @@
 .dashboard-item.main-quests,
 .dashboard-item.additional-quests,
 .dashboard-item.rewards {
-  width: calc(50% - 22px);
-
   .dashboard-content {
     height: 100%;
     display: flex;
@@ -99,10 +98,15 @@
     .title {
       font-style: normal;
       font-weight: 400;
-      font-size: 12px;
+      //font-size: 12px;
       line-height: 120%;
       color: #999999;
       margin-bottom: 20px;
+
+      @media (min-width: 768px) {
+        color: #0c1821;
+        font-weight: 500;
+      }
     }
 
     .content {

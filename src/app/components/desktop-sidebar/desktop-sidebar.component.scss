@@ -1,0 +1,135 @@
+.sidebar {
+  width: 280px;
+  background-color: var(--milk);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  padding-right: 0;
+  height: 100vh;
+  border-right: 1px solid #060022;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .nav {
+    .section {
+      margin-top: 16px;
+
+      .section-title {
+        margin-bottom: 8px;
+        font-size: 12px;
+        line-height: 120%;
+        font-weight: 500;
+        color: #333333;
+      }
+
+      .menu-item {
+        display: flex;
+        flex-direction: row;
+        padding: 20px 10px;
+
+        transition: 0.2s;
+        cursor: pointer;
+
+        --icon-width: 24px;
+        --icon-height: 24px;
+
+        &.active {
+          border: 1px solid #060022;
+          border-right: none;
+          border-radius: 16px 0 0 16px;
+        }
+
+        &:hover {
+          .menu-item-title {
+            opacity: 0.6;
+          }
+        }
+
+        .menu-item-icon {
+          width: 24px;
+          height: 24px;
+          display: flex;
+
+          .icon {
+            margin: auto;
+          }
+        }
+
+        .menu-item-title {
+          display: flex;
+          margin-left: 16px;
+
+          div {
+            margin: auto;
+          }
+        }
+      }
+    }
+  }
+
+  .bottom {
+    margin-top: auto;
+    padding-right: 1rem;
+
+    .balance {
+      .label {
+        margin-bottom: 8px;
+        font-size: 12px;
+        line-height: 120%;
+        font-weight: 500;
+        color: #333333;
+      }
+
+      .amount {
+        font-size: 18px;
+        line-height: 120%;
+        font-weight: 600;
+        color: #1a1a1a;
+      }
+
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #060022;
+      padding-bottom: 1rem;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #eee;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .info {
+        .name {
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 140%;
+          color: #060022;
+        }
+
+        .address {
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 140%;
+          color: #828091;
+        }
+      }
+
+      svg-icon {
+        margin-left: 32px;
+      }
+    }
+  }
+}

@@ -1,19 +1,24 @@
+<app-modal-wrapper *ngIf="isModal" title="Rewards">
+  <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+</app-modal-wrapper>
+
 <app-full-screen-content-wrapper
+  *ngIf="!isModal"
   [isRefreshable]="true"
   (refresh)="refresh($event)">
   <ng-template #header>
     <app-header title="Rewards"></app-header>
   </ng-template>
   <ng-template #content>
+    <app-header
+      title="Your reward multiplier x 1.0"
+      back="/dashboard"></app-header>
     <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
   </ng-template>
 </app-full-screen-content-wrapper>
 
 <ng-template #contentTemplate>
-  <app-header
-    title="Your reward multiplier x 1.0"
-    back="/dashboard"></app-header>
-  <div class="rewards">
+  <div class="rewards" [class.mb-10]="isModal">
     <div class="card small">
       <div class="card-content">
         <div class="card-title">Balance of AYDO Points</div>

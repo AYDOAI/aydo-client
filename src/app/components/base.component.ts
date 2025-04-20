@@ -40,7 +40,7 @@ export const emailRegExp = new RegExp(
 })
 export class BaseComponent implements OnInit, OnDestroy, AfterViewInit {
   destroy$: Subject<void> = new Subject<void>();
-
+  public isModal: boolean = false;
   protected errorHandler = inject(ErrorHandlerService);
 
   constructor(

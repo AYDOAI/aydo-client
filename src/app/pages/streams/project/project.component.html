@@ -1,4 +1,12 @@
-<app-full-screen-content-wrapper>
+<app-modal-wrapper *ngIf="isModal" title="Data stream">
+  <ng-container
+    *ngIf="stream$ | async as dataStream"
+    [ngTemplateOutlet]="contentTemplate"
+    [ngTemplateOutletContext]="{ dataStream }">
+  </ng-container>
+</app-modal-wrapper>
+
+<app-full-screen-content-wrapper *ngIf="!isModal">
   <ng-template #header>
     <app-header title="Project info" back="streams"></app-header>
   </ng-template>
@@ -12,7 +20,7 @@
 </app-full-screen-content-wrapper>
 
 <ng-template #contentTemplate let-dataStream="dataStream">
-  <div class="project">
+  <div class="project" [class.mb-10]="isModal">
     <div class="card big">
       <div class="card-content">
         <div class="project-info">
@@ -67,7 +75,7 @@
               stroke-width="2" />
           </svg>
         </div>
-        <button class="btn text-center green-btn" [routerLink]="'devices'">
+        <button class="btn text-center green-btn" (click)="connectDevices()">
           {{ 'Connect devices' }}
         </button>
         <ng-container *ngIf="dataStream?.smartContract">

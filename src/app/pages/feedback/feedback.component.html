@@ -1,4 +1,7 @@
-<app-full-screen-content-wrapper>
+<app-modal-wrapper *ngIf="isModal" title="Feedback">
+  <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+</app-modal-wrapper>
+<app-full-screen-content-wrapper *ngIf="!isModal">
   <ng-template #header>
     <app-header title="Feedback"></app-header>
   </ng-template>

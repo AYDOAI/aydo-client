@@ -13,22 +13,25 @@ ion-app {
 
 .main {
   width: 100%;
-  max-width: 375px;
+  max-width: unset;
   min-height: fit-content;
 
   background: var(--light-grayish-green);
 
-  &.no-padding {
+  ion-app {
     max-width: unset;
-
-    ion-app {
-      max-width: unset;
-    }
-
-    ::ng-deep {
-      .full-page__inner {
-        max-width: unset;
-      }
-    }
   }
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+  .view-container {
+    position: relative;
+  }
+}
+
+.modal-router-outlet {
+  display: none;
 }
