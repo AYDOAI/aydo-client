@@ -1,6 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { BaseElement } from '../../elements/base.component';
 import { MenuService } from '../../services/menu.service';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'app-menu',
@@ -9,6 +10,7 @@ import { MenuService } from '../../services/menu.service';
 })
 export class MenuComponent extends BaseElement {
   public menuService = inject(MenuService);
+  public navigation = inject(NavigationService);
   swipeEnabled$ = this.menuService.swipeEnabled$;
 
   @Input() contentId: string = '';

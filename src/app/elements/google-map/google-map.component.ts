@@ -27,6 +27,7 @@ export class GoogleMapComponent
   @Input() form!: FormGroup;
   @Input() key!: string;
   @Input() title!: string;
+  @Input() readonly?: boolean = false;
 
   private geolocationService = inject(GeolocationService);
 
@@ -53,6 +54,11 @@ export class GoogleMapComponent
   private positionUpdates$ = new Subject<google.maps.LatLngLiteral>();
 
   ngOnInit() {
+    this.markerOptions = {
+      ...this.markerOptions,
+      draggable: !this.readonly,
+    };
+
     const currentPosition$ = this.geolocationService.getCurrentPosition();
     const initialPosition$ = this.getInitialPosition();
 
@@ -124,15 +130,21 @@ export class GoogleMapComponent
   }
 
   updateMarkerPosition(point: google.maps.LatLng) {
-    this.positionUpdates$.next(point.toJSON());
+    if (!this.readonly) {
+      this.positionUpdates$.next(point.toJSON());
+    }
   }
 
   onMarkerDragEnd(event: google.maps.MapMouseEvent) {
-    event.latLng && this.updateMarkerPosition(event.latLng);
+    if (!this.readonly && event.latLng) {
+      this.updateMarkerPosition(event.latLng);
+    }
   }
 
   addMarker(event: google.maps.MapMouseEvent) {
-    event.latLng && this.updateMarkerPosition(event.latLng);
+    if (!this.readonly && event.latLng) {
+      this.updateMarkerPosition(event.latLng);
+    }
   }
 
   trackByFn(index: number) {

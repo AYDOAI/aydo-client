@@ -74,7 +74,7 @@ export class EditProfileComponent extends FormBaseComponent {
     super.ionViewDidEnter();
   }
 
-  async sendUpdateUser(avatarId: string | null) {
+  async sendUpdateUser(avatarId: string | null, realLocation?: string) {
     this.ui.lockBtn('submit');
     this.backend
       .updateUser({
@@ -83,6 +83,7 @@ export class EditProfileComponent extends FormBaseComponent {
         lastname: this.formGroup.value.lastname,
         wallet: '',
         location: this.formGroup.value.location,
+        realLocation,
       })
       .pipe(finalize(() => this.ui.unlockBtn('submit')))
       .subscribe(res => {
@@ -96,24 +97,47 @@ export class EditProfileComponent extends FormBaseComponent {
   }
 
   updateProfile() {
-    console.log(this.formGroup.value);
-    if (
-      this.formGroup.value.avatar &&
-      this.formGroup.value.avatar instanceof File
-    ) {
-      this.ui.lockBtn('submit');
+    const hasLocation = !!this.formGroup.value.location;
 
-      this.uploader.upload(this.formGroup.value.avatar).subscribe({
-        next: response => {
-          this.sendUpdateUser(response.id);
-        },
-        error: () => {
-          this.errors.showError('Failed to upload avatar. Please try again.');
-          this.ui.unlockBtn('submit');
-        },
-      });
+    const processUpdate = (realLocation?: string) => {
+      if (
+        this.formGroup.value.avatar &&
+        this.formGroup.value.avatar instanceof File
+      ) {
+        this.ui.lockBtn('submit');
+
+        this.uploader.upload(this.formGroup.value.avatar).subscribe({
+          next: response => {
+            this.sendUpdateUser(response.id, realLocation);
+          },
+          error: () => {
+            this.errors.showError('Failed to upload avatar. Please try again.');
+            this.ui.unlockBtn('submit');
+          },
+        });
+      } else {
+        this.sendUpdateUser(
+          this.formGroup.value.avatar?.fileId || null,
+          realLocation
+        );
+      }
+    };
+
+    if (hasLocation) {
+      this.geolocationService
+        .getCurrentPosition()
+        .pipe(first())
+        .subscribe({
+          next: position => {
+            const locationString = `(${position.lat},${position.lng})`;
+            processUpdate(locationString);
+          },
+          error: () => {
+            processUpdate();
+          },
+        });
     } else {
-      this.sendUpdateUser(this.formGroup.value.avatar?.fileId || null);
+      processUpdate();
     }
   }
 

@@ -7,17 +7,24 @@
     </ion-toolbar>
   </ng-template>
   <ng-template #content>
-    <app-form
-      [form]="form"
-      [formGroup]="formGroup"
-      (onClickButton)="button($event)">
-      <p *ngIf="linkSent" class="success-message">
-        A password reset link has been sent to your email address
-      </p>
-    </app-form>
-
-    <app-welcome-navigate
-      [signUp]="true"
-      [signIn]="true"></app-welcome-navigate>
+    <div class="forgot-password">
+      <div class="forgot-password__form">
+        <div *ngIf="ui.clientWidth >= 768" class="header">
+          <div class="title">Forgot password?</div>
+        </div>
+        <app-form
+          [form]="form"
+          [formGroup]="formGroup"
+          (onClickButton)="button($event)">
+          <p *ngIf="linkSent" class="success-message">
+            A password reset link has been sent to your email address
+          </p>
+        </app-form>
+        <app-welcome-navigate
+          [signUp]="true"
+          [signIn]="true"></app-welcome-navigate>
+      </div>
+      <div *ngIf="ui.clientWidth >= 768" class="forgot-password__logo"></div>
+    </div>
   </ng-template>
 </app-full-screen-content-wrapper>
