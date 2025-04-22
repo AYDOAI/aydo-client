@@ -7,13 +7,21 @@
     </ion-toolbar>
   </ng-template>
   <ng-template #content>
-    <app-form
-      [form]="form"
-      [formGroup]="formGroup"
-      (onClickButton)="button($event)">
-      <p *ngIf="linkSent" class="success-message">
-        Confirmation link has been sent to your email address
-      </p>
-    </app-form>
+    <div class="email-confirmation">
+      <div class="email-confirmation__form">
+        <div *ngIf="ui.clientWidth >= 768" class="header">
+          <div class="title">Sign Up</div>
+        </div>
+        <app-form
+          [form]="form"
+          [formGroup]="formGroup"
+          (onClickButton)="button($event)">
+          <p *ngIf="linkSent" class="success-message">
+            Confirmation link has been sent to your email address
+          </p>
+        </app-form>
+      </div>
+      <div *ngIf="ui.clientWidth >= 768" class="email-confirmation__logo"></div>
+    </div>
   </ng-template>
 </app-full-screen-content-wrapper>
