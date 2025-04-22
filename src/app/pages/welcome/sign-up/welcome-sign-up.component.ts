@@ -96,7 +96,7 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
           user.email = user.login.trim();
           user.inviteId = this.formGroup.get('invite_code')?.value;
 
-          if (environment.recaptcha.enabled && !this.ui.isDesktop()) {
+          if (environment.recaptcha.enabled && this.ui.isDesktop()) {
             user.platform = environment.platform;
           }
 
