@@ -68,9 +68,12 @@
       <p class="amount">{{ ui.user?.balance }} Points</p>
     </div>
     <div class="profile" routerLink="/profile" [appRipple]="true">
-      <app-avatar [form]="formGroup" [key]="'avatar'" [readonly]="true" />
+      <app-avatar
+        [key]="'avatar'"
+        [readonly]="true"
+        [imageUrl]="avatar$ | async" />
       <div class="info">
-        <div class="name">Nickname</div>
+        <div class="name">{{ fullName$ | async }}</div>
         <div class="address">0x671....6063</div>
       </div>
       <svg-icon
