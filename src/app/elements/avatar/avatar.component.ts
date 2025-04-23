@@ -24,17 +24,24 @@ export class AvatarComponent implements OnInit, OnDestroy {
 
   isOpenDialog = false;
 
-  @Input() form!: FormGroup;
+  @Input() form?: FormGroup;
   @Input() key!: string;
   @Input() readonly: boolean | undefined = false;
+  @Input() set imageUrl(url: string | null) {
+    if (url) {
+      this.previewUrl = url;
+    }
+  }
 
   ngOnInit(): void {
-    this.form
-      .get(this.key)
-      ?.valueChanges?.pipe(takeUntil(this.destroy$))
-      ?.subscribe(value => {
-        this.previewUrl = value?.url || null;
-      });
+    if (this.form) {
+      this.form
+        .get(this.key)
+        ?.valueChanges?.pipe(takeUntil(this.destroy$))
+        ?.subscribe(value => {
+          this.previewUrl = value?.url || null;
+        });
+    }
   }
 
   ngOnDestroy(): void {
@@ -43,7 +50,7 @@ export class AvatarComponent implements OnInit, OnDestroy {
   }
 
   async pickImageFromGallery() {
-    if (this.readonly || this.isOpenDialog) {
+    if (this.readonly || this.isOpenDialog || !this.form) {
       return;
     }
 
@@ -119,7 +126,9 @@ export class AvatarComponent implements OnInit, OnDestroy {
   }
 
   private updateFormAndPreview(file: File, image: Photo) {
-    this.form.get(this.key)?.setValue(file);
+    if (this.form) {
+      this.form.get(this.key)?.setValue(file);
+    }
     this.previewUrl = image.webPath!;
   }
 
@@ -127,6 +136,8 @@ export class AvatarComponent implements OnInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
     this.previewUrl = null;
-    this.form.get(this.key)?.setValue(null);
+    if (this.form) {
+      this.form.get(this.key)?.setValue(null);
+    }
   }
 }
