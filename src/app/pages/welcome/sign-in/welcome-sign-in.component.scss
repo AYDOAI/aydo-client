@@ -70,5 +70,13 @@
       background-position: center;
       background-repeat: no-repeat;
     }
+
+    .header {
+      grid-template-columns: 1fr;
+
+      .title {
+        margin: 0 auto;
+      }
+    }
   }
 }
