@@ -1,6 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MenuService } from '../../services/menu.service';
-import { FormBaseComponent } from '../form-base.component';
+import { UserService } from '../../services/user.service';
+import { UIService } from '../../services/ui.service';
+import { map } from 'rxjs';
+import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 type MenuItem = {
   link: string;
@@ -19,26 +23,23 @@ type MenuSection = {
   templateUrl: './desktop-sidebar.component.html',
   styleUrl: './desktop-sidebar.component.scss',
 })
-export class DesktopSidebarComponent
-  extends FormBaseComponent
-  implements OnInit
-{
+export class DesktopSidebarComponent {
+  public ui = inject(UIService);
   public menuService = inject(MenuService);
+  public userService = inject(UserService);
+  private navCtrl = inject(NavController);
+  private router = inject(Router);
+
+  fullName$ = this.userService.user$.pipe(
+    map(user =>
+      user ? `${user.firstname || ''} ${user.lastname || ''}`.trim() : ''
+    )
+  );
+
+  avatar$ = this.userService.user$.pipe(map(user => user?.avatar?.url || null));
 
   public get currentUrl(): string {
     return this.router.url;
-  }
-
-  override ngOnInit() {
-    this.form.inputs = [
-      {
-        key: 'avatar',
-        type: 'avatar',
-        title: 'Avatar',
-        readonly: true,
-      },
-    ];
-    this.formGroup = this.createForm(this.form.inputs);
   }
 
   menu: MenuSection[] = [
