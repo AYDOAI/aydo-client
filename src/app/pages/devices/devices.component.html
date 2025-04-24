@@ -17,11 +17,9 @@
     </div>
     <ng-container *ngIf="ui.devices">
       <div
+        *ngIf="!ui.devices?.items?.length"
         class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-        <div
-          *ngIf="!ui.devices?.items?.length"
-          (click)="addDevice()"
-          class="btn_new-device">
+        <div (click)="addDevice()" class="btn_new-device">
           <svg
             width="64"
             height="64"
@@ -39,11 +37,9 @@
         </div>
       </div>
       <div
+        *ngIf="ui.devices && ui.devices.items?.length"
         class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-        <button
-          *ngIf="ui.devices && ui.devices.items?.length"
-          class="btn"
-          [routerLink]="'/devices/add'">
+        <button class="btn" [routerLink]="'/devices/add'">
           Add other device
           <svg-icon
             [name]="'plus'"
