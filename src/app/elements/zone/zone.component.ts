@@ -33,7 +33,7 @@ export class ZoneComponent extends SelectComponent implements OnInit {
   ngOnInit() {
     this.loadItems();
     this.zoneService.forceUpdate$.subscribe(() => {
-      setTimeout(() => this.loadItems(), 5000);
+      this.loadItems();
     });
   }
 
