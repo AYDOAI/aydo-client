@@ -5,7 +5,8 @@
       name="modal"
       class="modal-router-outlet"></ion-router-outlet>
     <!-- unauthorized -->
-    <ng-container *ngIf="!ui.user || ui.clientWidth < 768">
+    <ng-container
+      *ngIf="!ui.user || !ui.user?.is_verified || ui.clientWidth < 768">
       <ion-router-outlet
         *ngIf="
           ui.appReady || router.url.includes('privacy-policy')
@@ -13,7 +14,8 @@
     </ng-container>
 
     <!-- authorized -->
-    <ng-container *ngIf="ui.user && ui.clientWidth >= 768">
+    <ng-container
+      *ngIf="ui.user && ui.user.is_verified && ui.clientWidth >= 768">
       <div class="main-layout">
         <app-desktop-sidebar></app-desktop-sidebar>
         <div class="view-container">

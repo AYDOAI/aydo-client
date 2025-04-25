@@ -61,7 +61,7 @@ export class NavigationService {
   }
 
   private checkScreenSize(): void {
-    const isMobile = window.innerWidth <= 768;
+    const isMobile = window.innerWidth < 768;
     this.isMobileSubject.next(isMobile);
   }
 
