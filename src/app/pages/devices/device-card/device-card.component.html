@@ -1,5 +1,5 @@
-<div class="card big" [appRipple]="true" (click)="edit.emit(device)">
-  <div class="card-content">
+<div class="card big h-full" [appRipple]="true" (click)="edit.emit(device)">
+  <div class="card-content h-full">
     <div class="card-header">
       <svg-icon
         width="24"
@@ -26,7 +26,7 @@
     </div>
     <div
       *ngIf="deviceCapabilitiesExists(device) && !device.setupRequired"
-      class="capabilities">
+      class="capabilities mt-auto">
       <ng-container *ngFor="let capability of device.capabilities">
         <div
           class="capabilities__capability"
