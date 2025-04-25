@@ -19,6 +19,7 @@ import { DeviceEditComponent } from '../pages/devices/edit/device-edit.component
 import { FormAddHubAgreementComponent } from '../components/forms/add-hub-agreement/form-add-hub-agreement.component';
 import { FormAddHubManuallyComponent } from '../components/forms/add-hub-manually/form-add-hub-manually.component';
 import { FormAddHubConnectedComponent } from '../components/forms/add-hub-connected/form-add-hub-connected.component';
+import { AddZoneComponent } from '../components/zone/add/add.component';
 
 @Injectable({ providedIn: 'root' })
 export class NavigationService {
@@ -40,6 +41,7 @@ export class NavigationService {
     ['devices-new', NewDeviceComponent],
     ['device-edit', DeviceEditComponent],
     ['device-hub', HubEditComponent],
+    ['add-zone', AddZoneComponent],
   ]);
 
   constructor(

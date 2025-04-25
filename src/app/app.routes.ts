@@ -222,6 +222,7 @@ export const routes: Routes = [
   {
     path: 'zone/add',
     component: AddZoneComponent,
+    canActivate: [ModalRedirectGuard],
   },
   // desktop modal
   { path: 'feedback', component: FeedbackComponent, outlet: 'modal' },
@@ -230,6 +231,7 @@ export const routes: Routes = [
   { path: 'rewards', component: FeedbackComponent, outlet: 'modal' },
   { path: 'about', component: FeedbackComponent, outlet: 'modal' },
   { path: 'add-hub', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'add-zone', component: FeedbackComponent, outlet: 'modal' },
   { path: 'devices-add', component: FeedbackComponent, outlet: 'modal' },
   { path: 'devices-new', component: FeedbackComponent, outlet: 'modal' },
   { path: 'device-edit', component: FeedbackComponent, outlet: 'modal' },
