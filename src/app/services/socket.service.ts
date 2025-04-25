@@ -8,6 +8,7 @@ import { Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { ErrorsService } from './errors.service';
 import { DevicesService } from './devices.service';
+import { ZoneService } from './zone.service';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {
@@ -16,6 +17,7 @@ export class SocketService {
   private destroy$ = new Subject<void>();
   private ui!: UIService;
   private devices!: DevicesService;
+  private zones!: ZoneService;
 
   constructor(
     private storage: StorageService,
@@ -40,6 +42,7 @@ export class SocketService {
     });
     this.ui = this.injector.get(UIService);
     this.devices = this.injector.get(DevicesService);
+    this.zones = this.injector.get(ZoneService);
     this.subscribeToMessages();
   }
 
@@ -91,6 +94,12 @@ export class SocketService {
       .subscribe(() => {
         this.user.reloadUser();
         this.ui.getUserRewards();
+      });
+
+    this.on('update-zones')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.zones.forceUpdate$.next(true);
       });
 
     this.on<{ message: string }>('notification')

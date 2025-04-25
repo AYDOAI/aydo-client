@@ -65,7 +65,7 @@
   <div class="bottom">
     <div class="balance">
       <p class="label">Total Balance</p>
-      <p class="amount">{{ ui.user?.balance }} Points</p>
+      <p class="amount">{{ balance$ | async }} Points</p>
     </div>
     <div class="profile" routerLink="/profile" [appRipple]="true">
       <app-avatar

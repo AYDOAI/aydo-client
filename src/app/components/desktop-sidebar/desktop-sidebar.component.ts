@@ -38,6 +38,8 @@ export class DesktopSidebarComponent {
 
   avatar$ = this.userService.user$.pipe(map(user => user?.avatar?.url || null));
 
+  balance$ = this.userService.user$.pipe(map(user => user?.balance || 0));
+
   public get currentUrl(): string {
     return this.router.url;
   }

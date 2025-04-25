@@ -57,7 +57,6 @@ export class AddZoneComponent extends FormBaseComponent {
     };
 
     this.backend.saveZone(zone).subscribe(() => {
-      this.zoneService.forceUpdate$.next(true);
       this.errors.showInfo(
         'The zone has been saved and will be available in a few seconds.'
       );
