@@ -87,6 +87,7 @@
                 [key]="input.key"
                 [title]="input.title!"
                 [items]="input.items!"
+                [readonly]="input.readonly"
                 (onBlur)="onBlur(input)"></app-select>
             </div>
             <div *ngSwitchCase="'agreement'" class="user-agreement">
@@ -100,7 +101,7 @@
                     style="cursor: pointer"
                     href="#"
                     (click)="openLicense($event)">
-                    Aydo’s terms and conditions
+                    Aydo's terms and conditions
                   </a></span
                 >
               </app-checkbox>

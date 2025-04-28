@@ -80,7 +80,7 @@ input {
     // some error styles
   }
 
-  &:focus,
+  &:focus:not(:read-only),
   &.has-value {
     & + .label-text {
       top: 8px;
@@ -103,6 +103,24 @@ input {
 .select-container {
   position: relative;
   width: 100%;
+}
+
+.select-container.readonly {
+  pointer-events: none;
+
+  input {
+    background-color: var(--milk);
+    cursor: default;
+    border-color: var(--very-dark-grayish-blue);
+  }
+
+  .label-text {
+    color: var(--very-dark-grayish-blue);
+  }
+
+  .select-subitems-container {
+    display: none;
+  }
 }
 
 .select-container.collapsed .select-subitems-container {

@@ -19,6 +19,7 @@ type User = {
     fileId: string;
     url: string;
   };
+  timezone?: string;
 };
 
 @Injectable()

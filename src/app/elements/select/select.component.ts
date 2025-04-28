@@ -28,6 +28,7 @@ export class SelectComponent extends BaseElement {
   @Input() error: any;
   @Input() func: any;
   @Input() hide_clear: boolean = false;
+  @Input() readonly?: boolean = false;
   @Output() onSelect: EventEmitter<SelectItem> = new EventEmitter<SelectItem>();
   @Output() onBlur: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('input') input!: ElementRef;
@@ -142,6 +143,10 @@ export class SelectComponent extends BaseElement {
   }
 
   expand() {
+    if (this.readonly) {
+      return;
+    }
+
     this.expanded = !this.expanded;
     setTimeout(() => {
       const item = this.selectActive();

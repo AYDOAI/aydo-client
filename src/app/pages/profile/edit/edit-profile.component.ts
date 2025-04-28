@@ -56,6 +56,13 @@ export class EditProfileComponent extends FormBaseComponent {
         required: false,
       },
       {
+        key: 'timezone',
+        title: 'Timezone',
+        type: 'select',
+        required: false,
+        items: this.getTimezoneOptions(),
+      },
+      {
         key: 'submit',
         title: 'Save',
         type: 'button',
@@ -83,6 +90,7 @@ export class EditProfileComponent extends FormBaseComponent {
         lastname: this.formGroup.value.lastname,
         wallet: '',
         location: this.formGroup.value.location,
+        timezone: this.formGroup.value.timezone,
         realLocation,
       })
       .pipe(finalize(() => this.ui.unlockBtn('submit')))
@@ -147,5 +155,19 @@ export class EditProfileComponent extends FormBaseComponent {
         this.updateProfile();
         break;
     }
+  }
+
+  getTimezoneOptions() {
+    const timezones = [
+      { id: 'UTC', title: 'UTC' },
+      { id: 'Europe/Moscow', title: 'Moscow (UTC+3)' },
+      { id: 'Europe/London', title: 'London (UTC+0/+1)' },
+      { id: 'America/New_York', title: 'New York (UTC-5/-4)' },
+      { id: 'America/Los_Angeles', title: 'Los Angeles (UTC-8/-7)' },
+      { id: 'Asia/Tokyo', title: 'Tokyo (UTC+9)' },
+      { id: 'Asia/Shanghai', title: 'Shanghai (UTC+8)' },
+      { id: 'Australia/Sydney', title: 'Sydney (UTC+10/+11)' },
+    ];
+    return timezones;
   }
 }

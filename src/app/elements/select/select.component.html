@@ -6,6 +6,7 @@
     collapsed: !expanded,
     expanded: expanded,
     'input-error': error,
+    readonly: readonly,
   }">
   <div #container class="main-container" [ngClass]="{ expanded: expanded }">
     <div class="input-wrapper" [class.has-error]="!!error" (click)="expand()">
@@ -19,12 +20,14 @@
         [class.has-label]="!!title"
         [id]="key"
         [value]="selectActiveTitle()"
+        [readonly]="readonly"
+        [disabled]="readonly"
         (input)="findChange($event)"
         (blur)="blur()"
         type="text" />
       <label *ngIf="!!title" class="label-text" [for]="key">{{ title }}</label>
       <svg-icon
-        *ngIf="selectActiveTitle() && !hide_clear && !expanded"
+        *ngIf="selectActiveTitle() && !hide_clear && !expanded && !readonly"
         class="select-clear"
         name="close"
         (click)="clear($event)"></svg-icon>

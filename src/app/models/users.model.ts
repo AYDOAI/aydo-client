@@ -50,6 +50,7 @@ export interface UserInfo {
   };
   deletedAt?: Date;
   invite_code: string;
+  timezone?: string;
 }
 
 export interface UserRewards {

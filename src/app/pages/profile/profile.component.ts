@@ -48,6 +48,12 @@ export class ProfileComponent extends FormBaseComponent {
         readonly: true,
       },
       {
+        key: 'timezone',
+        title: 'Timezone',
+        type: 'select',
+        readonly: true,
+      },
+      {
         key: 'edit',
         title: 'Edit',
         type: 'button',
