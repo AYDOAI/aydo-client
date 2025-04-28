@@ -3,5 +3,19 @@
     .title {
       margin: 0 auto;
     }
+
+    @media (min-width: 768px) {
+      app-form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+
+        .form {
+          max-width: 444px;
+        }
+      }
+    }
   }
 }

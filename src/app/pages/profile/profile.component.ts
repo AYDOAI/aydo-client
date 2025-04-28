@@ -4,6 +4,7 @@ import { FormBaseComponent } from '../../components/form-base.component';
 import { ConfirmationModalComponent } from '../../elements/dialog/confirmation-modal/confirmation-modal.component';
 import { DialogService } from '../../services/dialog.service';
 import { UserService } from '../../services/user.service';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -13,11 +14,17 @@ import { UserService } from '../../services/user.service';
 export class ProfileComponent extends FormBaseComponent {
   private readonly dialog = inject(DialogService);
   private readonly userService = inject(UserService);
-
+  private modalCtrl = inject(ModalController);
   user$ = this.userService.user$;
 
   override onInit() {
     this.form.inputs = [
+      {
+        key: 'avatar',
+        type: 'avatar',
+        title: 'Avatar',
+        readonly: true,
+      },
       {
         key: 'firstname',
         title: 'First name',
@@ -32,6 +39,13 @@ export class ProfileComponent extends FormBaseComponent {
         key: 'email',
         title: 'Email',
         type: 'text',
+      },
+      {
+        key: 'location',
+        title: 'Location',
+        type: 'google-map',
+        required: false,
+        readonly: true,
       },
       {
         key: 'edit',
@@ -55,9 +69,13 @@ export class ProfileComponent extends FormBaseComponent {
       },
     ];
     this.formGroup = this.createForm(this.form.inputs);
+  }
+
+  override ionViewDidEnter() {
     this.user$.subscribe(user => {
       this.formGroup.patchValue(user);
     });
+    super.ionViewDidEnter();
   }
 
   confirmDeleteProfile() {
@@ -79,6 +97,9 @@ export class ProfileComponent extends FormBaseComponent {
   }
 
   private logout() {
+    if (this.isModal) {
+      this.modalCtrl.dismiss();
+    }
     this.resetFormErrors();
     this.ui.logout();
   }

@@ -2,14 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { App } from '@capacitor/app';
 import { HubType, FrameStep } from '../shared/types';
 import { StorageService } from './storage.service';
-import {
-  BehaviorSubject,
-  finalize,
-  interval,
-  of,
-  startWith,
-  Subscription,
-} from 'rxjs';
+import { BehaviorSubject, finalize, of, Subscription } from 'rxjs';
 import { BackendService } from './backend.service';
 import {
   DeviceItem,
@@ -27,6 +20,9 @@ import { UserService } from './user.service';
 import { switchMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+import { SocketService } from './socket.service';
+
+declare const window: any;
 
 @Injectable({
   providedIn: 'root',
@@ -50,7 +46,6 @@ export class UIService implements OnDestroy {
     | null
     | undefined = null;
   private btnLoading: string[] = [];
-  private valuesInterval$: Subscription | null = null;
 
   constructor(
     public storage: StorageService,
@@ -61,7 +56,8 @@ export class UIService implements OnDestroy {
     private errors: ErrorsService,
     private userService: UserService,
     private iab: InAppBrowser,
-    private platform: Platform
+    private platform: Platform,
+    private socket: SocketService
   ) {
     const urlSearchParams = new URLSearchParams(window.location.search);
     this.inviteId = urlSearchParams.get('code') ?? '';
@@ -72,6 +68,32 @@ export class UIService implements OnDestroy {
       });
     this.subscribeToNetworkStatus();
     this.subscribeToFocusState();
+  }
+
+  async getDesktopConfig() {
+    if (window?.electron?.ipcRenderer) {
+      const config =
+        await window.electron.ipcRenderer.invoke('aydo-server-config');
+      return config;
+    }
+    return null;
+  }
+
+  public get isMobile(): boolean {
+    return (
+      this.platform.is('mobile') ||
+      this.platform.is('android') ||
+      this.platform.is('ios') ||
+      /iPhone|iPad|Android/i.test(navigator.userAgent)
+    );
+  }
+
+  public get clientWidth(): number {
+    return document.documentElement.clientWidth;
+  }
+
+  public get clientHeight(): number {
+    return document.documentElement.clientHeight;
   }
 
   ngOnDestroy() {
@@ -134,7 +156,10 @@ export class UIService implements OnDestroy {
               }
             };
             this.loading.showLoading();
-            this.getGateway(next);
+            if (this.user && this.user.is_verified) {
+              this.socket.connect();
+              this.getGateway(next);
+            }
           },
           error => {
             this.goStep('sign-in');
@@ -156,17 +181,10 @@ export class UIService implements OnDestroy {
     }
   }
 
-  getUserRewards(e?: any): void {
-    this.backend
-      .userRewards()
-      .pipe(
-        finalize(() => {
-          if (e) {
-            e.target.complete();
-          }
-        })
-      )
-      .subscribe(data => (this.rewards = data));
+  getUserRewards(): void {
+    this.backend.userRewards({ page: 1, limit: 15 }).subscribe(data => {
+      this.rewards = data.items;
+    });
   }
 
   // get step(): FrameStep {
@@ -187,7 +205,7 @@ export class UIService implements OnDestroy {
     this.storage.refreshToken = '';
     this.storage.serverId = '';
     this.user = null;
-    this.stopDeviceValuesInterval();
+    this.socket.disconnect();
     this.navCtrl.navigateForward(['/sign-in']);
   }
 
@@ -222,8 +240,7 @@ export class UIService implements OnDestroy {
         )
         .subscribe((devices: any) => {
           this.devices = new DevicesModel(devices);
-          this.startDeviceValuesInterval();
-          // console.log(devices);
+          this.getDeviceValues().subscribe();
         });
     } else {
       complete();
@@ -239,6 +256,25 @@ export class UIService implements OnDestroy {
           next();
         }
       } else {
+        if (this.isDesktop()) {
+          // Automatically register a hub for the desktop version of the application.
+          // We take the identifier and token from the config.
+          console.log('Getting config for platform ', environment.platform);
+          this.getDesktopConfig().then(config => {
+            const gateway = {
+              identifier: config.identifier,
+              token: config.token,
+            };
+
+            this.backend.gatewayConnect(gateway).subscribe((data: any) => {
+              if (data && data.gateway && data.gateway.identifier) {
+                this.storage.serverId = data.gateway.identifier;
+                this.goStep('devices');
+              }
+            });
+          });
+        }
+
         if (this.isAuthPage()) {
           this.goStep('add-hub');
         }
@@ -246,63 +282,45 @@ export class UIService implements OnDestroy {
     });
   }
 
-  startDeviceValuesInterval(): void {
-    const getDeviceValues = () => {
-      if (this.storage.serverId && this.storage.token) {
-        return this.backend.getDeviceValues().pipe(
-          finalize(() => {
-            this.loading.dismissLoading();
-          }),
-          switchMap((data: any) => {
-            const updateDeviceValues = (values: any) => {
-              values.forEach((item: any) => {
-                const device = this.devices.items.find(
-                  item1 => item1.ident === item.ident
-                );
-                if (device) {
-                  device.isOnline = item.isOnline;
-                  device.capabilities.forEach(cap => {
-                    cap.value = item.values[`${cap.ident}_${cap.index}`];
-                  });
-                }
-              });
-            };
-
-            if (data.length !== this.devices?.items?.length) {
-              return this.backend.getDevices().pipe(
-                finalize(() => {
-                  updateDeviceValues(data);
-                }),
-                switchMap((devices: any) => {
-                  this.devices = new DevicesModel(devices);
-                  return of(null);
-                })
+  public getDeviceValues() {
+    if (this.storage.serverId && this.storage.token) {
+      return this.backend.getDeviceValues().pipe(
+        finalize(() => {
+          this.loading.dismissLoading();
+        }),
+        switchMap((data: any) => {
+          const updateDeviceValues = (values: any) => {
+            values.forEach((item: any) => {
+              const device = this.devices.items.find(
+                item1 => item1.ident === item.ident
               );
-            } else {
-              updateDeviceValues(data);
-              return of(null);
-            }
-          })
-        );
-      } else {
-        return of(null);
-      }
-    };
+              if (device) {
+                device.isOnline = item.isOnline;
+                device.capabilities.forEach(cap => {
+                  cap.value = item.values[`${cap.ident}_${cap.index}`];
+                });
+              }
+            });
+          };
 
-    this.stopDeviceValuesInterval();
-
-    this.valuesInterval$ = interval(5000)
-      .pipe(
-        startWith(null),
-        switchMap(() => getDeviceValues())
-      )
-      .subscribe();
-  }
-
-  public stopDeviceValuesInterval(): void {
-    if (this.valuesInterval$) {
-      this.valuesInterval$.unsubscribe();
-      this.valuesInterval$ = null;
+          if (data.length !== this.devices?.items?.length) {
+            return this.backend.getDevices().pipe(
+              finalize(() => {
+                updateDeviceValues(data);
+              }),
+              switchMap((devices: any) => {
+                this.devices = new DevicesModel(devices);
+                return of(null);
+              })
+            );
+          } else {
+            updateDeviceValues(data);
+            return of(null);
+          }
+        })
+      );
+    } else {
+      return of(null);
     }
   }
 
@@ -340,16 +358,27 @@ export class UIService implements OnDestroy {
     });
   }
 
-  public googleLogin(inviteId?: string): void {
+  public async googleLogin(inviteId?: string): Promise<void> {
     const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
     const url = `${environment.main_url}/backend/v2/user/google/login?state=${encodedState}`;
-    const browser = this.iab.create(url, '_blank');
-    if (this.platform.is('capacitor')) {
-      this.handleLogin(browser);
+
+    if (this.isDesktop()) {
+      const redirectResult = await window.electron.startOAuth(
+        url,
+        'auth-redirect'
+      );
+      console.log('googleLogin');
+      console.log(redirectResult);
+      this.processLoginUrl(redirectResult);
+    } else {
+      const browser = this.iab.create(url, '_blank');
+      if (this.isMobile) {
+        this.handleLogin(browser);
+      }
     }
   }
 
-  public appleLogin(inviteId?: string): void {
+  public async appleLogin(inviteId?: string): Promise<void> {
     // if (this.platform.is('ios')) {
     //   const { response } = await SignInWithApple.authorize({
     //     clientId: 'ai.aydo.app.apple',
@@ -360,9 +389,20 @@ export class UIService implements OnDestroy {
     // }
     const encodedState = btoa(JSON.stringify({ inviteId: inviteId }));
     const url = `${environment.main_url}/backend/v2/user/apple/login?state=${encodedState}`;
-    const browser = this.iab.create(url, '_blank');
-    if (this.platform.is('capacitor')) {
-      this.handleLogin(browser);
+
+    if (this.isDesktop()) {
+      const redirectResult = await window.electron.startOAuth(
+        url,
+        'auth-redirect'
+      );
+      console.log('appleLogin');
+      console.log(redirectResult);
+      this.processLoginUrl(redirectResult);
+    } else {
+      const browser = this.iab.create(url, '_blank');
+      if (this.isMobile) {
+        this.handleLogin(browser);
+      }
     }
   }
 
@@ -370,36 +410,47 @@ export class UIService implements OnDestroy {
     browser.on('loadstart').subscribe((event: any) => {
       if (event.url.includes('auth-redirect')) {
         browser.close();
-        const urlObj = new URL(event.url);
-        const userData = urlObj.searchParams?.get('userData');
-        const error = urlObj.searchParams?.get('error');
-        if (error) {
-          this.errors.showError(decodeURIComponent(error));
-          this.router.navigate(['/main']);
-          return;
-        }
-        if (userData) {
-          try {
-            const decodedData = atob(userData);
-            const userTokens = JSON.parse(decodedData);
-            const token = userTokens.token;
-            const refreshToken = userTokens.refreshToken;
+        this.processLoginUrl(event.url);
+      }
+    });
+  }
 
-            if (token && refreshToken) {
-              this.storage.token = token;
-              this.storage.refreshToken = refreshToken;
-              this.storage.next();
-            } else {
-              this.errors.showError('Not authenticated');
-            }
-          } catch (error) {
-            this.errors.showError('Not authenticated');
-          }
+  public processLoginUrl(url: string): void {
+    const urlObj = new URL(url);
+    const userData = urlObj.searchParams?.get('userData');
+    const error = urlObj.searchParams?.get('error');
+
+    if (error) {
+      this.errors.showError(decodeURIComponent(error));
+      this.router.navigate(['/main']);
+      return;
+    }
+
+    if (userData) {
+      try {
+        const decodedData = atob(userData);
+        const userTokens = JSON.parse(decodedData);
+        const token = userTokens.token;
+        const refreshToken = userTokens.refreshToken;
+
+        if (token && refreshToken) {
+          this.storage.token = token;
+          this.storage.refreshToken = refreshToken;
+          this.storage.next();
         } else {
           this.errors.showError('Not authenticated');
         }
-        this.afterLogin();
+      } catch (error) {
+        this.errors.showError('Not authenticated');
       }
-    });
+    } else {
+      this.errors.showError('Not authenticated');
+    }
+
+    this.afterLogin();
+  }
+
+  public isDesktop() {
+    return environment.platform === 'desktop';
   }
 }

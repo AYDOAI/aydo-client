@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BaseElement } from '../base.component';
 import {
@@ -9,11 +9,11 @@ import {
   of,
   merge,
   filter,
-  switchMap,
   first,
   concat,
 } from 'rxjs';
 import { takeUntil, catchError, tap, map, last } from 'rxjs/operators';
+import { GeolocationService } from '../../services/geolocation.service';
 
 @Component({
   selector: 'app-google-map',
@@ -27,6 +27,9 @@ export class GoogleMapComponent
   @Input() form!: FormGroup;
   @Input() key!: string;
   @Input() title!: string;
+  @Input() readonly?: boolean = false;
+
+  private geolocationService = inject(GeolocationService);
 
   private destroy$ = new Subject<void>();
 
@@ -51,7 +54,12 @@ export class GoogleMapComponent
   private positionUpdates$ = new Subject<google.maps.LatLngLiteral>();
 
   ngOnInit() {
-    const currentPosition$ = this.getCurrentPosition();
+    this.markerOptions = {
+      ...this.markerOptions,
+      draggable: !this.readonly,
+    };
+
+    const currentPosition$ = this.geolocationService.getCurrentPosition();
     const initialPosition$ = this.getInitialPosition();
 
     concat(initialPosition$, currentPosition$)
@@ -121,35 +129,22 @@ export class GoogleMapComponent
     return EMPTY;
   }
 
-  private getCurrentPosition() {
-    return new Observable<google.maps.LatLngLiteral>(observer => {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          observer.next({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        error => observer.error(error)
-      );
-    }).pipe(
-      catchError(error => {
-        console.error('Geolocation error:', error);
-        return EMPTY;
-      })
-    );
-  }
-
   updateMarkerPosition(point: google.maps.LatLng) {
-    this.positionUpdates$.next(point.toJSON());
+    if (!this.readonly) {
+      this.positionUpdates$.next(point.toJSON());
+    }
   }
 
   onMarkerDragEnd(event: google.maps.MapMouseEvent) {
-    event.latLng && this.updateMarkerPosition(event.latLng);
+    if (!this.readonly && event.latLng) {
+      this.updateMarkerPosition(event.latLng);
+    }
   }
 
   addMarker(event: google.maps.MapMouseEvent) {
-    event.latLng && this.updateMarkerPosition(event.latLng);
+    if (!this.readonly && event.latLng) {
+      this.updateMarkerPosition(event.latLng);
+    }
   }
 
   trackByFn(index: number) {

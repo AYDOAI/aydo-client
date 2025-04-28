@@ -1,6 +1,6 @@
 <div *ngIf="form && formGroup" class="form">
-  <div class="header" *ngIf="form.title">
-    <div class="back" *ngIf="back" (click)="goBack()">
+  <div class="header" *ngIf="form.title && showTitle">
+    <div class="back" *ngIf="back && showBack" (click)="goBack()">
       <svg
         width="29"
         height="16"
@@ -114,6 +114,7 @@
               <app-google-map
                 [form]="formGroup"
                 [key]="input.key"
+                [readonly]="input.readonly"
                 [title]="input.title!">
               </app-google-map>
             </div>
@@ -128,7 +129,10 @@
               </app-zone>
             </div>
             <div *ngSwitchCase="'avatar'">
-              <app-avatar [form]="formGroup" [key]="input.key" />
+              <app-avatar
+                [form]="formGroup"
+                [key]="input.key"
+                [readonly]="input.readonly" />
             </div>
           </ng-container>
         </ng-container>

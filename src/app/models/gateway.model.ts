@@ -29,6 +29,7 @@ export class DriverItem extends BaseItem {
   className: string | undefined;
   parentClassName: string | undefined;
   name: string | undefined;
+  desciption: string | undefined;
   settings: SettingsModel | undefined;
 
   constructor(parent: BaseModel, data: any) {
@@ -116,6 +117,7 @@ export class DeviceItem extends BaseItem {
   settings?: any[];
   isOnline?: boolean;
   connected?: boolean;
+  setupRequired?: boolean;
 }
 
 export class ZoneItem extends BaseItem {

@@ -38,6 +38,8 @@ import { AddDeviceComponent } from './pages/devices/add/add-device.component';
 import { NewDeviceComponent } from './pages/devices/new/new-device.component';
 import { HubEditComponent } from './pages/devices/hub/hub-edit.component';
 import { ProjectComponent } from './pages/streams/project/project.component';
+import { ModalRedirectGuard } from './shared/guards/modal-redirect.guard';
+import { UnauthGuard } from './shared/guards/unauth.guard';
 
 export const routes: Routes = [
   {
@@ -48,14 +50,17 @@ export const routes: Routes = [
   {
     path: 'sign-in',
     component: WelcomeSignInComponent,
+    canActivate: [UnauthGuard],
   },
   {
     path: 'sign-up',
     component: WelcomeSignUpComponent,
+    canActivate: [UnauthGuard],
   },
   {
     path: 'forgot-password',
     component: WelcomeForgotComponent,
+    canActivate: [UnauthGuard],
   },
   {
     path: 'success',
@@ -75,6 +80,7 @@ export const routes: Routes = [
       },
       {
         path: 'rewards',
+        canActivate: [ModalRedirectGuard],
         component: DashboardRewardsComponent,
       },
       // {
@@ -103,19 +109,22 @@ export const routes: Routes = [
   {
     path: 'devices/edit',
     component: DeviceEditComponent,
+    canActivate: [ModalRedirectGuard],
   },
   {
     path: 'devices/hub',
     component: HubEditComponent,
+    canActivate: [ModalRedirectGuard],
   },
   {
     path: 'devices/add',
     component: AddDeviceComponent,
-    canActivate: [HubGuard],
+    canActivate: [HubGuard, ModalRedirectGuard],
   },
   {
     path: 'devices/new',
     component: NewDeviceComponent,
+    canActivate: [ModalRedirectGuard],
   },
   {
     path: 'settings',
@@ -123,10 +132,12 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
+    canActivate: [ModalRedirectGuard],
     component: ProfileComponent,
   },
   {
     path: 'profile/edit',
+    canActivate: [ModalRedirectGuard],
     component: EditProfileComponent,
   },
   {
@@ -140,10 +151,12 @@ export const routes: Routes = [
       {
         path: ':id',
         component: ProjectComponent,
+        canActivate: [ModalRedirectGuard],
       },
       {
         path: ':id/devices',
         component: ConnectDevicesComponent,
+        canActivate: [ModalRedirectGuard],
       },
     ],
   },
@@ -162,9 +175,11 @@ export const routes: Routes = [
   {
     path: 'about',
     component: AboutComponent,
+    canActivate: [ModalRedirectGuard],
   },
   {
     path: 'feedback',
+    canActivate: [ModalRedirectGuard],
     component: FeedbackComponent,
   },
   {
@@ -182,6 +197,7 @@ export const routes: Routes = [
       {
         path: ':hub',
         component: FormAddHubAgreementComponent,
+        canActivate: [ModalRedirectGuard],
       },
       {
         path: ':hub/search',
@@ -194,18 +210,47 @@ export const routes: Routes = [
       {
         path: ':hub/search/manually',
         component: FormAddHubManuallyComponent,
+        canActivate: [ModalRedirectGuard],
       },
       {
         path: ':hub/connected',
         component: FormAddHubConnectedComponent,
+        canActivate: [ModalRedirectGuard],
       },
     ],
   },
   {
     path: 'zone/add',
     component: AddZoneComponent,
+    canActivate: [ModalRedirectGuard],
   },
-  { path: 'main', component: WelcomeMainComponent },
+  // desktop modal
+  { path: 'feedback', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'profile', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'profile-edit', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'rewards', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'about', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'add-hub', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'add-zone', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'devices-add', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'devices-new', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'device-edit', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'device-hub', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'stream/:id', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'stream/:id/devices', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'add-hub/:hub', component: FeedbackComponent, outlet: 'modal' },
+  {
+    path: 'add-hub/:hub/search/manually',
+    component: FeedbackComponent,
+    outlet: 'modal',
+  },
+  {
+    path: 'add-hub/:hub/connected',
+    component: FeedbackComponent,
+    outlet: 'modal',
+  },
+  //
+  { path: 'main', component: WelcomeMainComponent, canActivate: [UnauthGuard] },
   { path: '**', redirectTo: 'main' },
 ];
 

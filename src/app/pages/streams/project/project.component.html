@@ -1,4 +1,12 @@
-<app-full-screen-content-wrapper>
+<app-modal-wrapper *ngIf="isModal" title="Data stream">
+  <ng-container
+    *ngIf="stream$ | async as dataStream"
+    [ngTemplateOutlet]="contentTemplate"
+    [ngTemplateOutletContext]="{ dataStream }">
+  </ng-container>
+</app-modal-wrapper>
+
+<app-full-screen-content-wrapper *ngIf="!isModal">
   <ng-template #header>
     <app-header title="Project info" back="streams"></app-header>
   </ng-template>
@@ -12,7 +20,7 @@
 </app-full-screen-content-wrapper>
 
 <ng-template #contentTemplate let-dataStream="dataStream">
-  <div class="project">
+  <div class="project" [class.mb-10]="isModal">
     <div class="card big">
       <div class="card-content">
         <div class="project-info">
@@ -67,7 +75,7 @@
               stroke-width="2" />
           </svg>
         </div>
-        <button class="btn text-center green-btn" [routerLink]="'devices'">
+        <button class="btn text-center green-btn" (click)="connectDevices()">
           {{ 'Connect devices' }}
         </button>
         <ng-container *ngIf="dataStream?.smartContract">
@@ -91,15 +99,34 @@
             }}</span>
             <span class="wallet-info__label">Wallet address</span>
             <span class="wallet-info__value">{{ publicKey }}</span>
+            <ng-container *ngIf="streamerTokenAccount">
+              <span class="wallet-info__label">Balance of tokens</span>
+              <span class="wallet-info__value">{{
+                streamerTokenAccount.value.amount
+              }}</span>
+            </ng-container>
           </div>
+          <button
+            class="btn text-center"
+            *ngIf="
+              isConnected &&
+              (streamerAccount === null || streamerTokenAccount === null)
+            "
+            (click)="createStreamerAccount()">
+            Register as a streamer
+          </button>
         </ng-container>
         <button
           (click)="toggle()"
-          [disabled]="ui.isBtnLoading('streaming')"
+          [disabled]="
+            ui.isBtnLoading('streaming') ||
+            !dataStream.devices?.length ||
+            !this.ui.gateway
+          "
           class="btn text-center"
-          [class.red-btn]="dataStream?.status === 1">
+          [class.red-btn]="isStreamingActive">
           <span *ngIf="ui.isBtnLoading('streaming')" class="spin-loader"></span>
-          {{ dataStream?.status === 1 ? 'Stop streaming' : 'Start streaming' }}
+          {{ isStreamingActive ? 'Stop streaming' : 'Start streaming' }}
         </button>
       </div>
     </div>

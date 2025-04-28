@@ -68,7 +68,7 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
       defaultValue: false,
       requiredTrue: true,
     });
-    if (environment.recaptcha.enabled) {
+    if (environment.recaptcha.enabled && !this.ui.isDesktop()) {
       this.form.inputs.push({
         key: 'recaptcha',
         title: '',
@@ -95,6 +95,11 @@ export class WelcomeSignUpComponent extends FormBaseComponent {
           const user = { ...this.formGroup.value };
           user.email = user.login.trim();
           user.inviteId = this.formGroup.get('invite_code')?.value;
+
+          if (environment.recaptcha.enabled && this.ui.isDesktop()) {
+            user.platform = environment.platform;
+          }
+
           this.resetFormErrors();
           this.ui.lockBtn('sign_up');
           this.backend

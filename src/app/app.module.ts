@@ -93,6 +93,9 @@ import { AddDeviceComponent } from './pages/devices/add/add-device.component';
 import { NewDeviceComponent } from './pages/devices/new/new-device.component';
 import { HubEditComponent } from './pages/devices/hub/hub-edit.component';
 import { ProjectComponent } from './pages/streams/project/project.component';
+import { NotificationComponent } from './components/notification/notification.component';
+import { DesktopSidebarComponent } from './components/desktop-sidebar/desktop-sidebar.component';
+import { ModalWrapperComponent } from './components/modal-wrapper/modal-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -157,6 +160,7 @@ import { ProjectComponent } from './pages/streams/project/project.component';
     ErrorComponent,
     AddZoneComponent,
     MenuComponent,
+    DesktopSidebarComponent,
     AvatarComponent,
     FullScreenContentWrapperComponent,
     GatewayCardComponent,
@@ -165,6 +169,8 @@ import { ProjectComponent } from './pages/streams/project/project.component';
     AddDeviceComponent,
     NewDeviceComponent,
     HubEditComponent,
+    NotificationComponent,
+    ModalWrapperComponent,
   ],
   imports: [
     AppRoutingModule,

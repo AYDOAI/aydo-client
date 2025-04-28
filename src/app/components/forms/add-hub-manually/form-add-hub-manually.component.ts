@@ -1,4 +1,4 @@
-import { Component, inject, Input, NgZone } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormBaseComponent } from '../../form-base.component';
 import { ActivatedRoute } from '@angular/router';
 import { AppFormInputs } from '../../../shared/types';
@@ -97,9 +97,13 @@ export class FormAddHubManuallyComponent extends FormBaseComponent {
           .subscribe((data: any) => {
             if (data && data.gateway && data.gateway.identifier) {
               this.storage.serverId = data.gateway.identifier;
-              const hub = this.activatedRoute.snapshot.paramMap.get('hub');
-              this.ui.startDeviceValuesInterval();
-              this.router.navigate([`add-hub/${hub}/connected`]);
+              let hub = this.activatedRoute.snapshot.paramMap.get('hub');
+              if (!hub) {
+                const urlMatch = this.router.url.match('add-hub/([^/)+]+)');
+                hub = urlMatch?.[1] ?? 'add';
+              }
+              this.ui.getDeviceValues().subscribe();
+              this.navCtrl.navigateForward(`/add-hub/${hub}/connected`);
             }
           });
         break;

@@ -5,4 +5,9 @@ export interface WalletAdapter {
 
   connect(): Promise<void>;
   disconnect(): Promise<void>;
+
+  getStreamerAccountKey(): string | null;
+  getStreamerAccount(): Promise<any>;
+  getStreamerTokenAccount(): Promise<any>;
+  createStreamerAccount(): Promise<void>;
 }

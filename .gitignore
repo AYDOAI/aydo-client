@@ -45,3 +45,4 @@ Thumbs.db
 release_outputs/
 keys/
 docker-entrypoint.sh
+src/assets/env.js

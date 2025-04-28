@@ -60,7 +60,7 @@ input {
     // some error styles
   }
 
-  &:focus,
+  &:focus:not(:read-only),
   &.has-value {
     & + .label-text {
       top: 8px;
@@ -69,6 +69,14 @@ input {
       line-height: 150%;
       transition: all 0.2s ease-out;
     }
+  }
+
+  &:read-only {
+    cursor: default;
+  }
+
+  &:read-only + .label-text {
+    cursor: default;
   }
 
   &:disabled {

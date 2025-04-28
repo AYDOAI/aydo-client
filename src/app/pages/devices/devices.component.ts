@@ -30,11 +30,15 @@ export class DevicesComponent extends BaseComponent {
     );
     this.ui.selectedDevice = device;
     this.devicesService.selectDevice(device);
-    this.navCtrl.navigateForward(['/devices/edit']);
+    this.navCtrl.navigateForward('/devices/edit');
   }
 
   public editHub(): void {
-    this.navCtrl.navigateForward(['/devices/hub']);
+    this.navCtrl.navigateForward('/devices/hub');
+  }
+
+  public addDevice(): void {
+    this.navCtrl.navigateForward('/devices/add');
   }
 
   public trackByIdent(index: number, device: DeviceItem): string {

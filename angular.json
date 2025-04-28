@@ -20,7 +20,7 @@
             "outputPath": "www",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": ["zone.js", "src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -29,7 +29,8 @@
                 "input": "public"
               },
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              "src/assets/env.js"
             ],
             "styles": ["src/styles.scss"],
             "scripts": []
@@ -62,9 +63,7 @@
               ]
             },
             "testing": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
+              "outputHashing": "all",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

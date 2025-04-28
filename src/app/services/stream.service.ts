@@ -1,8 +1,14 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { of, shareReplay, startWith, Subject, switchMap, take } from 'rxjs';
-import { DeviceItem } from '../models/gateway.model';
+import { Injectable } from '@angular/core';
+import {
+  Observable,
+  of,
+  shareReplay,
+  startWith,
+  Subject,
+  switchMap,
+  take,
+} from 'rxjs';
+import { WsRequestService } from './ws-request.service';
 
 export interface DataStream {
   smartContract: any;
@@ -13,7 +19,12 @@ export interface DataStream {
   externalLink: string;
   status?: 0 | 1;
   logo?: string;
-  devices: DeviceItem[];
+  devices?: {
+    id: number;
+    deviceId: number;
+    dataStreamId: number;
+    createdAt: Date;
+  }[];
 }
 
 @Injectable({
@@ -21,15 +32,16 @@ export interface DataStream {
 })
 export class StreamService {
   private reloadSubject = new Subject<void>();
-  private readonly httpClient = inject(HttpClient);
 
-  baseUrl = `${environment.main_url}/backend/v2/data-stream`;
+  baseUrl = `/backend/v2/data-stream`;
 
   streams$ = this.reloadSubject.pipe(
     startWith(undefined),
-    switchMap(() => this.httpClient.get<DataStream[]>(this.baseUrl)),
+    switchMap(() => this.request.get<DataStream[]>(this.baseUrl)),
     shareReplay(1)
   );
+
+  constructor(private request: WsRequestService) {}
 
   reloadData(): void {
     this.reloadSubject.next();
@@ -43,7 +55,7 @@ export class StreamService {
         if (stream) {
           return of(stream);
         } else {
-          return this.httpClient.get<DataStream>(`${this.baseUrl}/${id}`);
+          return this.request.get<DataStream>(`${this.baseUrl}/${id}`);
         }
       })
     );
@@ -57,7 +69,7 @@ export class StreamService {
         if (stream) {
           return of(stream);
         } else {
-          return this.httpClient.get<DataStream>(
+          return this.request.get<DataStream>(
             `${this.baseUrl}/keyword/${keyword}`
           );
         }
@@ -66,20 +78,18 @@ export class StreamService {
   }
 
   disconnectDeviceFromStream(streamId: number, deviceId: number) {
-    return this.httpClient.delete(
+    return this.request.delete(
       `${this.baseUrl}/${streamId}/devices/${deviceId}`
     );
   }
 
   connectDeviceToStream(streamId: number, deviceId: number) {
-    return this.httpClient.post(`${this.baseUrl}/${streamId}/devices`, {
+    return this.request.post(`${this.baseUrl}/${streamId}/devices`, {
       deviceId,
     });
   }
 
-  toggleDataStream(streamId: number) {
-    return this.httpClient.post<{
-      status: 1 | 0;
-    }>(`${this.baseUrl}/${streamId}/toggle`, {});
+  toggleDataStream(streamId: number): Observable<any> {
+    return this.request.post(`${this.baseUrl}/${streamId}/toggle`, {});
   }
 }

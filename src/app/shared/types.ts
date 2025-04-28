@@ -77,7 +77,7 @@ export interface AppFormInputs {
   conditions?: any;
   class?: string;
   // //   placeholder?: string;
-  //   readonly?: string;
+  readonly?: boolean;
   multi?: boolean;
   // //   rows?: number;
   // //   autocomplete?: string;

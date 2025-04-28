@@ -6,6 +6,7 @@ import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { NavigationBar } from '@capgo/capacitor-navigation-bar';
 import { LoadingService } from './services/loading.service';
 import { UIService } from './services/ui.service';
+import { NavigationService } from './services/navigation.service';
 
 declare const gtag: Function;
 
@@ -22,7 +23,8 @@ export class AppComponent {
     public loading: LoadingService,
     public router: Router,
     public ui: UIService,
-    private zone: NgZone
+    private zone: NgZone,
+    private navigation: NavigationService
   ) {
     this.init();
   }

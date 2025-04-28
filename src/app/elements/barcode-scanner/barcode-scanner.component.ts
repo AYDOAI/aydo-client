@@ -33,8 +33,6 @@ export class BarcodeScannerComponent
 
   @ViewChild('square')
   public squareElement: ElementRef<HTMLDivElement> | undefined;
-
-  public isTorchAvailable = false;
   public minZoomRatio: number | undefined;
   public maxZoomRatio: number | undefined;
 
@@ -43,11 +41,7 @@ export class BarcodeScannerComponent
     private readonly ngZone: NgZone
   ) {}
 
-  public ngOnInit(): void {
-    BarcodeScanner.isTorchAvailable().then(result => {
-      this.isTorchAvailable = result.available;
-    });
-  }
+  public ngOnInit(): void {}
 
   public ngAfterViewInit(): void {
     setTimeout(() => {
@@ -72,10 +66,6 @@ export class BarcodeScannerComponent
     this.dialogService.dismissModal({
       barcode: barcode,
     });
-  }
-
-  public async toggleTorch(): Promise<void> {
-    await BarcodeScanner.toggleTorch();
   }
 
   private async startScan(): Promise<void> {
@@ -117,26 +107,27 @@ export class BarcodeScannerComponent
       : undefined;
 
     const listener = await BarcodeScanner.addListener(
-      'barcodeScanned',
+      'barcodesScanned',
       async event => {
         this.ngZone.run(() => {
-          const cornerPoints = event.barcode.cornerPoints;
+          const cornerPoints = event.barcodes[0].cornerPoints;
           if (detectionCornerPoints && cornerPoints) {
+            const offset = 10;
             if (
-              detectionCornerPoints[0][0] > cornerPoints[0][0] ||
-              detectionCornerPoints[0][1] > cornerPoints[0][1] ||
-              detectionCornerPoints[1][0] < cornerPoints[1][0] ||
-              detectionCornerPoints[1][1] > cornerPoints[1][1] ||
-              detectionCornerPoints[2][0] < cornerPoints[2][0] ||
-              detectionCornerPoints[2][1] < cornerPoints[2][1] ||
-              detectionCornerPoints[3][0] > cornerPoints[3][0] ||
-              detectionCornerPoints[3][1] < cornerPoints[3][1]
+              detectionCornerPoints[0][0] > cornerPoints[0][0] + offset ||
+              detectionCornerPoints[0][1] > cornerPoints[0][1] + offset ||
+              detectionCornerPoints[1][0] < cornerPoints[1][0] - offset ||
+              detectionCornerPoints[1][1] > cornerPoints[1][1] + offset ||
+              detectionCornerPoints[2][0] < cornerPoints[2][0] - offset ||
+              detectionCornerPoints[2][1] < cornerPoints[2][1] - offset ||
+              detectionCornerPoints[3][0] > cornerPoints[3][0] + offset ||
+              detectionCornerPoints[3][1] < cornerPoints[3][1] - offset
             ) {
               return;
             }
           }
           listener.remove();
-          this.closeModal(event.barcode);
+          this.closeModal(event.barcodes[0]);
         });
       }
     );

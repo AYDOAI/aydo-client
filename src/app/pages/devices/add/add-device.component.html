@@ -1,4 +1,17 @@
-<app-full-screen-content-wrapper>
+<app-modal-wrapper *ngIf="isModal" title="Add device">
+  <app-form
+    [form]="form"
+    [formGroup]="formGroup"
+    [showTitle]="false"
+    (onClickButton)="button($event)">
+    <ng-template #skeleton>
+      <ion-skeleton-text animated class="btn-loading"></ion-skeleton-text>
+      <ion-skeleton-text animated class="btn-loading"></ion-skeleton-text>
+    </ng-template>
+  </app-form>
+</app-modal-wrapper>
+
+<app-full-screen-content-wrapper *ngIf="!isModal">
   <ng-template #header>
     <app-header title="Devices"></app-header>
   </ng-template>

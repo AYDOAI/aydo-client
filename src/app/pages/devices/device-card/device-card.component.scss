@@ -31,6 +31,12 @@
       --icon-width: 9px;
       --icon-height: 18px;
 
+      &-desciption {
+        color: #999999;
+        font-size: 12px;
+        line-height: 120%;
+      }
+
       svg-icon {
         margin-left: auto;
       }
@@ -77,6 +83,14 @@
         line-height: 140%;
         letter-spacing: 0.05em;
       }
+    }
+  }
+
+  .setup-btn {
+    padding: 0 16px;
+
+    .btn {
+      max-height: 24px;
     }
   }
 }

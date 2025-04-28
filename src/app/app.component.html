@@ -1,9 +1,32 @@
 <div class="main" [class.no-padding]="isMobile">
   <ion-app>
+    <!--  desktop modals  -->
     <ion-router-outlet
-      *ngIf="
-        ui.appReady || router.url.includes('privacy-policy')
-      "></ion-router-outlet>
+      name="modal"
+      class="modal-router-outlet"></ion-router-outlet>
+    <!-- unauthorized -->
+    <ng-container
+      *ngIf="!ui.user || !ui.user?.is_verified || ui.clientWidth < 768">
+      <ion-router-outlet
+        *ngIf="
+          ui.appReady || router.url.includes('privacy-policy')
+        "></ion-router-outlet>
+    </ng-container>
+
+    <!-- authorized -->
+    <ng-container
+      *ngIf="ui.user && ui.user.is_verified && ui.clientWidth >= 768">
+      <div class="main-layout">
+        <app-desktop-sidebar></app-desktop-sidebar>
+        <div class="view-container">
+          <ion-router-outlet
+            *ngIf="
+              ui.appReady || router.url.includes('privacy-policy')
+            "></ion-router-outlet>
+        </div>
+      </div>
+    </ng-container>
+
     <div *ngIf="loading.loading$ | async" class="loader-container">
       <span class="fence-loader"></span>
     </div>
@@ -12,3 +35,4 @@
 <svg-definitions style="display: block; width: 0; height: 0"></svg-definitions>
 <app-dialog-container></app-dialog-container>
 <app-error></app-error>
+<app-notification></app-notification>

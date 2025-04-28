@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AppFormInputs } from '../../../shared/types';
 import { FormBaseComponent } from '../../../components/form-base.component';
 import { UploaderService } from '../../../services/uploader.service';
-import { finalize } from 'rxjs';
+import { finalize, first } from 'rxjs';
 import { UserService } from '../../../services/user.service';
+import { GeolocationService } from '../../../services/geolocation.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -13,6 +14,7 @@ import { UserService } from '../../../services/user.service';
 export class EditProfileComponent extends FormBaseComponent {
   private readonly uploader = inject(UploaderService);
   private readonly userService = inject(UserService);
+  private readonly geolocationService = inject(GeolocationService);
 
   user$ = this.userService.user$;
 
@@ -40,6 +42,12 @@ export class EditProfileComponent extends FormBaseComponent {
         onlyLetters: true,
       },
       {
+        key: 'location',
+        title: 'Location',
+        type: 'google-map',
+        required: false,
+      },
+      {
         key: 'submit',
         title: 'Save',
         type: 'button',
@@ -49,12 +57,16 @@ export class EditProfileComponent extends FormBaseComponent {
       },
     ];
     this.formGroup = this.createForm(this.form.inputs);
+  }
+
+  override ionViewDidEnter() {
     this.user$.subscribe(user => {
       this.formGroup.patchValue(user);
     });
+    super.ionViewDidEnter();
   }
 
-  async sendUpdateUser(avatarId: string | null) {
+  async sendUpdateUser(avatarId: string | null, realLocation?: string) {
     this.ui.lockBtn('submit');
     this.backend
       .updateUser({
@@ -62,33 +74,62 @@ export class EditProfileComponent extends FormBaseComponent {
         firstname: this.formGroup.value.firstname,
         lastname: this.formGroup.value.lastname,
         wallet: '',
+        location: this.formGroup.value.location,
+        realLocation,
       })
       .pipe(finalize(() => this.ui.unlockBtn('submit')))
       .subscribe(res => {
         this.ui.user = res;
-        this.userService.updateUser(res);
+        this.userService.updateUser({
+          ...res,
+          avatar: res.avatar || null,
+        });
         this.errors.showInfo('Profile changed successfully.');
       });
   }
 
   updateProfile() {
-    if (
-      this.formGroup.value.avatar &&
-      this.formGroup.value.avatar instanceof File
-    ) {
-      this.ui.lockBtn('submit');
+    const hasLocation = !!this.formGroup.value.location;
 
-      this.uploader.upload(this.formGroup.value.avatar).subscribe({
-        next: response => {
-          this.sendUpdateUser(response.id);
-        },
-        error: err => {
-          this.errors.showError('Failed to upload avatar. Please try again.');
-          this.ui.unlockBtn('submit');
-        },
-      });
+    const processUpdate = (realLocation?: string) => {
+      if (
+        this.formGroup.value.avatar &&
+        this.formGroup.value.avatar instanceof File
+      ) {
+        this.ui.lockBtn('submit');
+
+        this.uploader.upload(this.formGroup.value.avatar).subscribe({
+          next: response => {
+            this.sendUpdateUser(response.id, realLocation);
+          },
+          error: () => {
+            this.errors.showError('Failed to upload avatar. Please try again.');
+            this.ui.unlockBtn('submit');
+          },
+        });
+      } else {
+        this.sendUpdateUser(
+          this.formGroup.value.avatar?.fileId || null,
+          realLocation
+        );
+      }
+    };
+
+    if (hasLocation) {
+      this.geolocationService
+        .getCurrentPosition()
+        .pipe(first())
+        .subscribe({
+          next: position => {
+            const locationString = `(${position.lat},${position.lng})`;
+            processUpdate(locationString);
+          },
+          error: () => {
+            processUpdate();
+          },
+        });
     } else {
-      this.sendUpdateUser(this.formGroup.value.avatar?.id || null);
+      processUpdate();
     }
   }
 

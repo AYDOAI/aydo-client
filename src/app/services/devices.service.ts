@@ -1,17 +1,17 @@
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, from, Observable, shareReplay, tap } from 'rxjs';
-import { RequestService } from './request.service';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, shareReplay, tap } from 'rxjs';
 import { BaseService } from '../models/base-service.interface';
 import { IDeviceSettings } from '../shared/interfaces/device-settings.interface';
-import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
 import { DeviceItem } from '../models/gateway.model';
+import { WsRequestService } from './ws-request.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DevicesService implements BaseService<any> {
-  constructor(private request: RequestService) {}
+  constructor(private request: WsRequestService) {
+    this.refreshDevices();
+  }
 
   private selectedDeviceSub = new BehaviorSubject<DeviceItem | null>(null);
   selectedDevice$ = this.selectedDeviceSub.asObservable();
@@ -24,13 +24,13 @@ export class DevicesService implements BaseService<any> {
     this.selectedDeviceSub.next(device);
   }
 
-  devices$ = this.request.get<DeviceItem[]>(this.baseUrl).pipe(shareReplay(1));
+  private devicesSub = new BehaviorSubject<DeviceItem[]>([]);
+  devices$ = this.devicesSub.asObservable();
 
   get baseUrl(): string {
-    return `${environment.main_url}/backend/v2/gateway/device`;
+    return `/backend/v2/gateway/device`;
   }
 
-  // TODO: refactor request service, return observables
   getItems(): Observable<any[]> {
     return this.request.get(this.baseUrl, {
       mainGroup: 'backend',
@@ -82,5 +82,16 @@ export class DevicesService implements BaseService<any> {
           }
         })
       );
+  }
+
+  refreshDevices() {
+    this.request.get<DeviceItem[]>(this.baseUrl).subscribe(
+      devices => {
+        this.devicesSub.next(devices);
+      },
+      error => {
+        console.error('Ошибка при обновлении устройств', error);
+      }
+    );
   }
 }

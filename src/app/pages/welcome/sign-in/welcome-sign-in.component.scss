@@ -51,3 +51,32 @@
     }
   }
 }
+
+@media (min-width: 768px) {
+  .sign-in {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    &__form {
+      max-width: 444px;
+      width: 100%;
+      margin: auto;
+    }
+
+    &__logo {
+      background: url('/assets/icons/logo.svg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .header {
+      grid-template-columns: 1fr;
+
+      .title {
+        margin: 0 auto;
+      }
+    }
+  }
+}

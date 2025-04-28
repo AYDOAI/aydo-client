@@ -2,6 +2,7 @@
   <app-form
     [form]="form"
     [formGroup]="formGroup"
+    [showBack]="ui.clientWidth < 768"
     back="/dashboard"
     (onClickButton)="button($event)">
   </app-form>

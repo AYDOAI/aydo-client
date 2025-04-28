@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
-import { Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { RequestService } from './request.service';
 import {
@@ -17,6 +14,11 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ErrorsService } from './errors.service';
 import { IDeviceSettings } from '../shared/interfaces/device-settings.interface';
+import { WsRequestService } from './ws-request.service';
+import {
+  IPaginatedResponse,
+  IPagination,
+} from '../models/pagination.interface';
 
 export interface Notification {
   title?: string;
@@ -74,6 +76,13 @@ export interface DataStream {
   status?: 0 | 1;
   logo?: string;
   smartContract?: SmartContract;
+  keyword: string;
+  devices?: {
+    id: number;
+    deviceId: number;
+    dataStreamId: number;
+    createdAt: Date;
+  }[];
 }
 
 export interface DataStreams {
@@ -172,9 +181,7 @@ export class BackendService {
     public request: RequestService,
     public storage: StorageService,
     public errors: ErrorsService,
-    private iab: InAppBrowser,
-    private platform: Platform,
-    private router: Router
+    private wsRequest: WsRequestService
   ) {
     this.randomIndex = between(0, 2);
   }
@@ -228,8 +235,8 @@ export class BackendService {
   }
 
   updateUser(user: any): Observable<any> {
-    return this.request.post(
-      `${environment.main_url}/backend/v2/user/edit`,
+    return this.wsRequest.post(
+      `/backend/v2/user/edit`,
       { user },
       {
         mainGroup: 'backend',
@@ -266,16 +273,22 @@ export class BackendService {
     });
   }
 
-  userRewards(): Observable<UserRewards[]> {
-    return this.request.get(`${environment.main_url}/backend/v2/user/rewards`, {
-      mainGroup: 'backend',
-      method: 'user-rewards',
-    });
+  userRewards(
+    pagination: IPagination
+  ): Observable<IPaginatedResponse<UserRewards>> {
+    return this.wsRequest.post(
+      `/backend/v2/user/rewards`,
+      { pagination },
+      {
+        mainGroup: 'backend',
+        method: 'user-rewards',
+      }
+    );
   }
 
   userRefresh(): Observable<any> {
-    return this.request
-      .get(`${environment.main_url}/backend/v2/user/refresh`, {
+    return this.wsRequest
+      .get(`/backend/v2/user/refresh`, {
         mainGroup: 'backend',
         method: 'user-refresh',
       })
@@ -289,8 +302,8 @@ export class BackendService {
   }
 
   gatewayConnect(gateway: GatewayItem): Observable<any> {
-    return this.request.post(
-      `${environment.main_url}/backend/v2/gateway/connect`,
+    return this.wsRequest.post(
+      `/backend/v2/gateway/connect`,
       { gateway },
       {
         mainGroup: 'backend',
@@ -300,18 +313,15 @@ export class BackendService {
   }
 
   drivers(): Observable<any> {
-    return this.request.get(
-      `${environment.main_url}/backend/v2/gateway/drivers`,
-      {
-        mainGroup: 'backend',
-        method: 'gateway-drivers',
-      }
-    );
+    return this.wsRequest.get(`/backend/v2/gateway/drivers`, {
+      mainGroup: 'backend',
+      method: 'gateway-drivers',
+    });
   }
 
   saveDevice(device: DeviceItem): Observable<any> {
-    return this.request.post(
-      `${environment.main_url}/backend/v2/gateway/device`,
+    return this.wsRequest.post(
+      `/backend/v2/gateway/device`,
       { device },
       {
         mainGroup: 'backend',
@@ -321,18 +331,15 @@ export class BackendService {
   }
 
   getDevices(): Observable<any> {
-    return this.request.get(
-      `${environment.main_url}/backend/v2/gateway/device`,
-      {
-        mainGroup: 'backend',
-        method: 'gateway-get-devices',
-      }
-    );
+    return this.wsRequest.get(`/backend/v2/gateway/device`, {
+      mainGroup: 'backend',
+      method: 'gateway-get-devices',
+    });
   }
 
   deleteDevice(device_ident: string): Observable<any> {
-    return this.request.post(
-      `${environment.main_url}/backend/v2/gateway/device/delete`,
+    return this.wsRequest.post(
+      `/backend/v2/gateway/device/delete`,
       { data: { device_ident } },
       {
         mainGroup: 'backend',
@@ -342,8 +349,8 @@ export class BackendService {
   }
 
   updateDevice(device: IDeviceSettings): Observable<any> {
-    return this.request.post(
-      `${environment.main_url}/backend/v2/gateway/device/update`,
+    return this.wsRequest.post(
+      `/backend/v2/gateway/device/update`,
       { data: device },
       {
         mainGroup: 'backend',
@@ -353,35 +360,29 @@ export class BackendService {
   }
 
   getDeviceValues(): Observable<any> {
-    return this.request.get(
-      `${environment.main_url}/backend/v2/gateway/device/values`,
-      {
-        mainGroup: 'backend',
-        method: 'gateway-get-device-values',
-      }
-    );
+    return this.wsRequest.get(`/backend/v2/gateway/device/values`, {
+      mainGroup: 'backend',
+      method: 'gateway-get-device-values',
+    });
   }
 
   getGateway(): Observable<any> {
-    return this.request.get(`${environment.main_url}/backend/v2/gateway`, {
+    return this.wsRequest.get(`/backend/v2/gateway`, {
       mainGroup: 'backend',
       method: 'gateway-get-gateway',
     });
   }
 
   deleteGateway(): Observable<any> {
-    return this.request.del(
-      `${environment.main_url}/backend/v2/gateway/delete`,
-      {
-        mainGroup: 'backend',
-        method: 'gateway-delete',
-      }
-    );
+    return this.wsRequest.delete(`/backend/v2/gateway/delete`, {
+      mainGroup: 'backend',
+      method: 'gateway-delete',
+    });
   }
 
   saveZone(zone: ZoneItem): Observable<any> {
-    return this.request.post(
-      `${environment.main_url}/backend/v2/gateway/zone`,
+    return this.wsRequest.post(
+      `/backend/v2/gateway/zone`,
       { zone },
       {
         mainGroup: 'backend',
@@ -391,73 +392,36 @@ export class BackendService {
   }
 
   getZones(): Observable<any> {
-    return this.request.get(`${environment.main_url}/backend/v2/gateway/zone`, {
+    return this.wsRequest.get(`/backend/v2/gateway/zone`, {
       mainGroup: 'backend',
       method: 'gateway-get-zones',
     });
   }
 
   deviceCommand(data: any): Observable<any> {
-    return this.request.post(
-      `${environment.main_url}/backend/v2/gateway/device/command`,
-      data,
-      {
-        mainGroup: 'backend',
-        method: 'gateway-device-command',
-      }
-    );
-  }
-
-  getNotifications(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      resolve(this.notifications[this.randomIndex]);
-    });
-  }
-
-  getRewards(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      resolve(this.rewards[this.randomIndex]);
-    });
-  }
-
-  getMainQuests(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      resolve(this.mainQuests[this.randomIndex]);
-    });
-  }
-
-  getAdditionalQuests(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      resolve(this.additionalQuests[this.randomIndex]);
-    });
-  }
-
-  getRanking(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      resolve(this.rankings[this.randomIndex]);
+    return this.wsRequest.post(`/backend/v2/gateway/device/command`, data, {
+      mainGroup: 'backend',
+      method: 'gateway-device-command',
     });
   }
 
   getDataStreams(): Observable<DataStream[]> {
-    return this.request.get(`${environment.main_url}/backend/v2/data-stream`, {
+    return this.wsRequest.get(`/backend/v2/data-stream`, {
       mainGroup: 'backend',
       method: 'data-streams',
     });
   }
 
   getDataStreamById(id: number): Observable<DataStream> {
-    return this.request.get(
-      `${environment.main_url}/backend/v2/data-stream/${id}`,
-      {
-        mainGroup: 'backend',
-        method: 'data-stream',
-      }
-    );
+    return this.wsRequest.get(`/backend/v2/data-stream/${id}`, {
+      mainGroup: 'backend',
+      method: 'data-stream',
+    });
   }
 
   toggleDataStream(id: number): Observable<{ status: number }> {
-    return this.request.post(
-      `${environment.main_url}/backend/v2/data-stream/${id}/toggle`,
+    return this.wsRequest.post(
+      `/backend/v2/data-stream/${id}/toggle`,
       {},
       {
         mainGroup: 'backend',

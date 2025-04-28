@@ -6,7 +6,7 @@
   (ionWillClose)="menuService.menuActive = false"
   (ionWillOpen)="menuService.menuActive = true"
   (ionDidOpen)="menuService.menuActive = true"
-  [swipeGesture]="swipeEnabled$ | async">
+  [swipeGesture]="swipeEnabled$ && navigation.isMobile$ | async">
   <div class="menu-container">
     <div class="menu">
       <div
