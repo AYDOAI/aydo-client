@@ -2,15 +2,7 @@ import { Component, inject } from '@angular/core';
 import { AppFormInputs } from '../../../shared/types';
 import { FormBaseComponent } from '../../../components/form-base.component';
 import { UploaderService } from '../../../services/uploader.service';
-import {
-  finalize,
-  first,
-  catchError,
-  switchMap,
-  of,
-  map,
-  Observable,
-} from 'rxjs';
+import { finalize, first } from 'rxjs';
 import { UserService } from '../../../services/user.service';
 import { GeolocationService } from '../../../services/geolocation.service';
 

@@ -4,7 +4,6 @@ import { DialogService } from '../../services/dialog.service';
 import { LicenseDialogComponent } from '../../elements/dialog/license-dialog/license-dialog.component';
 import { environment } from '../../../environments/environment';
 import { Capacitor } from '@capacitor/core';
-import packageInfo from '../../../../package.json';
 
 @Component({
   selector: 'app-about',
@@ -20,8 +19,7 @@ export class AboutComponent implements OnInit {
   ngOnInit(): void {
     const platform = Capacitor.getPlatform();
     if (platform === 'web') {
-      this.version = packageInfo.version;
-      // this.version = 'web';
+      this.version = 'web';
     }
     if (platform !== 'web') {
       App.getInfo().then(appInfo => {

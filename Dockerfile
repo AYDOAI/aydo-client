@@ -1,7 +1,7 @@
 # ============================================
 # Development Stage
 # ============================================
-FROM node:22.14.0 AS dev
+FROM node:18 AS dev
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -34,9 +34,32 @@ COPY --from=testing /usr/src/app/www/ /etc/nginx/html
 # Expose port 80 for testing
 EXPOSE 80
 # ============================================
+# PROD Build Stage 
+# ============================================
+FROM dev AS build-production
+
+# Copy application source code
+COPY . .
+
+# Run build script
+RUN npm run build
+
+# ============================================
+# NGINX Runtime Stage
+# ============================================
+FROM nginx AS production
+
+# Copy custom nginx configuration
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+# Copy built files from the build stage
+COPY --from=build-production /usr/src/app/www/ /etc/nginx/html
+
+EXPOSE 80
+# ============================================
 # Build APK for Android
 # ============================================
-FROM mingc/android-build-box:latest AS build-android
+FROM mingc/android-build-box:1.28.0 AS build-android
 # Create app directory
 WORKDIR /usr/src/app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
