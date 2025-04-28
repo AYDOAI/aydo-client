@@ -29,6 +29,7 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
   private walletService: WalletService | undefined;
 
   isConnected = false;
+  isStreamingActive: boolean = false;
   publicKey: string | null = null;
   streamerAccount: any | null = undefined;
   streamerTokenAccount: any | null = undefined;
@@ -60,7 +61,7 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
       .subscribe({
         next: dataStream => {
           this.streamSubject.next(dataStream);
-
+          this.isStreamingActive = this.checkStreamingActive(dataStream);
           if (dataStream.smartContract) {
             this.walletService = new WalletService(
               dataStream.smartContract.blockchain.keyword
@@ -90,10 +91,12 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
         next: ({ status }) => {
           const oldValue = this.streamSubject.getValue();
           if (oldValue) {
-            this.streamSubject.next({
+            const dataStream = {
               ...oldValue,
               status,
-            });
+            };
+            this.isStreamingActive = this.checkStreamingActive(dataStream);
+            this.streamSubject.next(dataStream);
           }
         },
       });
@@ -137,5 +140,9 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
     }
 
     return null;
+  }
+
+  checkStreamingActive(dataStream: any): boolean {
+    return dataStream?.status === 1 && dataStream.devices?.length > 0;
   }
 }

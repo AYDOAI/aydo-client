@@ -33,8 +33,6 @@ export class BarcodeScannerComponent
 
   @ViewChild('square')
   public squareElement: ElementRef<HTMLDivElement> | undefined;
-
-  public isTorchAvailable = false;
   public minZoomRatio: number | undefined;
   public maxZoomRatio: number | undefined;
 
@@ -43,11 +41,7 @@ export class BarcodeScannerComponent
     private readonly ngZone: NgZone
   ) {}
 
-  public ngOnInit(): void {
-    BarcodeScanner.isTorchAvailable().then(result => {
-      this.isTorchAvailable = result.available;
-    });
-  }
+  public ngOnInit(): void {}
 
   public ngAfterViewInit(): void {
     setTimeout(() => {
@@ -72,10 +66,6 @@ export class BarcodeScannerComponent
     this.dialogService.dismissModal({
       barcode: barcode,
     });
-  }
-
-  public async toggleTorch(): Promise<void> {
-    await BarcodeScanner.toggleTorch();
   }
 
   private async startScan(): Promise<void> {
@@ -117,10 +107,10 @@ export class BarcodeScannerComponent
       : undefined;
 
     const listener = await BarcodeScanner.addListener(
-      'barcodeScanned',
+      'barcodesScanned',
       async event => {
         this.ngZone.run(() => {
-          const cornerPoints = event.barcode.cornerPoints;
+          const cornerPoints = event.barcodes[0].cornerPoints;
           if (detectionCornerPoints && cornerPoints) {
             const offset = 10;
             if (
@@ -137,7 +127,7 @@ export class BarcodeScannerComponent
             }
           }
           listener.remove();
-          this.closeModal(event.barcode);
+          this.closeModal(event.barcodes[0]);
         });
       }
     );
