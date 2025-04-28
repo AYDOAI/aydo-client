@@ -1,4 +1,4 @@
-.avatar-container {
+.avatar-label {
   cursor: pointer;
   text-align: center;
   border: 1px solid #060022;
@@ -42,10 +42,8 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  font-size: 18px;
   line-height: 1;
-
-  --icon-height: 9px;
-  --icon-width: 9px;
 }
 
 .remove-button:hover {

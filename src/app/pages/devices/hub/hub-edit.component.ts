@@ -55,6 +55,7 @@ export class HubEditComponent extends FormBaseComponent implements OnInit {
     if (ident) {
       this.backend.deleteGateway().subscribe(() => {
         this.errors.showInfo('Hub is successfully deleted');
+        this.ui.stopDeviceValuesInterval();
         this.storage.serverId = '';
         this.storage.next();
         this.ui.gateway = null;
