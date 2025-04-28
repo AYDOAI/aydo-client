@@ -14,6 +14,7 @@
   <div #square class="square"></div>
   <div class="zoom-ratio-wrapper">
     <ion-range
+      *ngIf="maxZoomRatio && minZoomRatio"
       [min]="minZoomRatio"
       [max]="maxZoomRatio"
       [disabled]="minZoomRatio === undefined || maxZoomRatio === undefined"
