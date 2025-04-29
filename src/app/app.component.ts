@@ -39,7 +39,7 @@ export class AppComponent {
 
   private init(): void {
     this.platform.ready().then(_ => {
-      if (this.platform.is('capacitor')) {
+      if (this.platform.is('android')) {
         const url = this.router.url;
         StatusBar.setOverlaysWebView({ overlay: false });
         StatusBar.setStyle({ style: Style.Light });
