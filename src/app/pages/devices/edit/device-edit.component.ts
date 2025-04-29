@@ -23,7 +23,7 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
     super.ngOnInit();
     const selectedDevice = this.deviceService.getSelectedDevice();
     if (!selectedDevice) {
-      this.navCtrl.navigateBack(['/devices']);
+      this.navCtrl.navigateBack('/devices');
       return;
     }
 
@@ -196,7 +196,7 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
         this.ui.devices.items = this.ui.devices.items.filter(
           d => d.ident !== selectedDevice.ident
         );
-        this.navCtrl.navigateForward(['/devices']);
+        this.navCtrl.navigateForward('/devices');
       });
     }
   }

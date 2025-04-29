@@ -27,6 +27,6 @@ export class FormAddHubConnectedComponent extends FormBaseComponent {
     if (this.isModal) {
       this.modalCtrl.dismiss();
     }
-    this.navCtrl.navigateForward(['/devices']);
+    this.navCtrl.navigateForward('/devices');
   }
 }
