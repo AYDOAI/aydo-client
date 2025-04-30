@@ -4,13 +4,19 @@ import { BaseService } from '../models/base-service.interface';
 import { IDeviceSettings } from '../shared/interfaces/device-settings.interface';
 import { DeviceItem } from '../models/gateway.model';
 import { WsRequestService } from './ws-request.service';
+import { UIService } from './ui.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DevicesService implements BaseService<any> {
-  constructor(private request: WsRequestService) {
-    this.refreshDevices();
+  constructor(
+    private request: WsRequestService,
+    private ui: UIService
+  ) {
+    if (this.ui.gateway) {
+      this.refreshDevices();
+    }
   }
 
   private selectedDeviceSub = new BehaviorSubject<DeviceItem | null>(null);

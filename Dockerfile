@@ -1,68 +1,65 @@
 # ============================================
-# Development Stage
+# Development Base Stage
 # ============================================
-FROM node:22.14.0 AS dev
+FROM node:22.14.0 AS base
 
-# Create app directory
 WORKDIR /usr/src/app
 
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
 
-# Install app dependencies
 RUN npm install
 
 # ============================================
-# Testing Stage
+# Testing Build Stage
 # ============================================
-FROM dev AS testing
-# Copy application source code
+FROM base AS build-testing
+
 COPY . .
 
-# Run build script (adjust as necessary)
+# IMPORTANT: Build for testing
 RUN npm run build:testing
 
-# Setup Nginx for testing
-FROM nginx AS production
-
-# Copy custom nginx configuration
-COPY ./nginx.conf /etc/nginx/nginx.conf
-
-# Copy built files from the testing stage to the Nginx HTML directory
-COPY --from=testing /usr/src/app/www/ /etc/nginx/html
-
-# Expose port 80 for testing
-EXPOSE 80
 # ============================================
-# PROD Build Stage 
+# Production Build Stage
 # ============================================
-FROM dev AS build-production
+FROM base AS build-production
 
-# Copy application source code
 COPY . .
 
-# Run build script
+# Build for production
 RUN npm run build
 
 # ============================================
-# NGINX Runtime Stage
+# NGINX Runtime for Testing
+# ============================================
+FROM nginx AS testing
+
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+# Copy built testing files
+COPY --from=build-testing /usr/src/app/www/ /etc/nginx/html
+
+EXPOSE 80
+
+# ============================================
+# NGINX Runtime for Production
 # ============================================
 FROM nginx AS production
 
-# Copy custom nginx configuration
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
-# Copy built files from the build stage
+# Copy built production files
 COPY --from=build-production /usr/src/app/www/ /etc/nginx/html
 
 EXPOSE 80
+
 # ============================================
 # Build APK for Android
 # ============================================
 FROM mingc/android-build-box:1.28.0 AS build-android
-# Create app directory
+
 WORKDIR /usr/src/app
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
+
 COPY package*.json ./
-# Install app dependencies
+
 RUN npm install --production=false
