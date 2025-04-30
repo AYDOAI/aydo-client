@@ -1,0 +1,2 @@
+Supply Data to AI
+AYDO enables you to supply data from your IoT devices to AI models
