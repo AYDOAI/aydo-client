@@ -10,8 +10,6 @@ const content = `(function (window) {
 })(this);
 `;
 
-const outputPath = path.join(__dirname, '../assets/env.js');
-
+const outputPath = path.join(__dirname, '..', 'assets',  'env.js');
 fs.writeFileSync(outputPath, content);
-
 console.log(`✅ Created env.js with platform: "${platform}"`);

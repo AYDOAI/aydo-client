@@ -24,7 +24,10 @@
           [signUp]="true"
           [signIn]="true"></app-welcome-navigate>
       </div>
-      <div *ngIf="ui.clientWidth >= 768" class="forgot-password__logo"></div>
+      <div
+        *ngIf="ui.clientWidth >= 768"
+        class="forgot-password__logo"
+        [style.background-image]="'url(assets/icons/logo.svg)'"></div>
     </div>
   </ng-template>
 </app-full-screen-content-wrapper>

@@ -21,7 +21,10 @@
           </p>
         </app-form>
       </div>
-      <div *ngIf="ui.clientWidth >= 768" class="email-confirmation__logo"></div>
+      <div
+        *ngIf="ui.clientWidth >= 768"
+        class="email-confirmation__logo"
+        [style.background-image]="'url(assets/icons/logo.svg)'"></div>
     </div>
   </ng-template>
 </app-full-screen-content-wrapper>
