@@ -56,8 +56,8 @@ EXPOSE 80
 # ============================================
 # Build APK for Android
 # ============================================
-FROM mingc/android-build-box:1.28.0 AS build-android
-
+FROM mingc/android-build-box:latest AS build-android
+# Create app directory
 WORKDIR /usr/src/app
 
 COPY package*.json ./
