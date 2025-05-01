@@ -62,15 +62,10 @@ platform :ios do
       ipa: ipa_path,
       skip_metadata: true,
       skip_screenshots: true,
-      submit_for_review: true,
-      automatic_release: true,
+      submit_for_review: false,
+      automatic_release: false,
       force: true,
       username: "dev@aydo.ai",
-      submission_information: {
-        export_compliance_uses_encryption: false,
-        encryption_updated: false,
-        app_type: "ios"
-      }
     )
   end
 end
