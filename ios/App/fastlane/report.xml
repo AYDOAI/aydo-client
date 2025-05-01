@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000249">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: increment_build_number" time="0.225519">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2:       xcodebuild         -workspace ../App.xcworkspace         -scheme App         -sdk iphoneos         -configuration Release         -allowProvisioningUpdates         -archivePath ../build/App.xcarchive         archive
+" time="25.590623">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3:       xcodebuild         -allowProvisioningUpdates         -exportArchive         -archivePath ../build/App.xcarchive         -exportOptionsPlist ./exportOptions.plist         -exportPath ../build
+" time="5.784208">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="4: upload_to_testflight" time="302.015701">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>
