@@ -1,1 +1,0 @@
-We've improved overall performance and squashed some bugs to make your experience smoother.
