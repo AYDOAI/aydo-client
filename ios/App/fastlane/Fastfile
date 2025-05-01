@@ -60,7 +60,7 @@ platform :ios do
 
     upload_to_app_store(
       ipa: ipa_path,
-      skip_metadata: false,
+      skip_metadata: true,
       skip_screenshots: true,
       submit_for_review: true,
       automatic_release: true,
