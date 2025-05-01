@@ -65,7 +65,7 @@ platform :ios do
       submit_for_review: false,
       automatic_release: false,
       force: true,
-      username: "dev@aydo.ai",
+      username: "dev@aydo.ai"
     )
   end
 end
