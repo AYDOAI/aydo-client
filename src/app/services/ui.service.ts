@@ -209,6 +209,9 @@ export class UIService implements OnDestroy {
     this.storage.serverId = '';
     this.user = null;
     this.socket.disconnect();
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      this.pushService.logout();
+    }
     this.navCtrl.navigateForward(['/sign-in']);
   }
 

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AlertController } from '@ionic/angular/standalone';
 import { Platform } from '@ionic/angular';
 import { Capacitor } from '@capacitor/core';
-import { Device } from '@capacitor/device';
 import OneSignal, { OSNotificationPermission } from 'onesignal-cordova-plugin';
 import { RequestService } from './request.service';
 import { environment } from '../../environments/environment';
@@ -89,11 +88,10 @@ export class PushService {
 
   private async initUser() {
     try {
-      const { identifier } = await Device.getId();
       this.request
         .post(
           `${environment.main_url}/backend/v2/onesignal/register`,
-          { deviceId: identifier },
+          {},
           {
             mainGroup: 'backend',
             method: 'register-onesignal',
@@ -109,10 +107,8 @@ export class PushService {
     }
   }
 
-  async logout(userId: number) {
+  async logout() {
     try {
-      const { identifier } = await Device.getId();
-
       OneSignal.logout();
     } catch (e) {
       console.error(e);
