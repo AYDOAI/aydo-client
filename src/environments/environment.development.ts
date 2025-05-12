@@ -18,6 +18,6 @@ export const environment = {
     sitekey: '6LeHSv4qAAAAAKEmgiX4l80dM0F7QirDAJr83ZDu',
   },
   onesignal: {
-    appId: '',
+    appId: '074e5d5a-7a8c-4c02-8945-d81e5a6c82d5',
   },
 };
