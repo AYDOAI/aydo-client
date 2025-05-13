@@ -21,6 +21,7 @@ import { switchMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { SocketService } from './socket.service';
+import { PushService } from './push.service';
 
 declare const window: any;
 
@@ -57,7 +58,8 @@ export class UIService implements OnDestroy {
     private userService: UserService,
     private iab: InAppBrowser,
     private platform: Platform,
-    private socket: SocketService
+    private socket: SocketService,
+    private pushService: PushService
   ) {
     const urlSearchParams = new URLSearchParams(window.location.search);
     this.inviteId = urlSearchParams.get('code') ?? '';
@@ -144,6 +146,7 @@ export class UIService implements OnDestroy {
         .subscribe(
           (user: UserInfo) => {
             this.user = user;
+            this.pushService.init();
             const next = () => {
               this.loading.showLoading();
               this.getDevices();
@@ -206,6 +209,9 @@ export class UIService implements OnDestroy {
     this.storage.serverId = '';
     this.user = null;
     this.socket.disconnect();
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      this.pushService.logout();
+    }
     this.navCtrl.navigateForward(['/sign-in']);
   }
 
