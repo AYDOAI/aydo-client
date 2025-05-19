@@ -1,8 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { BaseComponent } from '../../../components/base.component';
 import { IPagination } from '../../../models/pagination.interface';
-import { finalize } from 'rxjs';
+import { finalize, map } from 'rxjs';
 import { IonInfiniteScroll } from '@ionic/angular';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-dashboard-rewards',
@@ -11,6 +12,9 @@ import { IonInfiniteScroll } from '@ionic/angular';
 })
 export class DashboardRewardsComponent extends BaseComponent {
   @ViewChild(IonInfiniteScroll) infiniteScroll!: IonInfiniteScroll;
+  private userService = inject(UserService);
+  balance$ = this.userService.user$.pipe(map(user => user?.balance || 0));
+
   private pagination: IPagination = {
     page: 1,
     limit: 15,
