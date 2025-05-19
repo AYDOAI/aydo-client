@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AlertController } from '@ionic/angular/standalone';
+import { AlertController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 import { Capacitor } from '@capacitor/core';
 import OneSignal, { OSNotificationPermission } from 'onesignal-cordova-plugin';
