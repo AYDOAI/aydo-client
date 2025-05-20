@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { BaseComponent } from '../../../components/base.component';
 import { QuestsService } from '../../../services/quests.service';
 import { ClipboardService } from '../../../services/clipboard.service';
+import { UserService } from '../../../services/user.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-main',
@@ -11,6 +13,10 @@ import { ClipboardService } from '../../../services/clipboard.service';
 export class DashboardMainComponent extends BaseComponent {
   public questsLength = 0;
   public refLink: string = '';
+  public userService = inject(UserService);
+  public balance$ = this.userService.user$.pipe(
+    map(user => user?.balance || 0)
+  );
   private questsService = inject(QuestsService);
   private clipboard = inject(ClipboardService);
 
