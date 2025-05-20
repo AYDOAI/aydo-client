@@ -38,7 +38,8 @@ export class UIService implements OnDestroy {
   devices!: DevicesModel;
   user: UserInfo | null | undefined = null;
   rewards: UserRewards[] = [];
-  public appReady: boolean = false;
+  private appReadySubject = new BehaviorSubject<boolean>(false);
+  public appReady$ = this.appReadySubject.asObservable();
   public inviteId: string;
   public isOnline: boolean = true;
   public isAppFocused$ = new BehaviorSubject<boolean>(true);
@@ -129,7 +130,7 @@ export class UIService implements OnDestroy {
         .userInfo()
         .pipe(
           finalize(() => {
-            this.appReady = true;
+            this.appReadySubject.next(true);
             this.loading.dismissLoading();
             if (this.user && !this.user?.is_verified) {
               this.goStep('success');
@@ -176,7 +177,7 @@ export class UIService implements OnDestroy {
           }
         );
     } else {
-      this.appReady = true;
+      this.appReadySubject.next(true);
       this.loading.dismissLoading();
       if (!this.isAuthPage()) {
         this.goStep('main');
