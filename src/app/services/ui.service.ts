@@ -44,7 +44,16 @@ export class UIService implements OnDestroy {
   public isOnline: boolean = true;
   public isAppFocused$ = new BehaviorSubject<boolean>(true);
   public gateway:
-    | { identifier: string; userId: string; token: string; is_online: boolean }
+    | {
+        identifier: string;
+        userId: string;
+        token: string;
+        is_online: boolean;
+        timezone: string | null;
+        params: {
+          timezone_settings?: string;
+        };
+      }
     | null
     | undefined = null;
   private btnLoading: string[] = [];

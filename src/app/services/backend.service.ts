@@ -373,6 +373,17 @@ export class BackendService {
     });
   }
 
+  updateGateway(data: any): Observable<any> {
+    return this.wsRequest.patch(
+      `/backend/v2/gateway`,
+      { data },
+      {
+        mainGroup: 'backend',
+        method: 'gateway-update-gateway',
+      }
+    );
+  }
+
   deleteGateway(): Observable<any> {
     return this.wsRequest.delete(`/backend/v2/gateway/delete`, {
       mainGroup: 'backend',

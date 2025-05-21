@@ -153,6 +153,26 @@ export class WsRequestService {
     });
   }
 
+  public patch<T>(
+    url: string,
+    body: any,
+    headers?: { [key: string]: string },
+    opts?: {
+      mainGroup?: string;
+      method?: string;
+      responseType?: string;
+      ignoreError?: boolean;
+    }
+  ): Observable<T> {
+    return this.sendRequest<T>({
+      method: 'PATCH',
+      url,
+      headers,
+      body,
+      ...opts,
+    });
+  }
+
   private addAuthHeader(headers?: { [key: string]: string }): {
     [key: string]: string;
   } {
