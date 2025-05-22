@@ -25,7 +25,7 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
   private route = inject(ActivatedRoute);
   private streamService = inject(StreamService);
   private clipboard = inject(ClipboardService);
-  private modal = inject(ModalService);
+  private modalService = inject(ModalService);
   private walletService: WalletService | undefined;
 
   isConnected = false;
@@ -165,7 +165,7 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
   }
 
   private showAddHubModal(): void {
-    this.modal.showAlert({
+    this.modalService.showAlert({
       header: 'No hub connected',
       message:
         'To start streaming, please connect your hub and add at least one device.',
@@ -183,7 +183,7 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
   }
 
   private showConnectDevicesModal(currentStream: DataStream): void {
-    this.modal.showAlert({
+    this.modalService.showAlert({
       header: 'Devices required',
       message: `There are no devices connected to the project. Connect at least one device to start streaming.`,
       buttons: [
@@ -203,7 +203,7 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
   }
 
   private showPluginRequiredModal(currentStream: DataStream): void {
-    this.modal.showAlert({
+    this.modalService.showAlert({
       header: `Plugin required`,
       message: `This project requires the "${currentStream.requiredPluginKey}" plugin to function properly. Please install the plugin to continue.`,
       buttons: [
