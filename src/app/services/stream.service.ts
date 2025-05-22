@@ -9,9 +9,9 @@ import {
   take,
 } from 'rxjs';
 import { WsRequestService } from './ws-request.service';
+import { SmartContract } from './backend.service';
 
 export interface DataStream {
-  smartContract: any;
   id: number;
   name: string;
   keyword: string;
@@ -25,6 +25,9 @@ export interface DataStream {
     dataStreamId: number;
     createdAt: Date;
   }[];
+  smartContract?: SmartContract;
+  requiredPluginKey?: string;
+  supportedPluginKeys?: string[];
 }
 
 @Injectable({

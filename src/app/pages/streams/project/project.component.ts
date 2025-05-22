@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { BaseComponent } from '../../../components/base.component';
-import { DataStream } from '../../../services/backend.service';
 import { ActivatedRoute } from '@angular/router';
 import {
   BehaviorSubject,
@@ -11,10 +10,11 @@ import {
   filter,
   of,
 } from 'rxjs';
-import { StreamService } from '../../../services/stream.service';
+import { DataStream, StreamService } from '../../../services/stream.service';
 import { ClipboardService } from '../../../services/clipboard.service';
 import { WalletService } from '../../../services/wallet.service';
 import { ViewWillEnter } from '@ionic/angular';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
   selector: 'app-project',
@@ -25,7 +25,7 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
   private route = inject(ActivatedRoute);
   private streamService = inject(StreamService);
   private clipboard = inject(ClipboardService);
-
+  private modal = inject(ModalService);
   private walletService: WalletService | undefined;
 
   isConnected = false;
@@ -62,7 +62,7 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
         next: dataStream => {
           this.streamSubject.next(dataStream);
           this.isStreamingActive = this.checkStreamingActive(dataStream);
-          if (dataStream.smartContract) {
+          if (dataStream?.smartContract) {
             this.walletService = new WalletService(
               dataStream.smartContract.blockchain.keyword
             );
@@ -80,6 +80,24 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
 
     const currentStream = this.streamSubject.getValue();
     if (!currentStream) {
+      this.ui.unlockBtn('streaming');
+      return;
+    }
+
+    if (!this.ui.gateway) {
+      this.showAddHubModal();
+      this.ui.unlockBtn('streaming');
+      return;
+    }
+
+    if (!currentStream.devices?.length) {
+      this.showConnectDevicesModal(currentStream);
+      this.ui.unlockBtn('streaming');
+      return;
+    }
+
+    if (currentStream.requiredPluginKey) {
+      this.showPluginRequiredModal(currentStream);
       this.ui.unlockBtn('streaming');
       return;
     }
@@ -144,5 +162,60 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
 
   checkStreamingActive(dataStream: any): boolean {
     return dataStream?.status === 1 && dataStream.devices?.length > 0;
+  }
+
+  private showAddHubModal(): void {
+    this.modal.showAlert({
+      header: 'No hub connected',
+      message:
+        'To start streaming, please connect your hub and add at least one device.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Add hub',
+          handler: () => this.navCtrl.navigateForward('/add-hub'),
+        },
+      ],
+    });
+  }
+
+  private showConnectDevicesModal(currentStream: DataStream): void {
+    this.modal.showAlert({
+      header: 'Devices required',
+      message: `There are no devices connected to the project. Connect at least one device to start streaming.`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Connect devices',
+          handler: () =>
+            this.navCtrl.navigateForward(
+              `/streams/${currentStream.id}/devices`
+            ),
+        },
+      ],
+    });
+  }
+
+  private showPluginRequiredModal(currentStream: DataStream): void {
+    this.modal.showAlert({
+      header: `Plugin required`,
+      message: `This project requires the "${currentStream.requiredPluginKey}" plugin to function properly. Please install the plugin to continue.`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Install',
+          handler: () => this.navCtrl.navigateForward('/devices/add'),
+        },
+      ],
+    });
   }
 }

@@ -68,27 +68,6 @@ export interface SmartContract {
   blockchain: Blockchain;
 }
 
-export interface DataStream {
-  id: number;
-  name: string;
-  description: string;
-  externalLink: string;
-  status?: 0 | 1;
-  logo?: string;
-  smartContract?: SmartContract;
-  keyword: string;
-  devices?: {
-    id: number;
-    deviceId: number;
-    dataStreamId: number;
-    createdAt: Date;
-  }[];
-}
-
-export interface DataStreams {
-  items: DataStream[];
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -414,30 +393,5 @@ export class BackendService {
       mainGroup: 'backend',
       method: 'gateway-device-command',
     });
-  }
-
-  getDataStreams(): Observable<DataStream[]> {
-    return this.wsRequest.get(`/backend/v2/data-stream`, {
-      mainGroup: 'backend',
-      method: 'data-streams',
-    });
-  }
-
-  getDataStreamById(id: number): Observable<DataStream> {
-    return this.wsRequest.get(`/backend/v2/data-stream/${id}`, {
-      mainGroup: 'backend',
-      method: 'data-stream',
-    });
-  }
-
-  toggleDataStream(id: number): Observable<{ status: number }> {
-    return this.wsRequest.post(
-      `/backend/v2/data-stream/${id}/toggle`,
-      {},
-      {
-        mainGroup: 'backend',
-        method: 'data-stream-toggle',
-      }
-    );
   }
 }
