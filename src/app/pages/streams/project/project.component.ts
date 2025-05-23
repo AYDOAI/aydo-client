@@ -96,10 +96,24 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
       return;
     }
 
-    if (currentStream.requiredPluginKey) {
-      this.showPluginRequiredModal(currentStream);
-      this.ui.unlockBtn('streaming');
-      return;
+    if (currentStream.requiredPluginClassName) {
+      const driver = this.ui.drivers?.items?.find(
+        driver => driver.className === currentStream.requiredPluginClassName
+      );
+      if (driver) {
+        const device = this.ui.devices?.items?.find(
+          device => device.driverId === driver.driverId
+        );
+        if (!device) {
+          this.showPluginRequiredModal(
+            currentStream,
+            driver.name!,
+            driver.driverId!
+          );
+          this.ui.unlockBtn('streaming');
+          return;
+        }
+      }
     }
 
     this.streamService
@@ -202,10 +216,14 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
     });
   }
 
-  private showPluginRequiredModal(currentStream: DataStream): void {
+  private showPluginRequiredModal(
+    currentStream: DataStream,
+    pluginName: string,
+    driverId: number
+  ): void {
     this.modalService.showAlert({
       header: `Plugin required`,
-      message: `This project requires the "${currentStream.requiredPluginKey}" plugin to function properly. Please install the plugin to continue.`,
+      message: `This project requires the "${pluginName}" plugin. Please install the plugin to continue.`,
       buttons: [
         {
           text: 'Cancel',
@@ -213,7 +231,10 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
         },
         {
           text: 'Install',
-          handler: () => this.navCtrl.navigateForward('/devices/add'),
+          handler: () => {
+            this.streamService.waitForPlugin(currentStream, driverId);
+            this.navCtrl.navigateForward('/devices/add');
+          },
         },
       ],
     });
