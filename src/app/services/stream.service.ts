@@ -131,6 +131,7 @@ export class StreamService {
       )
       .subscribe({
         next: stream => {
+          this.reloadData();
           this.errors.showInfo(`Project ${stream.name} started`);
           this.pendingStreamId = null;
           this.pendingDriverId = null;
