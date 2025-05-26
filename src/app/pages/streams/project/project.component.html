@@ -118,11 +118,7 @@
         </ng-container>
         <button
           (click)="toggle()"
-          [disabled]="
-            ui.isBtnLoading('streaming') ||
-            !dataStream.devices?.length ||
-            !this.ui.gateway
-          "
+          [disabled]="ui.isBtnLoading('streaming')"
           class="btn text-center"
           [class.red-btn]="isStreamingActive">
           <span *ngIf="ui.isBtnLoading('streaming')" class="spin-loader"></span>

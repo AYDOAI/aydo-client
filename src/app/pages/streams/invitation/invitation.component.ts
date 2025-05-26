@@ -1,9 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { BaseComponent } from '../../../components/base.component';
-import { DataStream } from '../../../services/backend.service';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, map, switchMap, filter, of } from 'rxjs';
-import { StreamService } from '../../../services/stream.service';
+import { DataStream, StreamService } from '../../../services/stream.service';
 import { ViewWillEnter } from '@ionic/angular';
 import { FormGroup, Validators } from '@angular/forms';
 

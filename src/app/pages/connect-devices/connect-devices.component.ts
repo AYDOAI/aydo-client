@@ -60,12 +60,15 @@ export class ConnectDevicesComponent extends BaseComponent implements OnInit {
         return [];
       }
       return allDevices
-        .filter(
-          device =>
-            (!stream.driverClassNameInclude ||
-              device.ident.includes(stream.driverClassNameInclude)) &&
-            !device.setupRequired
-        )
+        .filter(device => {
+          const supportedPlugins = stream.supportedPluginClassNames;
+          const pluginMatch =
+            !supportedPlugins ||
+            supportedPlugins.some((plugin: string) =>
+              device.ident.includes(plugin)
+            );
+          return pluginMatch && !device.setupRequired;
+        })
         .map(device => ({
           ...device,
           connected: stream.devices?.some((d: any) => d.deviceId === device.id),
