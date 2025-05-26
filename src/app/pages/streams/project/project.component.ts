@@ -90,12 +90,6 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
       return;
     }
 
-    if (!currentStream.devices?.length) {
-      this.showConnectDevicesModal(currentStream);
-      this.ui.unlockBtn('streaming');
-      return;
-    }
-
     if (currentStream.requiredPluginClassName) {
       const driver = this.ui.drivers?.items?.find(
         driver => driver.className === currentStream.requiredPluginClassName
@@ -114,6 +108,12 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
           return;
         }
       }
+    }
+
+    if (!currentStream.devices?.length) {
+      this.showConnectDevicesModal(currentStream);
+      this.ui.unlockBtn('streaming');
+      return;
     }
 
     this.streamService
