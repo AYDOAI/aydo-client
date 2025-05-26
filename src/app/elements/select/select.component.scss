@@ -111,8 +111,8 @@ input {
 }
 
 .select-container.expanded .select-subitems-container {
-  height: auto;
-  overflow: visible;
+  max-height: 250px;
+  overflow-y: auto;
 }
 
 .main-container {

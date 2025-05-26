@@ -20,6 +20,7 @@ import { FormAddHubAgreementComponent } from '../components/forms/add-hub-agreem
 import { FormAddHubManuallyComponent } from '../components/forms/add-hub-manually/form-add-hub-manually.component';
 import { FormAddHubConnectedComponent } from '../components/forms/add-hub-connected/form-add-hub-connected.component';
 import { AddZoneComponent } from '../components/zone/add/add.component';
+import { InvitationComponent } from '../pages/streams/invitation/invitation.component';
 
 @Injectable({ providedIn: 'root' })
 export class NavigationService {
@@ -79,6 +80,7 @@ export class NavigationService {
       if (!component) {
         const isStream = /^stream\/\d+$/.test(fullPath);
         const isStreamDevices = /^stream\/\d+\/devices$/.test(fullPath);
+        const isStreamInvitation = /^stream\/\d+\/invitation$/.test(fullPath);
         const isAddHub = /^add-hub\/.+$/.test(fullPath);
         const isAddHubManually = /^add-hub\/.+\/search\/manually$/.test(
           fullPath
@@ -90,6 +92,9 @@ export class NavigationService {
         }
         if (isStreamDevices) {
           component = ConnectDevicesComponent;
+        }
+        if (isStreamInvitation) {
+          component = InvitationComponent;
         }
         if (isAddHub) {
           component = FormAddHubAgreementComponent;
