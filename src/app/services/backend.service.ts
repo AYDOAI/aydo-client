@@ -77,6 +77,7 @@ export interface DataStream {
   logo?: string;
   smartContract?: SmartContract;
   keyword: string;
+  invitationMode?: boolean;
   devices?: {
     id: number;
     deviceId: number;
@@ -373,6 +374,17 @@ export class BackendService {
     });
   }
 
+  updateGateway(data: any): Observable<any> {
+    return this.wsRequest.patch(
+      `/backend/v2/gateway`,
+      { data },
+      {
+        mainGroup: 'backend',
+        method: 'gateway-update-gateway',
+      }
+    );
+  }
+
   deleteGateway(): Observable<any> {
     return this.wsRequest.delete(`/backend/v2/gateway/delete`, {
       mainGroup: 'backend',
@@ -426,6 +438,17 @@ export class BackendService {
       {
         mainGroup: 'backend',
         method: 'data-stream-toggle',
+      }
+    );
+  }
+
+  logout() {
+    return this.wsRequest.post(
+      `/backend/v2/user/logout`,
+      {},
+      {
+        mainGroup: 'backend',
+        method: 'user-logout',
       }
     );
   }

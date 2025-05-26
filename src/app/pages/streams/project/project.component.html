@@ -1,4 +1,4 @@
-<app-modal-wrapper *ngIf="isModal" title="Data stream">
+<app-modal-wrapper *ngIf="isModal" title="Project">
   <ng-container
     *ngIf="stream$ | async as dataStream"
     [ngTemplateOutlet]="contentTemplate"

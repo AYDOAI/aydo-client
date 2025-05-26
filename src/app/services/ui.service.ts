@@ -38,12 +38,22 @@ export class UIService implements OnDestroy {
   devices!: DevicesModel;
   user: UserInfo | null | undefined = null;
   rewards: UserRewards[] = [];
-  public appReady: boolean = false;
+  private appReadySubject = new BehaviorSubject<boolean>(false);
+  public appReady$ = this.appReadySubject.asObservable();
   public inviteId: string;
   public isOnline: boolean = true;
   public isAppFocused$ = new BehaviorSubject<boolean>(true);
   public gateway:
-    | { identifier: string; userId: string; token: string; is_online: boolean }
+    | {
+        identifier: string;
+        userId: string;
+        token: string;
+        is_online: boolean;
+        timezone: string | null;
+        params: {
+          timezone_settings?: string;
+        };
+      }
     | null
     | undefined = null;
   private btnLoading: string[] = [];
@@ -129,7 +139,7 @@ export class UIService implements OnDestroy {
         .userInfo()
         .pipe(
           finalize(() => {
-            this.appReady = true;
+            this.appReadySubject.next(true);
             this.loading.dismissLoading();
             if (this.user && !this.user?.is_verified) {
               this.goStep('success');
@@ -176,7 +186,7 @@ export class UIService implements OnDestroy {
           }
         );
     } else {
-      this.appReady = true;
+      this.appReadySubject.next(true);
       this.loading.dismissLoading();
       if (!this.isAuthPage()) {
         this.goStep('main');
@@ -204,15 +214,17 @@ export class UIService implements OnDestroy {
   }
 
   public logout(): void {
-    this.storage.token = '';
-    this.storage.refreshToken = '';
-    this.storage.serverId = '';
-    this.user = null;
-    this.socket.disconnect();
-    if (this.platform.is('android') || this.platform.is('ios')) {
-      this.pushService.logout();
-    }
-    this.navCtrl.navigateForward(['/sign-in']);
+    this.backend.logout().subscribe(() => {
+      this.storage.token = '';
+      this.storage.refreshToken = '';
+      this.storage.serverId = '';
+      this.user = null;
+      this.socket.disconnect();
+      if (this.platform.is('android') || this.platform.is('ios')) {
+        this.pushService.logout();
+      }
+      this.navCtrl.navigateForward(['/sign-in']);
+    });
   }
 
   public lockBtn(key: string): void {

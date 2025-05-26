@@ -4,6 +4,8 @@ import { Platform } from '@ionic/angular';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { NavigationBar } from '@capgo/capacitor-navigation-bar';
+import { filter } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { LoadingService } from './services/loading.service';
 import { UIService } from './services/ui.service';
 import { NavigationService } from './services/navigation.service';
@@ -43,9 +45,14 @@ export class AppComponent {
         const url = this.router.url;
         StatusBar.setOverlaysWebView({ overlay: false });
         StatusBar.setStyle({ style: Style.Light });
-        if (this.ui.appReady && this.platform.is('android')) {
-          this.updateStatusBarColor(url);
-        }
+        this.ui.appReady$
+          .pipe(
+            filter(ready => ready),
+            take(1)
+          )
+          .subscribe(() => {
+            this.updateStatusBarColor(url);
+          });
       }
       this.subscribeToRouterEvents();
       if (this.platform.is('android') || this.platform.is('ios')) {
@@ -67,6 +74,7 @@ export class AppComponent {
 
   private async updateStatusBarColor(url: string): Promise<void> {
     try {
+      console.log(url);
       if (url.includes('main')) {
         await StatusBar.setBackgroundColor({ color: '#947FFF' });
         await NavigationBar.setNavigationBarColor({ color: '#947FFF' });
