@@ -22,6 +22,7 @@ export interface DataStream {
   externalLink: string;
   status?: 0 | 1;
   logo?: string;
+  invitationMode?: boolean;
   devices?: {
     id: number;
     deviceId: number;

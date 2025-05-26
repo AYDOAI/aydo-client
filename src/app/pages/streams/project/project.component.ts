@@ -135,6 +135,13 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
   }
 
   public connectDevices(): void {
+    const currentStream = this.streamSubject.getValue();
+
+    if (currentStream?.invitationMode) {
+      this.navCtrl.navigateForward(`/streams/${this.id}/invitation`);
+      return;
+    }
+
     this.navCtrl.navigateForward(`/streams/${this.id}/devices`);
   }
 
