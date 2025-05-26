@@ -9,7 +9,7 @@
       *ngIf="!ui.user || !ui.user?.is_verified || ui.clientWidth < 768">
       <ion-router-outlet
         *ngIf="
-          ui.appReady || router.url.includes('privacy-policy')
+          (ui.appReady$ | async) || router.url.includes('privacy-policy')
         "></ion-router-outlet>
     </ng-container>
 
@@ -21,7 +21,7 @@
         <div class="view-container">
           <ion-router-outlet
             *ngIf="
-              ui.appReady || router.url.includes('privacy-policy')
+              (ui.appReady$ | async) || router.url.includes('privacy-policy')
             "></ion-router-outlet>
         </div>
       </div>

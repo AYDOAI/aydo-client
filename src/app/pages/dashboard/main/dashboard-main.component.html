@@ -36,7 +36,7 @@
               <div class="reward-content">
                 <div class="label">Earned:</div>
                 <div class="reward-value">
-                  <div>{{ ui.user?.balance || 0 }} Points</div>
+                  <div>{{ balance$ | async }} Points</div>
                 </div>
               </div>
             </div>
