@@ -23,6 +23,7 @@ import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { SocketService } from './socket.service';
 import { PushService } from './push.service';
 import { StreamService } from './stream.service';
+import { DevicesService } from './devices.service';
 
 declare const window: any;
 
@@ -71,7 +72,8 @@ export class UIService implements OnDestroy {
     private platform: Platform,
     private socket: SocketService,
     private pushService: PushService,
-    private streamService: StreamService
+    private streamService: StreamService,
+    private devicesService: DevicesService
   ) {
     const urlSearchParams = new URLSearchParams(window.location.search);
     this.inviteId = urlSearchParams.get('code') ?? '';
@@ -274,6 +276,7 @@ export class UIService implements OnDestroy {
       if (data && data.gateway && data.gateway.identifier) {
         this.storage.serverId = data.gateway.identifier;
         this.gateway = data.gateway;
+        this.devicesService.refreshDevices();
         if (next) {
           next();
         }
