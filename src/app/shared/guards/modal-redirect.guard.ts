@@ -20,6 +20,39 @@ export class ModalRedirectGuard implements CanActivate {
     'zone/add': 'add-zone',
   };
 
+  private dynamicRoutePatterns = [
+    {
+      pattern: /^:id$/,
+      paramName: 'id',
+      modalPath: (id: string) => `stream/${id}`,
+    },
+    {
+      pattern: /^:id\/invitation$/,
+      paramName: 'id',
+      modalPath: (id: string) => `stream/${id}/invitation`,
+    },
+    {
+      pattern: /^:id\/devices$/,
+      paramName: 'id',
+      modalPath: (id: string) => `stream/${id}/devices`,
+    },
+    {
+      pattern: /^:hub$/,
+      paramName: 'hub',
+      modalPath: (hub: string) => `add-hub/${hub}`,
+    },
+    {
+      pattern: /^:hub\/search\/manually$/,
+      paramName: 'hub',
+      modalPath: (hub: string) => `add-hub/${hub}/search/manually`,
+    },
+    {
+      pattern: /^:hub\/connected$/,
+      paramName: 'hub',
+      modalPath: (hub: string) => `add-hub/${hub}/connected`,
+    },
+  ];
+
   constructor(
     private router: Router,
     private navigationService: NavigationService
@@ -29,61 +62,36 @@ export class ModalRedirectGuard implements CanActivate {
     const isMobile = await this.navigationService.isMobile$
       .pipe(take(1))
       .toPromise();
+
+    if (isMobile) {
+      return true;
+    }
+
     const originalPath = route.routeConfig?.path;
-    const idParam = route.params['id'];
-    const hubParam = route.params['hub'];
-    if (originalPath === ':id' && idParam) {
-      if (!isMobile) {
-        return this.router.createUrlTree([
-          { outlets: { modal: `stream/${idParam}` } },
-        ]);
-      }
+    if (!originalPath) {
       return true;
     }
 
-    if (originalPath === ':id/devices' && idParam) {
-      if (!isMobile) {
-        return this.router.createUrlTree([
-          { outlets: { modal: `stream/${idParam}/devices` } },
-        ]);
+    const dynamicRoute = this.findDynamicRoute(originalPath, route.params);
+    if (dynamicRoute) {
+      return this.router.createUrlTree([{ outlets: { modal: dynamicRoute } }]);
+    }
+
+    const staticModalPath = this.pathMapping[originalPath] || originalPath;
+    return this.router.createUrlTree([
+      { outlets: { modal: [staticModalPath] } },
+    ]);
+  }
+
+  private findDynamicRoute(path: string, params: any): string | null {
+    for (const routePattern of this.dynamicRoutePatterns) {
+      if (routePattern.pattern.test(path)) {
+        const paramValue = params[routePattern.paramName];
+        if (paramValue) {
+          return routePattern.modalPath(paramValue);
+        }
       }
-      return true;
     }
-
-    if (originalPath === ':hub' && hubParam) {
-      if (!isMobile) {
-        return this.router.createUrlTree([
-          { outlets: { modal: `add-hub/${hubParam}` } },
-        ]);
-      }
-      return true;
-    }
-
-    if (originalPath === ':hub/search/manually' && hubParam) {
-      if (!isMobile) {
-        return this.router.createUrlTree([
-          { outlets: { modal: `add-hub/${hubParam}/search/manually` } },
-        ]);
-      }
-      return true;
-    }
-
-    if (originalPath === ':hub/connected' && hubParam) {
-      if (!isMobile) {
-        return this.router.createUrlTree([
-          { outlets: { modal: `add-hub/${hubParam}/connected` } },
-        ]);
-      }
-      return true;
-    }
-
-    if (!originalPath) return true;
-
-    if (!isMobile) {
-      const newPath = this.pathMapping[originalPath] || originalPath;
-      return this.router.createUrlTree([{ outlets: { modal: [newPath] } }]);
-    }
-
-    return true;
+    return null;
   }
 }
