@@ -96,6 +96,7 @@ import { ProjectComponent } from './pages/streams/project/project.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { DesktopSidebarComponent } from './components/desktop-sidebar/desktop-sidebar.component';
 import { ModalWrapperComponent } from './components/modal-wrapper/modal-wrapper.component';
+import { InvitationComponent } from './pages/streams/invitation/invitation.component';
 
 @NgModule({
   declarations: [
@@ -171,6 +172,7 @@ import { ModalWrapperComponent } from './components/modal-wrapper/modal-wrapper.
     HubEditComponent,
     NotificationComponent,
     ModalWrapperComponent,
+    InvitationComponent,
   ],
   imports: [
     AppRoutingModule,

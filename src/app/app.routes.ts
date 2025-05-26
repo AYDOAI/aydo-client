@@ -38,6 +38,7 @@ import { AddDeviceComponent } from './pages/devices/add/add-device.component';
 import { NewDeviceComponent } from './pages/devices/new/new-device.component';
 import { HubEditComponent } from './pages/devices/hub/hub-edit.component';
 import { ProjectComponent } from './pages/streams/project/project.component';
+import { InvitationComponent } from './pages/streams/invitation/invitation.component';
 import { ModalRedirectGuard } from './shared/guards/modal-redirect.guard';
 import { UnauthGuard } from './shared/guards/unauth.guard';
 
@@ -149,13 +150,18 @@ export const routes: Routes = [
         component: StreamsComponent,
       },
       {
-        path: ':id',
-        component: ProjectComponent,
+        path: ':id/invitation',
+        component: InvitationComponent,
         canActivate: [ModalRedirectGuard],
       },
       {
         path: ':id/devices',
         component: ConnectDevicesComponent,
+        canActivate: [ModalRedirectGuard],
+      },
+      {
+        path: ':id',
+        component: ProjectComponent,
         canActivate: [ModalRedirectGuard],
       },
     ],
@@ -236,8 +242,17 @@ export const routes: Routes = [
   { path: 'devices-new', component: FeedbackComponent, outlet: 'modal' },
   { path: 'device-edit', component: FeedbackComponent, outlet: 'modal' },
   { path: 'device-hub', component: FeedbackComponent, outlet: 'modal' },
-  { path: 'stream/:id', component: FeedbackComponent, outlet: 'modal' },
-  { path: 'stream/:id/devices', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'stream/:id', component: ProjectComponent, outlet: 'modal' },
+  {
+    path: 'stream/:id/invitation',
+    component: InvitationComponent,
+    outlet: 'modal',
+  },
+  {
+    path: 'stream/:id/devices',
+    component: ConnectDevicesComponent,
+    outlet: 'modal',
+  },
   { path: 'add-hub/:hub', component: FeedbackComponent, outlet: 'modal' },
   {
     path: 'add-hub/:hub/search/manually',

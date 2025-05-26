@@ -77,6 +77,7 @@ export interface DataStream {
   logo?: string;
   smartContract?: SmartContract;
   keyword: string;
+  invitationMode?: boolean;
   devices?: {
     id: number;
     deviceId: number;
