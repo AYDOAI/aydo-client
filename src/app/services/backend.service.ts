@@ -441,4 +441,15 @@ export class BackendService {
       }
     );
   }
+
+  logout() {
+    return this.wsRequest.post(
+      `/backend/v2/user/logout`,
+      {},
+      {
+        mainGroup: 'backend',
+        method: 'user-logout',
+      }
+    );
+  }
 }
