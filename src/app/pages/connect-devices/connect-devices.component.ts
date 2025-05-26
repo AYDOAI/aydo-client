@@ -63,7 +63,7 @@ export class ConnectDevicesComponent extends BaseComponent implements OnInit {
         .filter(device => {
           const supportedPlugins = stream.supportedPluginClassNames;
           const pluginMatch =
-            !supportedPlugins ||
+            !supportedPlugins.length ||
             supportedPlugins.some((plugin: string) =>
               device.ident.includes(plugin)
             );

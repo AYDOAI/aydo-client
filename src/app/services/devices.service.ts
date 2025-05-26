@@ -1,23 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, shareReplay, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { BaseService } from '../models/base-service.interface';
 import { IDeviceSettings } from '../shared/interfaces/device-settings.interface';
 import { DeviceItem } from '../models/gateway.model';
 import { WsRequestService } from './ws-request.service';
-import { UIService } from './ui.service';
-
 @Injectable({
   providedIn: 'root',
 })
 export class DevicesService implements BaseService<any> {
-  constructor(
-    private request: WsRequestService,
-    private ui: UIService
-  ) {
-    if (this.ui.gateway) {
-      this.refreshDevices();
-    }
-  }
+  constructor(private request: WsRequestService) {}
 
   private selectedDeviceSub = new BehaviorSubject<DeviceItem | null>(null);
   selectedDevice$ = this.selectedDeviceSub.asObservable();
@@ -96,7 +87,7 @@ export class DevicesService implements BaseService<any> {
         this.devicesSub.next(devices);
       },
       error => {
-        console.error('Ошибка при обновлении устройств', error);
+        console.error(error);
       }
     );
   }
