@@ -79,6 +79,12 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
     this.ui.lockBtn('streaming');
 
     const currentStream = this.streamSubject.getValue();
+
+    if (currentStream?.invitationMode) {
+      this.navCtrl.navigateForward(`/streams/${this.id}/invitation`);
+      return;
+    }
+
     if (!currentStream) {
       this.ui.unlockBtn('streaming');
       return;
