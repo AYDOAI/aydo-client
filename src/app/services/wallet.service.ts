@@ -4,7 +4,7 @@ import { WalletAdapter } from './wallets/wallet.adapter';
 export class WalletService {
   private wallet: WalletAdapter | undefined;
 
-  constructor(walletType: 'solana') {
+  constructor(walletType: string = 'solana') {
     this.wallet = this.createWallet(walletType);
   }
 

@@ -21,6 +21,9 @@ import { switchMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { SocketService } from './socket.service';
+import { PushService } from './push.service';
+import { StreamService } from './stream.service';
+import { DevicesService } from './devices.service';
 
 declare const window: any;
 
@@ -37,12 +40,22 @@ export class UIService implements OnDestroy {
   devices!: DevicesModel;
   user: UserInfo | null | undefined = null;
   rewards: UserRewards[] = [];
-  public appReady: boolean = false;
+  private appReadySubject = new BehaviorSubject<boolean>(false);
+  public appReady$ = this.appReadySubject.asObservable();
   public inviteId: string;
   public isOnline: boolean = true;
   public isAppFocused$ = new BehaviorSubject<boolean>(true);
   public gateway:
-    | { identifier: string; userId: string; token: string; is_online: boolean }
+    | {
+        identifier: string;
+        userId: string;
+        token: string;
+        is_online: boolean;
+        timezone: string | null;
+        params: {
+          timezone_settings?: string;
+        };
+      }
     | null
     | undefined = null;
   private btnLoading: string[] = [];
@@ -57,7 +70,10 @@ export class UIService implements OnDestroy {
     private userService: UserService,
     private iab: InAppBrowser,
     private platform: Platform,
-    private socket: SocketService
+    private socket: SocketService,
+    private pushService: PushService,
+    private streamService: StreamService,
+    private devicesService: DevicesService
   ) {
     const urlSearchParams = new URLSearchParams(window.location.search);
     this.inviteId = urlSearchParams.get('code') ?? '';
@@ -127,7 +143,7 @@ export class UIService implements OnDestroy {
         .userInfo()
         .pipe(
           finalize(() => {
-            this.appReady = true;
+            this.appReadySubject.next(true);
             this.loading.dismissLoading();
             if (this.user && !this.user?.is_verified) {
               this.goStep('success');
@@ -144,9 +160,11 @@ export class UIService implements OnDestroy {
         .subscribe(
           (user: UserInfo) => {
             this.user = user;
+            this.pushService.init();
             const next = () => {
               this.loading.showLoading();
               this.getDevices();
+              this.getDrivers();
               this.getUserRewards();
               if (
                 this.isAuthPage() &&
@@ -173,7 +191,7 @@ export class UIService implements OnDestroy {
           }
         );
     } else {
-      this.appReady = true;
+      this.appReadySubject.next(true);
       this.loading.dismissLoading();
       if (!this.isAuthPage()) {
         this.goStep('main');
@@ -201,12 +219,17 @@ export class UIService implements OnDestroy {
   }
 
   public logout(): void {
-    this.storage.token = '';
-    this.storage.refreshToken = '';
-    this.storage.serverId = '';
-    this.user = null;
-    this.socket.disconnect();
-    this.navCtrl.navigateForward(['/sign-in']);
+    this.backend.logout().subscribe(() => {
+      this.storage.token = '';
+      this.storage.refreshToken = '';
+      this.storage.serverId = '';
+      this.user = null;
+      this.socket.disconnect();
+      if (this.platform.is('android') || this.platform.is('ios')) {
+        this.pushService.logout();
+      }
+      this.navCtrl.navigateForward(['/sign-in']);
+    });
   }
 
   public lockBtn(key: string): void {
@@ -240,6 +263,7 @@ export class UIService implements OnDestroy {
         )
         .subscribe((devices: any) => {
           this.devices = new DevicesModel(devices);
+          this.streamService.checkPendingStream(this.devices);
           this.getDeviceValues().subscribe();
         });
     } else {
@@ -252,6 +276,7 @@ export class UIService implements OnDestroy {
       if (data && data.gateway && data.gateway.identifier) {
         this.storage.serverId = data.gateway.identifier;
         this.gateway = data.gateway;
+        this.devicesService.refreshDevices();
         if (next) {
           next();
         }

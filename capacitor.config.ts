@@ -23,11 +23,16 @@ const config: CapacitorConfig = {
       '@capacitor/clipboard',
       '@capacitor/network',
       '@capacitor/status-bar',
+      '@capacitor/device',
+      'onesignal-cordova-plugin',
       '@capgo/capacitor-navigation-bar',
       'cordova-plugin-inappbrowser',
       '@capacitor/geolocation',
       '@capacitor/camera',
     ],
+  },
+  ios: {
+    handleApplicationNotifications: false,
   },
   // server: {
   //   url: 'http://localhost:8100',

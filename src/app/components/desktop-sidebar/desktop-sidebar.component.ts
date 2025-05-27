@@ -54,7 +54,7 @@ export class DesktopSidebarComponent {
           title: 'Dashboard',
           step: 'dashboard',
         },
-        { link: '/streams', icon: 'menu-unknown', title: 'Data streams' },
+        { link: '/streams', icon: 'menu-unknown', title: 'Projects' },
         { link: '/quests', icon: 'menu-service-status', title: 'Quests' },
         {
           link: '/devices',

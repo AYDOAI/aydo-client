@@ -23,7 +23,7 @@
       <div class="card-content">
         <div class="card-title">Balance of AYDO Points</div>
         <span class="balance">Your balance</span>
-        <span class="amount">{{ ui.user?.balance }} Points</span>
+        <span class="amount">{{ balance$ | async }} Points</span>
         <span class="reward-info"
           >Rewards for completing quests are issued every hour.</span
         >

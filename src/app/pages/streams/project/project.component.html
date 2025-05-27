@@ -1,4 +1,4 @@
-<app-modal-wrapper *ngIf="isModal" title="Data stream">
+<app-modal-wrapper *ngIf="isModal" title="Project">
   <ng-container
     *ngIf="stream$ | async as dataStream"
     [ngTemplateOutlet]="contentTemplate"
@@ -106,23 +106,19 @@
               }}</span>
             </ng-container>
           </div>
-          <button
-            class="btn text-center"
-            *ngIf="
-              isConnected &&
-              (streamerAccount === null || streamerTokenAccount === null)
-            "
-            (click)="createStreamerAccount()">
-            Register as a streamer
-          </button>
+          <!--          <button-->
+          <!--            class="btn text-center"-->
+          <!--            *ngIf="-->
+          <!--              isConnected &&-->
+          <!--              (streamerAccount === null || streamerTokenAccount === null)-->
+          <!--            "-->
+          <!--            (click)="createStreamerAccount()">-->
+          <!--            Register as a streamer-->
+          <!--          </button>-->
         </ng-container>
         <button
           (click)="toggle()"
-          [disabled]="
-            ui.isBtnLoading('streaming') ||
-            !dataStream.devices?.length ||
-            !this.ui.gateway
-          "
+          [disabled]="ui.isBtnLoading('streaming')"
           class="btn text-center"
           [class.red-btn]="isStreamingActive">
           <span *ngIf="ui.isBtnLoading('streaming')" class="spin-loader"></span>

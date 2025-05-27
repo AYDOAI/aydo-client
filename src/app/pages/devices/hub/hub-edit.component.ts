@@ -21,6 +21,29 @@ export class HubEditComponent extends FormBaseComponent implements OnInit {
     }
 
     this.form.title = this.ui.gateway?.identifier || '';
+    if (this.ui.gateway?.params.timezone_settings) {
+      const items = this.ui.gateway.params?.timezone_settings
+        ?.split('\n')
+        ?.map(item => {
+          return {
+            title: item,
+            id: item,
+          };
+        });
+      this.form.inputs.push({
+        key: 'timezone',
+        title: 'Timezone',
+        type: 'select',
+        items,
+        defaultValue: this.ui.gateway?.timezone,
+      });
+    }
+
+    this.form.inputs.push({
+      key: 'save_hub',
+      title: 'Save',
+      type: 'button',
+    });
 
     this.form.inputs.push({
       key: 'delete_hub',
@@ -37,9 +60,18 @@ export class HubEditComponent extends FormBaseComponent implements OnInit {
       case 'delete_hub':
         this.deleteHub();
         return;
+      case 'save_hub':
+        this.saveHub();
+        return;
       default:
         return;
     }
+  }
+
+  public saveHub(): void {
+    this.backend.updateGateway(this.formGroup.value).subscribe(() => {
+      this.errors.showInfo('Hub settings is successfully updated');
+    });
   }
 
   public deleteHub(): void {

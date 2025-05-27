@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { BaseComponent } from '../../../components/base.component';
-import { DataStream } from '../../../services/backend.service';
 import { ActivatedRoute } from '@angular/router';
 import {
   BehaviorSubject,
@@ -11,10 +10,11 @@ import {
   filter,
   of,
 } from 'rxjs';
-import { StreamService } from '../../../services/stream.service';
+import { DataStream, StreamService } from '../../../services/stream.service';
 import { ClipboardService } from '../../../services/clipboard.service';
 import { WalletService } from '../../../services/wallet.service';
 import { ViewWillEnter } from '@ionic/angular';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
   selector: 'app-project',
@@ -25,7 +25,7 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
   private route = inject(ActivatedRoute);
   private streamService = inject(StreamService);
   private clipboard = inject(ClipboardService);
-
+  private modalService = inject(ModalService);
   private walletService: WalletService | undefined;
 
   isConnected = false;
@@ -62,7 +62,7 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
         next: dataStream => {
           this.streamSubject.next(dataStream);
           this.isStreamingActive = this.checkStreamingActive(dataStream);
-          if (dataStream.smartContract) {
+          if (dataStream?.smartContract) {
             this.walletService = new WalletService(
               dataStream.smartContract.blockchain.keyword
             );
@@ -76,10 +76,48 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
   }
 
   public toggle(): void {
+    const currentStream = this.streamSubject.getValue();
+
+    if (currentStream?.invitationMode) {
+      this.navCtrl.navigateForward(`/streams/${this.id}/invitation`);
+      return;
+    }
+
     this.ui.lockBtn('streaming');
 
-    const currentStream = this.streamSubject.getValue();
     if (!currentStream) {
+      this.ui.unlockBtn('streaming');
+      return;
+    }
+
+    if (!this.ui.gateway) {
+      this.showAddHubModal();
+      this.ui.unlockBtn('streaming');
+      return;
+    }
+
+    if (currentStream.requiredPluginClassName) {
+      const driver = this.ui.drivers?.items?.find(
+        driver => driver.className === currentStream.requiredPluginClassName
+      );
+      if (driver) {
+        const device = this.ui.devices?.items?.find(
+          device => device.driverId === driver.driverId
+        );
+        if (!device) {
+          this.showPluginRequiredModal(
+            currentStream,
+            driver.name!,
+            driver.driverId!
+          );
+          this.ui.unlockBtn('streaming');
+          return;
+        }
+      }
+    }
+
+    if (!currentStream.devices?.length) {
+      this.showConnectDevicesModal(currentStream);
       this.ui.unlockBtn('streaming');
       return;
     }
@@ -97,12 +135,20 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
             };
             this.isStreamingActive = this.checkStreamingActive(dataStream);
             this.streamSubject.next(dataStream);
+            this.streamService.reloadData();
           }
         },
       });
   }
 
   public connectDevices(): void {
+    const currentStream = this.streamSubject.getValue();
+
+    if (currentStream?.invitationMode) {
+      this.navCtrl.navigateForward(`/streams/${this.id}/invitation`);
+      return;
+    }
+
     this.navCtrl.navigateForward(`/streams/${this.id}/devices`);
   }
 
@@ -144,5 +190,67 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
 
   checkStreamingActive(dataStream: any): boolean {
     return dataStream?.status === 1 && dataStream.devices?.length > 0;
+  }
+
+  private showAddHubModal(): void {
+    this.modalService.showAlert({
+      header: 'No hub connected',
+      message:
+        'To start streaming, please connect your hub and add at least one device.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Add hub',
+          handler: () => this.navCtrl.navigateForward('/add-hub'),
+        },
+      ],
+    });
+  }
+
+  private showConnectDevicesModal(currentStream: DataStream): void {
+    this.modalService.showAlert({
+      header: 'Devices required',
+      message: `There are no devices connected to the project. Connect at least one device to start streaming.`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Connect devices',
+          handler: () =>
+            this.navCtrl.navigateForward(
+              `/streams/${currentStream.id}/devices`
+            ),
+        },
+      ],
+    });
+  }
+
+  private showPluginRequiredModal(
+    currentStream: DataStream,
+    pluginName: string,
+    driverId: number
+  ): void {
+    this.modalService.showAlert({
+      header: `Plugin required`,
+      message: `This project requires the "${pluginName}" plugin. Please install the plugin to continue.`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Install',
+          handler: () => {
+            this.streamService.waitForPlugin(currentStream, driverId);
+            this.navCtrl.navigateForward('/devices/add');
+          },
+        },
+      ],
+    });
   }
 }
