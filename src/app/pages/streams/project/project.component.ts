@@ -129,6 +129,7 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
             };
             this.isStreamingActive = this.checkStreamingActive(dataStream);
             this.streamSubject.next(dataStream);
+            this.streamService.reloadData();
           }
         },
       });
