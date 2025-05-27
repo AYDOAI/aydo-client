@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBaseComponent } from '../../../components/form-base.component';
-import { ConfirmationModalComponent } from '../../../elements/dialog/confirmation-modal/confirmation-modal.component';
-import { DialogService } from '../../../services/dialog.service';
-import { DeviceItem, ZoneModel } from '../../../models/gateway.model';
+import { DeviceItem } from '../../../models/gateway.model';
 import { AppFormInputs } from '../../../shared/types';
 import { IDeviceSettings } from '../../../shared/interfaces/device-settings.interface';
-import { finalize } from 'rxjs';
+import { finalize, firstValueFrom } from 'rxjs';
 import { DevicesService } from '../../../services/devices.service';
+import { DataStream, StreamService } from '../../../services/stream.service';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
   selector: 'app-device-edit',
@@ -14,9 +14,9 @@ import { DevicesService } from '../../../services/devices.service';
   styleUrl: './device-edit.component.scss',
 })
 export class DeviceEditComponent extends FormBaseComponent implements OnInit {
-  private dialog = inject(DialogService);
   private deviceService = inject(DevicesService);
-
+  private streamService = inject(StreamService);
+  private modalService = inject(ModalService);
   selectedDevice$ = this.deviceService.selectedDevice$;
 
   public override ngOnInit() {
@@ -181,11 +181,59 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
       });
   }
 
-  public deleteDevice(): void {
-    this.dialog.show(ConfirmationModalComponent, {
-      title: 'Confirmation',
-      description: 'Are you sure you want to delete this device?',
-      confirm: () => this.delete(),
+  public async deleteDevice(): Promise<void> {
+    const selectedDevice = this.deviceService.getSelectedDevice();
+    if (!selectedDevice) {
+      return;
+    }
+    const deviceDriver = this.ui.drivers?.items?.find(
+      driver => driver.driverId === selectedDevice.driverId
+    );
+    if (deviceDriver) {
+      const driverClassName = deviceDriver.className;
+      const streams = await firstValueFrom(this.streamService.streams$);
+      const isDeviceRequired = streams.find(
+        (s: DataStream) =>
+          s.status === 1 &&
+          s.requiredPluginClassName!.includes(driverClassName!)
+      );
+      if (isDeviceRequired) {
+        this.modalService.showAlert({
+          header: `This device is currently used in the project "${isDeviceRequired.name}"`,
+          message:
+            'To delete this device, please stop the associated project first.',
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel',
+            },
+            {
+              text: 'View Projects',
+              handler: () => {
+                this.modalService.dismissModal();
+                this.navCtrl.navigateForward('/streams');
+              },
+            },
+          ],
+        });
+        return;
+      }
+    }
+    this.modalService.showAlert({
+      header: `Confirmation`,
+      message: 'Are you sure you want to delete this device?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.delete();
+          },
+        },
+      ],
     });
   }
 
