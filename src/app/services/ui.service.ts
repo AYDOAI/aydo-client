@@ -219,17 +219,20 @@ export class UIService implements OnDestroy {
   }
 
   public logout(): void {
-    this.backend.logout().subscribe(() => {
-      this.storage.token = '';
-      this.storage.refreshToken = '';
-      this.storage.serverId = '';
-      this.user = null;
-      this.socket.disconnect();
-      if (this.platform.is('android') || this.platform.is('ios')) {
-        this.pushService.logout();
-      }
-      this.navCtrl.navigateForward(['/sign-in']);
-    });
+    this.backend
+      .logout()
+      .pipe(finalize(() => this.unlockBtn('logout')))
+      .subscribe(() => {
+        this.storage.token = '';
+        this.storage.refreshToken = '';
+        this.storage.serverId = '';
+        this.user = null;
+        this.socket.disconnect();
+        if (this.platform.is('android') || this.platform.is('ios')) {
+          this.pushService.logout();
+        }
+        this.navCtrl.navigateForward(['/sign-in']);
+      });
   }
 
   public lockBtn(key: string): void {
