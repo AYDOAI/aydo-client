@@ -396,8 +396,8 @@ export class BackendService {
   }
 
   logout() {
-    return this.wsRequest.post(
-      `/backend/v2/user/logout`,
+    return this.request.post(
+      `${environment.main_url}/backend/v2/user/logout`,
       {},
       {
         mainGroup: 'backend',

@@ -40,6 +40,7 @@ export class SuccessComponent extends FormBaseComponent {
           });
         break;
       case 'logout':
+        this.ui.lockBtn('logout');
         this.ui.logout();
         break;
     }
