@@ -218,7 +218,7 @@ export class WsRequestService {
     }
 
     if (!ignoreError) {
-      this.errors.onError(error);
+      this.errors.showError(message);
       console.log(`${error.status} ${error.statusText} (${url})`);
     }
 
