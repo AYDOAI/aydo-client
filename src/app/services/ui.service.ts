@@ -17,7 +17,7 @@ import { NavController, Platform } from '@ionic/angular';
 import { ErrorsService } from './errors.service';
 import { UserInfo, UserRewards } from '../models/users.model';
 import { UserService } from './user.service';
-import { switchMap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { SocketService } from './socket.service';
@@ -221,18 +221,17 @@ export class UIService implements OnDestroy {
   public logout(): void {
     this.backend
       .logout()
-      .pipe(finalize(() => this.unlockBtn('logout')))
-      .subscribe(() => {
-        this.storage.token = '';
-        this.storage.refreshToken = '';
-        this.storage.serverId = '';
-        this.user = null;
-        this.socket.disconnect();
-        if (this.platform.is('android') || this.platform.is('ios')) {
-          this.pushService.logout();
-        }
-        this.navCtrl.navigateForward(['/sign-in']);
-      });
+      .pipe(
+        tap(() => {
+          this.handleLogout();
+        }),
+        catchError(err => {
+          this.handleLogout();
+          return of(null);
+        }),
+        finalize(() => this.unlockBtn('logout'))
+      )
+      .subscribe();
   }
 
   public lockBtn(key: string): void {
@@ -480,5 +479,17 @@ export class UIService implements OnDestroy {
 
   public isDesktop() {
     return environment.platform === 'desktop';
+  }
+
+  private handleLogout(): void {
+    this.storage.token = '';
+    this.storage.refreshToken = '';
+    this.storage.serverId = '';
+    this.user = null;
+    this.socket.disconnect();
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      this.pushService.logout();
+    }
+    this.navCtrl.navigateForward(['/sign-in']);
   }
 }
