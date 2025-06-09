@@ -9,6 +9,7 @@ import { take } from 'rxjs/operators';
 import { LoadingService } from './services/loading.service';
 import { UIService } from './services/ui.service';
 import { NavigationService } from './services/navigation.service';
+import { ErrorHandlerService } from './services/error-handler.service';
 
 declare const gtag: Function;
 
@@ -26,7 +27,8 @@ export class AppComponent {
     public router: Router,
     public ui: UIService,
     private zone: NgZone,
-    private navigation: NavigationService
+    private navigation: NavigationService,
+    private errorHandler: ErrorHandlerService
   ) {
     this.init();
   }

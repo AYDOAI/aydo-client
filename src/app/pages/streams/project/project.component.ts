@@ -246,6 +246,7 @@ export class ProjectComponent extends BaseComponent implements ViewWillEnter {
         {
           text: 'Install',
           handler: () => {
+            this.modalService.dismissModal();
             this.streamService.waitForPlugin(currentStream, driverId);
             this.navCtrl.navigateForward('/devices/add');
           },
