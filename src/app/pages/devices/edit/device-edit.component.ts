@@ -195,6 +195,7 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
       const isDeviceRequired = streams.find(
         (s: DataStream) =>
           s.status === 1 &&
+          s.requiredPluginClassName &&
           s.requiredPluginClassName!.includes(driverClassName!)
       );
       if (isDeviceRequired) {
