@@ -1,12 +1,14 @@
 import { FormBaseComponent } from '../../../components/form-base.component';
 import { AppFormInputs } from '../../../shared/types';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
   selector: 'app-device-new',
   templateUrl: './new-device.component.html',
 })
 export class NewDeviceComponent extends FormBaseComponent {
+  private modalService = inject(ModalService);
   override onInit() {
     this.form.title = 'Add device';
     // this.form.description = 'This app supports next device types, choose one of them:';
@@ -94,6 +96,7 @@ export class NewDeviceComponent extends FormBaseComponent {
           this.errors.showInfo(
             'Device successfully added. Please wait a few seconds while we update the information about the added devices.'
           );
+          this.modalService.dismissModal();
           this.ui.goStep('devices');
         },
         complete: () => {
