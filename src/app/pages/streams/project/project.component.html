@@ -48,7 +48,9 @@
             <div class="card-header">
               <div class="card-title">
                 <span class="title-text">{{ dataStream.name || '' }}</span>
-                <span class="card-status">
+                <span
+                  class="card-status"
+                  [class.active]="dataStream.status === 1">
                   {{ dataStream.status === 1 ? 'Active' : 'Inactive' }}
                 </span>
               </div>
