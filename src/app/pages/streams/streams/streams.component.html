@@ -42,7 +42,7 @@
             <div class="card-header">
               <div class="card-title">
                 <span class="title-text">{{ stream.name || '' }}</span>
-                <span class="card-status">
+                <span class="card-status" [class.active]="stream.status === 1">
                   {{ stream.status === 1 ? 'Active' : 'Inactive' }}
                 </span>
               </div>
