@@ -211,7 +211,7 @@ export class UIService implements OnDestroy {
 
   goStep(step: FrameStep) {
     this._step = step;
-    this.navCtrl.navigateForward([`/${step}`]);
+    this.navCtrl.navigateForward(`/${step}`);
   }
 
   defaultStep() {
