@@ -31,6 +31,7 @@ export class DriverItem extends BaseItem {
   name: string | undefined;
   desciption: string | undefined;
   settings: SettingsModel | undefined;
+  standalone: boolean | undefined;
 
   constructor(parent: BaseModel, data: any) {
     super(parent, null);

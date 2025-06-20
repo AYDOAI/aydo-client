@@ -21,12 +21,17 @@ export class AddDeviceComponent extends FormBaseComponent {
     this.backend.drivers().subscribe((drivers: DriverItem[]) => {
       this.form.loading = false;
       this.ui.drivers = new DriversModel(drivers);
-      drivers.forEach((driver: any) => {
+      drivers.forEach((driver: DriverItem) => {
         this.form.inputs.push({
-          key: driver.className,
-          title: driver.name,
+          key: driver.className!,
+          title: driver.name!,
           type: 'button',
           color: 'white',
+          isDisabled: () =>
+            driver.standalone &&
+            this.ui.devices.items.some(
+              device => device.driverId === driver.driverId
+            ),
           backgroundColor: '#060022',
         });
       });
