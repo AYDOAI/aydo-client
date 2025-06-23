@@ -21,6 +21,7 @@ import { FormAddHubManuallyComponent } from '../components/forms/add-hub-manuall
 import { FormAddHubConnectedComponent } from '../components/forms/add-hub-connected/form-add-hub-connected.component';
 import { AddZoneComponent } from '../components/zone/add/add.component';
 import { InvitationComponent } from '../pages/streams/invitation/invitation.component';
+import { DeviceVerifyComponent } from '../pages/devices/verify/device-verify.component';
 
 @Injectable({ providedIn: 'root' })
 export class NavigationService {
@@ -42,6 +43,7 @@ export class NavigationService {
     ['devices-new', NewDeviceComponent],
     ['device-edit', DeviceEditComponent],
     ['device-hub', HubEditComponent],
+    ['device-verify', DeviceVerifyComponent],
     ['add-zone', AddZoneComponent],
   ]);
 

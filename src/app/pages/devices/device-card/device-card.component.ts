@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { DeviceItem } from '../../../models/gateway.model';
 import { ZoneService } from '../../../services/zone.service';
 import { UIService } from '../../../services/ui.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-device-card',
@@ -14,6 +15,7 @@ export class DeviceCardComponent {
 
   private zoneService = inject(ZoneService);
   private ui = inject(UIService);
+  private navCtrl = inject(NavController);
 
   public deviceCapabilitiesExists(device: DeviceItem): boolean {
     return !!device.capabilities.find(item => this.capabilityExists(item));
@@ -42,5 +44,12 @@ export class DeviceCardComponent {
     }
 
     return '';
+  }
+
+  openPhotoModal(event: Event) {
+    event.stopPropagation();
+
+    this.ui.selectedDevice = this.device;
+    this.navCtrl.navigateForward('/devices/photo');
   }
 }
