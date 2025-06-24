@@ -6,12 +6,11 @@ import {
   CameraSource,
   Photo,
 } from '@capacitor/camera';
-import { Platform } from '@ionic/angular';
 import { ModalService } from '../../../services/modal.service';
-import { ErrorsService } from '../../../services/errors.service';
 import { UploaderService } from '../../../services/uploader.service';
 import { BaseComponent } from '../../../components/base.component';
 import { DevicesService } from '../../../services/devices.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-device-verify',
@@ -23,8 +22,6 @@ export class DeviceVerifyComponent
   implements OnInit, OnDestroy
 {
   private modalService = inject(ModalService);
-  private errorService = inject(ErrorsService);
-  private platform = inject(Platform);
   private uploaderService = inject(UploaderService);
   private devicesService = inject(DevicesService);
 
@@ -97,20 +94,6 @@ export class DeviceVerifyComponent
     }
   }
 
-  private async checkPhotoPermissions(): Promise<void> {
-    const permissionStatus = await Camera.checkPermissions();
-
-    if (permissionStatus?.photos !== 'granted') {
-      const requestStatus = await Camera.requestPermissions({
-        permissions: ['photos'],
-      });
-
-      if (requestStatus.photos !== 'granted') {
-        throw new Error('Photo access permission denied');
-      }
-    }
-  }
-
   private async retrieveImageFromCamera() {
     try {
       return await Camera.getPhoto({
@@ -167,7 +150,19 @@ export class DeviceVerifyComponent
     this.isUploading = true;
 
     try {
-      this.uploaderService.upload(photoFile).subscribe(() => {});
+      this.uploaderService
+        .upload(photoFile)
+        .pipe(
+          switchMap(({ id }) => {
+            return this.devicesService.verifyDevice(this.deviceId!, {
+              photoId: id,
+            });
+          })
+        )
+        .subscribe(() => {
+          this.errors.showInfo('Verification under review. Please wait...');
+          this.cancel();
+        });
     } catch (error) {
       this.errors.showError('Failed to upload photo');
     } finally {
