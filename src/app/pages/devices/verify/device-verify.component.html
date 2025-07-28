@@ -1,0 +1,63 @@
+<app-modal-wrapper *ngIf="isModal" title="Verify Device">
+  <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+</app-modal-wrapper>
+
+<app-full-screen-content-wrapper *ngIf="!isModal">
+  <ng-template #header>
+    <app-header title="Device Photo"></app-header>
+  </ng-template>
+  <ng-template #content>
+    <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+  </ng-template>
+</app-full-screen-content-wrapper>
+
+<ng-template #contentTemplate>
+  <div class="device-photo-container">
+    <div class="photo-section">
+      <div class="device-info" *ngIf="deviceName">
+        <h3 class="device-name">{{ deviceName }}</h3>
+        <p class="device-label">Add or update device photo</p>
+      </div>
+
+      <div class="photo-preview" [class.has-image]="previewUrl">
+        <div
+          *ngIf="!previewUrl"
+          class="placeholder"
+          (click)="pickImageFromCamera()">
+          <svg-icon
+            name="camera"
+            width="48"
+            height="48"
+            class="camera-icon"></svg-icon>
+          <p>No photo selected</p>
+        </div>
+
+        <div *ngIf="previewUrl" class="image-container">
+          <ion-img
+            [src]="previewUrl"
+            alt="Device Photo Preview"
+            class="preview-image"></ion-img>
+          <button
+            class="remove-btn"
+            (click)="removeImage()"
+            [disabled]="isUploading">
+            <svg-icon name="close" height="9" width="9" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn" (click)="savePhoto()" [disabled]="isUploading">
+        Save
+      </button>
+
+      <button
+        class="btn btn-outline"
+        (click)="cancel()"
+        [disabled]="isUploading">
+        {{ isModal ? 'Cancel' : 'Back' }}
+      </button>
+    </div>
+  </div>
+</ng-template>

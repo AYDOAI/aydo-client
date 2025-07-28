@@ -17,6 +17,7 @@ export class ModalRedirectGuard implements CanActivate {
     'devices/new': 'devices-new',
     'devices/edit': 'device-edit',
     'devices/hub': 'device-hub',
+    'devices/verify': 'device-verify',
     'zone/add': 'add-zone',
   };
 

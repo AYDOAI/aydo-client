@@ -37,6 +37,38 @@
         line-height: 120%;
       }
 
+      .card-actions {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .photo-btn {
+          background: none;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          padding: 6px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+
+          &:hover {
+            border-color: #2196f3;
+            background-color: rgba(33, 150, 243, 0.1);
+          }
+
+          svg-icon {
+            color: #666;
+          }
+
+          &:hover svg-icon {
+            color: #2196f3;
+          }
+        }
+      }
+
       svg-icon {
         margin-left: auto;
       }

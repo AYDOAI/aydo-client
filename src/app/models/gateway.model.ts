@@ -1,5 +1,6 @@
 import { BaseItem, BaseModel } from './base';
 import { AppFormType, SelectItem } from '../shared/types';
+import { FileItem } from './file.model';
 
 export class GatewayItem extends BaseItem {
   identifier: string | undefined;
@@ -118,6 +119,7 @@ export class DeviceItem extends BaseItem {
   isOnline?: boolean;
   connected?: boolean;
   setupRequired?: boolean;
+  photo!: FileItem | null;
 }
 
 export class ZoneItem extends BaseItem {

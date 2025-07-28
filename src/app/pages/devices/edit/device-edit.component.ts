@@ -77,6 +77,13 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
     });
 
     this.form.inputs.push({
+      key: 'device_verify',
+      title: 'Verify device',
+      type: 'button',
+      class: '',
+    });
+
+    this.form.inputs.push({
       key: 'delete_device',
       title: 'Delete device',
       type: 'button',
@@ -131,9 +138,16 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
       case 'save_device_settings':
         this.updateDevice();
         return;
+      case 'device_verify':
+        this.openVerifyModal();
+        return;
       default:
         return;
     }
+  }
+
+  openVerifyModal() {
+    this.navCtrl.navigateForward('/devices/verify');
   }
 
   private updateDevice(): void {
