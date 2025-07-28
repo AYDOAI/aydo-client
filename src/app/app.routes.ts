@@ -41,6 +41,7 @@ import { ProjectComponent } from './pages/streams/project/project.component';
 import { InvitationComponent } from './pages/streams/invitation/invitation.component';
 import { ModalRedirectGuard } from './shared/guards/modal-redirect.guard';
 import { UnauthGuard } from './shared/guards/unauth.guard';
+import { DeviceVerifyComponent } from './pages/devices/verify/device-verify.component';
 
 export const routes: Routes = [
   {
@@ -125,6 +126,11 @@ export const routes: Routes = [
   {
     path: 'devices/new',
     component: NewDeviceComponent,
+    canActivate: [ModalRedirectGuard],
+  },
+  {
+    path: 'devices/verify',
+    component: DeviceVerifyComponent,
     canActivate: [ModalRedirectGuard],
   },
   {
@@ -242,6 +248,7 @@ export const routes: Routes = [
   { path: 'devices-new', component: FeedbackComponent, outlet: 'modal' },
   { path: 'device-edit', component: FeedbackComponent, outlet: 'modal' },
   { path: 'device-hub', component: FeedbackComponent, outlet: 'modal' },
+  { path: 'device-verify', component: DeviceVerifyComponent, outlet: 'modal' },
   { path: 'stream/:id', component: ProjectComponent, outlet: 'modal' },
   {
     path: 'stream/:id/invitation',

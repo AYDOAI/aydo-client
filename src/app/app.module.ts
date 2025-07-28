@@ -97,6 +97,7 @@ import { NotificationComponent } from './components/notification/notification.co
 import { DesktopSidebarComponent } from './components/desktop-sidebar/desktop-sidebar.component';
 import { ModalWrapperComponent } from './components/modal-wrapper/modal-wrapper.component';
 import { InvitationComponent } from './pages/streams/invitation/invitation.component';
+import { DeviceVerifyComponent } from './pages/devices/verify/device-verify.component';
 
 @NgModule({
   declarations: [
@@ -173,6 +174,7 @@ import { InvitationComponent } from './pages/streams/invitation/invitation.compo
     NotificationComponent,
     ModalWrapperComponent,
     InvitationComponent,
+    DeviceVerifyComponent,
   ],
   imports: [
     AppRoutingModule,

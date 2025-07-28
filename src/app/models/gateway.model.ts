@@ -1,5 +1,6 @@
 import { BaseItem, BaseModel } from './base';
 import { AppFormType, SelectItem } from '../shared/types';
+import { FileItem } from './file.model';
 
 export class GatewayItem extends BaseItem {
   identifier: string | undefined;
@@ -31,6 +32,7 @@ export class DriverItem extends BaseItem {
   name: string | undefined;
   desciption: string | undefined;
   settings: SettingsModel | undefined;
+  standalone: boolean | undefined;
 
   constructor(parent: BaseModel, data: any) {
     super(parent, null);
@@ -118,6 +120,7 @@ export class DeviceItem extends BaseItem {
   isOnline?: boolean;
   connected?: boolean;
   setupRequired?: boolean;
+  photo!: FileItem | null;
 }
 
 export class ZoneItem extends BaseItem {

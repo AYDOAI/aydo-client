@@ -91,4 +91,10 @@ export class DevicesService implements BaseService<any> {
       }
     );
   }
+
+  verifyDevice(deviceIdent: string, { photoId }: { photoId: string }) {
+    return this.request.post(`${this.baseUrl}/verify/${deviceIdent}`, {
+      photoId,
+    });
+  }
 }
