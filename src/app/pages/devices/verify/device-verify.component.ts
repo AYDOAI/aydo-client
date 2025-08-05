@@ -83,13 +83,13 @@ export class DeviceVerifyComponent
   private async checkCameraPermissions(): Promise<void> {
     const permissionStatus = await Camera.checkPermissions();
 
-    if (permissionStatus?.camera !== 'granted') {
+    if (permissionStatus?.photos !== 'granted') {
       const requestStatus = await Camera.requestPermissions({
-        permissions: ['camera'],
+        permissions: ['photos'],
       });
 
-      if (requestStatus.camera !== 'granted') {
-        throw new Error('Camera access permission denied');
+      if (requestStatus.photos !== 'granted') {
+        throw new Error('Photo access permission denied');
       }
     }
   }
@@ -100,7 +100,7 @@ export class DeviceVerifyComponent
         quality: 90,
         allowEditing: true,
         resultType: CameraResultType.Uri,
-        source: CameraSource.Camera,
+        source: CameraSource.Photos,
         saveToGallery: false,
         correctOrientation: true,
       });
