@@ -78,9 +78,9 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
 
     this.form.inputs.push({
       key: 'device_verify',
-      title: 'Verify device',
+      title: this.getVerificationButtonTitle(selectedDevice),
       type: 'button',
-      class: '',
+      isDisabled: () => this.isVerificationDisabled(selectedDevice),
     });
 
     this.form.inputs.push({
@@ -148,6 +148,24 @@ export class DeviceEditComponent extends FormBaseComponent implements OnInit {
 
   openVerifyModal() {
     this.navCtrl.navigateForward('/devices/verify');
+  }
+
+  private getVerificationButtonTitle(device: DeviceItem): string {
+    if (device?.verificationStatus === 'verified') {
+      return 'Verified';
+    } else if (device?.verificationStatus === 'rejected') {
+      return 'Verify device (rejected)';
+    } else if (device?.verificationStatus === 'pending') {
+      return 'Verify device (pending)';
+    }
+    return 'Verify device';
+  }
+
+  private isVerificationDisabled(device: any): boolean {
+    return (
+      device?.verificationStatus === 'pending' ||
+      device?.verificationStatus === 'verified'
+    );
   }
 
   private updateDevice(): void {

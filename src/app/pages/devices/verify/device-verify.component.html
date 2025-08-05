@@ -16,7 +16,7 @@
     <div class="photo-section">
       <div class="device-info" *ngIf="deviceName">
         <h3 class="device-name">{{ deviceName }}</h3>
-        <p class="device-label">Add or update device photo</p>
+        <p class="device-label">Add or update device photo with geolocation</p>
       </div>
 
       <div class="photo-preview" [class.has-image]="previewUrl">
@@ -49,6 +49,7 @@
 
     <div class="modal-actions">
       <button class="btn" (click)="savePhoto()" [disabled]="isUploading">
+        <span *ngIf="isUploading" class="spin-loader"></span>
         Save
       </button>
 

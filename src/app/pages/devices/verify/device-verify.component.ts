@@ -47,6 +47,18 @@ export class DeviceVerifyComponent
         this.deviceId = selectedDevice.ident;
         this.deviceName = selectedDevice.name;
         this.currentPhotoUrl = selectedDevice.photo?.url;
+
+        if (selectedDevice.verificationStatus === 'verified') {
+          this.errors.showInfo('Device is already verified');
+          this.cancel();
+          return;
+        } else if (selectedDevice.verificationStatus === null) {
+          this.errors.showInfo(
+            'Verification is already pending. Please wait for review.'
+          );
+          this.cancel();
+          return;
+        }
       } else if (!this.isModal) {
         this.navCtrl.navigateBack('/devices');
         return;
@@ -149,25 +161,29 @@ export class DeviceVerifyComponent
 
     this.isUploading = true;
 
-    try {
-      this.uploaderService
-        .upload(photoFile)
-        .pipe(
-          switchMap(({ id }) => {
-            return this.devicesService.verifyDevice(this.deviceId!, {
-              photoId: id,
-            });
-          })
-        )
-        .subscribe(() => {
+    this.uploaderService
+      .upload(photoFile)
+      .pipe(
+        switchMap(({ id }) => {
+          return this.devicesService.verifyDevice(this.deviceId!, {
+            photoId: id,
+          });
+        })
+      )
+      .subscribe({
+        next: () => {
           this.errors.showInfo('Verification under review. Please wait...');
+          this.ui.getDevices();
           this.cancel();
-        });
-    } catch (error) {
-      this.errors.showError('Failed to upload photo');
-    } finally {
-      this.isUploading = false;
-    }
+        },
+        error: error => {
+          this.errors.showError('Failed to upload photo');
+          console.error('Upload error:', error);
+        },
+        complete: () => {
+          this.isUploading = false;
+        },
+      });
   }
 
   cancel() {
