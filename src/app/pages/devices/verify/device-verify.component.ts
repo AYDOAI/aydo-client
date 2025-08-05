@@ -161,26 +161,29 @@ export class DeviceVerifyComponent
 
     this.isUploading = true;
 
-    try {
-      this.uploaderService
-        .upload(photoFile)
-        .pipe(
-          switchMap(({ id }) => {
-            return this.devicesService.verifyDevice(this.deviceId!, {
-              photoId: id,
-            });
-          })
-        )
-        .subscribe(() => {
+    this.uploaderService
+      .upload(photoFile)
+      .pipe(
+        switchMap(({ id }) => {
+          return this.devicesService.verifyDevice(this.deviceId!, {
+            photoId: id,
+          });
+        })
+      )
+      .subscribe({
+        next: () => {
           this.errors.showInfo('Verification under review. Please wait...');
           this.ui.getDevices();
           this.cancel();
-        });
-    } catch (error) {
-      this.errors.showError('Failed to upload photo');
-    } finally {
-      this.isUploading = false;
-    }
+        },
+        error: error => {
+          this.errors.showError('Failed to upload photo');
+          console.error('Upload error:', error);
+        },
+        complete: () => {
+          this.isUploading = false;
+        },
+      });
   }
 
   cancel() {
