@@ -121,6 +121,7 @@ export class DeviceItem extends BaseItem {
   connected?: boolean;
   setupRequired?: boolean;
   photo!: FileItem | null;
+  verificationStatus!: 'initial' | 'pending' | 'verified' | 'rejected';
 }
 
 export class ZoneItem extends BaseItem {

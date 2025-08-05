@@ -309,7 +309,7 @@ export class BackendService {
     );
   }
 
-  getDevices(): Observable<any> {
+  getDevices(): Observable<DeviceItem> {
     return this.wsRequest.get(`/backend/v2/gateway/device`, {
       mainGroup: 'backend',
       method: 'gateway-get-devices',

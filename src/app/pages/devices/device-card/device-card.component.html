@@ -17,6 +17,16 @@
               {{ zoneName(device) }}
             </div>
           </div>
+          <div
+            *ngIf="device.verificationStatus === 'rejected'"
+            class="verification-badge rejected">
+            <span>Rejected review</span>
+          </div>
+          <div
+            *ngIf="device.verificationStatus === 'pending'"
+            class="verification-badge pending">
+            <span>Pending review</span>
+          </div>
         </div>
         <svg-icon
           *ngIf="!device.setupRequired"

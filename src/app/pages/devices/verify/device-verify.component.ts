@@ -47,6 +47,18 @@ export class DeviceVerifyComponent
         this.deviceId = selectedDevice.ident;
         this.deviceName = selectedDevice.name;
         this.currentPhotoUrl = selectedDevice.photo?.url;
+
+        if (selectedDevice.verificationStatus === 'verified') {
+          this.errors.showInfo('Device is already verified');
+          this.cancel();
+          return;
+        } else if (selectedDevice.verificationStatus === null) {
+          this.errors.showInfo(
+            'Verification is already pending. Please wait for review.'
+          );
+          this.cancel();
+          return;
+        }
       } else if (!this.isModal) {
         this.navCtrl.navigateBack('/devices');
         return;
@@ -161,6 +173,7 @@ export class DeviceVerifyComponent
         )
         .subscribe(() => {
           this.errors.showInfo('Verification under review. Please wait...');
+          this.ui.getDevices();
           this.cancel();
         });
     } catch (error) {
