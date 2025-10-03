@@ -36,7 +36,9 @@ export class WelcomeProvidersComponent implements OnInit {
 
   async handleAuth() {
     this.loading
-      .showLoading$(this.metamask.signInWithMetaMask(this.ui.inviteId))
+      .showLoading$(
+        this.metamask.signInWithMetaMask({ inviteId: this.ui.inviteId })
+      )
       .subscribe(
         () => {
           this.ui.afterLogin();

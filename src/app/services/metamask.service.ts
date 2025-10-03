@@ -38,15 +38,21 @@ export class MetaMaskService {
     private ui: UIService
   ) {}
 
-  public signInWithMetaMask(inviteId: string): Observable<any> {
+  public signInWithMetaMask(options: {
+    inviteId?: string;
+    linkOnly?: boolean;
+  }): Observable<any> {
     if (this.platform.is('ios') || this.platform.is('android')) {
-      return this.signInWithMetaMaskMobile(inviteId);
+      return this.signInWithMetaMaskMobile(options);
     } else {
-      return this.signInWithMetaMaskWeb(inviteId);
+      return this.signInWithMetaMaskWeb(options);
     }
   }
 
-  private signInWithMetaMaskMobile(inviteId: string) {
+  private signInWithMetaMaskMobile(options: {
+    inviteId?: string;
+    linkOnly?: boolean;
+  }) {
     const connectionTimeoutMs = 10000;
     let connectionTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -108,9 +114,11 @@ export class MetaMaskService {
         return of(account.address);
       }),
       switchMap(address =>
-        from(this.metamaskGetNonce(address, inviteId)).pipe(
-          map(nonceResponse => ({ address, nonce: nonceResponse.nonce }))
-        )
+        from(
+          options.linkOnly
+            ? this.getLinkNonce()
+            : this.metamaskGetNonce(address, options.inviteId || '')
+        ).pipe(map(nonceResponse => ({ address, nonce: nonceResponse.nonce })))
       ),
       switchMap(({ address, nonce }) =>
         from(getWalletClient(config)).pipe(
@@ -139,14 +147,20 @@ export class MetaMaskService {
         )
       ),
       switchMap(({ address, signature }) =>
-        from(this.metamaskVerifySignedMessage(address, signature)).pipe(
+        from(
+          options.linkOnly
+            ? this.linkWallet(address, signature)
+            : this.metamaskVerifySignedMessage(address, signature)
+        ).pipe(
           map(response => ({ address, signature, tokenData: response.user }))
         )
       ),
       tap(({ tokenData }) => {
-        this.storage.token = tokenData.token;
-        this.storage.refreshToken = tokenData.refresh_token;
-        this.storage.next();
+        if (!options.linkOnly) {
+          this.storage.token = tokenData.token;
+          this.storage.refreshToken = tokenData.refresh_token;
+          this.storage.next();
+        }
       }),
       catchError(error => {
         console.error('MetaMask sign-in error:', error);
@@ -157,7 +171,10 @@ export class MetaMaskService {
     );
   }
 
-  private signInWithMetaMaskWeb(inviteId: string) {
+  private signInWithMetaMaskWeb(options: {
+    inviteId?: string;
+    linkOnly?: boolean;
+  }) {
     let ethereum: any;
 
     return from(detectEthereumProvider()).pipe(
@@ -169,7 +186,12 @@ export class MetaMaskService {
         return await ethereum.request({ method: 'eth_requestAccounts' });
       }),
       switchMap(() =>
-        this.metamaskGetNonce(ethereum.selectedAddress, inviteId)
+        options.linkOnly
+          ? this.getLinkNonce()
+          : this.metamaskGetNonce(
+              ethereum.selectedAddress,
+              options.inviteId || ''
+            )
       ),
       switchMap(
         async response =>
@@ -182,12 +204,16 @@ export class MetaMaskService {
           })
       ),
       switchMap(sig =>
-        this.metamaskVerifySignedMessage(ethereum.selectedAddress, sig)
+        options.linkOnly
+          ? this.linkWallet(ethereum.selectedAddress, sig)
+          : this.metamaskVerifySignedMessage(ethereum.selectedAddress, sig)
       ),
       switchMap(async response => {
-        this.storage.token = response.user.token;
-        this.storage.refreshToken = response.user.refresh_token;
-        this.storage.next();
+        if (!options.linkOnly) {
+          this.storage.token = response.user.token;
+          this.storage.refreshToken = response.user.refresh_token;
+          this.storage.next();
+        }
       })
     );
   }
@@ -219,6 +245,28 @@ export class MetaMaskService {
       {
         mainGroup: 'backend',
         method: 'metamask-verify-signed-message',
+      }
+    );
+  }
+
+  private getLinkNonce(): Observable<{ nonce: string }> {
+    return this.request.post(
+      `${environment.main_url}/backend/v2/user/metamask/get-link-nonce`,
+      {},
+      {
+        mainGroup: 'backend',
+        method: 'metamask-get-link-nonce',
+      }
+    );
+  }
+
+  private linkWallet(address: string, sig: string): Observable<void> {
+    return this.request.post(
+      `${environment.main_url}/backend/v2/user/metamask/link-wallet`,
+      { address, sig },
+      {
+        mainGroup: 'backend',
+        method: 'metamask-link-wallet',
       }
     );
   }
