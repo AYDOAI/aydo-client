@@ -41,33 +41,38 @@ export class AppComponent {
     );
   }
 
+  public get isAndroid(): boolean {
+    return this.platform.is('android');
+  }
+
   private init(): void {
     this.platform.ready().then(_ => {
-      if (this.platform.is('android')) {
-        const url = this.router.url;
-        StatusBar.setOverlaysWebView({ overlay: false });
-        StatusBar.setStyle({ style: Style.Light });
-        this.ui.appReady$
-          .pipe(
-            filter(ready => ready),
-            take(1)
-          )
-          .subscribe(() => {
-            this.updateStatusBarColor(url);
-          });
+      if (this.isAndroid) {
+        this.configureAndroidUI();
       }
       this.subscribeToRouterEvents();
       if (this.platform.is('android') || this.platform.is('ios')) {
-        this.initAppLinksHandler();
+        this.setupAppLinksHandler();
       }
     });
+  }
+
+  private configureAndroidUI(): void {
+    const currentUrl = this.router.url;
+
+    StatusBar.setOverlaysWebView({ overlay: false });
+    StatusBar.setStyle({ style: Style.Light });
+
+    this.ui.appReady$
+      .pipe(filter(Boolean), take(1))
+      .subscribe(() => this.updateStatusBarColor(currentUrl));
   }
 
   private subscribeToRouterEvents(): void {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         gtag('config', 'G-DF0L8MY2G4', { page_path: event.urlAfterRedirects });
-        if (this.platform.is('android')) {
+        if (this.isAndroid) {
           this.updateStatusBarColor(event.urlAfterRedirects);
         }
       }
@@ -76,7 +81,6 @@ export class AppComponent {
 
   private async updateStatusBarColor(url: string): Promise<void> {
     try {
-      console.log(url);
       if (url.includes('main')) {
         await StatusBar.setBackgroundColor({ color: '#947FFF' });
         await NavigationBar.setNavigationBarColor({ color: '#947FFF' });
@@ -89,16 +93,16 @@ export class AppComponent {
     }
   }
 
-  private initAppLinksHandler(): void {
+  private setupAppLinksHandler(): void {
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       this.zone.run(() => {
         const { pathname, searchParams } = new URL(event.url);
-        const queryParams: { [key: string]: string } = {};
-        console.log('search params');
+        const queryParams: Record<string, string> = {};
+
         searchParams.forEach((value, key) => {
-          console.log(key + ' ' + value);
           queryParams[key] = value;
         });
+
         this.ui.inviteId = queryParams['code'] ?? '';
         this.router.navigate([pathname], { queryParams });
       });
